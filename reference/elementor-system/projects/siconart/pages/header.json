@@ -1,0 +1,283 @@
+{
+    "title": "Site Header",
+    "type": "header",
+    "template": "elementor_header_footer",
+    "elementor_data": [
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "html_tag": "header",
+                "background_background": "classic",
+                "background_color": "#FEF9EF",
+                "border_border": "solid",
+                "border_width": {"unit": "px", "top": "0", "right": "0", "bottom": "1", "left": "0", "isLinked": false},
+                "border_color": "#EBDACD",
+                "padding": {"unit": "px", "top": "0", "right": "24", "bottom": "0", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "0", "right": "16", "bottom": "0", "left": "16", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "0", "right": "12", "bottom": "0", "left": "12", "isLinked": false},
+                "z_index": 100
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+                        "flex_direction": "row",
+                        "flex_justify_content": "space-between",
+                        "align_items": "center",
+                        "padding": {"unit": "px", "top": "10", "right": "0", "bottom": "10", "left": "0", "isLinked": false},
+                        "padding_mobile": {"unit": "px", "top": "8", "right": "0", "bottom": "8", "left": "0", "isLinked": false}
+                    },
+                    "elements": [
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "_flex_size": "none",
+                                "width": {"unit": "%", "size": 20, "sizes": []},
+                                "width_mobile": {"unit": "%", "size": 48, "sizes": []},
+                                "flex_direction": "column",
+                                "flex_justify_content": "center"
+                            },
+                            "elements": [
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "image",
+                                    "settings": {
+                                        "image": {
+                                            "id": 45,
+                                            "url": "https://siconart.com/wp-content/uploads/2025/08/siconart-logo-1.webp"
+                                        },
+                                        "image_size": "full",
+                                        "width": {"unit": "px", "size": 140, "sizes": []},
+                                        "width_tablet": {"unit": "px", "size": 120, "sizes": []},
+                                        "width_mobile": {"unit": "px", "size": 110, "sizes": []},
+                                        "link_to": "custom",
+                                        "link": {"url": "/", "is_external": false, "nofollow": false}
+                                    },
+                                    "elements": []
+                                }
+                            ]
+                        },
+
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "_flex_size": "none",
+                                "width": {"unit": "%", "size": 55, "sizes": []},
+                                "width_mobile": {"unit": "%", "size": 40, "sizes": []},
+                                "flex_direction": "column",
+                                "flex_align_items": "center"
+                            },
+                            "elements": [
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "navigation-menu",
+                                    "settings": {
+                                        "menu": "main-menu",
+                                        "navmenu_align": "center",
+                                        "schema_support": "yes",
+                                        "pointer": "none",
+                                        "_element_width": "initial",
+                                        "_element_custom_width": {"unit": "%", "size": 100},
+                                        "_flex_size": "none",
+
+                                        "menu_typography_typography": "custom",
+                                        "menu_typography_font_family": "Poppins",
+                                        "menu_typography_font_weight": "600",
+                                        "menu_typography_font_size": {"unit": "px", "size": 13, "sizes": []},
+                                        "menu_typography_text_transform": "uppercase",
+                                        "menu_typography_letter_spacing": {"unit": "px", "size": 0.5, "sizes": []},
+
+                                        "color_menu_item": "#523A27",
+                                        "color_menu_item_hover": "#A67146",
+
+                                        "padding_horizontal_menu_item": {"unit": "px", "size": 14, "sizes": []},
+
+                                        "toggle_color": "#523A27",
+                                        "toggle_hover_color": "#A67146",
+
+                                        "resp_align": "right",
+
+                                        "full_width": "stretch",
+                                        "text_align": "center",
+                                        "color_dropdown_item": "#523A27",
+                                        "color_dropdown_item_hover": "#A67146",
+                                        "background_color_dropdown_item_hover": "rgba(166,113,70,0.06)",
+                                        "dropdown_border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+                                        "dropdown_divider_border": "none",
+                                        "dropdown_top_distance_tablet": {"unit": "px", "size": 8, "sizes": []},
+                                        "dropdown_top_distance_mobile": {"unit": "px", "size": 8, "sizes": []},
+                                        "padding_horizontal_dropdown_item_mobile": {"unit": "px", "size": 16, "sizes": []},
+                                        "padding_vertical_dropdown_item_mobile": {"unit": "px", "size": 12, "sizes": []}
+                                    },
+                                    "elements": []
+                                }
+                            ]
+                        },
+
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "_flex_size": "none",
+                                "width": {"unit": "%", "size": 25, "sizes": []},
+                                "hide_mobile": "hidden-mobile",
+                                "flex_direction": "row",
+                                "flex_justify_content": "flex-end",
+                                "align_items": "center",
+                                "flex_gap": {"column": "16", "row": "8", "unit": "px", "isLinked": false}
+                            },
+                            "elements": [
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "woocommerce-menu-cart",
+                                    "settings": {
+                                        "hide_empty_indicator": "hide",
+                                        "show_subtotal": "",
+                                        "alignment": "right",
+                                        "automatically_open_cart": "yes",
+                                        "view_cart_button_show": "yes",
+                                        "checkout_button_show": "yes",
+                                        "show_remove_icon": "yes",
+                                        "buttons_position": "bottom",
+
+                                        "toggle_button_icon_color": "#523A27",
+                                        "toggle_button_hover_icon_color": "#A67146",
+                                        "toggle_button_border_border": "none",
+                                        "toggle_button_border_color": "rgba(0,0,0,0)",
+                                        "toggle_button_hover_border_color": "rgba(0,0,0,0)",
+                                        "toggle_icon_size": {"unit": "px", "size": 28, "sizes": []},
+                                        "toggle_button_padding": {"unit": "px", "top": "0", "right": "0", "bottom": "0", "left": "0", "isLinked": true},
+                                        "custom_css": "selector .elementor-menu-cart__toggle .elementor-button { outline: none !important; box-shadow: none !important; border: none !important; } selector .elementor-menu-cart__toggle .elementor-button:focus, selector .elementor-menu-cart__toggle .elementor-button:active { outline: none !important; box-shadow: none !important; border: none !important; }",
+
+                                        "background_color": "#FFFFFF",
+                                        "border_type": "none",
+                                        "border_radius": {"unit": "px", "top": "0", "right": "0", "bottom": "0", "left": "0", "isLinked": true},
+                                        "cart_padding": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+
+                                        "close_cart_icon_size": {"unit": "px", "size": 18, "sizes": []},
+                                        "close_cart_button_color": "#8B7355",
+                                        "close_cart_button_hover_color": "#523A27",
+
+                                        "remove_item_button_size": {"unit": "px", "size": 16, "sizes": []},
+                                        "remove_item_button_color": "#8B7355",
+                                        "remove_item_button_hover_color": "#523A27",
+
+                                        "product_title_color": "#523A27",
+                                        "product_title_hover_color": "#A67146",
+                                        "product_title_typography_typography": "custom",
+                                        "product_title_typography_font_family": "Poppins",
+                                        "product_title_typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                        "product_title_typography_font_weight": "500",
+
+                                        "product_price_color": "#A67146",
+                                        "product_price_typography_typography": "custom",
+                                        "product_price_typography_font_family": "Poppins",
+                                        "product_price_typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                        "product_price_typography_font_weight": "600",
+
+                                        "product_quantity_color": "#8B7355",
+                                        "product_quantity_typography_typography": "custom",
+                                        "product_quantity_typography_font_family": "Poppins",
+                                        "product_quantity_typography_font_size": {"unit": "px", "size": 13, "sizes": []},
+                                        "product_quantity_typography_font_weight": "400",
+
+                                        "divider_style": "solid",
+                                        "divider_color": "#EBDACD",
+                                        "divider_width": {"unit": "px", "size": 1, "sizes": []},
+                                        "divider_gap": {"unit": "px", "size": 16, "sizes": []},
+
+                                        "subtotal_color": "#523A27",
+                                        "subtotal_typography_typography": "custom",
+                                        "subtotal_typography_font_family": "Poppins",
+                                        "subtotal_typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                        "subtotal_typography_font_weight": "600",
+                                        "subtotal_alignment": "right",
+                                        "subtotal_divider_style": "solid",
+                                        "subtotal_divider_color": "#EBDACD",
+                                        "subtotal_divider_width": {"unit": "px", "top": "1", "right": "0", "bottom": "1", "left": "0", "isLinked": false},
+
+                                        "buttons_layout": "stacked",
+                                        "space_between_buttons": {"unit": "px", "size": 12, "sizes": []},
+                                        "button_border_radius": {"unit": "px", "size": 8, "sizes": []},
+
+                                        "checkout_button_text_color": "#FFFFFF",
+                                        "checkout_button_background_color": "#A67146",
+                                        "checkout_button_hover_text_color": "#FFFFFF",
+                                        "checkout_button_hover_background": "#523A27",
+                                        "cart_checkout_button_typography_typography": "custom",
+                                        "cart_checkout_button_typography_font_family": "Poppins",
+                                        "cart_checkout_button_typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                        "cart_checkout_button_typography_font_weight": "600",
+                                        "view_checkout_button_padding": {"unit": "px", "top": "12", "right": "24", "bottom": "12", "left": "24", "isLinked": false},
+
+                                        "view_cart_button_text_color": "#523A27",
+                                        "view_cart_button_background_color": "rgba(0,0,0,0)",
+                                        "view_cart_button_hover_text_color": "#A67146",
+                                        "view_cart_button_hover_background": "rgba(0,0,0,0)",
+                                        "view_cart_border_border": "solid",
+                                        "view_cart_border_width": {"unit": "px", "top": "2", "right": "2", "bottom": "2", "left": "2", "isLinked": true},
+                                        "view_cart_border_color": "#523A27",
+                                        "view_cart_button_border_hover_color": "#A67146",
+                                        "view_cart_buttons_typography_typography": "custom",
+                                        "view_cart_buttons_typography_font_family": "Poppins",
+                                        "view_cart_buttons_typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                        "view_cart_buttons_typography_font_weight": "600",
+                                        "view_cart_button_padding": {"unit": "px", "top": "12", "right": "24", "bottom": "12", "left": "24", "isLinked": false},
+
+                                        "empty_message_color": "#8B7355",
+                                        "empty_message_alignment": "center",
+                                        "cart_empty_message_typography_typography": "custom",
+                                        "cart_empty_message_typography_font_family": "Poppins",
+                                        "cart_empty_message_typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                        "cart_empty_message_typography_font_weight": "400"
+                                    },
+                                    "elements": []
+                                },
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "social-icons",
+                                    "settings": {
+                                        "social_icon_list": [
+                                            {
+                                                "social_icon": {"value": "fab fa-facebook-f", "library": "fa-brands"},
+                                                "_id": "soc_fb"
+                                            },
+                                            {
+                                                "social_icon": {"value": "fab fa-instagram", "library": "fa-brands"},
+                                                "_id": "soc_ig"
+                                            },
+                                            {
+                                                "social_icon": {"value": "fab fa-youtube", "library": "fa-brands"},
+                                                "_id": "soc_yt"
+                                            }
+                                        ],
+                                        "shape": "circle",
+                                        "align": "right",
+                                        "icon_color": "custom",
+                                        "icon_primary_color": "#523A27",
+                                        "icon_secondary_color": "#FEF9EF",
+                                        "icon_size": {"unit": "px", "size": 13, "sizes": []},
+                                        "hide_tablet": "hidden-tablet",
+                                        "hide_mobile": "hidden-mobile"
+                                    },
+                                    "elements": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

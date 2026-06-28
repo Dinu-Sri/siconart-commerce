@@ -1,0 +1,99 @@
+{
+  "zones": [
+    {
+      "zone_name": "Vietnam",
+      "countries": ["VN"],
+      "cost": 5
+    },
+    {
+      "zone_name": "Southeast & East Asia (TW, TH, JP, SG, MY)",
+      "countries": ["TW", "TH", "JP", "SG", "MY"],
+      "cost": 8
+    },
+    {
+      "zone_name": "South Korea",
+      "countries": ["KR"],
+      "cost": 10
+    },
+    {
+      "zone_name": "UK / Russia / USA",
+      "countries": ["GB", "RU", "US"],
+      "cost": 11
+    },
+    {
+      "zone_name": "Philippines / Germany / Belarus",
+      "countries": ["PH", "DE", "BY"],
+      "cost": 12
+    },
+    {
+      "zone_name": "Netherlands / Poland / Australia",
+      "countries": ["NL", "PL", "AU"],
+      "cost": 13
+    },
+    {
+      "zone_name": "Mexico",
+      "countries": ["MX"],
+      "cost": 14
+    },
+    {
+      "zone_name": "Indonesia / Spain / Portugal",
+      "countries": ["ID", "ES", "PT"],
+      "cost": 15
+    },
+    {
+      "zone_name": "Belgium",
+      "countries": ["BE"],
+      "cost": 16
+    },
+    {
+      "zone_name": "Western Europe (FR, IT, SE, DK, GR, AT)",
+      "countries": ["FR", "IT", "SE", "DK", "GR", "AT"],
+      "cost": 17
+    },
+    {
+      "zone_name": "Finland",
+      "countries": ["FI"],
+      "cost": 18
+    },
+    {
+      "zone_name": "Turkey / Norway",
+      "countries": ["TR", "NO"],
+      "cost": 19
+    },
+    {
+      "zone_name": "India / Switzerland",
+      "countries": ["IN", "CH"],
+      "cost": 20
+    },
+    {
+      "zone_name": "Canada / South Africa",
+      "countries": ["CA", "ZA"],
+      "cost": 22
+    },
+    {
+      "zone_name": "New Zealand",
+      "countries": ["NZ"],
+      "cost": 24
+    },
+    {
+      "zone_name": "Brazil",
+      "countries": ["BR"],
+      "cost": 27
+    },
+    {
+      "zone_name": "Georgia",
+      "countries": ["GE"],
+      "cost": 28
+    },
+    {
+      "zone_name": "Argentina",
+      "countries": ["AR"],
+      "cost": 32
+    },
+    {
+      "zone_name": "Azerbaijan",
+      "countries": ["AZ"],
+      "cost": 49
+    }
+  ]
+}

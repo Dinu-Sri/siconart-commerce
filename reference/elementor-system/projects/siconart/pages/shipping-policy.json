@@ -1,0 +1,130 @@
+{
+    "title": "Shipping Policy",
+    "template": "elementor_header_footer",
+    "elementor_data": [
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#523A27",
+                "padding": {"unit": "px", "top": "80", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "64", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "56", "right": "16", "bottom": "40", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_align_items": "center",
+                        "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "POLICIES",
+                                "header_size": "h6",
+                                "title_color": "#A67146",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                "typography_font_weight": "600",
+                                "typography_text_transform": "uppercase",
+                                "typography_letter_spacing": {"unit": "px", "size": 3, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "Shipping Policy",
+                                "header_size": "h1",
+                                "title_color": "#FFFFFF",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Playfair Display",
+                                "typography_font_size": {"unit": "px", "size": 44, "sizes": []},
+                                "typography_font_size_tablet": {"unit": "px", "size": 36, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 28, "sizes": []},
+                                "typography_font_weight": "700",
+                                "typography_line_height": {"unit": "em", "size": 1.2, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p>How we process and deliver your orders from our workshop in Dongguan, China.</p>",
+                                "text_color": "rgba(255,255,255,0.7)",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400",
+                                "align": "center"
+                            },
+                            "elements": []
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#FEF9EF",
+                "padding": {"unit": "px", "top": "56", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "40", "right": "20", "bottom": "40", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "32", "right": "16", "bottom": "32", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_gap": {"column": "8", "row": "8", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p><strong>Last updated:</strong> 21 February 2026</p><p>Thank you for shopping at <strong>SiconArt</strong>. This Shipping Policy explains how we process and deliver orders.</p><p>If you need help at any time, contact: <strong>support@siconart.com</strong></p><h3>1) Shipping Origin</h3><p>All orders are shipped from <strong>Dongguan (Dongguang), China</strong>, where our brushes are <strong>made and tested</strong> before dispatch.</p><h3>2) Shipping Fees</h3><p>Shipping costs vary by destination country.</p><p>Your exact shipping price will be <strong>calculated and shown at checkout</strong> based on your delivery address.</p><p>If multiple shipping options are available for your country, you will be able to select your preferred option at checkout.</p><h3>3) Order Processing Time</h3><p>Orders are typically processed within <strong>2-5 business days</strong> (Monday-Friday, excluding public holidays).</p><p>During high-volume periods (new launches, promotions, major holidays), processing may take slightly longer.</p><p>Once your order ships, you will receive a shipping confirmation (email).</p><h3>4) Estimated Delivery Time</h3><p>Delivery time depends on your country, local courier handling, and customs clearance (if applicable).</p><p>Estimated delivery times will vary and may be shown at checkout (when available).</p><p>Please allow extra time for remote areas and customs processing.</p><p>Note: Delivery estimates are not guarantees. Shipping delays can occur due to customs, weather, carrier disruptions, or peak seasons.</p><h3>5) Tracking Your Package</h3><p>Tracking availability depends on the shipping method chosen.</p><p>If your shipment includes tracking, tracking details will be shared once available.</p><p>If you want tracking updates (or can't find your tracking information), <strong>email us at support@siconart.com</strong> with your <strong>order number</strong>, and we will <strong>check our tracking system and update you promptly</strong>.</p><h3>6) Customs, Duties &amp; Taxes (International Orders)</h3><p>Depending on your country, your package may be subject to customs inspection and import charges.</p><p><strong>Customs duties/taxes are the customer's responsibility</strong> (unless your checkout explicitly states otherwise).</p><p>SiconArt cannot control customs processing times.</p><h3>7) Address Accuracy &amp; Changes</h3><p>Please double-check your shipping address before placing an order.</p><p>If you notice an error, email <strong>support@siconart.com</strong> as soon as possible.</p><p>Address changes are only possible <strong>before the order ships</strong>.</p><p>If a package is returned to us due to an incorrect/incomplete address, you may be responsible for re-shipping costs.</p><h3>8) Failed Delivery, Returned or Refused Parcels</h3><p>If a parcel is returned to us because it was refused, unclaimed, or undeliverable:</p><ul><li>We can <strong>re-ship</strong> (additional shipping fees may apply), or</li><li>We can process a <strong>refund</strong> for the item(s) (shipping fees may be non-refundable, depending on the case and carrier charges).</li></ul><h3>9) Damaged Packages</h3><p>If your order arrives damaged:</p><ul><li>Take clear photos of the outer packaging and the item(s)</li><li>Email <strong>support@siconart.com</strong> within <strong>7 days of delivery</strong> with your order number and photos</li></ul><p>We will review and provide the best solution (replacement/reship/refund depending on the case).</p><h3>10) Contact Us</h3><p>For shipping questions, tracking requests, or delivery issues: <strong>support@siconart.com</strong></p>",
+                                "text_color": "#523A27",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 14, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400"
+                            },
+                            "elements": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

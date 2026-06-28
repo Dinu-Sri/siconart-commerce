@@ -1,0 +1,182 @@
+{
+  "brand": {
+    "name": "Sicon Art",
+    "tagline": "中国画笔",
+    "full": "Sicon Art"
+  },
+  "nav": {
+    "shop": "商店",
+    "finder": "选笔指南",
+    "about": "关于",
+    "contact": "联系",
+    "cart": "购物车",
+    "menu": "菜单",
+    "close": "关闭"
+  },
+  "home": {
+    "heroEyebrow": "手工中国画笔",
+    "heroTitle": "为现代水彩艺术家而生的传统笔艺。",
+    "heroSubtitle": "Sicon Art 将中国传统制笔工艺与水彩、城市速写和旅行绘画的实际需求连接起来。",
+    "heroPrimary": "浏览画笔",
+    "heroSecondary": "寻找适合的画笔",
+    "trust": {
+      "ships": "全球配送",
+      "handmade": "手工笔型",
+      "watercolor": "适合水彩控制"
+    },
+    "featuredEyebrow": "艺术家精选",
+    "featuredTitle": "从艺术家常用的画笔开始。",
+    "viewAll": "查看全部画笔",
+    "finderEyebrow": "选笔指南",
+    "finderTitle": "按照绘画方式选择，而不是猜测。",
+    "finderBody": "根据笔触、笔杆形式和笔毛手感找到适合的画笔。",
+    "craftEyebrow": "工艺",
+    "craftTitle": "连接古老笔艺与现代水彩实践。",
+    "craftBodyOne": "每一支 Sicon Art 画笔都重视工具性格：蓄水、锋颖、弹性、出水和握持平衡都会影响颜料在纸上的流动。",
+    "craftBodyTwo": "新的网站会把这些差异表达得更清楚，让艺术家更有信心地选择。",
+    "craftCta": "了解品牌故事"
+  },
+  "shop": {
+    "eyebrow": "系列",
+    "title": "购买 Sicon Art 画笔",
+    "subtitle": "浏览适合水彩、城市速写、旅行绘画、晕染、细节和线条表现的手工画笔。",
+    "filters": "筛选",
+    "category": "分类",
+    "filterNote": "交互筛选将连接到商务后端。当前脚手架已经保存每个产品的分类、笔杆、手感、等级和用途数据。",
+    "results": "{count, plural, =0 {没有画笔} =1 {1 支画笔} other {# 支画笔}}"
+  },
+  "product": {
+    "options": "选项",
+    "addToCart": "加入购物车",
+    "ask": "咨询问题",
+    "specs": "规格",
+    "madeFor": "为这支笔的表现方式而设计。",
+    "related": "相关画笔",
+    "trust": {
+      "handmade": "手工制作",
+      "secure": "安全结账",
+      "returns": "退换支持"
+    }
+  },
+  "finder": {
+    "eyebrow": "选笔指南",
+    "title": "更轻松地选择合适的画笔。",
+    "subtitle": "根据绘画风格、笔杆偏好和笔毛手感推荐产品。",
+    "style": {
+      "title": "你画什么？",
+      "body": "选择细节、晕染、旅行速写、平刷形状或线描淡彩。"
+    },
+    "handle": {
+      "title": "你在哪里画？",
+      "body": "工作室创作可能适合长杆，旅行创作通常需要便携画笔。"
+    },
+    "feel": {
+      "title": "你喜欢什么手感？",
+      "body": "柔软画笔适合蓄水晕染；弹性画笔更便于精准控制。"
+    },
+    "starterPicks": "入门推荐",
+    "shopAll": "查看全部"
+  },
+  "about": {
+    "eyebrow": "品牌故事",
+    "title": "古老工艺与现代艺术的相遇。",
+    "subtitle": "Sicon Art 相信传统中国制笔的精神，也应该存在于今天艺术家的手中。",
+    "craft": {
+      "title": "传统工艺",
+      "body": "我们的画笔从中国制笔技术中汲取灵感，关注选毛、锋颖、蓄水和整体平衡。"
+    },
+    "watercolor": {
+      "title": "水彩用途",
+      "body": "每支画笔都按照水彩、速写、细节、晕染和表现性笔触的实际表现来呈现。"
+    },
+    "support": {
+      "title": "艺术家支持",
+      "body": "新网站会帮助艺术家清楚了解选择、护理、配送和退换政策。"
+    }
+  },
+  "contact": {
+    "eyebrow": "联系",
+    "title": "联系我们",
+    "subtitle": "咨询选笔、定制、批发、配送或产品护理。",
+    "email": "邮箱",
+    "location": "地点",
+    "form": {
+      "name": "姓名",
+      "email": "邮箱",
+      "subject": "主题",
+      "message": "留言",
+      "send": "发送"
+    }
+  },
+  "faq": {
+    "eyebrow": "帮助中心",
+    "title": "常见问题",
+    "different": {
+      "q": "Sicon Art 画笔有什么不同？",
+      "a": "Sicon Art 关注适合水彩的中国传统笔型，重视蓄水、锋颖、天然毛料手感和表现控制。"
+    },
+    "hair": {
+      "q": "使用什么笔毛？",
+      "a": "画笔可能使用天然毛料混合，以满足柔软度、蓄水、锋颖和弹性的需求。最终产品页会列出确认后的材料细节。"
+    },
+    "media": {
+      "q": "可以用于水彩、墨水和水粉吗？",
+      "a": "可以。画笔主要面向水彩，也适合墨水和水粉，使用后需要认真清洗。"
+    },
+    "care": {
+      "q": "如何保养天然毛画笔？",
+      "a": "绘画后轻轻冲洗，整理笔尖，平放或笔尖向下悬挂晾干。不要长时间泡在水中。"
+    },
+    "shipping": {
+      "q": "是否全球配送？",
+      "a": "计划支持国际结账，并显示按国家计算的运费和清晰的海关说明。"
+    },
+    "returns": {
+      "q": "退换政策是什么？",
+      "a": "退换支持会在结账前清楚显示。最终法律文本会在上线前审核。"
+    }
+  },
+  "cart": {
+    "eyebrow": "购物车",
+    "title": "你的购物车",
+    "empty": "结账流程连接前，购物车暂为空。",
+    "continue": "继续购物"
+  },
+  "checkout": {
+    "eyebrow": "结账",
+    "title": "安全结账",
+    "body": "商务后端已经包含订单、客户、地址和订单商品。支付服务将在确认后接入。"
+  },
+  "policies": {
+    "shipping": {
+      "title": "配送政策",
+      "body": "订单从中国广东东莞发出。最终运费、时效和海关说明会从现有政策文件迁移并在上线前审核。"
+    },
+    "returns": {
+      "title": "退换政策",
+      "body": "Sicon Art 希望艺术家喜欢收到的画笔。最终退换条件会从现有政策文件迁移并在上线前审核。"
+    }
+  },
+  "footer": {
+    "tagline": "适合水彩、城市速写和表现性绘画的手工中国画笔。",
+    "help": "帮助",
+    "shop": "商店",
+    "finder": "选笔指南",
+    "faq": "常见问题",
+    "shipping": "配送",
+    "returns": "退换",
+    "contact": "联系",
+    "rights": "版权所有。",
+    "made": "为艺术家而做。"
+  },
+  "theme": {
+    "toggle": "切换主题"
+  },
+  "language": {
+    "label": "语言"
+  },
+  "common": {
+    "notFound": "找不到该页面。",
+    "backHome": "返回首页"
+  }
+}

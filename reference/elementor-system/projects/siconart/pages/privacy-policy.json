@@ -1,0 +1,130 @@
+{
+    "title": "Privacy Policy",
+    "template": "elementor_header_footer",
+    "elementor_data": [
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#523A27",
+                "padding": {"unit": "px", "top": "80", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "64", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "56", "right": "16", "bottom": "40", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_align_items": "center",
+                        "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "LEGAL",
+                                "header_size": "h6",
+                                "title_color": "#A67146",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                "typography_font_weight": "600",
+                                "typography_text_transform": "uppercase",
+                                "typography_letter_spacing": {"unit": "px", "size": 3, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "Privacy Policy",
+                                "header_size": "h1",
+                                "title_color": "#FFFFFF",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Playfair Display",
+                                "typography_font_size": {"unit": "px", "size": 44, "sizes": []},
+                                "typography_font_size_tablet": {"unit": "px", "size": 36, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 28, "sizes": []},
+                                "typography_font_weight": "700",
+                                "typography_line_height": {"unit": "em", "size": 1.2, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p>How we collect, use, and protect your personal information.</p>",
+                                "text_color": "rgba(255,255,255,0.7)",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400",
+                                "align": "center"
+                            },
+                            "elements": []
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#FEF9EF",
+                "padding": {"unit": "px", "top": "56", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "40", "right": "20", "bottom": "40", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "32", "right": "16", "bottom": "32", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_gap": {"column": "8", "row": "8", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p><strong>Last updated:</strong> 23 March 2026</p><p>SiconArt (\"we\", \"us\", or \"our\") operates the website <strong>siconart.com</strong>. This Privacy Policy explains how we collect, use, store, and protect your personal information when you visit our website, place an order, or interact with us in any way.</p><p>By using our website, you agree to the collection and use of information as described in this policy.</p><h3>1) Information We Collect</h3><p>We collect information in the following ways:</p><p><strong>Information you provide directly:</strong></p><ul><li><strong>Account &amp; order information</strong> - Name, email address, shipping address, billing address, phone number, and payment details when you place an order or create an account.</li><li><strong>Contact form submissions</strong> - Name, email, and message content when you reach out to us via our contact page or email.</li><li><strong>Newsletter sign-ups</strong> - Email address if you subscribe to our mailing list.</li></ul><p><strong>Information collected automatically:</strong></p><ul><li><strong>Device &amp; browser data</strong> - IP address, browser type and version, operating system, device type, screen resolution, and language preferences.</li><li><strong>Usage data</strong> - Pages visited, time spent on pages, click patterns, referring URLs, and navigation paths through the site.</li><li><strong>Cookies &amp; tracking technologies</strong> - See Section 5 below for details on cookies.</li></ul><h3>2) How We Use Your Information</h3><p>We use the information we collect for the following purposes:</p><ul><li><strong>Order fulfilment</strong> - Processing, shipping, and delivering your orders; sending order confirmations and tracking updates.</li><li><strong>Customer support</strong> - Responding to your questions, handling returns and exchanges, and resolving issues.</li><li><strong>Website improvement</strong> - Analysing how visitors use our site (via Google Analytics) to improve navigation, content, product offerings, and overall user experience.</li><li><strong>Marketing &amp; advertising</strong> - Sending promotional emails (only with your consent), running targeted digital advertising campaigns, and personalising content and product recommendations.</li><li><strong>Legal compliance</strong> - Meeting our legal obligations, preventing fraud, and enforcing our terms.</li></ul><h3>3) Digital Advertising</h3><p>We use digital advertising platforms to reach potential customers. These platforms may use cookies and tracking pixels on our website to:</p><ul><li>Show you relevant SiconArt advertisements on other websites and social media platforms</li><li>Measure the effectiveness of our advertising campaigns</li><li>Build audience profiles based on website activity for ad targeting</li></ul><p>The advertising platforms we may use include Google Ads, Meta (Facebook/Instagram) Ads, and similar services. These platforms have their own privacy policies governing how they use the data they collect.</p><p>You can opt out of personalised advertising through your browser settings, the advertising platform's settings, or industry tools such as the Digital Advertising Alliance's opt-out page.</p><h3>4) Analytics &amp; Tracking</h3><p>We use <strong>Google Analytics</strong> to understand how visitors interact with our website. Google Analytics collects information such as:</p><ul><li>Pages you visit and how long you spend on each page</li><li>How you arrived at our site (search engine, social media, direct, advertisement)</li><li>Your general geographic location (country/city level, not precise location)</li><li>Device and browser information</li></ul><p>This data helps us improve our website layout, product presentation, navigation, and content. Google Analytics data is aggregated and does not personally identify you. Google's privacy policy governs how Google handles this data.</p><h3>5) Cookies</h3><p>Our website uses cookies - small text files stored on your device. We use the following types:</p><ul><li><strong>Essential cookies</strong> - Required for the website to function (shopping cart, checkout process, login sessions). These cannot be disabled.</li><li><strong>Analytics cookies</strong> - Used by Google Analytics to track website usage and generate reports on how visitors interact with the site.</li><li><strong>Advertising cookies</strong> - Used by advertising platforms to deliver relevant ads and measure campaign performance.</li><li><strong>Preference cookies</strong> - Remember your settings such as language, currency, or region.</li></ul><p>By continuing to use our website, you consent to the use of cookies as described above. You can control or delete cookies through your browser settings at any time, though disabling essential cookies may affect website functionality.</p><h3>6) Sharing Your Information</h3><p>We do not sell your personal information. We may share your data with:</p><ul><li><strong>Shipping carriers</strong> - To deliver your orders (name, address, phone number, email for delivery notifications).</li><li><strong>Payment processors</strong> - To securely process transactions. We do not store your full payment card details on our servers.</li><li><strong>Analytics &amp; advertising platforms</strong> - Google Analytics, advertising networks (as described above) receive anonymised or pseudonymised usage data.</li><li><strong>Legal authorities</strong> - When required by law, court order, or to protect our rights.</li></ul><h3>7) Data Security</h3><p>We take reasonable measures to protect your personal information, including:</p><ul><li>SSL/TLS encryption on all pages (HTTPS)</li><li>Secure payment processing through trusted third-party providers</li><li>Limited access to personal data (only staff who need it to fulfil their duties)</li></ul><p>While we take data security seriously, no method of transmission over the internet is 100% secure. We cannot guarantee absolute security of your data.</p><h3>8) Data Retention</h3><p>We retain your personal information for as long as necessary to:</p><ul><li>Fulfil your orders and provide after-sales support</li><li>Comply with legal and accounting obligations</li><li>Resolve disputes and enforce our agreements</li></ul><p>If you request account deletion, we will remove your personal data within a reasonable timeframe, except where retention is required by law.</p><h3>9) Your Rights</h3><p>Depending on your location, you may have the following rights regarding your personal data:</p><ul><li><strong>Access</strong> - Request a copy of the personal data we hold about you.</li><li><strong>Correction</strong> - Request correction of inaccurate or incomplete data.</li><li><strong>Deletion</strong> - Request deletion of your personal data (subject to legal obligations).</li><li><strong>Opt-out</strong> - Unsubscribe from marketing emails at any time using the link in any email, or contact us directly.</li><li><strong>Data portability</strong> - Request your data in a commonly used format.</li></ul><p>To exercise any of these rights, email us at <strong>support@siconart.com</strong>.</p><h3>10) Third-Party Links</h3><p>Our website may contain links to third-party websites (such as social media platforms or payment providers). We are not responsible for the privacy practices of these external sites. We encourage you to read their privacy policies before providing any personal information.</p><h3>11) Children's Privacy</h3><p>Our website and products are not directed at children under 16 years of age. We do not knowingly collect personal information from children. If you believe we have inadvertently collected data from a child, please contact us and we will promptly delete it.</p><h3>12) Changes to This Policy</h3><p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated \"Last updated\" date. We encourage you to review this page periodically.</p><h3>13) Contact Us</h3><p>If you have any questions about this Privacy Policy or how we handle your data, contact us at:</p><p><strong>Email:</strong> support@siconart.com</p>",
+                                "text_color": "#523A27",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 14, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400"
+                            },
+                            "elements": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

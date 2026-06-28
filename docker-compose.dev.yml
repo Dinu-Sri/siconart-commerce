@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: siconart-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: siconart
+      POSTGRES_PASSWORD: siconart
+      POSTGRES_DB: siconart
+    ports:
+      - "5434:5432"
+    volumes:
+      - siconart_pgdata_dev:/var/lib/postgresql/data
+
+volumes:
+  siconart_pgdata_dev:

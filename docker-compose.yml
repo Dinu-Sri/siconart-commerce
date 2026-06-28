@@ -1,0 +1,64 @@
+# Sicon Art production stack.
+# Direct IP/debug access: host 3224 -> app container 3225.
+# Cloudflare Tunnel is disabled by default. Enable later with:
+#   COMPOSE_PROFILES=tunnel
+#   CF_TUNNEL_TOKEN=<token>
+
+services:
+  app:
+    image: ghcr.io/dinu-sri/siconart-app:latest
+    container_name: siconart-app
+    restart: unless-stopped
+    ports:
+      - "3224:3225"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+      - APP_URL=${APP_URL}
+      - DATABASE_URL=postgresql://siconart:${DB_PASSWORD:?DB_PASSWORD_is_required}@postgres:5432/siconart
+      - DB_PASSWORD=${DB_PASSWORD:?DB_PASSWORD_is_required}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - siconart-net
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: siconart-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: siconart
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD_is_required}
+      POSTGRES_DB: siconart
+    volumes:
+      - siconart_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U siconart"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - siconart-net
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: siconart-tunnel
+    profiles:
+      - tunnel
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN:?CF_TUNNEL_TOKEN_is_required}
+    depends_on:
+      - app
+    restart: unless-stopped
+    networks:
+      - siconart-net
+
+volumes:
+  siconart_postgres_data:
+    name: siconart-postgres-data
+
+networks:
+  siconart-net:
+    driver: bridge

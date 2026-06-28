@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 42 70% 97%;
+  --foreground: 25 42% 13%;
+  --surface: 44 74% 99%;
+  --surface-subtle: 39 58% 93%;
+  --border: 34 35% 84%;
+  --muted: 36 34% 89%;
+  --muted-foreground: 34 22% 45%;
+  --primary: 27 40% 46%;
+  --primary-foreground: 42 70% 98%;
+  --accent: 24 36% 24%;
+  --accent-foreground: 42 70% 97%;
+  --success: 145 68% 46%;
+}
+
+.dark {
+  --background: 24 28% 8%;
+  --foreground: 42 70% 94%;
+  --surface: 25 28% 12%;
+  --surface-subtle: 25 24% 17%;
+  --border: 28 20% 25%;
+  --muted: 28 18% 20%;
+  --muted-foreground: 36 24% 72%;
+  --primary: 27 42% 58%;
+  --primary-foreground: 24 28% 8%;
+  --accent: 41 58% 86%;
+  --accent-foreground: 24 28% 8%;
+  --success: 145 62% 48%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+}
+
+::selection {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+@layer components {
+  .container-content {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-pad {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-primary;
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1px;
+    transition: background-size 180ms ease;
+  }
+
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+}

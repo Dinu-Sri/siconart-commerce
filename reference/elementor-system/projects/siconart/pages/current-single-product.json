@@ -1,0 +1,202 @@
+﻿{
+    "title":  "Elementor Single Product #264",
+    "page_settings":  "",
+    "elementor_data":  [
+                           {
+                               "id":  "8759fd0",
+                               "elType":  "container",
+                               "settings":  {
+                                                "flex_direction":  "row",
+                                                "flex_gap":  {
+                                                                 "unit":  "px",
+                                                                 "size":  0,
+                                                                 "column":  "0",
+                                                                 "row":  "0"
+                                                             }
+                                            },
+                               "elements":  [
+                                                {
+                                                    "id":  "6240162",
+                                                    "elType":  "container",
+                                                    "settings":  {
+                                                                     "flex_direction":  "column",
+                                                                     "content_width":  "full",
+                                                                     "width":  {
+                                                                                   "unit":  "%",
+                                                                                   "size":  40
+                                                                               },
+                                                                     "_flex_size":  "none",
+                                                                     "_element_width":  "initial",
+                                                                     "__globals__":  [
+
+                                                                                     ]
+                                                                 },
+                                                    "elements":  [
+                                                                     {
+                                                                         "id":  "f4c61e4",
+                                                                         "elType":  "widget",
+                                                                         "settings":  {
+                                                                                          "image_border_border":  "solid",
+                                                                                          "image_border_width":  {
+                                                                                                                     "unit":  "px",
+                                                                                                                     "top":  "2",
+                                                                                                                     "right":  "2",
+                                                                                                                     "bottom":  "2",
+                                                                                                                     "left":  "2",
+                                                                                                                     "isLinked":  true
+                                                                                                                 },
+                                                                                          "image_border_radius":  {
+                                                                                                                      "unit":  "px",
+                                                                                                                      "top":  "20",
+                                                                                                                      "right":  "20",
+                                                                                                                      "bottom":  "20",
+                                                                                                                      "left":  "20",
+                                                                                                                      "isLinked":  true
+                                                                                                                  },
+                                                                                          "spacing":  {
+                                                                                                          "unit":  "px",
+                                                                                                          "size":  18,
+                                                                                                          "sizes":  [
+
+                                                                                                                    ]
+                                                                                                      },
+                                                                                          "thumbs_border_radius":  {
+                                                                                                                       "unit":  "px",
+                                                                                                                       "top":  "20",
+                                                                                                                       "right":  "20",
+                                                                                                                       "bottom":  "20",
+                                                                                                                       "left":  "20",
+                                                                                                                       "isLinked":  true
+                                                                                                                   },
+                                                                                          "spacing_thumbs":  {
+                                                                                                                 "unit":  "px",
+                                                                                                                 "size":  19,
+                                                                                                                 "sizes":  [
+
+                                                                                                                           ]
+                                                                                                             },
+                                                                                          "__globals__":  {
+                                                                                                              "image_border_color":  "globals/colors?id=edc847f"
+                                                                                                          }
+                                                                                      },
+                                                                         "elements":  [
+
+                                                                                      ],
+                                                                         "widgetType":  "woocommerce-product-images"
+                                                                     }
+                                                                 ],
+                                                    "isInner":  true
+                                                },
+                                                {
+                                                    "id":  "f886983",
+                                                    "elType":  "container",
+                                                    "settings":  {
+                                                                     "flex_direction":  "column",
+                                                                     "content_width":  "full",
+                                                                     "width":  {
+                                                                                   "unit":  "%",
+                                                                                   "size":  60
+                                                                               }
+                                                                 },
+                                                    "elements":  [
+                                                                     {
+                                                                         "id":  "4505585",
+                                                                         "elType":  "widget",
+                                                                         "settings":  {
+                                                                                          "__dynamic__":  {
+                                                                                                              "title":  "[elementor-tag id=\"\" name=\"woocommerce-product-title-tag\" settings=\"%7B%22product_id%22%3Afalse%2C%22before%22%3A%22%22%2C%22after%22%3A%22%22%2C%22fallback%22%3A%22%22%7D\"]"
+                                                                                                          },
+                                                                                          "title":  "Add Your Heading Text Here"
+                                                                                      },
+                                                                         "elements":  [
+
+                                                                                      ],
+                                                                         "widgetType":  "woocommerce-product-title"
+                                                                     },
+                                                                     {
+                                                                         "id":  "e91bb63",
+                                                                         "elType":  "widget",
+                                                                         "settings":  {
+                                                                                          "__globals__":  {
+                                                                                                              "typography_typography":  "globals/typography?id=b449fec"
+                                                                                                          }
+                                                                                      },
+                                                                         "elements":  [
+
+                                                                                      ],
+                                                                         "widgetType":  "woocommerce-product-price"
+                                                                     },
+                                                                     {
+                                                                         "id":  "1962181",
+                                                                         "elType":  "widget",
+                                                                         "settings":  {
+                                                                                          "button_border_radius":  {
+                                                                                                                       "unit":  "px",
+                                                                                                                       "top":  "20",
+                                                                                                                       "right":  "20",
+                                                                                                                       "bottom":  "20",
+                                                                                                                       "left":  "20",
+                                                                                                                       "isLinked":  true
+                                                                                                                   },
+                                                                                          "__globals__":  {
+                                                                                                              "button_bg_color":  "globals/colors?id=fa5dca0",
+                                                                                                              "button_bg_color_hover":  "globals/colors?id=162b090",
+                                                                                                              "button_text_color_hover":  "globals/colors?id=fa5dca0"
+                                                                                                          }
+                                                                                      },
+                                                                         "elements":  [
+
+                                                                                      ],
+                                                                         "widgetType":  "woocommerce-product-add-to-cart"
+                                                                     },
+                                                                     {
+                                                                         "id":  "e7e3f7a",
+                                                                         "elType":  "widget",
+                                                                         "settings":  [
+
+                                                                                      ],
+                                                                         "elements":  [
+
+                                                                                      ],
+                                                                         "widgetType":  "woocommerce-product-short-description"
+                                                                     }
+                                                                 ],
+                                                    "isInner":  true
+                                                }
+                                            ],
+                               "isInner":  false
+                           },
+                           {
+                               "id":  "22c0bb0",
+                               "elType":  "container",
+                               "settings":  {
+                                                "flex_direction":  "column"
+                                            },
+                               "elements":  [
+                                                {
+                                                    "id":  "0b378a5",
+                                                    "elType":  "widget",
+                                                    "settings":  [
+
+                                                                 ],
+                                                    "elements":  [
+
+                                                                 ],
+                                                    "widgetType":  "woocommerce-product-additional-information"
+                                                },
+                                                {
+                                                    "id":  "576b785",
+                                                    "elType":  "widget",
+                                                    "settings":  [
+
+                                                                 ],
+                                                    "elements":  [
+
+                                                                 ],
+                                                    "widgetType":  "woocommerce-product-content"
+                                                }
+                                            ],
+                               "isInner":  false
+                           }
+                       ]
+}

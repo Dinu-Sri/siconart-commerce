@@ -1,0 +1,130 @@
+{
+    "title": "Terms & Conditions",
+    "template": "elementor_header_footer",
+    "elementor_data": [
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#523A27",
+                "padding": {"unit": "px", "top": "80", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "64", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "56", "right": "16", "bottom": "40", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_align_items": "center",
+                        "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "LEGAL",
+                                "header_size": "h6",
+                                "title_color": "#A67146",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                "typography_font_weight": "600",
+                                "typography_text_transform": "uppercase",
+                                "typography_letter_spacing": {"unit": "px", "size": 3, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "Terms & Conditions",
+                                "header_size": "h1",
+                                "title_color": "#FFFFFF",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Playfair Display",
+                                "typography_font_size": {"unit": "px", "size": 44, "sizes": []},
+                                "typography_font_size_tablet": {"unit": "px", "size": 36, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 28, "sizes": []},
+                                "typography_font_weight": "700",
+                                "typography_line_height": {"unit": "em", "size": 1.2, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p>The rules and guidelines that govern your use of siconart.com.</p>",
+                                "text_color": "rgba(255,255,255,0.7)",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400",
+                                "align": "center"
+                            },
+                            "elements": []
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#FEF9EF",
+                "padding": {"unit": "px", "top": "56", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "40", "right": "20", "bottom": "40", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "32", "right": "16", "bottom": "32", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_gap": {"column": "8", "row": "8", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p><strong>Last updated:</strong> 23 March 2026</p><p>Welcome to <strong>siconart.com</strong> (the \"Website\"), operated by SiconArt (\"we\", \"us\", or \"our\"). These Terms &amp; Conditions (\"Terms\") govern your access to and use of our Website, including any purchases made through it.</p><p>By accessing or using our Website, you agree to be bound by these Terms. If you do not agree, please do not use our Website.</p><h3>1) General Use</h3><p>You may use our Website for lawful purposes only. You agree not to:</p><ul><li>Use the Website in any way that violates applicable laws or regulations</li><li>Attempt to gain unauthorised access to any part of the Website, its servers, or any connected systems</li><li>Use automated scripts, bots, or scrapers to access or collect data from the Website without prior written consent</li><li>Interfere with or disrupt the Website's functionality or other users' experience</li><li>Upload or transmit malicious code, viruses, or harmful content</li><li>Reproduce, duplicate, or resell any part of the Website without express permission</li></ul><h3>2) Account Registration</h3><p>When you create an account on our Website, you agree to:</p><ul><li>Provide accurate and complete information</li><li>Keep your login credentials secure and confidential</li><li>Notify us immediately of any unauthorised use of your account</li><li>Accept responsibility for all activity that occurs under your account</li></ul><p>We reserve the right to suspend or terminate accounts that violate these Terms or that we reasonably believe are being misused.</p><h3>3) Products &amp; Pricing</h3><p>We strive to ensure all product descriptions, images, and pricing on our Website are accurate. However:</p><ul><li>Product colours may vary slightly due to screen settings and photography</li><li>Minor variations in handmade brush products (natural hair, bamboo handles) are normal and not considered defects</li><li>We reserve the right to correct pricing errors. If an error affects your order, we will contact you before processing</li><li>All prices are displayed in the currency shown on the Website and are subject to change without notice</li><li>Prices do not include customs duties, import taxes, or additional shipping surcharges unless explicitly stated</li></ul><h3>4) Orders &amp; Payment</h3><p>Placing an order on our Website constitutes an offer to purchase. We reserve the right to accept or decline any order for any reason, including:</p><ul><li>Product unavailability or stock errors</li><li>Pricing errors</li><li>Suspected fraud or unauthorised payment</li><li>Orders that exceed reasonable quantities for personal use</li></ul><p>Payment must be completed at the time of checkout using one of the accepted payment methods displayed on our Website. Your order is confirmed only after we send you an order confirmation email.</p><h3>5) Shipping &amp; Delivery</h3><p>All orders are shipped from Dongguan, China. Delivery times vary depending on destination and shipping method. For full details, please refer to our <a href='/shipping-policy/'>Shipping Policy</a>.</p><p>We are not responsible for delays caused by customs processing, weather, carrier disruptions, or incorrect addresses provided by the customer.</p><h3>6) Returns &amp; Refunds</h3><p>Our return and refund process is outlined in our <a href='/return-exchange-policy/'>Return &amp; Exchange Policy</a>. By placing an order, you agree to the terms described in that policy.</p><h3>7) Intellectual Property</h3><p>All content on this Website - including text, images, photographs, logos, product designs, graphics, and site layout - is the property of SiconArt or its licensors and is protected by copyright and intellectual property laws.</p><p>You may not:</p><ul><li>Copy, reproduce, or redistribute any content from this Website without written permission</li><li>Use our brand name, logo, or product images for commercial purposes</li><li>Create derivative works based on our content</li></ul><p>Limited personal, non-commercial use (such as sharing a product link) is permitted.</p><h3>8) User Content</h3><p>If you submit content to our Website (such as product reviews, comments, or photos), you grant SiconArt a non-exclusive, royalty-free, worldwide licence to use, display, and reproduce that content in connection with our business (including marketing and social media).</p><p>You agree that any content you submit:</p><ul><li>Is your own original work or you have permission to share it</li><li>Does not infringe any third-party rights</li><li>Is not defamatory, offensive, or otherwise inappropriate</li></ul><p>We reserve the right to remove any user content at our discretion.</p><h3>9) Cookies &amp; Tracking</h3><p>Our Website uses cookies and similar tracking technologies (including Google Analytics and advertising pixels) to improve your experience, analyse site usage, and deliver targeted advertising. By using our Website, you consent to the use of these technologies as described in our <a href='/privacy-policy/'>Privacy Policy</a>.</p><h3>10) Third-Party Links &amp; Services</h3><p>Our Website may contain links to third-party websites or use third-party services (payment processors, shipping carriers, analytics providers). We are not responsible for the content, privacy practices, or actions of these third parties. Your use of third-party services is subject to their respective terms and policies.</p><h3>11) Limitation of Liability</h3><p>To the fullest extent permitted by law:</p><ul><li>SiconArt is not liable for any indirect, incidental, consequential, or punitive damages arising from your use of the Website or purchase of products</li><li>Our total liability for any claim related to a purchase shall not exceed the amount you paid for that specific order</li><li>We are not responsible for losses due to circumstances beyond our reasonable control (shipping delays, customs issues, natural disasters, government actions)</li></ul><p>This does not affect your statutory rights as a consumer in your country of residence.</p><h3>12) Indemnification</h3><p>You agree to indemnify and hold harmless SiconArt, its owners, employees, and partners from any claims, damages, losses, or expenses (including legal fees) arising from your violation of these Terms or misuse of the Website.</p><h3>13) Governing Law</h3><p>These Terms are governed by and interpreted in accordance with applicable laws. Any disputes arising from these Terms or your use of the Website will be resolved through good-faith negotiation first. If a resolution cannot be reached, disputes may be submitted to the appropriate legal jurisdiction.</p><h3>14) Changes to These Terms</h3><p>We may update these Terms from time to time. Changes will be posted on this page with an updated \"Last updated\" date. Continued use of the Website after changes are posted constitutes your acceptance of the revised Terms.</p><h3>15) Severability</h3><p>If any provision of these Terms is found to be invalid or unenforceable by a court of competent jurisdiction, the remaining provisions will continue in full force and effect.</p><h3>16) Contact Us</h3><p>If you have any questions about these Terms &amp; Conditions, contact us at:</p><p><strong>Email:</strong> support@siconart.com</p>",
+                                "text_color": "#523A27",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 14, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400"
+                            },
+                            "elements": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

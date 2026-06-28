@@ -1,0 +1,322 @@
+﻿{
+    "title":  "siconart header",
+    "page_settings":  "",
+    "elementor_data":  [
+                           {
+                               "id":  "d8ecb47",
+                               "elType":  "container",
+                               "settings":  {
+                                                "flex_direction":  "row",
+                                                "flex_gap":  {
+                                                                 "unit":  "px",
+                                                                 "size":  0,
+                                                                 "column":  "0",
+                                                                 "row":  "0"
+                                                             },
+                                                "background_background":  "classic",
+                                                "__globals__":  {
+                                                                    "background_color":  "globals/colors?id=3703839"
+                                                                }
+                                            },
+                               "elements":  [
+                                                {
+                                                    "id":  "6442b63",
+                                                    "elType":  "container",
+                                                    "settings":  {
+                                                                     "flex_direction":  "column",
+                                                                     "content_width":  "full",
+                                                                     "width":  {
+                                                                                   "unit":  "%",
+                                                                                   "size":  "25"
+                                                                               },
+                                                                     "width_mobile":  {
+                                                                                          "unit":  "%",
+                                                                                          "size":  48,
+                                                                                          "sizes":  [
+
+                                                                                                    ]
+                                                                                      }
+                                                                 },
+                                                    "elements":  [
+                                                                     {
+                                                                         "id":  "8cff509",
+                                                                         "elType":  "widget",
+                                                                         "settings":  {
+                                                                                          "image":  {
+                                                                                                        "id":  45,
+                                                                                                        "url":  "https://siconart.com/wp-content/uploads/2025/08/siconart-logo-1.webp",
+                                                                                                        "alt":  "",
+                                                                                                        "source":  "library",
+                                                                                                        "size":  ""
+                                                                                                    },
+                                                                                          "width_tablet":  {
+                                                                                                               "unit":  "%",
+                                                                                                               "size":  56,
+                                                                                                               "sizes":  [
+
+                                                                                                                         ]
+                                                                                                           },
+                                                                                          "width_mobile":  {
+                                                                                                               "unit":  "%",
+                                                                                                               "size":  70,
+                                                                                                               "sizes":  [
+
+                                                                                                                         ]
+                                                                                                           },
+                                                                                          "space":  {
+                                                                                                        "unit":  "%",
+                                                                                                        "size":  57,
+                                                                                                        "sizes":  [
+
+                                                                                                                  ]
+                                                                                                    },
+                                                                                          "space_tablet":  {
+                                                                                                               "unit":  "%",
+                                                                                                               "size":  58,
+                                                                                                               "sizes":  [
+
+                                                                                                                         ]
+                                                                                                           },
+                                                                                          "space_mobile":  {
+                                                                                                               "unit":  "%",
+                                                                                                               "size":  73,
+                                                                                                               "sizes":  [
+
+                                                                                                                         ]
+                                                                                                           },
+                                                                                          "width":  {
+                                                                                                        "unit":  "%",
+                                                                                                        "size":  67,
+                                                                                                        "sizes":  [
+
+                                                                                                                  ]
+                                                                                                    }
+                                                                                      },
+                                                                         "elements":  [
+
+                                                                                      ],
+                                                                         "widgetType":  "image"
+                                                                     }
+                                                                 ],
+                                                    "isInner":  true
+                                                },
+                                                {
+                                                    "id":  "aeb4182",
+                                                    "elType":  "container",
+                                                    "settings":  {
+                                                                     "flex_direction":  "column",
+                                                                     "content_width":  "full",
+                                                                     "width":  {
+                                                                                   "unit":  "%",
+                                                                                   "size":  "50"
+                                                                               },
+                                                                     "width_mobile":  {
+                                                                                          "unit":  "%",
+                                                                                          "size":  48,
+                                                                                          "sizes":  [
+
+                                                                                                    ]
+                                                                                      },
+                                                                     "flex_align_items":  "center"
+                                                                 },
+                                                    "elements":  [
+                                                                     {
+                                                                         "id":  "833fa93",
+                                                                         "elType":  "widget",
+                                                                         "settings":  {
+                                                                                          "menu_space_between":  {
+                                                                                                                     "unit":  "px",
+                                                                                                                     "size":  19,
+                                                                                                                     "sizes":  [
+
+                                                                                                                               ]
+                                                                                                                 },
+                                                                                          "color_dropdown_item":  "#523A27",
+                                                                                          "color_dropdown_item_hover":  "#A67146",
+                                                                                          "dropdown_border_radius":  {
+                                                                                                                         "unit":  "px",
+                                                                                                                         "top":  "20",
+                                                                                                                         "right":  "20",
+                                                                                                                         "bottom":  "20",
+                                                                                                                         "left":  "20",
+                                                                                                                         "isLinked":  true
+                                                                                                                     },
+                                                                                          "dropdown_divider_border":  "none",
+                                                                                          "toggle_color":  "#523A27",
+                                                                                          "toggle_hover_color":  "#523A27",
+                                                                                          "__globals__":  {
+                                                                                                              "menu_typography_typography":  "",
+                                                                                                              "color_menu_item":  "globals/colors?id=fa5dca0",
+                                                                                                              "color_menu_item_hover":  "globals/colors?id=bc4e7a9"
+                                                                                                          },
+                                                                                          "menu":  "main-menu",
+                                                                                          "resp_align":  "right",
+                                                                                          "navmenu_align":  "center",
+                                                                                          "schema_support":  "yes",
+                                                                                          "_element_width":  "initial",
+                                                                                          "_element_custom_width":  {
+                                                                                                                        "unit":  "%",
+                                                                                                                        "size":  100
+                                                                                                                    },
+                                                                                          "_flex_size":  "none",
+                                                                                          "padding_horizontal_menu_item":  {
+                                                                                                                               "unit":  "px",
+                                                                                                                               "size":  9,
+                                                                                                                               "sizes":  [
+
+                                                                                                                                         ]
+                                                                                                                           },
+                                                                                          "menu_typography_typography":  "custom",
+                                                                                          "menu_typography_font_family":  "Roboto",
+                                                                                          "menu_typography_font_weight":  "700",
+                                                                                          "menu_typography_text_transform":  "uppercase",
+                                                                                          "color_menu_item":  "#523A27",
+                                                                                          "color_menu_item_hover":  "#A67146"
+                                                                                      },
+                                                                         "elements":  [
+
+                                                                                      ],
+                                                                         "widgetType":  "navigation-menu"
+                                                                     }
+                                                                 ],
+                                                    "isInner":  true
+                                                },
+                                                {
+                                                    "id":  "786c516",
+                                                    "elType":  "container",
+                                                    "settings":  {
+                                                                     "flex_direction":  "column",
+                                                                     "content_width":  "full",
+                                                                     "width":  {
+                                                                                   "unit":  "%",
+                                                                                   "size":  "25"
+                                                                               },
+                                                                     "hide_tablet":  "hidden-tablet",
+                                                                     "hide_mobile":  "hidden-mobile",
+                                                                     "flex_justify_content":  "center"
+                                                                 },
+                                                    "elements":  [
+                                                                     {
+                                                                         "id":  "8fd8d6c",
+                                                                         "elType":  "widget",
+                                                                         "settings":  {
+                                                                                          "hide_empty_indicator":  "hide",
+                                                                                          "show_subtotal":  "",
+                                                                                          "alignment":  "right",
+                                                                                          "toggle_button_icon_color":  "#523A27",
+                                                                                          "toggle_button_border_color":  "#02010100",
+                                                                                          "toggle_button_hover_icon_color":  "#523A27",
+                                                                                          "toggle_button_hover_border_color":  "#FFE3D000",
+                                                                                          "toggle_button_border_radius":  {
+                                                                                                                              "unit":  "%",
+                                                                                                                              "size":  "",
+                                                                                                                              "sizes":  [
+
+                                                                                                                                        ]
+                                                                                                                          },
+                                                                                          "toggle_icon_size":  {
+                                                                                                                   "unit":  "px",
+                                                                                                                   "size":  34,
+                                                                                                                   "sizes":  [
+
+                                                                                                                             ]
+                                                                                                               },
+                                                                                          "toggle_button_padding":  {
+                                                                                                                        "unit":  "px",
+                                                                                                                        "top":  "0",
+                                                                                                                        "right":  "0",
+                                                                                                                        "bottom":  "0",
+                                                                                                                        "left":  "0",
+                                                                                                                        "isLinked":  false
+                                                                                                                    },
+                                                                                          "close_cart_icon_size":  {
+                                                                                                                       "unit":  "px",
+                                                                                                                       "size":  17,
+                                                                                                                       "sizes":  [
+
+                                                                                                                                 ]
+                                                                                                                   },
+                                                                                          "__globals__":  {
+                                                                                                              "toggle_button_icon_color":  "globals/colors?id=fa5dca0",
+                                                                                                              "toggle_button_hover_icon_color":  "globals/colors?id=fa5dca0",
+                                                                                                              "toggle_button_hover_border_color":  ""
+                                                                                                          }
+                                                                                      },
+                                                                         "elements":  [
+
+                                                                                      ],
+                                                                         "widgetType":  "woocommerce-menu-cart"
+                                                                     }
+                                                                 ],
+                                                    "isInner":  true
+                                                },
+                                                {
+                                                    "id":  "8d9121b",
+                                                    "elType":  "container",
+                                                    "settings":  {
+                                                                     "flex_direction":  "column",
+                                                                     "content_width":  "full",
+                                                                     "width":  {
+                                                                                   "unit":  "%",
+                                                                                   "size":  "25"
+                                                                               },
+                                                                     "hide_tablet":  "hidden-tablet",
+                                                                     "hide_mobile":  "hidden-mobile",
+                                                                     "flex_justify_content":  "center"
+                                                                 },
+                                                    "elements":  [
+                                                                     {
+                                                                         "id":  "b00c819",
+                                                                         "elType":  "widget",
+                                                                         "settings":  {
+                                                                                          "social_icon_list":  [
+                                                                                                                   {
+                                                                                                                       "social_icon":  {
+                                                                                                                                           "value":  "fab fa-facebook",
+                                                                                                                                           "library":  "fa-brands"
+                                                                                                                                       },
+                                                                                                                       "_id":  "28fbc26"
+                                                                                                                   },
+                                                                                                                   {
+                                                                                                                       "social_icon":  {
+                                                                                                                                           "value":  "fab fa-instagram",
+                                                                                                                                           "library":  "fa-brands"
+                                                                                                                                       },
+                                                                                                                       "_id":  "b517d7b"
+                                                                                                                   },
+                                                                                                                   {
+                                                                                                                       "social_icon":  {
+                                                                                                                                           "value":  "fab fa-youtube",
+                                                                                                                                           "library":  "fa-brands"
+                                                                                                                                       },
+                                                                                                                       "_id":  "3ba3354"
+                                                                                                                   }
+                                                                                                               ],
+                                                                                          "shape":  "circle",
+                                                                                          "align":  "right",
+                                                                                          "icon_color":  "custom",
+                                                                                          "icon_size":  {
+                                                                                                            "unit":  "px",
+                                                                                                            "size":  15,
+                                                                                                            "sizes":  [
+
+                                                                                                                      ]
+                                                                                                        },
+                                                                                          "__globals__":  {
+                                                                                                              "icon_primary_color":  "globals/colors?id=bc4e7a9",
+                                                                                                              "icon_secondary_color":  "globals/colors?id=ecd39cf"
+                                                                                                          }
+                                                                                      },
+                                                                         "elements":  [
+
+                                                                                      ],
+                                                                         "widgetType":  "social-icons"
+                                                                     }
+                                                                 ],
+                                                    "isInner":  true
+                                                }
+                                            ],
+                               "isInner":  false
+                           }
+                       ]
+}

@@ -1,0 +1,182 @@
+{
+  "brand": {
+    "name": "Sicon Art",
+    "tagline": "Chinese Brushes",
+    "full": "Sicon Art"
+  },
+  "nav": {
+    "shop": "Shop",
+    "finder": "Brush Finder",
+    "about": "About",
+    "contact": "Contact",
+    "cart": "Cart",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "home": {
+    "heroEyebrow": "Handcrafted Chinese Brushes",
+    "heroTitle": "Traditional brush craft for modern watercolor artists.",
+    "heroSubtitle": "Sicon Art connects a living Chinese brush-making tradition with the needs of watercolor painters, urban sketchers, and artists who want expressive control from one beautiful tool.",
+    "heroPrimary": "Shop Brushes",
+    "heroSecondary": "Find Your Brush",
+    "trust": {
+      "ships": "Ships worldwide",
+      "handmade": "Handcrafted brush forms",
+      "watercolor": "Made for watercolor control"
+    },
+    "featuredEyebrow": "Artist Picks",
+    "featuredTitle": "Start with the brushes artists reach for first.",
+    "viewAll": "View all brushes",
+    "finderEyebrow": "Brush Finder",
+    "finderTitle": "Choose by how you paint, not by guesswork.",
+    "finderBody": "Find a brush by mark type, handle format, and hair feel. The full guided flow will connect to live product recommendations.",
+    "craftEyebrow": "The Craft",
+    "craftTitle": "A bridge between ancient brush wisdom and watercolor practice.",
+    "craftBodyOne": "Every Sicon Art brush begins with the idea that tool character matters. Water holding, point, snap, release, and handle balance all change the way paint moves across paper.",
+    "craftBodyTwo": "The new storefront will make those differences easier to understand, so artists can buy with confidence instead of sorting through a generic catalog.",
+    "craftCta": "Read our story"
+  },
+  "shop": {
+    "eyebrow": "Collection",
+    "title": "Shop Sicon Art Brushes",
+    "subtitle": "Browse handcrafted brushes for watercolor, urban sketching, travel painting, washes, detail work, and expressive line.",
+    "filters": "Filters",
+    "category": "Categories",
+    "filterNote": "Interactive filtering will connect to the commerce backend. This scaffold already stores category, handle, feel, level, and use-case data for every product.",
+    "results": "{count, plural, =0 {No brushes} =1 {1 brush} other {# brushes}}"
+  },
+  "product": {
+    "options": "Options",
+    "addToCart": "Add to cart",
+    "ask": "Ask a question",
+    "specs": "Specifications",
+    "madeFor": "Made for the way this brush moves.",
+    "related": "Related brushes",
+    "trust": {
+      "handmade": "Handmade",
+      "secure": "Secure checkout",
+      "returns": "Returns support"
+    }
+  },
+  "finder": {
+    "eyebrow": "Brush Finder",
+    "title": "A calmer way to choose the right brush.",
+    "subtitle": "The guided finder will turn painting style, handle preference, and brush feel into direct product recommendations.",
+    "style": {
+      "title": "What do you paint?",
+      "body": "Choose detail, wash, travel sketching, flat shapes, or line-and-wash."
+    },
+    "handle": {
+      "title": "Where do you paint?",
+      "body": "Studio painters may prefer long handles, while travel artists often need compact brushes."
+    },
+    "feel": {
+      "title": "How should it feel?",
+      "body": "Soft brushes hold water for washes. Springy brushes give sharper control. Balanced brushes sit between both."
+    },
+    "starterPicks": "Starter recommendations",
+    "shopAll": "Shop all"
+  },
+  "about": {
+    "eyebrow": "Our Story",
+    "title": "Where ancient craft meets modern art.",
+    "subtitle": "Sicon Art was born from a simple belief: the soul of traditional Chinese brush making deserves to live in the hands of today's artists.",
+    "craft": {
+      "title": "Traditional craft",
+      "body": "Our brushes draw from Chinese brush-making techniques refined across generations, with attention to hair selection, tip shape, water capacity, and balance."
+    },
+    "watercolor": {
+      "title": "Watercolor purpose",
+      "body": "Each brush is presented by how it behaves for watercolor, sketching, detail work, washes, and expressive marks."
+    },
+    "support": {
+      "title": "Artist support",
+      "body": "The new Sicon Art store is designed to help artists choose confidently, ask questions, and understand care, shipping, and returns clearly."
+    }
+  },
+  "contact": {
+    "eyebrow": "Reach Out",
+    "title": "Get in touch",
+    "subtitle": "Ask about brush selection, custom orders, wholesale, shipping, or product care.",
+    "email": "Email",
+    "location": "Location",
+    "form": {
+      "name": "Your name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send message"
+    }
+  },
+  "faq": {
+    "eyebrow": "Help Center",
+    "title": "Frequently asked questions",
+    "different": {
+      "q": "What makes Sicon Art brushes different?",
+      "a": "Sicon Art focuses on traditional Chinese brush forms adapted for watercolor, with attention to water holding, fine points, natural hair feel, and expressive control."
+    },
+    "hair": {
+      "q": "What hair is used?",
+      "a": "Brushes may use natural hair blends chosen for softness, absorbency, point, and spring. Final product pages will list specific material details where confirmed."
+    },
+    "media": {
+      "q": "Can I use them with watercolor, ink, and gouache?",
+      "a": "Yes. They are designed primarily for watercolor and also suit ink and gouache when cleaned carefully after use."
+    },
+    "care": {
+      "q": "How do I care for a natural hair brush?",
+      "a": "Rinse gently after painting, reshape the point, and dry flat or hanging with the tip down. Avoid leaving natural hair brushes standing in water."
+    },
+    "shipping": {
+      "q": "Do you ship internationally?",
+      "a": "Yes. Shipping is planned as an international checkout flow with country-based rates and clear customs/import notes."
+    },
+    "returns": {
+      "q": "What is the return policy?",
+      "a": "Returns support will be shown clearly before checkout. Final legal policy text will be reviewed before launch."
+    }
+  },
+  "cart": {
+    "eyebrow": "Cart",
+    "title": "Your cart",
+    "empty": "Your cart is empty while the checkout flow is being connected.",
+    "continue": "Continue shopping"
+  },
+  "checkout": {
+    "eyebrow": "Checkout",
+    "title": "Secure checkout",
+    "body": "The commerce backend is scaffolded with orders, customers, addresses, and line items. Payment provider wiring will be added after the checkout provider is approved."
+  },
+  "policies": {
+    "shipping": {
+      "title": "Shipping Policy",
+      "body": "Orders ship from Dongguan, China. Final shipping rates, timelines, and customs notes will be migrated from the existing policy documents and reviewed before launch."
+    },
+    "returns": {
+      "title": "Return & Exchange Policy",
+      "body": "Sicon Art wants artists to love their brushes. Final return and exchange conditions will be migrated from the existing policy documents and reviewed before launch."
+    }
+  },
+  "footer": {
+    "tagline": "Handcrafted Chinese brushes for watercolor, urban sketching, and expressive painting.",
+    "help": "Help",
+    "shop": "Shop",
+    "finder": "Brush Finder",
+    "faq": "FAQ",
+    "shipping": "Shipping",
+    "returns": "Returns",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "made": "Made for artists."
+  },
+  "theme": {
+    "toggle": "Toggle theme"
+  },
+  "language": {
+    "label": "Language"
+  },
+  "common": {
+    "notFound": "We couldn't find that page.",
+    "backHome": "Back to home"
+  }
+}

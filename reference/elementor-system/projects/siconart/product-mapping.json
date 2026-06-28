@@ -1,0 +1,123 @@
+{
+  "categories": {
+    "Chinese Brushes": 27,
+    "Detail Brushes": 28,
+    "Flat Brushes": 29,
+    "Large Wash Brushes": 30,
+    "Line and Wash Brushes": 31,
+    "Long Handle Brushes": 32,
+    "Master Grade Brushes": 33,
+    "Short Brushes": 34,
+    "Short Handle Brushes": 35,
+    "Travel Brushes": 36,
+    "Urban Sketching Brushes": 37,
+    "Wash Brushes": 38
+  },
+  "products": {
+    "SA0002": {
+      "post_id": 445,
+      "name": "Travel Series Brush - T3",
+      "type": "simple"
+    },
+    "SA0003": {
+      "post_id": 446,
+      "name": "Ruyue Short Brush",
+      "type": "simple"
+    },
+    "SA0005": {
+      "post_id": 447,
+      "name": "Sicon Art Qin Brush",
+      "type": "simple"
+    },
+    "SA0006": {
+      "post_id": 448,
+      "name": "Happiness Short Travel Brush",
+      "type": "simple"
+    },
+    "SA0007": {
+      "post_id": 449,
+      "name": "Sicon Art Flat Brush Series",
+      "type": "variable"
+    },
+    "SA0008": {
+      "post_id": 458,
+      "name": "Sicon Art Flat Brush Series - Size 3",
+      "type": "variation"
+    },
+    "SA0009": {
+      "post_id": 459,
+      "name": "Sicon Art Flat Brush Series - Size 5",
+      "type": "variation"
+    },
+    "SA0010": {
+      "post_id": 450,
+      "name": "Dark Green Short Brush",
+      "type": "simple"
+    },
+    "SA0011": {
+      "post_id": 451,
+      "name": "Feng Short Sketch Brush",
+      "type": "simple"
+    },
+    "SA0012": {
+      "post_id": 452,
+      "name": "Chi Ling Travel Brush",
+      "type": "simple"
+    },
+    "SA0013": {
+      "post_id": 453,
+      "name": "Qing Yao Detail Brush",
+      "type": "simple"
+    },
+    "SA0014": {
+      "post_id": 454,
+      "name": "Tai Chi Group Brush (Yin & Yang)",
+      "type": "variable"
+    },
+    "SA0015": {
+      "post_id": 460,
+      "name": "Tai Chi Group Brush Set",
+      "type": "variation"
+    },
+    "SA0016": {
+      "post_id": 461,
+      "name": "Tai Chi Group Brush - Yin Brush",
+      "type": "variation"
+    },
+    "SA0017": {
+      "post_id": 462,
+      "name": "Tai Chi Group Brush - Yang Brush",
+      "type": "variation"
+    },
+    "SA0018": {
+      "post_id": 455,
+      "name": "Run Hao Short Brush",
+      "type": "simple"
+    },
+    "SA0019": {
+      "post_id": 456,
+      "name": "Long Handle Brush Series - L5",
+      "type": "variable"
+    },
+    "SA0020": {
+      "post_id": 463,
+      "name": "Long Handle Brush Series - L5 - Small",
+      "type": "variation"
+    },
+    "SA0021": {
+      "post_id": 464,
+      "name": "Long Handle Brush Series - L5 - Medium",
+      "type": "variation"
+    },
+    "SA0022": {
+      "post_id": 465,
+      "name": "Long Handle Brush Series - L5 - Large",
+      "type": "variation"
+    },
+    "SA0023": {
+      "post_id": 457,
+      "name": "Short Handle Series - S1",
+      "type": "simple"
+    }
+  }
+}

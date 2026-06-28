@@ -1,0 +1,1184 @@
+{
+    "title": "Contact Us",
+    "template": "elementor_header_footer",
+    "elementor_data": [
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#523A27",
+                "padding": {"unit": "px", "top": "80", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "64", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "56", "right": "16", "bottom": "40", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_align_items": "center",
+                        "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "REACH OUT",
+                                "header_size": "h6",
+                                "title_color": "#A67146",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                "typography_font_weight": "600",
+                                "typography_text_transform": "uppercase",
+                                "typography_letter_spacing": {"unit": "px", "size": 3, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "Get in Touch",
+                                "header_size": "h1",
+                                "title_color": "#FFFFFF",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Playfair Display",
+                                "typography_font_size": {"unit": "px", "size": 44, "sizes": []},
+                                "typography_font_size_tablet": {"unit": "px", "size": 36, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 28, "sizes": []},
+                                "typography_font_weight": "700",
+                                "typography_line_height": {"unit": "em", "size": 1.2, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p>Whether you have questions about our brushes, need help with a custom order, or want to explore wholesale opportunities - we would love to hear from you.</p>",
+                                "text_color": "rgba(255,255,255,0.7)",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400",
+                                "align": "center"
+                            },
+                            "elements": []
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#FEF9EF",
+                "padding": {"unit": "px", "top": "64", "right": "24", "bottom": "64", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "48", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "40", "right": "16", "bottom": "40", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+                        "flex_direction": "row",
+                        "flex_wrap": "wrap",
+                        "flex_gap": {"column": "48", "row": "40", "unit": "px", "isLinked": false},
+                        "flex_gap_mobile": {"column": "24", "row": "32", "unit": "px", "isLinked": false},
+                        "align_items": "flex-start"
+                    },
+                    "elements": [
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "width": {"unit": "%", "size": 38, "sizes": []},
+                                "width_tablet": {"unit": "%", "size": 100, "sizes": []},
+                                "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+                                "flex_direction": "column",
+                                "flex_gap": {"column": "24", "row": "24", "unit": "px", "isLinked": true}
+                            },
+                            "elements": [
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "heading",
+                                    "settings": {
+                                        "title": "Contact Information",
+                                        "header_size": "h3",
+                                        "title_color": "#523A27",
+                                        "typography_typography": "custom",
+                                        "typography_font_family": "Playfair Display",
+                                        "typography_font_size": {"unit": "px", "size": 28, "sizes": []},
+                                        "typography_font_size_tablet": {"unit": "px", "size": 24, "sizes": []},
+                                        "typography_font_size_mobile": {"unit": "px", "size": 22, "sizes": []},
+                                        "typography_font_weight": "700",
+                                        "typography_line_height": {"unit": "em", "size": 1.3, "sizes": []},
+                                        "align_mobile": "center"
+                                    },
+                                    "elements": []
+                                },
+                                {
+                                    "elType": "container",
+                                    "isInner": true,
+                                    "settings": {
+                                        "content_width": "full",
+                                        "flex_direction": "row",
+                                        "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true},
+                                        "background_background": "classic",
+                                        "background_color": "#FFFFFF",
+                                        "border_border": "solid",
+                                        "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                        "border_color": "#EBDACD",
+                                        "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+                                        "padding": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+                                        "flex_align_items": "center"
+                                    },
+                                    "elements": [
+                                        {
+                                            "elType": "container",
+                                            "isInner": true,
+                                            "settings": {
+                                                "content_width": "full",
+                                                "width": {"unit": "px", "size": 56, "sizes": []},
+                                                "_flex_size": "none",
+                                                "flex_direction": "column",
+                                                "flex_justify_content": "center",
+                                                "flex_align_items": "center"
+                                            },
+                                            "elements": [
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "iconify-icon",
+                                                    "settings": {
+                                                        "iconify_icon": "tabler:phone",
+                                                        "icon_size": 36,
+                                                        "icon_color": "#A67146",
+                                                        "align": "center"
+                                                    },
+                                                    "elements": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "elType": "container",
+                                            "isInner": true,
+                                            "settings": {
+                                                "content_width": "full",
+                                                "flex_direction": "column",
+                                                "_flex_size": "grow",
+                                                "flex_gap": {"column": "4", "row": "4", "unit": "px", "isLinked": true}
+                                            },
+                                            "elements": [
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "heading",
+                                                    "settings": {
+                                                        "title": "Phone",
+                                                        "header_size": "h6",
+                                                        "title_color": "#523A27",
+                                                        "typography_typography": "custom",
+                                                        "typography_font_family": "Poppins",
+                                                        "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                                        "typography_font_weight": "600",
+                                                        "typography_text_transform": "uppercase",
+                                                        "typography_letter_spacing": {"unit": "px", "size": 1, "sizes": []}
+                                                    },
+                                                    "elements": []
+                                                },
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "text-editor",
+                                                    "settings": {
+                                                        "editor": "<p>+1234-567-890</p>",
+                                                        "text_color": "#8B7355",
+                                                        "typography_typography": "custom",
+                                                        "typography_font_family": "Poppins",
+                                                        "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                                        "typography_line_height": {"unit": "em", "size": 1.6, "sizes": []},
+                                                        "typography_font_weight": "400"
+                                                    },
+                                                    "elements": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "elType": "container",
+                                    "isInner": true,
+                                    "settings": {
+                                        "content_width": "full",
+                                        "flex_direction": "row",
+                                        "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true},
+                                        "background_background": "classic",
+                                        "background_color": "#FFFFFF",
+                                        "border_border": "solid",
+                                        "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                        "border_color": "#EBDACD",
+                                        "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+                                        "padding": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+                                        "flex_align_items": "center"
+                                    },
+                                    "elements": [
+                                        {
+                                            "elType": "container",
+                                            "isInner": true,
+                                            "settings": {
+                                                "content_width": "full",
+                                                "width": {"unit": "px", "size": 56, "sizes": []},
+                                                "_flex_size": "none",
+                                                "flex_direction": "column",
+                                                "flex_justify_content": "center",
+                                                "flex_align_items": "center"
+                                            },
+                                            "elements": [
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "iconify-icon",
+                                                    "settings": {
+                                                        "iconify_icon": "tabler:mail",
+                                                        "icon_size": 36,
+                                                        "icon_color": "#A67146",
+                                                        "align": "center"
+                                                    },
+                                                    "elements": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "elType": "container",
+                                            "isInner": true,
+                                            "settings": {
+                                                "content_width": "full",
+                                                "flex_direction": "column",
+                                                "_flex_size": "grow",
+                                                "flex_gap": {"column": "4", "row": "4", "unit": "px", "isLinked": true}
+                                            },
+                                            "elements": [
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "heading",
+                                                    "settings": {
+                                                        "title": "Email",
+                                                        "header_size": "h6",
+                                                        "title_color": "#523A27",
+                                                        "typography_typography": "custom",
+                                                        "typography_font_family": "Poppins",
+                                                        "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                                        "typography_font_weight": "600",
+                                                        "typography_text_transform": "uppercase",
+                                                        "typography_letter_spacing": {"unit": "px", "size": 1, "sizes": []}
+                                                    },
+                                                    "elements": []
+                                                },
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "text-editor",
+                                                    "settings": {
+                                                        "editor": "<p>info@siconart.com</p>",
+                                                        "text_color": "#8B7355",
+                                                        "typography_typography": "custom",
+                                                        "typography_font_family": "Poppins",
+                                                        "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                                        "typography_line_height": {"unit": "em", "size": 1.6, "sizes": []},
+                                                        "typography_font_weight": "400"
+                                                    },
+                                                    "elements": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "elType": "container",
+                                    "isInner": true,
+                                    "settings": {
+                                        "content_width": "full",
+                                        "flex_direction": "row",
+                                        "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true},
+                                        "background_background": "classic",
+                                        "background_color": "#FFFFFF",
+                                        "border_border": "solid",
+                                        "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                        "border_color": "#EBDACD",
+                                        "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+                                        "padding": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+                                        "flex_align_items": "center"
+                                    },
+                                    "elements": [
+                                        {
+                                            "elType": "container",
+                                            "isInner": true,
+                                            "settings": {
+                                                "content_width": "full",
+                                                "width": {"unit": "px", "size": 56, "sizes": []},
+                                                "_flex_size": "none",
+                                                "flex_direction": "column",
+                                                "flex_justify_content": "center",
+                                                "flex_align_items": "center"
+                                            },
+                                            "elements": [
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "iconify-icon",
+                                                    "settings": {
+                                                        "iconify_icon": "tabler:map-pin",
+                                                        "icon_size": 36,
+                                                        "icon_color": "#A67146",
+                                                        "align": "center"
+                                                    },
+                                                    "elements": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "elType": "container",
+                                            "isInner": true,
+                                            "settings": {
+                                                "content_width": "full",
+                                                "flex_direction": "column",
+                                                "_flex_size": "grow",
+                                                "flex_gap": {"column": "4", "row": "4", "unit": "px", "isLinked": true}
+                                            },
+                                            "elements": [
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "heading",
+                                                    "settings": {
+                                                        "title": "Location",
+                                                        "header_size": "h6",
+                                                        "title_color": "#523A27",
+                                                        "typography_typography": "custom",
+                                                        "typography_font_family": "Poppins",
+                                                        "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                                        "typography_font_weight": "600",
+                                                        "typography_text_transform": "uppercase",
+                                                        "typography_letter_spacing": {"unit": "px", "size": 1, "sizes": []}
+                                                    },
+                                                    "elements": []
+                                                },
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "text-editor",
+                                                    "settings": {
+                                                        "editor": "<p>Dongguan, Guangdong, China</p>",
+                                                        "text_color": "#8B7355",
+                                                        "typography_typography": "custom",
+                                                        "typography_font_family": "Poppins",
+                                                        "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                                        "typography_line_height": {"unit": "em", "size": 1.6, "sizes": []},
+                                                        "typography_font_weight": "400"
+                                                    },
+                                                    "elements": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "elType": "container",
+                                    "isInner": true,
+                                    "settings": {
+                                        "content_width": "full",
+                                        "flex_direction": "row",
+                                        "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true},
+                                        "background_background": "classic",
+                                        "background_color": "#FFFFFF",
+                                        "border_border": "solid",
+                                        "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                        "border_color": "#EBDACD",
+                                        "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+                                        "padding": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+                                        "flex_align_items": "center"
+                                    },
+                                    "elements": [
+                                        {
+                                            "elType": "container",
+                                            "isInner": true,
+                                            "settings": {
+                                                "content_width": "full",
+                                                "width": {"unit": "px", "size": 56, "sizes": []},
+                                                "_flex_size": "none",
+                                                "flex_direction": "column",
+                                                "flex_justify_content": "center",
+                                                "flex_align_items": "center"
+                                            },
+                                            "elements": [
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "iconify-icon",
+                                                    "settings": {
+                                                        "iconify_icon": "tabler:clock",
+                                                        "icon_size": 36,
+                                                        "icon_color": "#A67146",
+                                                        "align": "center"
+                                                    },
+                                                    "elements": []
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "elType": "container",
+                                            "isInner": true,
+                                            "settings": {
+                                                "content_width": "full",
+                                                "flex_direction": "column",
+                                                "_flex_size": "grow",
+                                                "flex_gap": {"column": "4", "row": "4", "unit": "px", "isLinked": true}
+                                            },
+                                            "elements": [
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "heading",
+                                                    "settings": {
+                                                        "title": "Business Hours",
+                                                        "header_size": "h6",
+                                                        "title_color": "#523A27",
+                                                        "typography_typography": "custom",
+                                                        "typography_font_family": "Poppins",
+                                                        "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                                        "typography_font_weight": "600",
+                                                        "typography_text_transform": "uppercase",
+                                                        "typography_letter_spacing": {"unit": "px", "size": 1, "sizes": []}
+                                                    },
+                                                    "elements": []
+                                                },
+                                                {
+                                                    "elType": "widget",
+                                                    "widgetType": "text-editor",
+                                                    "settings": {
+                                                        "editor": "<p>Mon - Sat: 9:00 AM - 6:00 PM (CST)</p>",
+                                                        "text_color": "#8B7355",
+                                                        "typography_typography": "custom",
+                                                        "typography_font_family": "Poppins",
+                                                        "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                                        "typography_line_height": {"unit": "em", "size": 1.6, "sizes": []},
+                                                        "typography_font_weight": "400"
+                                                    },
+                                                    "elements": []
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "width": {"unit": "%", "size": 55, "sizes": []},
+                                "width_tablet": {"unit": "%", "size": 100, "sizes": []},
+                                "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+                                "flex_direction": "column",
+                                "background_background": "classic",
+                                "background_color": "#FFFFFF",
+                                "border_border": "solid",
+                                "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                "border_color": "#EBDACD",
+                                "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+                                "padding": {"unit": "px", "top": "40", "right": "40", "bottom": "40", "left": "40", "isLinked": true},
+                                "padding_mobile": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+                                "flex_gap": {"column": "8", "row": "8", "unit": "px", "isLinked": true}
+                            },
+                            "elements": [
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "heading",
+                                    "settings": {
+                                        "title": "Send Us a Message",
+                                        "header_size": "h3",
+                                        "title_color": "#523A27",
+                                        "typography_typography": "custom",
+                                        "typography_font_family": "Playfair Display",
+                                        "typography_font_size": {"unit": "px", "size": 28, "sizes": []},
+                                        "typography_font_size_tablet": {"unit": "px", "size": 24, "sizes": []},
+                                        "typography_font_size_mobile": {"unit": "px", "size": 22, "sizes": []},
+                                        "typography_font_weight": "700",
+                                        "typography_line_height": {"unit": "em", "size": 1.3, "sizes": []},
+                                        "_margin": {"unit": "px", "top": "0", "right": "0", "bottom": "16", "left": "0", "isLinked": false}
+                                    },
+                                    "elements": []
+                                },
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "form",
+                                    "settings": {
+                                        "form_name": "Contact Form",
+                                        "form_fields": [
+                                            {
+                                                "field_type": "text",
+                                                "field_label": "Your Name",
+                                                "placeholder": "John Doe",
+                                                "required": "true",
+                                                "width": "50",
+                                                "_id": "name"
+                                            },
+                                            {
+                                                "field_type": "email",
+                                                "field_label": "Email Address",
+                                                "placeholder": "you@example.com",
+                                                "required": "true",
+                                                "width": "50",
+                                                "_id": "email"
+                                            },
+                                            {
+                                                "field_type": "select",
+                                                "field_label": "Subject",
+                                                "field_options": "General Inquiry\nCustom Order Request\nWholesale / Bulk Orders\nShipping Question\nReturns & Exchanges\nOther",
+                                                "required": "true",
+                                                "width": "100",
+                                                "_id": "subject"
+                                            },
+                                            {
+                                                "field_type": "textarea",
+                                                "field_label": "Your Message",
+                                                "placeholder": "Tell us how we can help you...",
+                                                "required": "true",
+                                                "width": "100",
+                                                "rows": "5",
+                                                "_id": "message"
+                                            }
+                                        ],
+                                        "button_text": "Send Message",
+                                        "button_size": "md",
+                                        "button_width": "100",
+                                        "button_align": "stretch",
+                                        "button_background_color": "#A67146",
+                                        "button_text_color": "#FFFFFF",
+                                        "button_border_radius": {"unit": "px", "top": "8", "right": "8", "bottom": "8", "left": "8", "isLinked": true},
+                                        "button_typography_typography": "custom",
+                                        "button_typography_font_family": "Poppins",
+                                        "button_typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                        "button_typography_font_weight": "600",
+                                        "button_hover_background_color": "#523A27",
+                                        "field_background_color": "#FEF9EF",
+                                        "field_border_color": "#EBDACD",
+                                        "field_border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                        "field_border_radius": {"unit": "px", "top": "8", "right": "8", "bottom": "8", "left": "8", "isLinked": true},
+                                        "field_text_color": "#523A27",
+                                        "field_typography_typography": "custom",
+                                        "field_typography_font_family": "Poppins",
+                                        "field_typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                        "label_color": "#523A27",
+                                        "label_typography_typography": "custom",
+                                        "label_typography_font_family": "Poppins",
+                                        "label_typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                        "label_typography_font_weight": "500",
+                                        "mark_required_color": "#A67146",
+                                        "email_to": "info@siconart.com",
+                                        "email_subject": "New Contact Form Submission - Sicon Art",
+                                        "column_gap": {"unit": "px", "size": 16, "sizes": []},
+                                        "row_gap": {"unit": "px", "size": 16, "sizes": []},
+                                        "success_message": "Thank you! Your message has been sent. We will get back to you within 24-48 hours.",
+                                        "custom_messages": "yes"
+                                    },
+                                    "elements": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#FFFFFF",
+                "padding": {"unit": "px", "top": "64", "right": "24", "bottom": "64", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "48", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "40", "right": "16", "bottom": "40", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_gap": {"column": "40", "row": "40", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "flex_direction": "column",
+                                "flex_align_items": "center",
+                                "flex_gap": {"column": "12", "row": "12", "unit": "px", "isLinked": true}
+                            },
+                            "elements": [
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "heading",
+                                    "settings": {
+                                        "title": "COMMON QUESTIONS",
+                                        "header_size": "h6",
+                                        "title_color": "#A67146",
+                                        "typography_typography": "custom",
+                                        "typography_font_family": "Poppins",
+                                        "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                        "typography_font_weight": "600",
+                                        "typography_text_transform": "uppercase",
+                                        "typography_letter_spacing": {"unit": "px", "size": 3, "sizes": []},
+                                        "align": "center"
+                                    },
+                                    "elements": []
+                                },
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "heading",
+                                    "settings": {
+                                        "title": "Frequently Asked Questions",
+                                        "header_size": "h2",
+                                        "title_color": "#523A27",
+                                        "typography_typography": "custom",
+                                        "typography_font_family": "Playfair Display",
+                                        "typography_font_size": {"unit": "px", "size": 36, "sizes": []},
+                                        "typography_font_size_tablet": {"unit": "px", "size": 30, "sizes": []},
+                                        "typography_font_size_mobile": {"unit": "px", "size": 24, "sizes": []},
+                                        "typography_font_weight": "700",
+                                        "typography_line_height": {"unit": "em", "size": 1.2, "sizes": []},
+                                        "align": "center"
+                                    },
+                                    "elements": []
+                                }
+                            ]
+                        },
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "flex_direction": "row",
+                                "flex_wrap": "wrap",
+                                "flex_gap": {"column": "24", "row": "24", "unit": "px", "isLinked": true},
+                                "flex_gap_mobile": {"column": "16", "row": "16", "unit": "px", "isLinked": true}
+                            },
+                            "elements": [
+                                {
+                                    "elType": "container",
+                                    "isInner": true,
+                                    "settings": {
+                                        "content_width": "full",
+                                        "width": {"unit": "%", "size": 47, "sizes": []},
+                                        "width_tablet": {"unit": "%", "size": 47, "sizes": []},
+                                        "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+                                        "flex_direction": "column",
+                                        "background_background": "classic",
+                                        "background_color": "#FEF9EF",
+                                        "border_border": "solid",
+                                        "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                        "border_color": "#EBDACD",
+                                        "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+                                        "padding": {"unit": "px", "top": "32", "right": "32", "bottom": "32", "left": "32", "isLinked": true},
+                                        "padding_mobile": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+                                        "flex_gap": {"column": "12", "row": "12", "unit": "px", "isLinked": true}
+                                    },
+                                    "elements": [
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "iconify-icon",
+                                            "settings": {
+                                                "iconify_icon": "tabler:truck-delivery",
+                                                "icon_size": 40,
+                                                "icon_color": "#A67146",
+                                                "align": "left"
+                                            },
+                                            "elements": []
+                                        },
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "heading",
+                                            "settings": {
+                                                "title": "How long does shipping take?",
+                                                "header_size": "h5",
+                                                "title_color": "#523A27",
+                                                "typography_typography": "custom",
+                                                "typography_font_family": "Poppins",
+                                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                                "typography_font_weight": "600",
+                                                "typography_line_height": {"unit": "em", "size": 1.4, "sizes": []}
+                                            },
+                                            "elements": []
+                                        },
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "text-editor",
+                                            "settings": {
+                                                "editor": "<p>We ship worldwide from Dongguan, China. Standard shipping typically takes 10-18 business days. Express shipping options are available at checkout for faster delivery.</p>",
+                                                "text_color": "#8B7355",
+                                                "typography_typography": "custom",
+                                                "typography_font_family": "Poppins",
+                                                "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                                "typography_line_height": {"unit": "em", "size": 1.7, "sizes": []},
+                                                "typography_font_weight": "400"
+                                            },
+                                            "elements": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "elType": "container",
+                                    "isInner": true,
+                                    "settings": {
+                                        "content_width": "full",
+                                        "width": {"unit": "%", "size": 47, "sizes": []},
+                                        "width_tablet": {"unit": "%", "size": 47, "sizes": []},
+                                        "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+                                        "flex_direction": "column",
+                                        "background_background": "classic",
+                                        "background_color": "#FEF9EF",
+                                        "border_border": "solid",
+                                        "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                        "border_color": "#EBDACD",
+                                        "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+                                        "padding": {"unit": "px", "top": "32", "right": "32", "bottom": "32", "left": "32", "isLinked": true},
+                                        "padding_mobile": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+                                        "flex_gap": {"column": "12", "row": "12", "unit": "px", "isLinked": true}
+                                    },
+                                    "elements": [
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "iconify-icon",
+                                            "settings": {
+                                                "iconify_icon": "tabler:brush",
+                                                "icon_size": 40,
+                                                "icon_color": "#A67146",
+                                                "align": "left"
+                                            },
+                                            "elements": []
+                                        },
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "heading",
+                                            "settings": {
+                                                "title": "Can I request a custom brush?",
+                                                "header_size": "h5",
+                                                "title_color": "#523A27",
+                                                "typography_typography": "custom",
+                                                "typography_font_family": "Poppins",
+                                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                                "typography_font_weight": "600",
+                                                "typography_line_height": {"unit": "em", "size": 1.4, "sizes": []}
+                                            },
+                                            "elements": []
+                                        },
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "text-editor",
+                                            "settings": {
+                                                "editor": "<p>Absolutely! We love working with artists on custom orders. Select 'Custom Order Request' in the contact form above and describe what you are looking for. We will discuss options, materials, and pricing with you.</p>",
+                                                "text_color": "#8B7355",
+                                                "typography_typography": "custom",
+                                                "typography_font_family": "Poppins",
+                                                "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                                "typography_line_height": {"unit": "em", "size": 1.7, "sizes": []},
+                                                "typography_font_weight": "400"
+                                            },
+                                            "elements": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "elType": "container",
+                                    "isInner": true,
+                                    "settings": {
+                                        "content_width": "full",
+                                        "width": {"unit": "%", "size": 47, "sizes": []},
+                                        "width_tablet": {"unit": "%", "size": 47, "sizes": []},
+                                        "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+                                        "flex_direction": "column",
+                                        "background_background": "classic",
+                                        "background_color": "#FEF9EF",
+                                        "border_border": "solid",
+                                        "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                        "border_color": "#EBDACD",
+                                        "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+                                        "padding": {"unit": "px", "top": "32", "right": "32", "bottom": "32", "left": "32", "isLinked": true},
+                                        "padding_mobile": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+                                        "flex_gap": {"column": "12", "row": "12", "unit": "px", "isLinked": true}
+                                    },
+                                    "elements": [
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "iconify-icon",
+                                            "settings": {
+                                                "iconify_icon": "tabler:building-store",
+                                                "icon_size": 40,
+                                                "icon_color": "#A67146",
+                                                "align": "left"
+                                            },
+                                            "elements": []
+                                        },
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "heading",
+                                            "settings": {
+                                                "title": "Do you offer wholesale pricing?",
+                                                "header_size": "h5",
+                                                "title_color": "#523A27",
+                                                "typography_typography": "custom",
+                                                "typography_font_family": "Poppins",
+                                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                                "typography_font_weight": "600",
+                                                "typography_line_height": {"unit": "em", "size": 1.4, "sizes": []}
+                                            },
+                                            "elements": []
+                                        },
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "text-editor",
+                                            "settings": {
+                                                "editor": "<p>Yes! We offer special pricing for art supply retailers, studios, and educational institutions. Select 'Wholesale / Bulk Orders' in the form and let us know your requirements. Minimum order quantities may apply.</p>",
+                                                "text_color": "#8B7355",
+                                                "typography_typography": "custom",
+                                                "typography_font_family": "Poppins",
+                                                "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                                "typography_line_height": {"unit": "em", "size": 1.7, "sizes": []},
+                                                "typography_font_weight": "400"
+                                            },
+                                            "elements": []
+                                        }
+                                    ]
+                                },
+                                {
+                                    "elType": "container",
+                                    "isInner": true,
+                                    "settings": {
+                                        "content_width": "full",
+                                        "width": {"unit": "%", "size": 47, "sizes": []},
+                                        "width_tablet": {"unit": "%", "size": 47, "sizes": []},
+                                        "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+                                        "flex_direction": "column",
+                                        "background_background": "classic",
+                                        "background_color": "#FEF9EF",
+                                        "border_border": "solid",
+                                        "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                        "border_color": "#EBDACD",
+                                        "border_radius": {"unit": "px", "top": "12", "right": "12", "bottom": "12", "left": "12", "isLinked": true},
+                                        "padding": {"unit": "px", "top": "32", "right": "32", "bottom": "32", "left": "32", "isLinked": true},
+                                        "padding_mobile": {"unit": "px", "top": "24", "right": "24", "bottom": "24", "left": "24", "isLinked": true},
+                                        "flex_gap": {"column": "12", "row": "12", "unit": "px", "isLinked": true}
+                                    },
+                                    "elements": [
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "iconify-icon",
+                                            "settings": {
+                                                "iconify_icon": "tabler:rotate-2",
+                                                "icon_size": 40,
+                                                "icon_color": "#A67146",
+                                                "align": "left"
+                                            },
+                                            "elements": []
+                                        },
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "heading",
+                                            "settings": {
+                                                "title": "What is your return policy?",
+                                                "header_size": "h5",
+                                                "title_color": "#523A27",
+                                                "typography_typography": "custom",
+                                                "typography_font_family": "Poppins",
+                                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                                "typography_font_weight": "600",
+                                                "typography_line_height": {"unit": "em", "size": 1.4, "sizes": []}
+                                            },
+                                            "elements": []
+                                        },
+                                        {
+                                            "elType": "widget",
+                                            "widgetType": "text-editor",
+                                            "settings": {
+                                                "editor": "<p>We want you to love your brushes. If you are not completely satisfied, you can return unused items within 30 days of delivery for a full refund. Please contact us with your order number and we will guide you through the process.</p>",
+                                                "text_color": "#8B7355",
+                                                "typography_typography": "custom",
+                                                "typography_font_family": "Poppins",
+                                                "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                                "typography_line_height": {"unit": "em", "size": 1.7, "sizes": []},
+                                                "typography_font_weight": "400"
+                                            },
+                                            "elements": []
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#FEF9EF",
+                "padding": {"unit": "px", "top": "56", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "40", "right": "20", "bottom": "40", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "32", "right": "16", "bottom": "32", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_gap": {"column": "24", "row": "24", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "flex_direction": "column",
+                                "flex_align_items": "center",
+                                "flex_gap": {"column": "12", "row": "12", "unit": "px", "isLinked": true}
+                            },
+                            "elements": [
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "heading",
+                                    "settings": {
+                                        "title": "FIND US",
+                                        "header_size": "h6",
+                                        "title_color": "#A67146",
+                                        "typography_typography": "custom",
+                                        "typography_font_family": "Poppins",
+                                        "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                        "typography_font_weight": "600",
+                                        "typography_text_transform": "uppercase",
+                                        "typography_letter_spacing": {"unit": "px", "size": 3, "sizes": []},
+                                        "align": "center"
+                                    },
+                                    "elements": []
+                                },
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "heading",
+                                    "settings": {
+                                        "title": "Our Location",
+                                        "header_size": "h2",
+                                        "title_color": "#523A27",
+                                        "typography_typography": "custom",
+                                        "typography_font_family": "Playfair Display",
+                                        "typography_font_size": {"unit": "px", "size": 36, "sizes": []},
+                                        "typography_font_size_tablet": {"unit": "px", "size": 30, "sizes": []},
+                                        "typography_font_size_mobile": {"unit": "px", "size": 24, "sizes": []},
+                                        "typography_font_weight": "700",
+                                        "typography_line_height": {"unit": "em", "size": 1.2, "sizes": []},
+                                        "align": "center"
+                                    },
+                                    "elements": []
+                                },
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "text-editor",
+                                    "settings": {
+                                        "editor": "<p>Sicon Art is based in Dongguan, Guangdong Province, China - one of the historic centers of traditional Chinese brush craftsmanship.</p>",
+                                        "text_color": "#8B7355",
+                                        "typography_typography": "custom",
+                                        "typography_font_family": "Poppins",
+                                        "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                        "typography_font_size_mobile": {"unit": "px", "size": 15, "sizes": []},
+                                        "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                        "typography_font_weight": "400",
+                                        "align": "center"
+                                    },
+                                    "elements": []
+                                }
+                            ]
+                        },
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "flex_direction": "column",
+                                "border_radius": {"unit": "px", "top": "16", "right": "16", "bottom": "16", "left": "16", "isLinked": true},
+                                "overflow": "hidden",
+                                "border_border": "solid",
+                                "border_width": {"unit": "px", "top": "1", "right": "1", "bottom": "1", "left": "1", "isLinked": true},
+                                "border_color": "#EBDACD"
+                            },
+                            "elements": [
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "google_maps",
+                                    "settings": {
+                                        "address": "Dongguan, Guangdong, China",
+                                        "zoom": {"unit": "px", "size": 12, "sizes": []},
+                                        "height": {"unit": "px", "size": 400, "sizes": []},
+                                        "height_mobile": {"unit": "px", "size": 280, "sizes": []}
+                                    },
+                                    "elements": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "gradient",
+                "background_color": "#A67146",
+                "background_color_b": "#523A27",
+                "background_gradient_angle": {"unit": "deg", "size": 135, "sizes": []},
+                "padding": {"unit": "px", "top": "56", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "40", "right": "20", "bottom": "40", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "40", "right": "16", "bottom": "40", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_align_items": "center",
+                        "flex_gap": {"column": "24", "row": "24", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "Ready to Explore Our Collection?",
+                                "header_size": "h2",
+                                "title_color": "#FFFFFF",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Playfair Display",
+                                "typography_font_size": {"unit": "px", "size": 36, "sizes": []},
+                                "typography_font_size_tablet": {"unit": "px", "size": 30, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 24, "sizes": []},
+                                "typography_font_weight": "700",
+                                "typography_line_height": {"unit": "em", "size": 1.2, "sizes": []},
+                                "align": "center",
+                                "_animation": "fadeInUp"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p>Discover handcrafted brushes born from a thousand-year tradition, designed for the modern artist.</p>",
+                                "text_color": "rgba(255,255,255,0.85)",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400",
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "container",
+                            "isInner": true,
+                            "settings": {
+                                "content_width": "full",
+                                "flex_direction": "row",
+                                "flex_justify_content": "center",
+                                "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true},
+                                "flex_wrap": "wrap"
+                            },
+                            "elements": [
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "button",
+                                    "settings": {
+                                        "text": "Browse Shop",
+                                        "link": {"url": "/shop/", "is_external": false, "nofollow": false},
+                                        "size": "md",
+                                        "background_color": "#FFFFFF",
+                                        "button_text_color": "#523A27",
+                                        "border_radius": {"unit": "px", "top": "8", "right": "8", "bottom": "8", "left": "8", "isLinked": true},
+                                        "typography_typography": "custom",
+                                        "typography_font_family": "Poppins",
+                                        "typography_font_weight": "600",
+                                        "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                        "button_background_hover_color": "#FEF9EF"
+                                    },
+                                    "elements": []
+                                },
+                                {
+                                    "elType": "widget",
+                                    "widgetType": "button",
+                                    "settings": {
+                                        "text": "About Us",
+                                        "link": {"url": "/about-us/", "is_external": false, "nofollow": false},
+                                        "size": "md",
+                                        "background_color": "transparent",
+                                        "button_text_color": "#FFFFFF",
+                                        "border_border": "solid",
+                                        "border_width": {"unit": "px", "top": "2", "right": "2", "bottom": "2", "left": "2", "isLinked": true},
+                                        "border_color": "rgba(255,255,255,0.5)",
+                                        "border_radius": {"unit": "px", "top": "8", "right": "8", "bottom": "8", "left": "8", "isLinked": true},
+                                        "typography_typography": "custom",
+                                        "typography_font_family": "Poppins",
+                                        "typography_font_weight": "600",
+                                        "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                        "button_background_hover_color": "rgba(255,255,255,0.15)"
+                                    },
+                                    "elements": []
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

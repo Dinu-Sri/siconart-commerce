@@ -1,0 +1,130 @@
+{
+    "title": "Return & Exchange Policy",
+    "template": "elementor_header_footer",
+    "elementor_data": [
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#523A27",
+                "padding": {"unit": "px", "top": "80", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "64", "right": "20", "bottom": "48", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "56", "right": "16", "bottom": "40", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_align_items": "center",
+                        "flex_gap": {"column": "16", "row": "16", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "POLICIES",
+                                "header_size": "h6",
+                                "title_color": "#A67146",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 14, "sizes": []},
+                                "typography_font_weight": "600",
+                                "typography_text_transform": "uppercase",
+                                "typography_letter_spacing": {"unit": "px", "size": 3, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "heading",
+                            "settings": {
+                                "title": "Return & Exchange Policy",
+                                "header_size": "h1",
+                                "title_color": "#FFFFFF",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Playfair Display",
+                                "typography_font_size": {"unit": "px", "size": 44, "sizes": []},
+                                "typography_font_size_tablet": {"unit": "px", "size": 36, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 28, "sizes": []},
+                                "typography_font_weight": "700",
+                                "typography_line_height": {"unit": "em", "size": 1.2, "sizes": []},
+                                "align": "center"
+                            },
+                            "elements": []
+                        },
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p>Our commitment to making things right if something isn't perfect with your order.</p>",
+                                "text_color": "rgba(255,255,255,0.7)",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 16, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400",
+                                "align": "center"
+                            },
+                            "elements": []
+                        }
+                    ]
+                }
+            ]
+        },
+
+        {
+            "elType": "container",
+            "isInner": false,
+            "settings": {
+                "content_width": "full",
+                "flex_direction": "column",
+                "background_background": "classic",
+                "background_color": "#FEF9EF",
+                "padding": {"unit": "px", "top": "56", "right": "24", "bottom": "56", "left": "24", "isLinked": false},
+                "padding_tablet": {"unit": "px", "top": "40", "right": "20", "bottom": "40", "left": "20", "isLinked": false},
+                "padding_mobile": {"unit": "px", "top": "32", "right": "16", "bottom": "32", "left": "16", "isLinked": false},
+                "html_tag": "section"
+            },
+            "elements": [
+                {
+                    "elType": "container",
+                    "isInner": true,
+                    "settings": {
+                        "content_width": "boxed",
+                        "boxed_width": {"unit": "px", "size": 800, "sizes": []},
+                        "flex_direction": "column",
+                        "flex_gap": {"column": "8", "row": "8", "unit": "px", "isLinked": true}
+                    },
+                    "elements": [
+                        {
+                            "elType": "widget",
+                            "widgetType": "text-editor",
+                            "settings": {
+                                "editor": "<p><strong>Last updated:</strong> 21 February 2026</p><p>Thank you for shopping at <strong>SiconArt</strong>. We want you to love what you receive. If something isn't right, we'll help you as quickly and fairly as possible.</p><p>For any return, exchange, or after-sales request, please contact: <strong>support@siconart.com</strong></p><h3>1) Returns (Change of Mind)</h3><p>We accept returns for most items <strong>within 30 days of delivery</strong>, as long as the item is:</p><ul><li>Brand new, unused, and unwashed</li><li>In <strong>original packaging</strong> (box/pouch, inserts, accessories, tags, and any protective covers)</li><li><strong>Not tested with water, ink, paint, or cleaning agents</strong> (especially important for brushes)</li></ul><p><strong>Important:</strong> Please email us first. Do <strong>not</strong> send items back without authorization, as we may be unable to match the package to your order. Shipping cost to us needs to be borne by the customer.</p><h3>2) Non-Returnable Items</h3><p>To protect product quality and hygiene, we do <strong>not</strong> accept returns or exchanges for:</p><ul><li>Items showing <strong>any signs of use</strong> (e.g., brush tips altered, dampness, staining, paint residue, odor, or reshaping)</li><li><strong>Final sale / clearance</strong> items (if marked as final sale)</li><li><strong>Gift cards</strong> or downloadable/digital products (if applicable)</li><li>Returns requested <strong>after 30 days</strong> from delivery</li><li>Returns sent <strong>without prior approval</strong></li></ul><h3>3) Exchanges &amp; Replacements (Wrong / Damaged / Defective)</h3><p>If you received any of the following, we will arrange a <strong>free replacement</strong>, <strong>resend</strong>, or an appropriate solution:</p><ul><li>Wrong item / wrong variation sent</li><li>Item arrived with <strong>obvious damage</strong></li><li>Manufacturing defects</li><li>Missing parts/accessories</li><li>Severe shipping damage to packaging affecting the product</li></ul><p><strong>Please contact us within 7 days of delivery</strong> and include:</p><ul><li>Order number</li><li>Clear photos (and a short video if needed)</li><li>A brief description of the issue</li></ul><p>Email: <strong>support@siconart.com</strong></p>",
+                                "text_color": "#523A27",
+                                "typography_typography": "custom",
+                                "typography_font_family": "Poppins",
+                                "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+                                "typography_font_size_mobile": {"unit": "px", "size": 14, "sizes": []},
+                                "typography_line_height": {"unit": "em", "size": 1.8, "sizes": []},
+                                "typography_font_weight": "400"
+                            },
+                            "elements": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

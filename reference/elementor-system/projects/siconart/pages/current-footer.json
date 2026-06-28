@@ -1,0 +1,1057 @@
+﻿{
+    "title":  "siconart footer",
+    "page_settings":  "",
+    "elementor_data":  [
+                           {
+                               "id":  "68f4c6e0",
+                               "elType":  "container",
+                               "settings":  {
+                                                "flex_direction":  "column",
+                                                "background_background":  "gradient",
+                                                "background_gradient_angle":  {
+                                                                                  "unit":  "deg",
+                                                                                  "size":  167,
+                                                                                  "sizes":  [
+
+                                                                                            ]
+                                                                              },
+                                                "padding":  {
+                                                                "unit":  "px",
+                                                                "top":  "100",
+                                                                "right":  "0",
+                                                                "bottom":  "0",
+                                                                "left":  "0",
+                                                                "isLinked":  false
+                                                            },
+                                                "padding_tablet":  {
+                                                                       "unit":  "px",
+                                                                       "top":  "100",
+                                                                       "right":  "30",
+                                                                       "bottom":  "0",
+                                                                       "left":  "30",
+                                                                       "isLinked":  false
+                                                                   },
+                                                "padding_mobile":  {
+                                                                       "unit":  "px",
+                                                                       "top":  "100",
+                                                                       "right":  "20",
+                                                                       "bottom":  "0",
+                                                                       "left":  "20",
+                                                                       "isLinked":  false
+                                                                   },
+                                                "overflow":  "hidden",
+                                                "__globals__":  {
+                                                                    "background_color":  "globals/colors?id=162b090",
+                                                                    "background_color_b":  "globals/colors?id=ea73db0"
+                                                                }
+                                            },
+                               "elements":  [
+                                                {
+                                                    "id":  "109f64b0",
+                                                    "elType":  "container",
+                                                    "settings":  {
+                                                                     "content_width":  "full",
+                                                                     "flex_direction":  "column",
+                                                                     "padding":  {
+                                                                                     "unit":  "px",
+                                                                                     "top":  "0",
+                                                                                     "right":  "0",
+                                                                                     "bottom":  "0",
+                                                                                     "left":  "0",
+                                                                                     "isLinked":  false
+                                                                                 }
+                                                                 },
+                                                    "elements":  [
+                                                                     {
+                                                                         "id":  "5e13e610",
+                                                                         "elType":  "container",
+                                                                         "settings":  {
+                                                                                          "content_width":  "full",
+                                                                                          "flex_direction":  "row",
+                                                                                          "padding":  {
+                                                                                                          "unit":  "px",
+                                                                                                          "top":  "0",
+                                                                                                          "right":  "0",
+                                                                                                          "bottom":  "30",
+                                                                                                          "left":  "0",
+                                                                                                          "isLinked":  false
+                                                                                                      },
+                                                                                          "border_border":  "solid",
+                                                                                          "border_width":  {
+                                                                                                               "unit":  "px",
+                                                                                                               "top":  "0",
+                                                                                                               "right":  "0",
+                                                                                                               "bottom":  "1",
+                                                                                                               "left":  "0",
+                                                                                                               "isLinked":  false
+                                                                                                           },
+                                                                                          "margin":  {
+                                                                                                         "unit":  "px",
+                                                                                                         "top":  "0",
+                                                                                                         "right":  "0",
+                                                                                                         "bottom":  "0",
+                                                                                                         "left":  "0",
+                                                                                                         "isLinked":  false
+                                                                                                     },
+                                                                                          "flex_justify_content_mobile":  "center",
+                                                                                          "flex_align_items_mobile":  "center",
+                                                                                          "__globals__":  {
+                                                                                                              "border_color":  "globals/colors?id=9a8e422"
+                                                                                                          }
+                                                                                      },
+                                                                         "elements":  [
+                                                                                          {
+                                                                                              "id":  "31918462",
+                                                                                              "elType":  "container",
+                                                                                              "settings":  {
+                                                                                                               "content_width":  "full",
+                                                                                                               "flex_gap":  {
+                                                                                                                                "column":  "0",
+                                                                                                                                "row":  "0",
+                                                                                                                                "isLinked":  false,
+                                                                                                                                "unit":  "px",
+                                                                                                                                "size":  0
+                                                                                                                            },
+                                                                                                               "margin":  {
+                                                                                                                              "unit":  "px",
+                                                                                                                              "top":  "0",
+                                                                                                                              "right":  "22",
+                                                                                                                              "bottom":  "0",
+                                                                                                                              "left":  "0",
+                                                                                                                              "isLinked":  false
+                                                                                                                          },
+                                                                                                               "padding":  {
+                                                                                                                               "unit":  "px",
+                                                                                                                               "top":  "0",
+                                                                                                                               "right":  "0",
+                                                                                                                               "bottom":  "0",
+                                                                                                                               "left":  "0",
+                                                                                                                               "isLinked":  false
+                                                                                                                           },
+                                                                                                               "width_tablet":  {
+                                                                                                                                    "unit":  "%",
+                                                                                                                                    "size":  71,
+                                                                                                                                    "sizes":  [
+
+                                                                                                                                              ]
+                                                                                                                                },
+                                                                                                               "width_mobile":  {
+                                                                                                                                    "unit":  "%",
+                                                                                                                                    "size":  "",
+                                                                                                                                    "sizes":  [
+
+                                                                                                                                              ]
+                                                                                                                                },
+                                                                                                               "margin_tablet":  {
+                                                                                                                                     "unit":  "px",
+                                                                                                                                     "top":  "0",
+                                                                                                                                     "right":  "0",
+                                                                                                                                     "bottom":  "0",
+                                                                                                                                     "left":  "0",
+                                                                                                                                     "isLinked":  false
+                                                                                                                                 },
+                                                                                                               "margin_mobile":  {
+                                                                                                                                     "unit":  "px",
+                                                                                                                                     "top":  "0",
+                                                                                                                                     "right":  "0",
+                                                                                                                                     "bottom":  "30",
+                                                                                                                                     "left":  "0",
+                                                                                                                                     "isLinked":  false
+                                                                                                                                 }
+                                                                                                           },
+                                                                                              "elements":  [
+                                                                                                               {
+                                                                                                                   "id":  "48605a66",
+                                                                                                                   "elType":  "container",
+                                                                                                                   "settings":  {
+                                                                                                                                    "content_width":  "full",
+                                                                                                                                    "flex_align_items":  "flex-start",
+                                                                                                                                    "margin":  {
+                                                                                                                                                   "unit":  "px",
+                                                                                                                                                   "top":  "-18",
+                                                                                                                                                   "right":  "0",
+                                                                                                                                                   "bottom":  "20",
+                                                                                                                                                   "left":  "0",
+                                                                                                                                                   "isLinked":  false
+                                                                                                                                               },
+                                                                                                                                    "padding":  {
+                                                                                                                                                    "unit":  "px",
+                                                                                                                                                    "top":  "0",
+                                                                                                                                                    "right":  "0",
+                                                                                                                                                    "bottom":  "0",
+                                                                                                                                                    "left":  "0",
+                                                                                                                                                    "isLinked":  false
+                                                                                                                                                },
+                                                                                                                                    "flex_align_items_mobile":  "center",
+                                                                                                                                    "margin_tablet":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "top":  "-16",
+                                                                                                                                                          "right":  "0",
+                                                                                                                                                          "bottom":  "11",
+                                                                                                                                                          "left":  "0",
+                                                                                                                                                          "isLinked":  false
+                                                                                                                                                      },
+                                                                                                                                    "margin_mobile":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "top":  "0",
+                                                                                                                                                          "right":  "0",
+                                                                                                                                                          "bottom":  "15",
+                                                                                                                                                          "left":  "0",
+                                                                                                                                                          "isLinked":  false
+                                                                                                                                                      }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+                                                                                                                                    {
+                                                                                                                                        "id":  "2d248125",
+                                                                                                                                        "elType":  "widget",
+                                                                                                                                        "settings":  {
+                                                                                                                                                         "image":  {
+                                                                                                                                                                       "id":  45,
+                                                                                                                                                                       "url":  "https://siconart.com/wp-content/uploads/2025/08/siconart-logo-1.webp",
+                                                                                                                                                                       "alt":  "",
+                                                                                                                                                                       "source":  "library",
+                                                                                                                                                                       "size":  ""
+                                                                                                                                                                   },
+                                                                                                                                                         "width":  {
+                                                                                                                                                                       "unit":  "%",
+                                                                                                                                                                       "size":  100,
+                                                                                                                                                                       "sizes":  [
+
+                                                                                                                                                                                 ]
+                                                                                                                                                                   },
+                                                                                                                                                         "width_tablet":  {
+                                                                                                                                                                              "unit":  "%",
+                                                                                                                                                                              "size":  95,
+                                                                                                                                                                              "sizes":  [
+
+                                                                                                                                                                                        ]
+                                                                                                                                                                          },
+                                                                                                                                                         "width_mobile":  {
+                                                                                                                                                                              "unit":  "%",
+                                                                                                                                                                              "size":  100,
+                                                                                                                                                                              "sizes":  [
+
+                                                                                                                                                                                        ]
+                                                                                                                                                                          },
+                                                                                                                                                         "image_size":  "medium"
+                                                                                                                                                     },
+                                                                                                                                        "elements":  [
+
+                                                                                                                                                     ],
+                                                                                                                                        "widgetType":  "image"
+                                                                                                                                    }
+                                                                                                                                ],
+                                                                                                                   "isInner":  true
+                                                                                                               },
+                                                                                                               {
+                                                                                                                   "id":  "550104d1",
+                                                                                                                   "elType":  "container",
+                                                                                                                   "settings":  {
+                                                                                                                                    "content_width":  "full",
+                                                                                                                                    "margin":  {
+                                                                                                                                                   "unit":  "px",
+                                                                                                                                                   "top":  "0",
+                                                                                                                                                   "right":  "0",
+                                                                                                                                                   "bottom":  "5",
+                                                                                                                                                   "left":  "0",
+                                                                                                                                                   "isLinked":  false
+                                                                                                                                               },
+                                                                                                                                    "padding":  {
+                                                                                                                                                    "unit":  "px",
+                                                                                                                                                    "top":  "0",
+                                                                                                                                                    "right":  "0",
+                                                                                                                                                    "bottom":  "0",
+                                                                                                                                                    "left":  "0",
+                                                                                                                                                    "isLinked":  false
+                                                                                                                                                },
+                                                                                                                                    "margin_tablet":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "top":  "0",
+                                                                                                                                                          "right":  "0",
+                                                                                                                                                          "bottom":  "-8",
+                                                                                                                                                          "left":  "0",
+                                                                                                                                                          "isLinked":  false
+                                                                                                                                                      },
+                                                                                                                                    "margin_mobile":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "top":  "0",
+                                                                                                                                                          "right":  "0",
+                                                                                                                                                          "bottom":  "5",
+                                                                                                                                                          "left":  "0",
+                                                                                                                                                          "isLinked":  false
+                                                                                                                                                      }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+                                                                                                                                    {
+                                                                                                                                        "id":  "201c0d09",
+                                                                                                                                        "elType":  "widget",
+                                                                                                                                        "settings":  {
+                                                                                                                                                         "editor":  "\u003cp\u003eLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et\u003c/p\u003e",
+                                                                                                                                                         "_margin":  {
+                                                                                                                                                                         "unit":  "px",
+                                                                                                                                                                         "top":  "0",
+                                                                                                                                                                         "right":  "40",
+                                                                                                                                                                         "bottom":  "0",
+                                                                                                                                                                         "left":  "0",
+                                                                                                                                                                         "isLinked":  false
+                                                                                                                                                                     },
+                                                                                                                                                         "align_mobile":  "center",
+                                                                                                                                                         "_margin_tablet":  {
+                                                                                                                                                                                "unit":  "px",
+                                                                                                                                                                                "top":  "0",
+                                                                                                                                                                                "right":  "0",
+                                                                                                                                                                                "bottom":  "0",
+                                                                                                                                                                                "left":  "0",
+                                                                                                                                                                                "isLinked":  false
+                                                                                                                                                                            }
+                                                                                                                                                     },
+                                                                                                                                        "elements":  [
+
+                                                                                                                                                     ],
+                                                                                                                                        "widgetType":  "text-editor"
+                                                                                                                                    }
+                                                                                                                                ],
+                                                                                                                   "isInner":  true
+                                                                                                               },
+                                                                                                               {
+                                                                                                                   "id":  "41c60f06",
+                                                                                                                   "elType":  "container",
+                                                                                                                   "settings":  {
+                                                                                                                                    "content_width":  "full",
+                                                                                                                                    "padding":  {
+                                                                                                                                                    "unit":  "px",
+                                                                                                                                                    "top":  "0",
+                                                                                                                                                    "right":  "0",
+                                                                                                                                                    "bottom":  "0",
+                                                                                                                                                    "left":  "0",
+                                                                                                                                                    "isLinked":  false
+                                                                                                                                                }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+                                                                                                                                    {
+                                                                                                                                        "id":  "33969d8d",
+                                                                                                                                        "elType":  "widget",
+                                                                                                                                        "settings":  {
+                                                                                                                                                         "social_icon_list":  [
+                                                                                                                                                                                  {
+                                                                                                                                                                                      "social_icon":  {
+                                                                                                                                                                                                          "value":  "fab fa-facebook",
+                                                                                                                                                                                                          "library":  "fa-brands"
+                                                                                                                                                                                                      },
+                                                                                                                                                                                      "_id":  "28fbc26"
+                                                                                                                                                                                  },
+                                                                                                                                                                                  {
+                                                                                                                                                                                      "social_icon":  {
+                                                                                                                                                                                                          "value":  "fab fa-twitter",
+                                                                                                                                                                                                          "library":  "fa-brands"
+                                                                                                                                                                                                      },
+                                                                                                                                                                                      "_id":  "b517d7b"
+                                                                                                                                                                                  },
+                                                                                                                                                                                  {
+                                                                                                                                                                                      "social_icon":  {
+                                                                                                                                                                                                          "value":  "fab fa-youtube",
+                                                                                                                                                                                                          "library":  "fa-brands"
+                                                                                                                                                                                                      },
+                                                                                                                                                                                      "_id":  "3ba3354"
+                                                                                                                                                                                  }
+                                                                                                                                                                              ],
+                                                                                                                                                         "shape":  "circle",
+                                                                                                                                                         "align":  "left",
+                                                                                                                                                         "icon_color":  "custom",
+                                                                                                                                                         "icon_size":  {
+                                                                                                                                                                           "unit":  "px",
+                                                                                                                                                                           "size":  15,
+                                                                                                                                                                           "sizes":  [
+
+                                                                                                                                                                                     ]
+                                                                                                                                                                       },
+                                                                                                                                                         "align_mobile":  "center",
+                                                                                                                                                         "__globals__":  {
+                                                                                                                                                                             "icon_primary_color":  "globals/colors?id=bc4e7a9",
+                                                                                                                                                                             "icon_secondary_color":  "globals/colors?id=ecd39cf"
+                                                                                                                                                                         }
+                                                                                                                                                     },
+                                                                                                                                        "elements":  [
+
+                                                                                                                                                     ],
+                                                                                                                                        "widgetType":  "social-icons"
+                                                                                                                                    }
+                                                                                                                                ],
+                                                                                                                   "isInner":  true
+                                                                                                               }
+                                                                                                           ],
+                                                                                              "isInner":  true
+                                                                                          },
+                                                                                          {
+                                                                                              "id":  "61f456fe",
+                                                                                              "elType":  "container",
+                                                                                              "settings":  {
+                                                                                                               "content_width":  "full",
+                                                                                                               "width":  {
+                                                                                                                             "unit":  "%",
+                                                                                                                             "size":  40,
+                                                                                                                             "sizes":  [
+
+                                                                                                                                       ]
+                                                                                                                         },
+                                                                                                               "padding":  {
+                                                                                                                               "unit":  "px",
+                                                                                                                               "top":  "0",
+                                                                                                                               "right":  "0",
+                                                                                                                               "bottom":  "0",
+                                                                                                                               "left":  "0",
+                                                                                                                               "isLinked":  false
+                                                                                                                           },
+                                                                                                               "margin_mobile":  {
+                                                                                                                                     "unit":  "px",
+                                                                                                                                     "top":  "0",
+                                                                                                                                     "right":  "0",
+                                                                                                                                     "bottom":  "20",
+                                                                                                                                     "left":  "0",
+                                                                                                                                     "isLinked":  false
+                                                                                                                                 }
+                                                                                                           },
+                                                                                              "elements":  [
+                                                                                                               {
+                                                                                                                   "id":  "28f9e690",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "title":  "Quick Links",
+                                                                                                                                    "align_mobile":  "center",
+                                                                                                                                    "__globals__":  {
+                                                                                                                                                        "typography_typography":  "globals/typography?id=e3dcff1",
+                                                                                                                                                        "title_color":  "globals/colors?id=fa5dca0"
+                                                                                                                                                    }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "heading"
+                                                                                                               },
+                                                                                                               {
+                                                                                                                   "id":  "2c63700b",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "icon_list":  [
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "About Us ",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "",
+                                                                                                                                                                                "library":  ""
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "3c48a7a"
+                                                                                                                                                      },
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "Service",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "",
+                                                                                                                                                                                "library":  ""
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "8fc2b45"
+                                                                                                                                                      },
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "FAQ\u0027s",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "",
+                                                                                                                                                                                "library":  ""
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "213352f"
+                                                                                                                                                      },
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "Contact Us",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "",
+                                                                                                                                                                                "library":  ""
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "da8728e"
+                                                                                                                                                      }
+                                                                                                                                                  ],
+                                                                                                                                    "space_between":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "size":  6,
+                                                                                                                                                          "sizes":  [
+
+                                                                                                                                                                    ]
+                                                                                                                                                      },
+                                                                                                                                    "icon_align_mobile":  "center"
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "icon-list"
+                                                                                                               }
+                                                                                                           ],
+                                                                                              "isInner":  true
+                                                                                          },
+                                                                                          {
+                                                                                              "id":  "d66d91",
+                                                                                              "elType":  "container",
+                                                                                              "settings":  {
+                                                                                                               "content_width":  "full",
+                                                                                                               "width":  {
+                                                                                                                             "unit":  "%",
+                                                                                                                             "size":  40,
+                                                                                                                             "sizes":  [
+
+                                                                                                                                       ]
+                                                                                                                         },
+                                                                                                               "margin":  {
+                                                                                                                              "unit":  "px",
+                                                                                                                              "top":  "0",
+                                                                                                                              "right":  "0",
+                                                                                                                              "bottom":  "0",
+                                                                                                                              "left":  "10",
+                                                                                                                              "isLinked":  false
+                                                                                                                          },
+                                                                                                               "padding":  {
+                                                                                                                               "unit":  "px",
+                                                                                                                               "top":  "0",
+                                                                                                                               "right":  "0",
+                                                                                                                               "bottom":  "0",
+                                                                                                                               "left":  "0",
+                                                                                                                               "isLinked":  false
+                                                                                                                           },
+                                                                                                               "width_tablet":  {
+                                                                                                                                    "unit":  "%",
+                                                                                                                                    "size":  44,
+                                                                                                                                    "sizes":  [
+
+                                                                                                                                              ]
+                                                                                                                                },
+                                                                                                               "width_mobile":  {
+                                                                                                                                    "unit":  "%",
+                                                                                                                                    "size":  "",
+                                                                                                                                    "sizes":  [
+
+                                                                                                                                              ]
+                                                                                                                                },
+                                                                                                               "margin_tablet":  {
+                                                                                                                                     "unit":  "px",
+                                                                                                                                     "top":  "0",
+                                                                                                                                     "right":  "10",
+                                                                                                                                     "bottom":  "0",
+                                                                                                                                     "left":  "0",
+                                                                                                                                     "isLinked":  false
+                                                                                                                                 },
+                                                                                                               "margin_mobile":  {
+                                                                                                                                     "unit":  "px",
+                                                                                                                                     "top":  "0",
+                                                                                                                                     "right":  "0",
+                                                                                                                                     "bottom":  "20",
+                                                                                                                                     "left":  "0",
+                                                                                                                                     "isLinked":  false
+                                                                                                                                 }
+                                                                                                           },
+                                                                                              "elements":  [
+                                                                                                               {
+                                                                                                                   "id":  "4fef5675",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "title":  "Our Service",
+                                                                                                                                    "align_mobile":  "center",
+                                                                                                                                    "__globals__":  {
+                                                                                                                                                        "typography_typography":  "globals/typography?id=e3dcff1",
+                                                                                                                                                        "title_color":  "globals/colors?id=fa5dca0"
+                                                                                                                                                    }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "heading"
+                                                                                                               },
+                                                                                                               {
+                                                                                                                   "id":  "60f3747c",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "icon_list":  [
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "Custom Design",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "",
+                                                                                                                                                                                "library":  ""
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "3c48a7a"
+                                                                                                                                                      },
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "Gift Wrapping",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "",
+                                                                                                                                                                                "library":  ""
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "8fc2b45"
+                                                                                                                                                      },
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "Workshop Class",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "",
+                                                                                                                                                                                "library":  ""
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "213352f"
+                                                                                                                                                      },
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "Handmade Craft",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "",
+                                                                                                                                                                                "library":  ""
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "da8728e"
+                                                                                                                                                      }
+                                                                                                                                                  ],
+                                                                                                                                    "space_between":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "size":  6,
+                                                                                                                                                          "sizes":  [
+
+                                                                                                                                                                    ]
+                                                                                                                                                      },
+                                                                                                                                    "icon_align_mobile":  "center"
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "icon-list"
+                                                                                                               }
+                                                                                                           ],
+                                                                                              "isInner":  true
+                                                                                          },
+                                                                                          {
+                                                                                              "id":  "76c54be3",
+                                                                                              "elType":  "container",
+                                                                                              "settings":  {
+                                                                                                               "content_width":  "full",
+                                                                                                               "width":  {
+                                                                                                                             "unit":  "%",
+                                                                                                                             "size":  43,
+                                                                                                                             "sizes":  [
+
+                                                                                                                                       ]
+                                                                                                                         },
+                                                                                                               "margin":  {
+                                                                                                                              "unit":  "px",
+                                                                                                                              "top":  "-61",
+                                                                                                                              "right":  "0",
+                                                                                                                              "bottom":  "-30",
+                                                                                                                              "left":  "0",
+                                                                                                                              "isLinked":  false
+                                                                                                                          },
+                                                                                                               "padding":  {
+                                                                                                                               "unit":  "px",
+                                                                                                                               "top":  "64",
+                                                                                                                               "right":  "20",
+                                                                                                                               "bottom":  "0",
+                                                                                                                               "left":  "20",
+                                                                                                                               "isLinked":  false
+                                                                                                                           },
+                                                                                                               "flex_align_items":  "center",
+                                                                                                               "background_background":  "classic",
+                                                                                                               "background_color":  "#ECCEB6",
+                                                                                                               "border_radius":  {
+                                                                                                                                     "unit":  "px",
+                                                                                                                                     "top":  "999",
+                                                                                                                                     "right":  "999",
+                                                                                                                                     "bottom":  "0",
+                                                                                                                                     "left":  "0",
+                                                                                                                                     "isLinked":  false
+                                                                                                                                 },
+                                                                                                               "width_tablet":  {
+                                                                                                                                    "unit":  "%",
+                                                                                                                                    "size":  65,
+                                                                                                                                    "sizes":  [
+
+                                                                                                                                              ]
+                                                                                                                                },
+                                                                                                               "width_mobile":  {
+                                                                                                                                    "unit":  "%",
+                                                                                                                                    "size":  73,
+                                                                                                                                    "sizes":  [
+
+                                                                                                                                              ]
+                                                                                                                                },
+                                                                                                               "margin_tablet":  {
+                                                                                                                                     "unit":  "px",
+                                                                                                                                     "top":  "-67",
+                                                                                                                                     "right":  "0",
+                                                                                                                                     "bottom":  "-30",
+                                                                                                                                     "left":  "0",
+                                                                                                                                     "isLinked":  false
+                                                                                                                                 },
+                                                                                                               "margin_mobile":  {
+                                                                                                                                     "unit":  "px",
+                                                                                                                                     "top":  "0",
+                                                                                                                                     "right":  "0",
+                                                                                                                                     "bottom":  "-30",
+                                                                                                                                     "left":  "0",
+                                                                                                                                     "isLinked":  false
+                                                                                                                                 },
+                                                                                                               "padding_tablet":  {
+                                                                                                                                      "unit":  "px",
+                                                                                                                                      "top":  "68",
+                                                                                                                                      "right":  "10",
+                                                                                                                                      "bottom":  "0",
+                                                                                                                                      "left":  "10",
+                                                                                                                                      "isLinked":  false
+                                                                                                                                  },
+                                                                                                               "padding_mobile":  {
+                                                                                                                                      "unit":  "px",
+                                                                                                                                      "top":  "50",
+                                                                                                                                      "right":  "0",
+                                                                                                                                      "bottom":  "35",
+                                                                                                                                      "left":  "0",
+                                                                                                                                      "isLinked":  false
+                                                                                                                                  }
+                                                                                                           },
+                                                                                              "elements":  [
+                                                                                                               {
+                                                                                                                   "id":  "2f04ce75",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "title":  "Get In Touch ",
+                                                                                                                                    "__globals__":  {
+                                                                                                                                                        "title_color":  "globals/colors?id=fa5dca0",
+                                                                                                                                                        "typography_typography":  "globals/typography?id=e3dcff1"
+                                                                                                                                                    }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "heading"
+                                                                                                               },
+                                                                                                               {
+                                                                                                                   "id":  "106300d9",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "icon_list":  [
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "+1234-567-890",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "fas fa-phone-alt",
+                                                                                                                                                                                "library":  "fa-solid"
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "3c48a7a"
+                                                                                                                                                      },
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "Crevia@site.com",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "fas fa-envelope",
+                                                                                                                                                                                "library":  "fa-solid"
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "75434a8"
+                                                                                                                                                      },
+                                                                                                                                                      {
+                                                                                                                                                          "text":  "16 Oak, Malang",
+                                                                                                                                                          "selected_icon":  {
+                                                                                                                                                                                "value":  "fas fa-map-marker-alt",
+                                                                                                                                                                                "library":  "fa-solid"
+                                                                                                                                                                            },
+                                                                                                                                                          "_id":  "253a326"
+                                                                                                                                                      }
+                                                                                                                                                  ],
+                                                                                                                                    "space_between":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "size":  12,
+                                                                                                                                                          "sizes":  [
+
+                                                                                                                                                                    ]
+                                                                                                                                                      },
+                                                                                                                                    "space_between_tablet":  {
+                                                                                                                                                                 "unit":  "px",
+                                                                                                                                                                 "size":  13,
+                                                                                                                                                                 "sizes":  [
+
+                                                                                                                                                                           ]
+                                                                                                                                                             },
+                                                                                                                                    "__globals__":  {
+                                                                                                                                                        "icon_color":  "globals/colors?id=d26075f"
+                                                                                                                                                    }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "icon-list"
+                                                                                                               }
+                                                                                                           ],
+                                                                                              "isInner":  true
+                                                                                          }
+                                                                                      ],
+                                                                         "isInner":  true
+                                                                     },
+                                                                     {
+                                                                         "id":  "19618b50",
+                                                                         "elType":  "container",
+                                                                         "settings":  {
+                                                                                          "content_width":  "full",
+                                                                                          "padding":  {
+                                                                                                          "unit":  "px",
+                                                                                                          "top":  "0",
+                                                                                                          "right":  "0",
+                                                                                                          "bottom":  "0",
+                                                                                                          "left":  "0",
+                                                                                                          "isLinked":  false
+                                                                                                      },
+                                                                                          "flex_direction":  "row"
+                                                                                      },
+                                                                         "elements":  [
+                                                                                          {
+                                                                                              "id":  "7594f7d4",
+                                                                                              "elType":  "container",
+                                                                                              "settings":  {
+                                                                                                               "content_width":  "full",
+                                                                                                               "flex_align_items":  "flex-start",
+                                                                                                               "padding":  {
+                                                                                                                               "unit":  "px",
+                                                                                                                               "top":  "0",
+                                                                                                                               "right":  "0",
+                                                                                                                               "bottom":  "0",
+                                                                                                                               "left":  "0",
+                                                                                                                               "isLinked":  false
+                                                                                                                           },
+                                                                                                               "margin_mobile":  {
+                                                                                                                                     "unit":  "px",
+                                                                                                                                     "top":  "5",
+                                                                                                                                     "right":  "0",
+                                                                                                                                     "bottom":  "0",
+                                                                                                                                     "left":  "0",
+                                                                                                                                     "isLinked":  false
+                                                                                                                                 },
+                                                                                                               "padding_mobile":  {
+                                                                                                                                      "unit":  "px",
+                                                                                                                                      "top":  "0",
+                                                                                                                                      "right":  "0",
+                                                                                                                                      "bottom":  "0",
+                                                                                                                                      "left":  "0",
+                                                                                                                                      "isLinked":  false
+                                                                                                                                  }
+                                                                                                           },
+                                                                                              "elements":  [
+                                                                                                               {
+                                                                                                                   "id":  "6f34f62f",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "editor":  "\u003cp\u003eCopyright © 2026 Sicon Art. All rights reserved.\u003c/p\u003e",
+                                                                                                                                    "align_mobile":  "center"
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "text-editor"
+                                                                                                               }
+                                                                                                           ],
+                                                                                              "isInner":  true
+                                                                                          },
+                                                                                          {
+                                                                                              "id":  "39f17f7f",
+                                                                                              "elType":  "container",
+                                                                                              "settings":  {
+                                                                                                               "content_width":  "full",
+                                                                                                               "width":  {
+                                                                                                                             "unit":  "%",
+                                                                                                                             "size":  38,
+                                                                                                                             "sizes":  [
+
+                                                                                                                                       ]
+                                                                                                                         },
+                                                                                                               "flex_direction":  "row",
+                                                                                                               "flex_align_items":  "flex-end",
+                                                                                                               "flex_gap":  {
+                                                                                                                                "column":  "15",
+                                                                                                                                "row":  "15",
+                                                                                                                                "isLinked":  true,
+                                                                                                                                "unit":  "px",
+                                                                                                                                "size":  15
+                                                                                                                            },
+                                                                                                               "padding":  {
+                                                                                                                               "unit":  "px",
+                                                                                                                               "top":  "0",
+                                                                                                                               "right":  "0",
+                                                                                                                               "bottom":  "0",
+                                                                                                                               "left":  "0",
+                                                                                                                               "isLinked":  false
+                                                                                                                           },
+                                                                                                               "width_tablet":  {
+                                                                                                                                    "unit":  "%",
+                                                                                                                                    "size":  95,
+                                                                                                                                    "sizes":  [
+
+                                                                                                                                              ]
+                                                                                                                                },
+                                                                                                               "width_mobile":  {
+                                                                                                                                    "unit":  "%",
+                                                                                                                                    "size":  "",
+                                                                                                                                    "sizes":  [
+
+                                                                                                                                              ]
+                                                                                                                                },
+                                                                                                               "flex_justify_content_mobile":  "center",
+                                                                                                               "flex_align_items_mobile":  "center",
+                                                                                                               "flex_gap_mobile":  {
+                                                                                                                                       "column":  "0",
+                                                                                                                                       "row":  "0",
+                                                                                                                                       "isLinked":  false,
+                                                                                                                                       "unit":  "px",
+                                                                                                                                       "size":  0
+                                                                                                                                   },
+                                                                                                               "flex_gap_tablet":  {
+                                                                                                                                       "column":  "10",
+                                                                                                                                       "row":  "10",
+                                                                                                                                       "isLinked":  true,
+                                                                                                                                       "unit":  "px",
+                                                                                                                                       "size":  10
+                                                                                                                                   }
+                                                                                                           },
+                                                                                              "elements":  [
+                                                                                                               {
+                                                                                                                   "id":  "61d3e8b4",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "editor":  "\u003cp\u003eSupport\u003c/p\u003e",
+                                                                                                                                    "_padding":  {
+                                                                                                                                                     "unit":  "px",
+                                                                                                                                                     "top":  "0",
+                                                                                                                                                     "right":  "15",
+                                                                                                                                                     "bottom":  "0",
+                                                                                                                                                     "left":  "0",
+                                                                                                                                                     "isLinked":  false
+                                                                                                                                                 },
+                                                                                                                                    "_border_border":  "solid",
+                                                                                                                                    "_border_width":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "top":  "0",
+                                                                                                                                                          "right":  "1",
+                                                                                                                                                          "bottom":  "0",
+                                                                                                                                                          "left":  "0",
+                                                                                                                                                          "isLinked":  false
+                                                                                                                                                      },
+                                                                                                                                    "_border_color":  "#CFBFAF",
+                                                                                                                                    "_margin_mobile":  {
+                                                                                                                                                           "unit":  "px",
+                                                                                                                                                           "top":  "0",
+                                                                                                                                                           "right":  "0",
+                                                                                                                                                           "bottom":  "0",
+                                                                                                                                                           "left":  "0",
+                                                                                                                                                           "isLinked":  false
+                                                                                                                                                       },
+                                                                                                                                    "_padding_mobile":  {
+                                                                                                                                                            "unit":  "px",
+                                                                                                                                                            "top":  "0",
+                                                                                                                                                            "right":  "15",
+                                                                                                                                                            "bottom":  "0",
+                                                                                                                                                            "left":  "0",
+                                                                                                                                                            "isLinked":  false
+                                                                                                                                                        },
+                                                                                                                                    "_padding_tablet":  {
+                                                                                                                                                            "unit":  "px",
+                                                                                                                                                            "top":  "0",
+                                                                                                                                                            "right":  "10",
+                                                                                                                                                            "bottom":  "0",
+                                                                                                                                                            "left":  "0",
+                                                                                                                                                            "isLinked":  false
+                                                                                                                                                        }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "text-editor"
+                                                                                                               },
+                                                                                                               {
+                                                                                                                   "id":  "4d99fa3a",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "editor":  "\u003cp\u003eTerms \u0026amp; Condition\u003c/p\u003e",
+                                                                                                                                    "_padding":  {
+                                                                                                                                                     "unit":  "px",
+                                                                                                                                                     "top":  "0",
+                                                                                                                                                     "right":  "15",
+                                                                                                                                                     "bottom":  "0",
+                                                                                                                                                     "left":  "0",
+                                                                                                                                                     "isLinked":  false
+                                                                                                                                                 },
+                                                                                                                                    "_border_border":  "solid",
+                                                                                                                                    "_border_width":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "top":  "0",
+                                                                                                                                                          "right":  "1",
+                                                                                                                                                          "bottom":  "0",
+                                                                                                                                                          "left":  "0",
+                                                                                                                                                          "isLinked":  false
+                                                                                                                                                      },
+                                                                                                                                    "_border_color":  "#CFBFAF",
+                                                                                                                                    "_margin_mobile":  {
+                                                                                                                                                           "unit":  "px",
+                                                                                                                                                           "top":  "0",
+                                                                                                                                                           "right":  "10",
+                                                                                                                                                           "bottom":  "0",
+                                                                                                                                                           "left":  "0",
+                                                                                                                                                           "isLinked":  false
+                                                                                                                                                       },
+                                                                                                                                    "_padding_mobile":  {
+                                                                                                                                                            "unit":  "px",
+                                                                                                                                                            "top":  "0",
+                                                                                                                                                            "right":  "15",
+                                                                                                                                                            "bottom":  "0",
+                                                                                                                                                            "left":  "15",
+                                                                                                                                                            "isLinked":  false
+                                                                                                                                                        },
+                                                                                                                                    "_padding_tablet":  {
+                                                                                                                                                            "unit":  "px",
+                                                                                                                                                            "top":  "0",
+                                                                                                                                                            "right":  "10",
+                                                                                                                                                            "bottom":  "0",
+                                                                                                                                                            "left":  "0",
+                                                                                                                                                            "isLinked":  false
+                                                                                                                                                        }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "text-editor"
+                                                                                                               },
+                                                                                                               {
+                                                                                                                   "id":  "3dc30a25",
+                                                                                                                   "elType":  "widget",
+                                                                                                                   "settings":  {
+                                                                                                                                    "editor":  "\u003cp\u003ePrivacy Policy\u003c/p\u003e",
+                                                                                                                                    "_padding":  {
+                                                                                                                                                     "unit":  "px",
+                                                                                                                                                     "top":  "0",
+                                                                                                                                                     "right":  "0",
+                                                                                                                                                     "bottom":  "0",
+                                                                                                                                                     "left":  "0",
+                                                                                                                                                     "isLinked":  false
+                                                                                                                                                 },
+                                                                                                                                    "_border_width":  {
+                                                                                                                                                          "unit":  "px",
+                                                                                                                                                          "top":  "0",
+                                                                                                                                                          "right":  "1",
+                                                                                                                                                          "bottom":  "0",
+                                                                                                                                                          "left":  "0",
+                                                                                                                                                          "isLinked":  false
+                                                                                                                                                      },
+                                                                                                                                    "_border_color":  "#CFBFAF",
+                                                                                                                                    "_padding_mobile":  {
+                                                                                                                                                            "unit":  "px",
+                                                                                                                                                            "top":  "0",
+                                                                                                                                                            "right":  "5",
+                                                                                                                                                            "bottom":  "0",
+                                                                                                                                                            "left":  "0",
+                                                                                                                                                            "isLinked":  false
+                                                                                                                                                        }
+                                                                                                                                },
+                                                                                                                   "elements":  [
+
+                                                                                                                                ],
+                                                                                                                   "widgetType":  "text-editor"
+                                                                                                               }
+                                                                                                           ],
+                                                                                              "isInner":  true
+                                                                                          }
+                                                                                      ],
+                                                                         "isInner":  true
+                                                                     }
+                                                                 ],
+                                                    "isInner":  true
+                                                }
+                                            ],
+                               "isInner":  false
+                           }
+                       ]
+}

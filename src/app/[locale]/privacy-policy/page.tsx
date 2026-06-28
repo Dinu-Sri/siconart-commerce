@@ -1,4 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
+import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/routing";
 
 export default async function PrivacyPolicyPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -36,7 +37,7 @@ export default async function PrivacyPolicyPage({ params }: { params: Promise<{ 
   );
 }
 
-function Policy({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
+function Policy({ title, subtitle, children }: { title: string; subtitle: string; children: ReactNode }) {
   return (
     <section className="container-content section-pad">
       <article className="max-w-3xl">

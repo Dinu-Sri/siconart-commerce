@@ -1,4 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
+import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/routing";
 
 export default async function ReturnPolicyPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -35,7 +36,7 @@ export default async function ReturnPolicyPage({ params }: { params: Promise<{ l
   );
 }
 
-function PolicyShell({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {
+function PolicyShell({ title, subtitle, children }: { title: string; subtitle: string; children: ReactNode }) {
   return (
     <section className="container-content section-pad">
       <article className="prose prose-neutral max-w-3xl">

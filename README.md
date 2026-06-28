@@ -88,6 +88,9 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Admin dashboard for products, categories, discounts, orders, and agent leads
 - Commerce API route stubs for cart pricing, contact, and checkout
 - Brand assets served from `public/brand`, including header/footer logos, favicon, hero photo, line art, and section flowers.
+- Footer now links to About, FAQ, shipping, return/exchange, privacy, terms, track order, contact, shop, and agent pages.
+- Home page includes the founder/craft story flow, Experience the Craft cards, artist testimonials, and FAQ preview.
+- Header cart icon shows the current local cart item count.
 - PayHere checkout creates local orders, signs the PayHere payload on the server, and receives payment notifications at `/api/payhere/notify`.
 
 ## Admin
@@ -106,6 +109,7 @@ Set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer bef
 - 2026-06-28: Fixed admin env passthrough for Portainer IP testing and added new Sicon Art homepage brand imagery.
 - 2026-06-28: Moved product detail URLs from `/shop/<slug>` to `/products/<slug>` and widened the shop grid.
 - 2026-06-28: Switched default English URLs to flat paths, refined homepage art direction, and added PayHere checkout.
+- 2026-06-28: Added full footer support links, exact policy highlights, cart quantity badge, homepage craft/testimonial/FAQ sections, and redesigned checkout summary.
 
 ## Notes
 

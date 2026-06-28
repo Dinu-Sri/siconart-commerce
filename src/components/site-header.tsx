@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, ShoppingBag, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { LangToggle } from "@/components/lang-toggle";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { CartIconLink } from "@/components/commerce/cart-icon-link";
 
 export function SiteHeader() {
   const t = useTranslations("nav");
@@ -52,13 +53,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-1">
           <LangToggle className="hidden sm:block" />
           <ThemeToggle />
-          <Link
-            href={localeHref(locale, "/cart")}
-            aria-label={t("cart")}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-surface-subtle"
-          >
-            <ShoppingBag className="h-5 w-5" />
-          </Link>
+          <CartIconLink locale={locale} label={t("cart")} />
           <button
             type="button"
             aria-label={mobileOpen ? t("close") : t("menu")}

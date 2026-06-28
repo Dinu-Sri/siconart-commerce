@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, BadgeCheck, CheckCircle2, Feather, Hand } from "lucide-react";
+import { ArrowRight, BadgeCheck, CheckCircle2, Feather, Gift, Hand, PackageCheck, Palette } from "lucide-react";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { products } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
@@ -8,6 +8,7 @@ import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
 import { HeroProduct } from "@/components/storefront/hero-product";
 import { ProductCard } from "@/components/storefront/product-card";
+import { TestimonialsCarousel } from "@/components/storefront/testimonials-carousel";
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -30,6 +31,46 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       title: "Quality Testing",
       body: "Tested for water absorption, snap-back, and point",
       icon: BadgeCheck
+    }
+  ];
+  const experienceCards = [
+    {
+      title: "Signature Series",
+      body: "Curated brush collections designed for specific techniques, from fine detail to bold washes.",
+      image: "/brand/experience-craft-1.jpg",
+      icon: PackageCheck
+    },
+    {
+      title: "Gift Sets",
+      body: "Beautifully packaged brush sets perfect for gifting to the watercolor artist in your life.",
+      image: "/brand/experience-craft-2.webp",
+      icon: Gift
+    },
+    {
+      title: "Custom Orders",
+      body: "Work with our master brush makers to create brushes tailored to your painting style.",
+      image: "/brand/experience-craft-3.jpg",
+      icon: Palette
+    },
+    {
+      title: "Artisan Craft",
+      body: "Every brush is handmade using traditional Chinese brush-making methods passed through generations.",
+      image: "/brand/experience-craft-4.jpg",
+      icon: Feather
+    }
+  ];
+  const faqPreview = [
+    {
+      q: "What makes Sicon Art brushes different from other brands?",
+      a: "Every Sicon Art brush is handcrafted using traditional Chinese brush-making techniques. We use premium natural hair that holds water generously and releases paint with precision."
+    },
+    {
+      q: "What type of hair is used in your brushes?",
+      a: "We use carefully selected natural hair blends including goat, weasel, and mixed hair. Each blend is chosen for soft washes, fine detail, or versatile all-round performance."
+    },
+    {
+      q: "Do you ship internationally?",
+      a: "Yes. Orders ship from Dongguan, China. Shipping costs vary by destination and are shown during checkout where available."
     }
   ];
 
@@ -189,17 +230,90 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      <section className="container-content section-pad grid gap-10 lg:grid-cols-[0.8fr_1fr]">
-        <div>
-          <p className="eyebrow">{t("craftEyebrow")}</p>
-          <h2 className="mt-3 font-serif text-4xl font-semibold">{t("craftTitle")}</h2>
+      <section className="border-y bg-surface-subtle">
+        <div className="container-content section-pad grid gap-10 lg:grid-cols-[0.8fr_1fr]">
+          <div>
+            <p className="eyebrow">{t("craftEyebrow")}</p>
+            <h2 className="mt-3 font-serif text-4xl font-semibold">{t("craftTitle")}</h2>
+          </div>
+          <div className="grid gap-6 text-lg leading-8 text-muted-foreground">
+            <p>{t("craftBodyOne")}</p>
+            <p>{t("craftBodyTwo")}</p>
+            <Button asChild variant="secondary" className="w-fit">
+              <Link href={localeHref(activeLocale, "/about")}>{t("craftCta")}</Link>
+            </Button>
+          </div>
         </div>
-        <div className="grid gap-6 text-lg leading-8 text-muted-foreground">
-          <p>{t("craftBodyOne")}</p>
-          <p>{t("craftBodyTwo")}</p>
-          <Button asChild variant="secondary" className="w-fit">
-            <Link href={localeHref(activeLocale, "/about")}>{t("craftCta")}</Link>
-          </Button>
+      </section>
+
+      <section className="container-content section-pad">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="font-serif text-5xl font-semibold leading-tight">
+            Experience the <span className="text-primary">Craft</span> Behind Every Brush
+          </h2>
+          <p className="mt-4 text-muted-foreground">
+            From raw materials to your easel, each Sicon Art brush passes through hands that understand what watercolor
+            artists truly need.
+          </p>
+        </div>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {experienceCards.map((card) => {
+            const Icon = card.icon;
+            return (
+              <article key={card.title} className="overflow-hidden rounded-t-full border bg-surface text-center shadow-soft">
+                <div className="relative aspect-[1/1.05] bg-white">
+                  <Image src={card.image} alt={card.title} fill sizes="(min-width: 1024px) 24vw, 50vw" className="object-cover" />
+                </div>
+                <div className="relative px-6 pb-8 pt-10">
+                  <span className="absolute left-1/2 top-0 inline-flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-background text-primary shadow-soft">
+                    <Icon className="h-7 w-7" />
+                  </span>
+                  <h3 className="font-serif text-2xl font-semibold">{card.title}</h3>
+                  <p className="mt-4 text-sm leading-6 text-muted-foreground">{card.body}</p>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="border-y bg-surface-subtle">
+        <div className="container-content section-pad">
+          <div className="mx-auto max-w-4xl text-center">
+            <h2 className="font-serif text-5xl font-semibold leading-tight">
+              What Artists Say About <span className="text-primary">Sicon Art</span>
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Hear from watercolor artists around the world who trust Sicon Art brushes for their creative work.
+            </p>
+          </div>
+          <div className="mt-10">
+            <TestimonialsCarousel />
+          </div>
+
+          <div className="mt-16 grid gap-10 lg:grid-cols-[1fr_0.7fr] lg:items-center">
+            <div className="grid gap-3">
+              {faqPreview.map((item, index) => (
+                <details key={item.q} open={index === 0} className="group">
+                  <summary className="flex cursor-pointer list-none items-center gap-4 rounded-full bg-primary/30 px-6 py-4 font-serif text-lg font-semibold">
+                    <span className="text-2xl leading-none group-open:hidden">+</span>
+                    <span className="hidden text-2xl leading-none group-open:inline">-</span>
+                    {item.q}
+                  </summary>
+                  <p className="px-16 py-5 leading-7 text-muted-foreground">{item.a}</p>
+                </details>
+              ))}
+            </div>
+            <div>
+              <h2 className="font-serif text-5xl font-semibold leading-tight">Frequently Asked Questions</h2>
+              <p className="mt-4 leading-7 text-muted-foreground">
+                Everything you need to know about our brushes, materials, shipping, and care instructions.
+              </p>
+              <Button asChild className="mt-7">
+                <Link href={localeHref(activeLocale, "/faq")}>View all FAQ</Link>
+              </Button>
+            </div>
+          </div>
         </div>
       </section>
     </>

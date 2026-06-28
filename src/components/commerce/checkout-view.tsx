@@ -22,18 +22,50 @@ type PayHereResponse = {
     fields: Record<string, string>;
   };
 };
+type PricedCart = {
+  items: Array<{ sku: string; name: string; quantity: number; priceCents: number; lineTotalCents: number }>;
+  subtotalCents: number;
+  discountCents: number;
+  totalCents: number;
+};
 
 export function CheckoutView({ locale }: { locale: Locale }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [discountCode, setDiscountCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [pricedCart, setPricedCart] = useState<PricedCart | null>(null);
 
   useEffect(() => {
     setLines(readCart());
   }, []);
 
   const subtotalCents = useMemo(() => estimateSubtotal(lines), [lines]);
+  const totalCents = pricedCart?.totalCents ?? subtotalCents;
+
+  useEffect(() => {
+    if (lines.length === 0) return;
+    const controller = new AbortController();
+    fetch("/api/cart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ lines, discountCode: discountCode || undefined }),
+      signal: controller.signal
+    })
+      .then(async (response) => {
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || "Unable to price cart");
+        return payload as PricedCart;
+      })
+      .then((payload) => {
+        setPricedCart(payload);
+        setError("");
+      })
+      .catch((requestError) => {
+        if (requestError.name !== "AbortError") setError(requestError.message);
+      });
+    return () => controller.abort();
+  }, [lines, discountCode]);
 
   async function submitCheckout(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -86,7 +118,7 @@ export function CheckoutView({ locale }: { locale: Locale }) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
-      <form onSubmit={submitCheckout} className="grid gap-6 rounded-[0.5rem] border bg-surface p-6">
+      <form id="checkout-form" onSubmit={submitCheckout} className="grid gap-6 rounded-[0.5rem] border bg-surface p-6">
         <div>
           <p className="eyebrow">Checkout</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold">Secure checkout</h1>
@@ -112,21 +144,7 @@ export function CheckoutView({ locale }: { locale: Locale }) {
           <Input name="country" label="Country" defaultValue="Sri Lanka" required />
         </div>
 
-        <label className="text-sm font-semibold">
-          Discount code
-          <input
-            value={discountCode}
-            onChange={(event) => setDiscountCode(event.target.value.toUpperCase())}
-            className="mt-2 w-full rounded-[0.5rem] border bg-background px-3 py-2"
-            placeholder="WELCOME10"
-          />
-        </label>
-
         {error && <p className="rounded-[0.5rem] border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-700">{error}</p>}
-
-        <Button type="submit" disabled={loading || subtotalCents < 10000} className="w-fit">
-          {loading ? "Redirecting..." : "Pay with PayHere"}
-        </Button>
       </form>
 
       <aside className="h-fit rounded-[0.5rem] border bg-surface p-5 lg:sticky lg:top-32">
@@ -144,13 +162,47 @@ export function CheckoutView({ locale }: { locale: Locale }) {
             );
           })}
         </div>
-        <div className="mt-5 flex justify-between border-t pt-4 font-semibold">
+        <div className="mt-5 grid gap-3 border-t pt-4 text-sm">
+          <div className="flex justify-between font-semibold">
           <span>Subtotal</span>
-          <span>{formatPrice(subtotalCents)}</span>
+            <span>{formatPrice(pricedCart?.subtotalCents ?? subtotalCents)}</span>
+          </div>
+          <div className="flex justify-between text-muted-foreground">
+            <span>Discount</span>
+            <span>-{formatPrice(pricedCart?.discountCents ?? 0)}</span>
+          </div>
+          <div className="flex justify-between text-muted-foreground">
+            <span>Shipping</span>
+            <span>Calculated after address review</span>
+          </div>
+          <div className="flex justify-between border-t pt-3 text-lg font-semibold">
+            <span>Total</span>
+            <span>{formatPrice(totalCents)}</span>
+          </div>
         </div>
-        {subtotalCents < 10000 && (
+        <label className="mt-5 block text-sm font-semibold">
+          Discount code
+          <div className="mt-2 flex gap-2">
+            <input
+              value={discountCode}
+              onChange={(event) => setDiscountCode(event.target.value.toUpperCase())}
+              className="min-w-0 flex-1 rounded-[0.5rem] border bg-background px-3 py-2"
+              placeholder="WELCOME10"
+            />
+            <Button type="button" variant="secondary">
+              Apply
+            </Button>
+          </div>
+        </label>
+        {totalCents < 10000 && (
           <p className="mt-4 text-sm font-semibold text-red-600">Minimum order amount is $100.</p>
         )}
+        <Button form="checkout-form" type="submit" disabled={loading || totalCents < 10000} className="mt-6 w-full">
+          {loading ? "Redirecting..." : `Place order - ${formatPrice(totalCents)}`}
+        </Button>
+        <Link href={localeHref(locale, "/cart")} className="mt-4 inline-flex text-sm font-semibold text-primary">
+          Back to cart
+        </Link>
       </aside>
     </div>
   );

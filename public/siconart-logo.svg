@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="150" viewBox="0 0 520 150" role="img" aria-labelledby="title desc">
+  <title id="title">Sicon Art logo</title>
+  <desc id="desc">Sicon Art wordmark with an eye and brush stroke mark.</desc>
+  <rect width="520" height="150" fill="none"/>
+  <g fill="none" stroke="#17110C" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 75c30-32 74-32 104 0-30 32-74 32-104 0Z" stroke-width="7"/>
+    <circle cx="84" cy="75" r="22" stroke-width="7"/>
+    <circle cx="84" cy="75" r="8" fill="#17110C" stroke="none"/>
+    <path d="M17 74c10-8 20-14 31-17M120 57c11 4 21 10 31 18" stroke-width="5"/>
+    <path d="M52 113c32 14 69 14 101 0" stroke-width="6"/>
+  </g>
+  <text x="174" y="72" fill="#17110C" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="800" letter-spacing="-1">Sicon Art</text>
+  <text x="176" y="105" fill="#523A27" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="5">CHINESE BRUSHES</text>
+  <g fill="#17110C" font-family="serif" font-size="17">
+    <text x="176" y="130">中国画笔</text>
+  </g>
+</svg>

@@ -44,7 +44,10 @@ export async function generateMetadata({
       locale === "zh"
         ? "Sicon Art 手工中国画笔，适合水彩、城市速写与旅行绘画。"
         : "Sicon Art crafts traditional Chinese brushes for watercolor, urban sketching, and travel painting.",
-    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000")
+    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"),
+    icons: {
+      icon: "/favicon.svg"
+    }
   };
 }
 

@@ -39,6 +39,9 @@ Set these in Portainer:
 DB_PASSWORD=<strong password>
 NEXT_PUBLIC_BASE_URL=http://<VPS-IP>:3224
 APP_URL=http://<VPS-IP>:3224
+ADMIN_EMAIL=<admin email>
+ADMIN_PASSWORD=<admin password>
+ADMIN_SESSION_SECRET=<long random secret>
 ```
 
 Later, enable Cloudflare Tunnel with:
@@ -65,7 +68,7 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Home
 - Shop
 - Product detail
-- Brush Finder
+- Become an Agent
 - About
 - Contact
 - FAQ
@@ -74,7 +77,24 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Shipping and return policy placeholders
 - Local Sicon product catalog seed
 - Product images in `public/products`
+- Cart pricing with $100 minimum-order progress
+- Discount code support seeded with `WELCOME10`
+- Admin dashboard for products, categories, discounts, orders, and agent leads
 - Commerce API route stubs for cart pricing, contact, and checkout
+
+## Admin
+
+Admin is available at:
+
+```text
+/en/admin
+```
+
+Set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer before using it. Do not commit real admin credentials.
+
+## Changelog
+
+- 2026-06-28: Added conversion shop updates, announcement strip, cart minimum progress, discount codes, agent page, and commerce admin dashboard.
 
 ## Notes
 

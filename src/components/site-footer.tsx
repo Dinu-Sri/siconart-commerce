@@ -10,7 +10,7 @@ export async function SiteFooter() {
 
   const links = [
     { label: t("shop"), href: "/shop" },
-    { label: t("finder"), href: "/brush-finder" },
+    { label: t("agent"), href: "/become-an-agent" },
     { label: t("faq"), href: "/faq" },
     { label: t("shipping"), href: "/shipping-policy" },
     { label: t("returns"), href: "/return-policy" }

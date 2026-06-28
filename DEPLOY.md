@@ -17,6 +17,9 @@ Required Portainer environment variables:
 - `DB_PASSWORD` - strong Postgres password
 - `NEXT_PUBLIC_BASE_URL` - for IP testing, use `http://<VPS-IP>:3224`
 - `APP_URL` - same as above for now
+- `ADMIN_EMAIL` - admin login email
+- `ADMIN_PASSWORD` - admin login password
+- `ADMIN_SESSION_SECRET` - long random secret used to sign the admin cookie
 
 Optional later:
 

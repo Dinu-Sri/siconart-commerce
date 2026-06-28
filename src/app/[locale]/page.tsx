@@ -7,7 +7,6 @@ import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
 import { HeroProduct } from "@/components/storefront/hero-product";
 import { ProductCard } from "@/components/storefront/product-card";
-import { FilterSummary } from "@/components/storefront/filter-summary";
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -31,7 +30,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <Link href={localeHref(activeLocale, "/shop")}>{t("heroPrimary")}</Link>
               </Button>
               <Button asChild variant="secondary" size="lg">
-                <Link href={localeHref(activeLocale, "/brush-finder")}>{t("heroSecondary")}</Link>
+                <Link href={localeHref(activeLocale, "/become-an-agent")}>{t("heroSecondary")}</Link>
               </Button>
             </div>
             <div className="mt-8 grid gap-3 text-sm text-muted-foreground sm:grid-cols-3">
@@ -65,15 +64,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       <section className="border-y bg-surface-subtle">
-        <div className="container-content section-pad">
+        <div className="container-content section-pad grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div className="max-w-2xl">
-            <p className="eyebrow">{t("finderEyebrow")}</p>
-            <h2 className="mt-3 font-serif text-4xl font-semibold">{t("finderTitle")}</h2>
-            <p className="mt-4 text-muted-foreground">{t("finderBody")}</p>
+            <p className="eyebrow">{t("agentEyebrow")}</p>
+            <h2 className="mt-3 font-serif text-4xl font-semibold">{t("agentTitle")}</h2>
+            <p className="mt-4 text-muted-foreground">{t("agentBody")}</p>
           </div>
-          <div className="mt-10">
-            <FilterSummary />
-          </div>
+          <Button asChild size="lg">
+            <Link href={localeHref(activeLocale, "/become-an-agent")}>{t("agentCta")}</Link>
+          </Button>
         </div>
       </section>
 

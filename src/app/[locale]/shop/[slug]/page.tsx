@@ -1,13 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CheckCircle2, MessageCircle, ShoppingBag } from "lucide-react";
+import { CheckCircle2, MessageCircle } from "lucide-react";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { formatPrice, getProduct, products } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/storefront/product-card";
+import { AddToCartButton } from "@/components/commerce/add-to-cart-button";
+import { OrderMinimumProgress } from "@/components/commerce/order-minimum-progress";
 
 export function generateStaticParams() {
   return products.map((product) => ({ slug: product.slug }));
@@ -33,7 +35,7 @@ export default async function ProductPage({
     <article className="container-content section-pad">
       <div className="grid gap-10 lg:grid-cols-[0.95fr_1fr]">
         <div className="grid gap-4">
-          <div className="relative aspect-square overflow-hidden rounded-[0.5rem] border bg-surface-subtle">
+          <div className="relative aspect-square overflow-hidden rounded-[0.5rem] border bg-white">
             <Image
               src={product.images[0]}
               alt={`${product.name} by Sicon Art`}
@@ -46,7 +48,7 @@ export default async function ProductPage({
           {product.images.length > 1 && (
             <div className="grid grid-cols-4 gap-3">
               {product.images.slice(1).map((image) => (
-                <div key={image} className="relative aspect-square rounded-[0.5rem] border bg-surface-subtle">
+                <div key={image} className="relative aspect-square rounded-[0.5rem] border bg-white">
                   <Image src={image} alt={product.name} fill sizes="25vw" className="object-contain p-3" />
                 </div>
               ))}
@@ -74,16 +76,17 @@ export default async function ProductPage({
           )}
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button size="lg">
-              <ShoppingBag className="h-5 w-5" />
-              {t("addToCart")}
-            </Button>
+            <AddToCartButton sku={product.sku} label={t("addToCart")} />
             <Button asChild variant="secondary" size="lg">
               <Link href={localeHref(activeLocale, "/contact")}>
                 <MessageCircle className="h-5 w-5" />
                 {t("ask")}
               </Link>
             </Button>
+          </div>
+
+          <div className="mt-4">
+            <OrderMinimumProgress amountCents={product.priceCents} />
           </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">

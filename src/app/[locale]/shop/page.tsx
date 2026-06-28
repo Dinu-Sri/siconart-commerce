@@ -8,31 +8,40 @@ export default async function ShopPage({ params }: { params: Promise<{ locale: s
   setRequestLocale(locale as Locale);
   const activeLocale = (await getLocale()) as Locale;
   const t = await getTranslations("shop");
+  const priceRanges = [
+    { label: "Under $15", value: "under-15" },
+    { label: "$15 - $20", value: "15-20" },
+    { label: "$20 - $30", value: "20-30" },
+    { label: "$30+", value: "30-plus" }
+  ];
 
   return (
-    <section className="container-content section-pad">
-      <div className="max-w-3xl">
-        <p className="eyebrow">{t("eyebrow")}</p>
-        <h1 className="mt-3 font-serif text-5xl font-semibold">{t("title")}</h1>
-        <p className="mt-5 text-lg leading-8 text-muted-foreground">{t("subtitle")}</p>
-      </div>
-
-      <div className="mt-10 grid gap-8 lg:grid-cols-[260px_1fr]">
-        <aside className="h-fit rounded-[0.5rem] border bg-surface p-5">
+    <section className="container-content py-8 sm:py-10">
+      <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
+        <aside className="h-fit rounded-[0.5rem] border bg-surface p-5 lg:sticky lg:top-32">
           <h2 className="font-semibold">{t("filters")}</h2>
-          <div className="mt-5 grid gap-4">
+          <div className="mt-5 grid gap-6">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{t("category")}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <span key={category} className="rounded-full bg-surface-subtle px-3 py-1 text-xs font-semibold">
-                    {category}
-                  </span>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{t("price")}</p>
+              <div className="mt-3 grid gap-3">
+                {priceRanges.map((range) => (
+                  <label key={range.value} className="flex cursor-pointer items-center gap-3 text-sm font-semibold">
+                    <input type="checkbox" name="price" value={range.value} className="h-4 w-4 accent-primary" />
+                    <span>{range.label}</span>
+                  </label>
                 ))}
               </div>
             </div>
-            <div className="rounded-[0.5rem] bg-surface-subtle p-4 text-sm leading-6 text-muted-foreground">
-              {t("filterNote")}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{t("category")}</p>
+              <div className="mt-3 grid gap-3">
+                {categories.map((category) => (
+                  <label key={category} className="flex cursor-pointer items-center gap-3 text-sm font-semibold">
+                    <input type="checkbox" name="category" value={category} className="h-4 w-4 accent-primary" />
+                    <span>{category}</span>
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
         </aside>

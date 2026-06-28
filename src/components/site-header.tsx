@@ -22,7 +22,14 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/88 backdrop-blur-xl">
-      <div className="container-content flex h-20 items-center justify-between gap-4">
+      <div className="overflow-hidden border-b bg-accent py-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground">
+        <div className="animate-marquee flex w-max gap-12 whitespace-nowrap">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <span key={index}>Minimum order quantity $100. Worldwide shipping.</span>
+          ))}
+        </div>
+      </div>
+      <div className="container-content flex min-h-20 items-center justify-between gap-4 py-3">
         <Link href={localeHref(locale, "")} onClick={() => setMobileOpen(false)}>
           <Logo />
         </Link>

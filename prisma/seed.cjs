@@ -21,6 +21,19 @@ function loadProducts() {
 
 async function main() {
   const products = loadProducts();
+  const categoryNames = Array.from(new Set(products.map((product) => product.category)));
+
+  for (const name of categoryNames) {
+    await prisma.category.upsert({
+      where: { slug: slugify(name) },
+      update: { name, active: true },
+      create: {
+        name,
+        slug: slugify(name),
+        description: `${name} from the Sicon Art brush collection.`
+      }
+    });
+  }
 
   for (const product of products) {
     await prisma.product.upsert({
@@ -83,6 +96,30 @@ async function main() {
       });
     }
   }
+
+  await prisma.discountCode.upsert({
+    where: { code: "WELCOME10" },
+    update: {
+      type: "percent",
+      value: 10,
+      minSubtotalCents: 10000,
+      active: true
+    },
+    create: {
+      code: "WELCOME10",
+      type: "percent",
+      value: 10,
+      minSubtotalCents: 10000,
+      active: true
+    }
+  });
+}
+
+function slugify(value) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 main()

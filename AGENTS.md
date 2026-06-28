@@ -66,6 +66,11 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 
 - Do not use WooCommerce for the new system.
 - Keep product, cart, checkout, order, and contact logic in this app.
+- Storefront has a `$100` minimum order strategy and worldwide shipping notice.
+- Product image panels should stay white so product cutouts do not sit on beige/yellow backgrounds.
+- The shop page should remain a clean product grid with left-side price/category checkbox filters, not a marketing page.
+- Brush Finder has been removed from navigation; use Become an Agent for wholesale/agent leads.
+- Admin login is env-based. Never commit the real admin email/password; configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer.
 - Payment provider integration is not final yet; keep the schema/provider boundary clean.
 - Never commit secrets, payment keys, tunnel tokens, or database passwords.
 - Product prices in the current seed are draft values until verified.

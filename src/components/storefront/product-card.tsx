@@ -12,7 +12,7 @@ export function ProductCard({ product, locale }: { product: Product; locale: Loc
       href={localeHref(locale, `/shop/${product.slug}`)}
       className="group flex h-full flex-col overflow-hidden rounded-[0.5rem] border bg-surface shadow-soft transition-transform hover:-translate-y-1"
     >
-      <div className="relative aspect-square bg-surface-subtle">
+      <div className="relative aspect-square bg-white">
         <Image
           src={product.images[0]}
           alt={`${product.name} by Sicon Art`}

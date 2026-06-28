@@ -20,7 +20,7 @@ export async function SiteFooter() {
     <footer className="border-t bg-accent text-accent-foreground">
       <div className="container-content grid gap-10 py-12 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <Logo />
+          <Logo variant="footer" />
           <p className="mt-5 max-w-sm text-sm leading-7 text-accent-foreground/75">{t("tagline")}</p>
         </div>
         <div>

@@ -20,6 +20,7 @@ Required Portainer environment variables:
 - `ADMIN_EMAIL` - admin login email
 - `ADMIN_PASSWORD` - admin login password
 - `ADMIN_SESSION_SECRET` - long random secret used to sign the admin cookie
+- `ADMIN_COOKIE_SECURE=false` - keep this for direct IP/http testing. Change to `true` only after HTTPS is active through Cloudflare.
 
 Optional later:
 

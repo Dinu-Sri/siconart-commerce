@@ -24,6 +24,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 - Deployment: `DEPLOY.md`
 - Product seed data: `src/data/products.ts`
 - Product images: `public/products/`
+- Brand assets: `public/brand/`
 - Translations: `messages/en.json`, `messages/zh.json`
 - Commerce schema: `prisma/schema.prisma`
 - Old WordPress/Elementor reference: `reference/elementor-system/`
@@ -46,6 +47,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 ## UX Rules
 
 - Shop filters should help artists choose by use-case, handle type, hair feel, skill level, price, and availability.
+- Product detail URLs should use `/products/[slug]`; keep `/shop/[slug]` as a redirect-only compatibility path.
 - Product pages must show image gallery, price, variants, add-to-cart, shipping note, use-case specs, care guidance, and related brushes.
 - Empty states must offer recovery actions.
 - Cart and checkout should be clear, trustworthy, and mobile-first.
@@ -70,7 +72,9 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 - Product image panels should stay white so product cutouts do not sit on beige/yellow backgrounds.
 - The shop page should remain a clean product grid with left-side price/category checkbox filters, not a marketing page.
 - Brush Finder has been removed from navigation; use Become an Agent for wholesale/agent leads.
+- Header logo, footer logo, favicon, hero image, line-art background, and decorative flower images should come from `public/brand/`.
 - Admin login is env-based. Never commit the real admin email/password; configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer.
+- Keep `ADMIN_COOKIE_SECURE=false` for direct IP/http testing. Change it to `true` only after HTTPS is active.
 - Payment provider integration is not final yet; keep the schema/provider boundary clean.
 - Never commit secrets, payment keys, tunnel tokens, or database passwords.
 - Product prices in the current seed are draft values until verified.

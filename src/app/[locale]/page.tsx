@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, BadgeCheck, CheckCircle2, Feather, Hand } from "lucide-react";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { products } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
@@ -14,12 +15,37 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const activeLocale = (await getLocale()) as Locale;
   const t = await getTranslations("home");
   const featured = products.filter((product) => product.featured).slice(0, 4);
+  const craftSteps = [
+    {
+      title: "Material Selection",
+      body: "Premium natural hair and bamboo sourced with care",
+      icon: Feather
+    },
+    {
+      title: "Hand Assembly",
+      body: "Each brush tip shaped and bound by skilled artisans",
+      icon: Hand
+    },
+    {
+      title: "Quality Testing",
+      body: "Tested for water absorption, snap-back, and point",
+      icon: BadgeCheck
+    }
+  ];
 
   return (
     <>
-      <section className="overflow-hidden border-b bg-[radial-gradient(circle_at_top_right,rgba(166,113,70,0.18),transparent_34%),linear-gradient(180deg,hsl(var(--background)),hsl(var(--surface-subtle)))]">
-        <div className="container-content grid min-h-[calc(100dvh-5rem)] items-center gap-12 py-12 lg:grid-cols-[1fr_0.85fr] lg:py-16">
-          <div>
+      <section className="relative overflow-hidden border-b bg-[linear-gradient(90deg,hsl(var(--background)),hsl(var(--surface-subtle)))]">
+        <Image
+          src="/brand/hero-line-bg.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="pointer-events-none object-cover opacity-15"
+        />
+        <div className="container-content relative grid min-h-[calc(100dvh-8rem)] items-center gap-10 py-10 lg:grid-cols-[0.9fr_0.82fr] lg:py-14">
+          <div className="relative z-10">
             <p className="eyebrow">{t("heroEyebrow")}</p>
             <h1 className="mt-5 max-w-4xl font-serif text-5xl font-semibold leading-[1.02] tracking-normal sm:text-6xl lg:text-7xl">
               {t("heroTitle")}
@@ -41,8 +67,41 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 </div>
               ))}
             </div>
+            <div className="mt-10 grid overflow-hidden rounded-[1.5rem] border bg-white shadow-soft sm:grid-cols-[0.9fr_1fr] lg:max-w-xl">
+              <div className="relative min-h-32 bg-white">
+                <Image src="/brand/classic-brushes.webp" alt="Sicon Art classic brushes" fill sizes="260px" className="object-contain p-4" />
+              </div>
+              <div className="flex items-center gap-4 p-5">
+                <div className="flex -space-x-3">
+                  {["A", "M", "S"].map((letter) => (
+                    <span
+                      key={letter}
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-primary text-sm font-bold text-primary-foreground"
+                    >
+                      {letter}
+                    </span>
+                  ))}
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-accent text-2xl text-accent-foreground">
+                    +
+                  </span>
+                </div>
+                <div>
+                  <p className="font-serif text-xl font-semibold">Loved by watercolorists</p>
+                  <p className="mt-1 text-sm text-muted-foreground">4.5 (250+ reviews)</p>
+                </div>
+              </div>
+            </div>
           </div>
-          <HeroProduct />
+          <div className="relative">
+            <Image
+              src="/brand/hero-flower.png"
+              alt=""
+              width={90}
+              height={220}
+              className="pointer-events-none absolute -left-8 bottom-16 z-10 hidden opacity-70 md:block"
+            />
+            <HeroProduct />
+          </div>
         </div>
       </section>
 
@@ -73,6 +132,58 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <Button asChild size="lg">
             <Link href={localeHref(activeLocale, "/become-an-agent")}>{t("agentCta")}</Link>
           </Button>
+        </div>
+      </section>
+
+      <section className="container-content section-pad">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_0.9fr_1fr] lg:items-center">
+          <div className="grid gap-5">
+            {craftSteps.map((step) => {
+              const Icon = step.icon;
+              return (
+                <div key={step.title} className="flex gap-5 rounded-[1.5rem] border bg-surface p-5 shadow-soft">
+                  <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground">
+                    <Icon className="h-6 w-6" />
+                  </span>
+                  <div>
+                    <h2 className="font-serif text-2xl font-semibold text-primary">{step.title}</h2>
+                    <p className="mt-2 text-sm leading-6">{step.body}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-[360px] overflow-hidden rounded-t-full border border-primary/25 bg-surface p-5">
+            <Image
+              src="/brand/brush-making.jpg"
+              alt="Sicon Art brush making materials"
+              fill
+              sizes="(min-width: 1024px) 30vw, 80vw"
+              className="object-cover p-5"
+            />
+            <Image
+              src="/brand/brush-making-flower.png"
+              alt=""
+              width={62}
+              height={150}
+              className="pointer-events-none absolute -left-10 bottom-0 hidden opacity-65 sm:block"
+            />
+          </div>
+
+          <div>
+            <p className="eyebrow">Craft</p>
+            <h2 className="mt-3 font-serif text-5xl font-semibold leading-tight">
+              The Art of <span className="text-primary">Brush Making</span>
+            </h2>
+            <p className="mt-5 leading-8 text-muted-foreground">
+              Every Sicon Art brush begins as a vision: natural hair carefully selected, bamboo handles shaped by hand,
+              and generations of craft knowledge woven into each stroke-ready tool.
+            </p>
+            <Button asChild className="mt-8">
+              <Link href={localeHref(activeLocale, "/about")}>Our Story</Link>
+            </Button>
+          </div>
         </div>
       </section>
 

@@ -42,6 +42,7 @@ APP_URL=http://<VPS-IP>:3224
 ADMIN_EMAIL=<admin email>
 ADMIN_PASSWORD=<admin password>
 ADMIN_SESSION_SECRET=<long random secret>
+ADMIN_COOKIE_SECURE=false
 ```
 
 Later, enable Cloudflare Tunnel with:
@@ -67,6 +68,7 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 
 - Home
 - Shop
+- Product detail URLs under `/products/<slug>` with old `/shop/<slug>` redirects
 - Product detail
 - Become an Agent
 - About
@@ -81,6 +83,7 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Discount code support seeded with `WELCOME10`
 - Admin dashboard for products, categories, discounts, orders, and agent leads
 - Commerce API route stubs for cart pricing, contact, and checkout
+- Brand assets served from `public/brand`, including header/footer logos, favicon, hero photo, line art, and section flowers.
 
 ## Admin
 
@@ -95,6 +98,8 @@ Set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer bef
 ## Changelog
 
 - 2026-06-28: Added conversion shop updates, announcement strip, cart minimum progress, discount codes, agent page, and commerce admin dashboard.
+- 2026-06-28: Fixed admin env passthrough for Portainer IP testing and added new Sicon Art homepage brand imagery.
+- 2026-06-28: Moved product detail URLs from `/shop/<slug>` to `/products/<slug>` and widened the shop grid.
 
 ## Notes
 

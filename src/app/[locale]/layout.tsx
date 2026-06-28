@@ -46,7 +46,7 @@ export async function generateMetadata({
         : "Sicon Art crafts traditional Chinese brushes for watercolor, urban sketching, and travel painting.",
     metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"),
     icons: {
-      icon: "/favicon.svg"
+      icon: "/brand/sicon-favicon.webp"
     }
   };
 }

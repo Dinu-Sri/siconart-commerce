@@ -18,7 +18,7 @@ export async function createAdminSession() {
   cookieStore.set(COOKIE_NAME, createToken(), {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.ADMIN_COOKIE_SECURE === "true",
     path: "/",
     maxAge: 60 * 60 * 12
   });
@@ -30,10 +30,18 @@ export async function clearAdminSession() {
 }
 
 export function isValidAdminLogin(email: string, password: string) {
-  return email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD;
+  return email.trim().toLowerCase() === adminEmail() && password.trim() === adminPassword();
 }
 
 function createToken() {
-  const secret = process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_PASSWORD || "siconart-dev-admin";
+  const secret = process.env.ADMIN_SESSION_SECRET?.trim() || adminPassword() || "siconart-dev-admin";
   return crypto.createHmac("sha256", secret).update("siconart-admin-v1").digest("hex");
+}
+
+function adminEmail() {
+  return (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
+}
+
+function adminPassword() {
+  return (process.env.ADMIN_PASSWORD || "").trim();
 }

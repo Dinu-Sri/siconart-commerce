@@ -10,14 +10,15 @@ export default async function ShopPage({ params }: { params: Promise<{ locale: s
   const t = await getTranslations("shop");
   const priceRanges = [
     { label: "Under $15", value: "under-15" },
-    { label: "$15 - $20", value: "15-20" },
-    { label: "$20 - $30", value: "20-30" },
-    { label: "$30+", value: "30-plus" }
+    { label: "$15 - $50", value: "15-50" },
+    { label: "$50 - $100", value: "50-100" },
+    { label: "$100 - $250", value: "100-250" },
+    { label: "Above $250", value: "above-250" }
   ];
 
   return (
-    <section className="container-content py-8 sm:py-10">
-      <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
+    <section className="w-full px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <div className="grid gap-8 lg:grid-cols-[250px_1fr]">
         <aside className="h-fit rounded-[0.5rem] border bg-surface p-5 lg:sticky lg:top-32">
           <h2 className="font-semibold">{t("filters")}</h2>
           <div className="mt-5 grid gap-6">
@@ -50,7 +51,7 @@ export default async function ShopPage({ params }: { params: Promise<{ locale: s
           <div className="mb-5 flex items-center justify-between gap-4">
             <p className="text-sm font-semibold text-muted-foreground">{t("results", { count: products.length })}</p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
             {products.map((product) => (
               <ProductCard key={product.sku} product={product} locale={activeLocale} />
             ))}

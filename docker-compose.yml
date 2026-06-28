@@ -15,6 +15,10 @@ services:
       - NODE_ENV=production
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
       - APP_URL=${APP_URL}
+      - ADMIN_EMAIL=${ADMIN_EMAIL:?ADMIN_EMAIL_is_required}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:?ADMIN_PASSWORD_is_required}
+      - ADMIN_SESSION_SECRET=${ADMIN_SESSION_SECRET:?ADMIN_SESSION_SECRET_is_required}
+      - ADMIN_COOKIE_SECURE=${ADMIN_COOKIE_SECURE:-false}
       - DATABASE_URL=postgresql://siconart:${DB_PASSWORD:?DB_PASSWORD_is_required}@postgres:5432/siconart
       - DB_PASSWORD=${DB_PASSWORD:?DB_PASSWORD_is_required}
     depends_on:

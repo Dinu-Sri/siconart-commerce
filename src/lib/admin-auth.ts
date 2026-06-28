@@ -1,11 +1,13 @@
 import crypto from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import type { Locale } from "@/i18n/routing";
+import { localeHref } from "@/lib/nav";
 
 const COOKIE_NAME = "siconart_admin";
 
 export async function requireAdmin(locale: string) {
-  if (!(await isAdminSession())) redirect(`/${locale}/admin/login`);
+  if (!(await isAdminSession())) redirect(localeHref(locale as Locale, "/admin/login"));
 }
 
 export async function isAdminSession() {

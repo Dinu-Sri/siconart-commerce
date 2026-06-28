@@ -28,13 +28,9 @@ export function LangToggle({ className }: { className?: string }) {
     setOpen(false);
     if (next === locale) return;
 
-    const hasLocale = Boolean(params?.locale);
-    if (hasLocale) {
-      const rest = pathname.split("/").slice(2).join("/");
-      router.push(`/${next}${rest ? `/${rest}` : ""}`);
-    } else {
-      router.push(`/${next}`);
-    }
+    const segments = pathname.split("/").filter(Boolean);
+    const rest = routing.locales.includes(segments[0] as Locale) ? segments.slice(1).join("/") : segments.join("/");
+    router.push(next === routing.defaultLocale ? `/${rest}` : `/${next}${rest ? `/${rest}` : ""}`);
   }
 
   return (

@@ -48,6 +48,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 
 - Shop filters should help artists choose by use-case, handle type, hair feel, skill level, price, and availability.
 - Product detail URLs should use `/products/[slug]`; keep `/shop/[slug]` as a redirect-only compatibility path.
+- Default English URLs must be flat, e.g. `/shop` and `/products/slug`; Chinese remains under `/zh`.
 - Product pages must show image gallery, price, variants, add-to-cart, shipping note, use-case specs, care guidance, and related brushes.
 - Empty states must offer recovery actions.
 - Cart and checkout should be clear, trustworthy, and mobile-first.
@@ -76,6 +77,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 - Admin login is env-based. Never commit the real admin email/password; configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer.
 - Keep `ADMIN_COOKIE_SECURE=false` for direct IP/http testing. Change it to `true` only after HTTPS is active.
 - Payment provider integration is not final yet; keep the schema/provider boundary clean.
+- PayHere env keys are `PAYHERE_MERCHANT_ID`, `PAYHERE_MERCHANT_SECRET`, `PAYHERE_CURRENCY`, and `PAYHERE_SANDBOX`.
 - Never commit secrets, payment keys, tunnel tokens, or database passwords.
 - Product prices in the current seed are draft values until verified.
 
@@ -85,7 +87,7 @@ Before handoff when dependencies are installed:
 
 - `npm run typecheck`
 - `npm run build`
-- verify `/en`, `/zh`, `/en/shop`, at least one product page, cart, checkout, and mobile navigation
+- verify `/`, `/zh`, `/shop`, at least one product page, cart, checkout, and mobile navigation
 - check light and dark mode
 
 ## GitHub And Deployment

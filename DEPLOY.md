@@ -21,6 +21,10 @@ Required Portainer environment variables:
 - `ADMIN_PASSWORD` - admin login password
 - `ADMIN_SESSION_SECRET` - long random secret used to sign the admin cookie
 - `ADMIN_COOKIE_SECURE=false` - keep this for direct IP/http testing. Change to `true` only after HTTPS is active through Cloudflare.
+- `PAYHERE_MERCHANT_ID` - PayHere merchant/store ID
+- `PAYHERE_MERCHANT_SECRET` - PayHere merchant secret
+- `PAYHERE_CURRENCY=USD`
+- `PAYHERE_SANDBOX=false` for live checkout on the approved `https://siconart.com/` domain
 
 Optional later:
 

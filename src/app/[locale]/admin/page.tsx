@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { getLocale, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { clearAdminSession, requireAdmin } from "@/lib/admin-auth";
+import { localeHref } from "@/lib/nav";
 import { db } from "@/lib/db";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,7 @@ export default async function AdminDashboardPage({ params }: { params: Promise<{
   async function logout() {
     "use server";
     await clearAdminSession();
-    redirect(`/${locale}/admin/login`);
+    redirect(localeHref(locale as Locale, "/admin/login"));
   }
 
   const cards = [

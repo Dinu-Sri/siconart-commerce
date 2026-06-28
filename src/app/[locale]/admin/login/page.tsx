@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { createAdminSession, isValidAdminLogin } from "@/lib/admin-auth";
+import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
 
 export default async function AdminLoginPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -14,10 +15,10 @@ export default async function AdminLoginPage({ params }: { params: Promise<{ loc
     const email = String(formData.get("email") || "");
     const password = String(formData.get("password") || "");
 
-    if (!isValidAdminLogin(email, password)) redirect(`/${locale}/admin/login?error=1`);
+    if (!isValidAdminLogin(email, password)) redirect(`${localeHref(locale as Locale, "/admin/login")}?error=1`);
 
     await createAdminSession();
-    redirect(`/${locale}/admin`);
+    redirect(localeHref(locale as Locale, "/admin"));
   }
 
   return (

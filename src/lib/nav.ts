@@ -1,4 +1,4 @@
-import type { Locale } from "@/i18n/routing";
+import { defaultLocale, type Locale } from "@/i18n/routing";
 
 export const navItems = [
   { key: "shop", href: "/shop" },
@@ -9,5 +9,6 @@ export const navItems = [
 
 export function localeHref(locale: Locale, href: string) {
   const path = href.startsWith("/") ? href : `/${href}`;
+  if (locale === defaultLocale) return path === "/" ? "/" : path;
   return `/${locale}${path === "/" ? "" : path}`;
 }

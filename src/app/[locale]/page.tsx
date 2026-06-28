@@ -42,7 +42,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           fill
           priority
           sizes="100vw"
-          className="pointer-events-none object-cover opacity-15"
+          className="pointer-events-none object-cover opacity-[0.055]"
         />
         <div className="container-content relative grid min-h-[calc(100dvh-8rem)] items-center gap-10 py-10 lg:grid-cols-[0.9fr_0.82fr] lg:py-14">
           <div className="relative z-10">
@@ -59,10 +59,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 <Link href={localeHref(activeLocale, "/become-an-agent")}>{t("heroSecondary")}</Link>
               </Button>
             </div>
-            <div className="mt-8 grid gap-3 text-sm text-muted-foreground sm:grid-cols-3">
+            <div className="mt-8 flex flex-col gap-3 text-sm text-muted-foreground sm:flex-row sm:flex-wrap sm:gap-x-8 lg:flex-nowrap">
               {["ships", "handmade", "watercolor"].map((key) => (
-                <div key={key} className="flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-primary" />
+                <div key={key} className="flex items-center gap-2 whitespace-nowrap">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
                   {t(`trust.${key}`)}
                 </div>
               ))}
@@ -87,7 +87,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 </div>
                 <div>
                   <p className="font-serif text-xl font-semibold">Loved by watercolorists</p>
-                  <p className="mt-1 text-sm text-muted-foreground">4.5 (250+ reviews)</p>
+                  <p className="mt-1 text-sm text-muted-foreground">4.9 (250+) reviews</p>
                 </div>
               </div>
             </div>
@@ -154,20 +154,22 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             })}
           </div>
 
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-[360px] overflow-hidden rounded-t-full border border-primary/25 bg-surface p-5">
-            <Image
-              src="/brand/brush-making.jpg"
-              alt="Sicon Art brush making materials"
-              fill
-              sizes="(min-width: 1024px) 30vw, 80vw"
-              className="object-cover p-5"
-            />
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-[360px]">
+            <div className="absolute inset-0 overflow-hidden rounded-t-full border border-primary/25 bg-surface">
+              <Image
+                src="/brand/brush-making.jpg"
+                alt="Sicon Art brush making materials"
+                fill
+                sizes="(min-width: 1024px) 30vw, 80vw"
+                className="object-cover"
+              />
+            </div>
             <Image
               src="/brand/brush-making-flower.png"
               alt=""
-              width={62}
-              height={150}
-              className="pointer-events-none absolute -left-10 bottom-0 hidden opacity-65 sm:block"
+              width={74}
+              height={178}
+              className="pointer-events-none absolute -left-12 bottom-2 z-10 hidden opacity-75 sm:block"
             />
           </div>
 

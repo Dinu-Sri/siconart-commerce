@@ -93,7 +93,7 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Header cart icon shows the current local cart item count.
 - PayHere checkout creates local orders, signs the PayHere payload on the server, and receives payment notifications at `/api/payhere/notify`.
 - Public storefront is currently English-only with the language switcher hidden.
-- Private price list at `/list` shows compact product cards with image, name, retail price, artist price, and wholesale price. Password: `tina`.
+- Private price list at `/list` shows compact editable product cards with image, name, retail price, artist price, and wholesale price. It hides normal header/footer, stores price edits and versions in the browser, and uses password `tina`.
 
 ## Admin
 

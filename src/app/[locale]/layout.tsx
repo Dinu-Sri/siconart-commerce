@@ -5,8 +5,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 
 import { routing, type Locale } from "@/i18n/routing";
-import { SiteHeader } from "@/components/site-header";
+import { SiteChrome } from "@/components/site-chrome";
 import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { ThemeScript } from "@/components/theme-script";
 
 import "../globals.css";
@@ -71,11 +72,9 @@ export default async function LocaleLayout({
       </head>
       <body className="min-h-dvh bg-background text-foreground antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <div className="flex min-h-dvh flex-col">
-            <SiteHeader />
-            <main className="flex-1">{children}</main>
-            <SiteFooter />
-          </div>
+          <SiteChrome header={<SiteHeader />} footer={<SiteFooter />}>
+            {children}
+          </SiteChrome>
         </NextIntlClientProvider>
       </body>
     </html>

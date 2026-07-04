@@ -76,7 +76,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 - Header logo, footer logo, favicon, hero image, line-art background, and decorative flower images should come from `public/brand/`.
 - Footer must expose the full support/legal set: About, FAQ, Shipping Policy, Return & Exchange Policy, Track Your Order, Privacy Policy, Terms & Conditions, Contact, Shop, and Become an Agent.
 - Header cart icon should show the local cart item quantity badge.
-- The private `/list` page is for internal price review, hides normal site header/footer, stays visually light-mode, uses browser-stored editable prices/version snapshots, and is protected by the hardcoded session password `tina`. Keep price inputs at 16px or larger with blur-to-save decimal text entry so mobile browsers do not zoom/crop while editing.
+- The private `/list` page is for internal price review, hides normal site header/footer, stays visually light-mode, uses browser-stored editable prices/version snapshots, supports click-to-preview product images, and is protected by the hardcoded session password `tina`. Keep price inputs at 16px or larger with blur-to-save decimal text entry so mobile browsers do not zoom/crop while editing.
 - Admin login is env-based. Never commit the real admin email/password; configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer.
 - Keep `ADMIN_COOKIE_SECURE=false` for direct IP/http testing. Change it to `true` only after HTTPS is active.
 - Payment provider integration is not final yet; keep the schema/provider boundary clean.

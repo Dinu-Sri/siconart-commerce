@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUp, RotateCcw, Save } from "lucide-react";
+import { ArrowUp, RotateCcw, Save, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { Product } from "@/data/products";
 
@@ -25,6 +25,7 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
   const [versions, setVersions] = useState<PriceVersion[]>([]);
   const [selectedVersionId, setSelectedVersionId] = useState("");
   const [lastSavedAt, setLastSavedAt] = useState("");
+  const [previewProduct, setPreviewProduct] = useState<PriceListItem | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const sortedProducts = useMemo(() => [...products].sort((a, b) => a.name.localeCompare(b.name)), [products]);
@@ -47,6 +48,21 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!previewProduct) return;
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setPreviewProduct(null);
+    }
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [previewProduct]);
 
   function persistPrices(nextPrices: PriceMap) {
     const savedAt = formatTimestamp(new Date());
@@ -102,7 +118,7 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
   return (
     <div className="min-h-dvh bg-[#fef9ef] text-[#2f2118]" style={{ colorScheme: "light" }}>
       <section className="mx-auto w-full max-w-6xl px-3 py-3 sm:px-5 sm:py-5">
-        <header className="sticky top-0 z-20 -mx-3 border-b border-[#ead9c3] bg-[#fef9ef]/95 px-3 py-3 backdrop-blur sm:-mx-5 sm:px-5">
+        <header className="-mx-3 border-b border-[#ead9c3] bg-[#fef9ef] px-3 py-3 sm:-mx-5 sm:px-5">
           <div className="flex items-center justify-between gap-3">
             <h1 className="font-serif text-xl font-semibold leading-tight sm:text-3xl">Sicon Art Price List</h1>
             <p className="shrink-0 text-right text-xs font-semibold text-[#8a6d56] sm:text-sm">{sortedProducts.length} brush types</p>
@@ -145,18 +161,23 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
         <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {sortedProducts.map((product) => (
             <article key={product.sku} className="overflow-hidden rounded-[0.5rem] border border-[#ead9c3] bg-white shadow-sm">
-              <div className="relative h-48 bg-white sm:h-52">
+              <button
+                type="button"
+                onClick={() => setPreviewProduct(product)}
+                className="relative block h-64 w-full bg-white sm:h-72"
+                aria-label={`Open ${product.name} image`}
+              >
                 <Image
                   src={product.images[0]}
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-contain p-4"
+                  className="object-contain p-3"
                 />
-              </div>
+              </button>
 
               <div className="border-t border-[#f0e3d3] p-3">
-                <h2 className="line-clamp-2 min-h-11 text-base font-semibold leading-5">{product.name}</h2>
+                <h2 className="line-clamp-2 min-h-12 text-center text-lg font-semibold leading-6">{product.name}</h2>
                 <div className="mt-3 grid gap-2">
                   <PriceInput label="Retail" value={prices[product.sku]?.retail ?? product.priceCents} onSave={(value) => updatePrice(product.sku, "retail", value)} />
                   <PriceInput label="Artist" value={prices[product.sku]?.artist ?? 0} onSave={(value) => updatePrice(product.sku, "artist", value)} />
@@ -167,6 +188,42 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
           ))}
         </div>
       </section>
+
+      {previewProduct && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${previewProduct.name} image preview`}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-3"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setPreviewProduct(null);
+          }}
+        >
+          <div className="relative flex max-h-[92dvh] w-full max-w-3xl flex-col overflow-hidden rounded-[0.5rem] bg-white shadow-2xl">
+            <div className="flex items-center justify-between gap-3 border-b border-[#ead9c3] px-4 py-3">
+              <h2 className="line-clamp-1 text-base font-semibold text-[#2f2118] sm:text-xl">{previewProduct.name}</h2>
+              <button
+                type="button"
+                onClick={() => setPreviewProduct(null)}
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#fbf4e8] text-[#6d4b32]"
+                aria-label="Close image preview"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="relative h-[72dvh] min-h-[360px] bg-white">
+              <Image
+                src={previewProduct.images[0]}
+                alt={previewProduct.name}
+                fill
+                sizes="100vw"
+                priority
+                className="object-contain p-4"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <button
         type="button"

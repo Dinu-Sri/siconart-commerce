@@ -8,7 +8,6 @@ import { useState } from "react";
 import type { Locale } from "@/i18n/routing";
 import { localeHref, navItems } from "@/lib/nav";
 import { cn } from "@/lib/utils";
-import { LangToggle } from "@/components/lang-toggle";
 import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { CartIconLink } from "@/components/commerce/cart-icon-link";
@@ -51,7 +50,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-1">
-          <LangToggle className="hidden sm:block" />
           <ThemeToggle />
           <CartIconLink locale={locale} label={t("cart")} />
           <button
@@ -81,9 +79,6 @@ export function SiteHeader() {
                 {t(item.key)}
               </Link>
             ))}
-            <div className="py-4">
-              <LangToggle />
-            </div>
           </nav>
         </div>
       )}

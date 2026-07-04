@@ -92,6 +92,8 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Home page includes the founder/craft story flow, Experience the Craft cards, artist testimonials, and FAQ preview.
 - Header cart icon shows the current local cart item count.
 - PayHere checkout creates local orders, signs the PayHere payload on the server, and receives payment notifications at `/api/payhere/notify`.
+- Public storefront is currently English-only with the language switcher hidden.
+- Private price list at `/list` shows compact product cards with image, name, retail price, artist price, and wholesale price. Password: `tina`.
 
 ## Admin
 
@@ -110,6 +112,7 @@ Set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer bef
 - 2026-06-28: Moved product detail URLs from `/shop/<slug>` to `/products/<slug>` and widened the shop grid.
 - 2026-06-28: Switched default English URLs to flat paths, refined homepage art direction, and added PayHere checkout.
 - 2026-06-28: Added full footer support links, exact policy highlights, cart quantity badge, homepage craft/testimonial/FAQ sections, and redesigned checkout summary.
+- 2026-07-04: Added password-protected `/list` product price list and temporarily switched public routing to English-only.
 
 ## Notes
 

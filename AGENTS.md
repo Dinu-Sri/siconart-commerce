@@ -12,7 +12,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 - Language: TypeScript
 - Styling: Tailwind CSS with semantic CSS variables
 - Translation: `next-intl`, matching the Sinours pattern
-- Locales: `en`, `zh`
+- Locales: currently `en` only. Chinese/other languages are paused until the user asks to restore language switching.
 - Commerce backend: Prisma + Postgres owned by this app
 - Deployment: Docker standalone app + Postgres, GHCR image, Portainer stack
 - Direct test port: host `3224` to container `3225`
@@ -48,7 +48,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 
 - Shop filters should help artists choose by use-case, handle type, hair feel, skill level, price, and availability.
 - Product detail URLs should use `/products/[slug]`; keep `/shop/[slug]` as a redirect-only compatibility path.
-- Default English URLs must be flat, e.g. `/shop` and `/products/slug`; Chinese remains under `/zh`.
+- Default English URLs must be flat, e.g. `/shop` and `/products/slug`; keep the public storefront English-only while language switching is paused.
 - Product pages must show image gallery, price, variants, add-to-cart, shipping note, use-case specs, care guidance, and related brushes.
 - Empty states must offer recovery actions.
 - Cart and checkout should be clear, trustworthy, and mobile-first.
@@ -76,6 +76,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 - Header logo, footer logo, favicon, hero image, line-art background, and decorative flower images should come from `public/brand/`.
 - Footer must expose the full support/legal set: About, FAQ, Shipping Policy, Return & Exchange Policy, Track Your Order, Privacy Policy, Terms & Conditions, Contact, Shop, and Become an Agent.
 - Header cart icon should show the local cart item quantity badge.
+- The private `/list` page is for internal price review and is protected by the hardcoded session password `tina`.
 - Admin login is env-based. Never commit the real admin email/password; configure `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer.
 - Keep `ADMIN_COOKIE_SECURE=false` for direct IP/http testing. Change it to `true` only after HTTPS is active.
 - Payment provider integration is not final yet; keep the schema/provider boundary clean.

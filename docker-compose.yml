@@ -1,8 +1,6 @@
 # Sicon Art production stack.
 # Direct IP/debug access: host 3224 -> app container 3225.
-# Cloudflare Tunnel is disabled by default. Enable later with:
-#   COMPOSE_PROFILES=tunnel
-#   CF_TUNNEL_TOKEN=<token>
+# Cloudflare Tunnel starts when CF_TUNNEL_TOKEN is set in Portainer.
 
 services:
   app:
@@ -52,8 +50,6 @@ services:
   tunnel:
     image: cloudflare/cloudflared:latest
     container_name: siconart-tunnel
-    profiles:
-      - tunnel
     command: tunnel run
     environment:
       - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN:?CF_TUNNEL_TOKEN_is_required}

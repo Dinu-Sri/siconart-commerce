@@ -11,7 +11,7 @@ Next.js storefront and commerce backend for Sicon Art, built to replace the curr
 - Prisma + Postgres commerce backend
 - Docker standalone deployment
 - GHCR image publishing through GitHub Actions
-- Optional Cloudflare Tunnel service, disabled until env is added
+- Cloudflare Tunnel service for domain access through `CF_TUNNEL_TOKEN`
 
 ## Local Development
 
@@ -49,14 +49,13 @@ PAYHERE_CURRENCY=USD
 PAYHERE_SANDBOX=false
 ```
 
-Later, enable Cloudflare Tunnel with:
+Enable Cloudflare Tunnel with:
 
 ```text
-COMPOSE_PROFILES=tunnel
 CF_TUNNEL_TOKEN=<token>
 ```
 
-Then update `NEXT_PUBLIC_BASE_URL` and `APP_URL` to the final tunnel/domain URL.
+Then update `NEXT_PUBLIC_BASE_URL` and `APP_URL` to the final tunnel/domain URL and redeploy the stack.
 
 ## Reference Files
 

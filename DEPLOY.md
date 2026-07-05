@@ -26,12 +26,11 @@ Required Portainer environment variables:
 - `PAYHERE_CURRENCY=USD`
 - `PAYHERE_SANDBOX=false` for live checkout on the approved `https://siconart.com/` domain
 
-Optional later:
+Cloudflare Tunnel:
 
 - `CF_TUNNEL_TOKEN` - Cloudflare Tunnel token
-- `COMPOSE_PROFILES=tunnel` - enables the tunnel service in `docker-compose.yml`
 
-For now, the app can run directly on the VPS IP through host port `3224`.
+The tunnel container starts as part of the production stack when `CF_TUNNEL_TOKEN` is set. For direct IP testing without Cloudflare, use the app through host port `3224`.
 
 ## GitHub Actions
 
@@ -64,6 +63,5 @@ When the tunnel is ready:
 1. Create Cloudflare tunnel public hostname.
 2. Point it to `http://app:3225`.
 3. Add `CF_TUNNEL_TOKEN` in Portainer.
-4. Add `COMPOSE_PROFILES=tunnel`.
-5. Update `NEXT_PUBLIC_BASE_URL` and `APP_URL` to the tunnel/domain URL.
-6. Redeploy the stack.
+4. Update `NEXT_PUBLIC_BASE_URL` and `APP_URL` to the tunnel/domain URL.
+5. Redeploy the stack.

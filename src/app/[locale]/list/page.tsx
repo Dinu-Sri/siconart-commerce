@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
-import { products } from "@/data/products";
+import { priceListProducts } from "@/data/price-list-products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { ProductPriceList } from "@/components/storefront/product-price-list";
@@ -82,5 +82,5 @@ export default async function ListPage({
     );
   }
 
-  return <ProductPriceList products={products} />;
+  return <ProductPriceList products={priceListProducts} />;
 }

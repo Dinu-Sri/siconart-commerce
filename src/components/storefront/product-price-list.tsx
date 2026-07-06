@@ -3,16 +3,28 @@
 import Image from "next/image";
 import { ArrowUp, RotateCcw, Save, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import type { Product } from "@/data/products";
+import type { PriceListProduct } from "@/data/price-list-products";
 
-type PriceListItem = Pick<Product, "sku" | "name" | "priceCents" | "currency" | "images">;
-type PriceTier = "retail" | "artist" | "wholesale";
-type PriceMap = Record<string, Record<PriceTier, number>>;
+type ValueField = "retail" | "artist" | "wholesale" | "moq";
+type ProductValues = Record<ValueField, number>;
+type ValueMap = Record<string, ProductValues>;
+type DraftMap = Record<string, Record<ValueField, string>>;
+type PendingChange = {
+  field: ValueField;
+  name: string;
+  next: number;
+  previous: number;
+  sku: string;
+};
 type PriceVersion = {
   id: string;
   name: string;
   createdAt: string;
-  prices: PriceMap;
+  values: ValueMap;
+};
+type StoredPriceVersion = Omit<PriceVersion, "values"> & {
+  prices?: ValueMap;
+  values?: ValueMap;
 };
 
 const CURRENT_KEY = "siconart-price-list-current";
@@ -20,24 +32,36 @@ const LATEST_KEY = "siconart-price-list-latest";
 const VERSIONS_KEY = "siconart-price-list-versions";
 const SAVED_AT_KEY = "siconart-price-list-saved-at";
 
-export function ProductPriceList({ products }: { products: PriceListItem[] }) {
-  const [prices, setPrices] = useState<PriceMap>(() => createDefaultPrices(products));
+const fieldLabels: Record<ValueField, string> = {
+  retail: "Retail",
+  artist: "Artist",
+  wholesale: "Wholesale",
+  moq: "MOQ"
+};
+
+export function ProductPriceList({ products }: { products: PriceListProduct[] }) {
+  const defaultValues = useMemo(() => createDefaultValues(products), [products]);
+  const [values, setValues] = useState<ValueMap>(() => defaultValues);
+  const [drafts, setDrafts] = useState<DraftMap>(() => createDrafts(defaultValues));
   const [versions, setVersions] = useState<PriceVersion[]>([]);
   const [selectedVersionId, setSelectedVersionId] = useState("");
   const [lastSavedAt, setLastSavedAt] = useState("");
-  const [previewProduct, setPreviewProduct] = useState<PriceListItem | null>(null);
+  const [pendingChange, setPendingChange] = useState<PendingChange | null>(null);
+  const [previewProduct, setPreviewProduct] = useState<PriceListProduct | null>(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const sortedProducts = useMemo(() => [...products].sort((a, b) => a.name.localeCompare(b.name)), [products]);
 
   useEffect(() => {
-    const storedPrices = readJson<PriceMap>(CURRENT_KEY);
-    const storedVersions = readJson<PriceVersion[]>(VERSIONS_KEY) ?? [];
+    const storedValues = readJson<ValueMap>(CURRENT_KEY);
+    const storedVersions = normalizeVersions(products, readJson<StoredPriceVersion[]>(VERSIONS_KEY) ?? []);
+    const nextValues = storedValues ? mergeWithDefaults(products, storedValues) : defaultValues;
 
-    if (storedPrices) setPrices(mergeWithDefaults(products, storedPrices));
+    setValues(nextValues);
+    setDrafts(createDrafts(nextValues));
     setVersions(storedVersions);
     setLastSavedAt(window.localStorage.getItem(SAVED_AT_KEY) || "");
-  }, [products]);
+  }, [defaultValues, products]);
 
   useEffect(() => {
     function onScroll() {
@@ -64,28 +88,76 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
     };
   }, [previewProduct]);
 
-  function persistPrices(nextPrices: PriceMap) {
+  function persistValues(nextValues: ValueMap) {
     const savedAt = formatTimestamp(new Date());
-    window.localStorage.setItem(CURRENT_KEY, JSON.stringify(nextPrices));
-    window.localStorage.setItem(LATEST_KEY, JSON.stringify(nextPrices));
+    window.localStorage.setItem(CURRENT_KEY, JSON.stringify(nextValues));
+    window.localStorage.setItem(LATEST_KEY, JSON.stringify(nextValues));
     window.localStorage.setItem(SAVED_AT_KEY, savedAt);
     setLastSavedAt(savedAt);
   }
 
-  function updatePrice(sku: string, tier: PriceTier, value: string) {
-    const normalized = parsePriceCents(value);
+  function updateDraft(sku: string, field: ValueField, rawValue: string) {
+    const nextDraft = field === "moq" ? cleanMoqDraft(rawValue) : cleanPriceDraft(rawValue);
+    setDrafts((current) => ({
+      ...current,
+      [sku]: {
+        ...current[sku],
+        [field]: nextDraft
+      }
+    }));
+  }
+
+  function requestCommit(product: PriceListProduct, field: ValueField) {
+    const currentValue = values[product.sku]?.[field] ?? defaultValues[product.sku][field];
+    const rawDraft = drafts[product.sku]?.[field] ?? formatValue(field, currentValue);
+    const nextValue = field === "moq" ? parseMoq(rawDraft) : parsePriceCents(rawDraft);
+
+    if (nextValue === currentValue) {
+      resetDraft(product.sku, field, currentValue);
+      return;
+    }
+
+    setPendingChange({
+      field,
+      name: product.name,
+      next: nextValue,
+      previous: currentValue,
+      sku: product.sku
+    });
+  }
+
+  function confirmPendingChange() {
+    if (!pendingChange) return;
     setSelectedVersionId("");
-    setPrices((current) => {
-      const nextPrices = {
+    setValues((current) => {
+      const nextValues = {
         ...current,
-        [sku]: {
-          ...current[sku],
-          [tier]: normalized
+        [pendingChange.sku]: {
+          ...current[pendingChange.sku],
+          [pendingChange.field]: pendingChange.next
         }
       };
-      persistPrices(nextPrices);
-      return nextPrices;
+      persistValues(nextValues);
+      return nextValues;
     });
+    resetDraft(pendingChange.sku, pendingChange.field, pendingChange.next);
+    setPendingChange(null);
+  }
+
+  function cancelPendingChange() {
+    if (!pendingChange) return;
+    resetDraft(pendingChange.sku, pendingChange.field, pendingChange.previous);
+    setPendingChange(null);
+  }
+
+  function resetDraft(sku: string, field: ValueField, value: number) {
+    setDrafts((current) => ({
+      ...current,
+      [sku]: {
+        ...current[sku],
+        [field]: formatValue(field, value)
+      }
+    }));
   }
 
   function saveVersion() {
@@ -93,25 +165,30 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
       id: String(Date.now()),
       name: `Version ${versions.length + 1}`,
       createdAt: formatTimestamp(new Date()),
-      prices
+      values
     };
     const nextVersions = [nextVersion, ...versions];
     setVersions(nextVersions);
     setSelectedVersionId(nextVersion.id);
     window.localStorage.setItem(VERSIONS_KEY, JSON.stringify(nextVersions));
-    persistPrices(prices);
+    persistValues(values);
   }
 
   function restoreVersion(versionId: string) {
     const version = versions.find((item) => item.id === versionId);
     if (!version) return;
+    const nextValues = mergeWithDefaults(products, version.values);
     setSelectedVersionId(version.id);
-    setPrices(mergeWithDefaults(products, version.prices));
+    setValues(nextValues);
+    setDrafts(createDrafts(nextValues));
   }
 
   function restoreLatest() {
-    const storedPrices = readJson<PriceMap>(LATEST_KEY) ?? readJson<PriceMap>(CURRENT_KEY);
-    if (storedPrices) setPrices(mergeWithDefaults(products, storedPrices));
+    const storedValues = readJson<ValueMap>(LATEST_KEY) ?? readJson<ValueMap>(CURRENT_KEY);
+    if (!storedValues) return;
+    const nextValues = mergeWithDefaults(products, storedValues);
+    setValues(nextValues);
+    setDrafts(createDrafts(nextValues));
     setSelectedVersionId("");
   }
 
@@ -168,7 +245,7 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
                 aria-label={`Open ${product.name} image`}
               >
                 <Image
-                  src={product.images[0]}
+                  src={product.image}
                   alt={product.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -179,15 +256,70 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
               <div className="border-t border-[#f0e3d3] p-3">
                 <h2 className="line-clamp-2 min-h-12 text-center text-lg font-semibold leading-6">{product.name}</h2>
                 <div className="mt-3 grid gap-2">
-                  <PriceInput label="Retail" value={prices[product.sku]?.retail ?? product.priceCents} onSave={(value) => updatePrice(product.sku, "retail", value)} />
-                  <PriceInput label="Artist" value={prices[product.sku]?.artist ?? 0} onSave={(value) => updatePrice(product.sku, "artist", value)} />
-                  <PriceInput label="Wholesale" value={prices[product.sku]?.wholesale ?? 0} onSave={(value) => updatePrice(product.sku, "wholesale", value)} />
+                  <ValueInput
+                    field="retail"
+                    label="Retail"
+                    value={drafts[product.sku]?.retail ?? formatValue("retail", values[product.sku]?.retail ?? product.retailCents)}
+                    onChange={(value) => updateDraft(product.sku, "retail", value)}
+                    onCommit={() => requestCommit(product, "retail")}
+                  />
+                  <ValueInput
+                    field="artist"
+                    label="Artist"
+                    value={drafts[product.sku]?.artist ?? formatValue("artist", values[product.sku]?.artist ?? product.artistCents)}
+                    onChange={(value) => updateDraft(product.sku, "artist", value)}
+                    onCommit={() => requestCommit(product, "artist")}
+                  />
+                  <ValueInput
+                    field="wholesale"
+                    label="Wholesale"
+                    value={drafts[product.sku]?.wholesale ?? formatValue("wholesale", values[product.sku]?.wholesale ?? product.wholesaleCents)}
+                    tone="yellow"
+                    onChange={(value) => updateDraft(product.sku, "wholesale", value)}
+                    onCommit={() => requestCommit(product, "wholesale")}
+                  />
+                  <ValueInput
+                    field="moq"
+                    label="MOQ"
+                    value={drafts[product.sku]?.moq ?? formatValue("moq", values[product.sku]?.moq ?? product.moq)}
+                    tone="yellow"
+                    onChange={(value) => updateDraft(product.sku, "moq", value)}
+                    onCommit={() => requestCommit(product, "moq")}
+                  />
                 </div>
               </div>
             </article>
           ))}
         </div>
       </section>
+
+      {pendingChange && (
+        <div className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-md rounded-[0.5rem] border border-[#ead9c3] bg-white p-4 shadow-2xl">
+          <p className="text-sm font-semibold text-[#2f2118]">
+            You changed {fieldLabels[pendingChange.field].toLowerCase()} for {pendingChange.name}.
+          </p>
+          <p className="mt-1 text-sm text-[#8a6d56]">
+            {formatValueForMessage(pendingChange.field, pendingChange.previous)} to{" "}
+            {formatValueForMessage(pendingChange.field, pendingChange.next)}
+          </p>
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={cancelPendingChange}
+              className="h-11 rounded-[0.5rem] border border-[#ead9c3] bg-white text-base font-semibold text-[#6d4b32]"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={confirmPendingChange}
+              className="h-11 rounded-[0.5rem] bg-[#a67146] text-base font-semibold text-white"
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      )}
 
       {previewProduct && (
         <div
@@ -213,7 +345,7 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
             </div>
             <div className="relative h-[72dvh] min-h-[360px] bg-white">
               <Image
-                src={previewProduct.images[0]}
+                src={previewProduct.image}
                 alt={previewProduct.name}
                 fill
                 sizes="100vw"
@@ -239,68 +371,99 @@ export function ProductPriceList({ products }: { products: PriceListItem[] }) {
   );
 }
 
-function PriceInput({ label, value, onSave }: { label: string; value: number; onSave: (value: string) => void }) {
-  const [draft, setDraft] = useState(centsToInput(value));
-
-  useEffect(() => {
-    setDraft(centsToInput(value));
-  }, [value]);
-
-  function commit() {
-    const nextValue = centsToInput(parsePriceCents(draft));
-    setDraft(nextValue);
-    onSave(nextValue);
-  }
-
+function ValueInput({
+  field,
+  label,
+  onChange,
+  onCommit,
+  tone = "default",
+  value
+}: {
+  field: ValueField;
+  label: string;
+  onChange: (value: string) => void;
+  onCommit: () => void;
+  tone?: "default" | "yellow";
+  value: string;
+}) {
+  const isMoq = field === "moq";
   return (
-    <label className="grid grid-cols-[92px_1fr] items-center gap-2 rounded bg-[#fbf4e8] px-2 py-2">
+    <label className={`grid grid-cols-[92px_1fr] items-center gap-2 rounded px-2 py-2 ${tone === "yellow" ? "bg-[#fff4cc]" : "bg-[#fbf4e8]"}`}>
       <span className="text-sm font-semibold text-[#8a6d56]">{label}</span>
       <span className="flex min-w-0 items-center rounded border border-[#ead9c3] bg-white px-2">
-        <span className="text-base text-[#8a6d56]">$</span>
+        {!isMoq && <span className="text-base text-[#8a6d56]">$</span>}
         <input
           type="text"
-          inputMode="decimal"
-          value={draft}
-          onChange={(event) => setDraft(cleanPriceDraft(event.target.value))}
-          onBlur={commit}
+          inputMode={isMoq ? "numeric" : "decimal"}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          onBlur={onCommit}
           onFocus={(event) => event.currentTarget.select()}
           onKeyDown={(event) => {
             if (event.key === "Enter") event.currentTarget.blur();
           }}
           className="min-w-0 flex-1 bg-transparent py-2 pl-1 text-right text-base font-semibold text-[#2f2118] outline-none"
-          aria-label={`${label} price`}
+          aria-label={`${label} ${isMoq ? "quantity" : "price"}`}
         />
       </span>
     </label>
   );
 }
 
-function createDefaultPrices(products: PriceListItem[]) {
-  return products.reduce<PriceMap>((map, product) => {
+function createDefaultValues(products: PriceListProduct[]) {
+  return products.reduce<ValueMap>((map, product) => {
     map[product.sku] = {
-      retail: product.priceCents,
-      artist: tierPrice(product.priceCents, 0.8),
-      wholesale: tierPrice(product.priceCents, 0.65)
+      retail: product.retailCents,
+      artist: product.artistCents,
+      wholesale: product.wholesaleCents,
+      moq: product.moq
     };
     return map;
   }, {});
 }
 
-function mergeWithDefaults(products: PriceListItem[], storedPrices: PriceMap) {
-  const defaults = createDefaultPrices(products);
+function createDrafts(values: ValueMap) {
+  return Object.fromEntries(
+    Object.entries(values).map(([sku, item]) => [
+      sku,
+      {
+        retail: formatValue("retail", item.retail),
+        artist: formatValue("artist", item.artist),
+        wholesale: formatValue("wholesale", item.wholesale),
+        moq: formatValue("moq", item.moq)
+      }
+    ])
+  ) as DraftMap;
+}
+
+function mergeWithDefaults(products: PriceListProduct[], storedValues: ValueMap) {
+  const defaults = createDefaultValues(products);
   return Object.fromEntries(
     products.map((product) => [
       product.sku,
       {
         ...defaults[product.sku],
-        ...storedPrices[product.sku]
+        ...storedValues[product.sku]
       }
     ])
-  ) as PriceMap;
+  ) as ValueMap;
 }
 
-function tierPrice(cents: number, multiplier: number) {
-  return Math.round((cents * multiplier) / 100) * 100;
+function normalizeVersions(products: PriceListProduct[], versions: StoredPriceVersion[]) {
+  return versions.map((version) => ({
+    id: version.id,
+    name: version.name,
+    createdAt: version.createdAt,
+    values: mergeWithDefaults(products, version.values ?? version.prices ?? {})
+  }));
+}
+
+function formatValue(field: ValueField, value: number) {
+  return field === "moq" ? String(value) : centsToInput(value);
+}
+
+function formatValueForMessage(field: ValueField, value: number) {
+  return field === "moq" ? `${value} pcs` : `$${centsToInput(value)}`;
 }
 
 function centsToInput(cents: number) {
@@ -313,11 +476,20 @@ function parsePriceCents(value: string) {
   return Number.isFinite(numberValue) ? Math.max(0, Math.round(numberValue * 100)) : 0;
 }
 
+function parseMoq(value: string) {
+  const parsed = Number.parseInt(cleanMoqDraft(value) || "0", 10);
+  return Number.isFinite(parsed) ? Math.max(0, parsed) : 0;
+}
+
 function cleanPriceDraft(value: string) {
   const cleaned = value.replace(/,/g, ".").replace(/[^0-9.]/g, "");
   const [whole = "", ...fractionParts] = cleaned.split(".");
   if (fractionParts.length === 0) return whole;
   return `${whole}.${fractionParts.join("").slice(0, 2)}`;
+}
+
+function cleanMoqDraft(value: string) {
+  return value.replace(/[^0-9]/g, "");
 }
 
 function formatTimestamp(date: Date) {

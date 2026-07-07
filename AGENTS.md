@@ -85,6 +85,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 - PayHere env keys are `PAYHERE_MERCHANT_ID`, `PAYHERE_MERCHANT_SECRET`, `PAYHERE_CURRENCY`, and `PAYHERE_SANDBOX`.
 - Never commit secrets, payment keys, tunnel tokens, or database passwords.
 - Product prices in the current seed are draft values until verified.
+- Product seed logic must reconcile existing rows by SKU or existing slug; do not reintroduce plain SKU-only upserts while master-sheet SKUs can change for products that keep the same public URL.
 
 ## Verification
 

@@ -36,42 +36,7 @@ async function main() {
   }
 
   for (const product of products) {
-    await prisma.product.upsert({
-      where: { sku: product.sku },
-      update: {
-        slug: product.slug,
-        name: product.name,
-        category: product.category,
-        summary: product.summary,
-        description: product.description,
-        priceCents: product.priceCents,
-        currency: product.currency,
-        images: product.images,
-        uses: product.uses,
-        handle: product.handle,
-        feel: product.feel,
-        level: product.level,
-        featured: product.featured ?? false,
-        specs: product.specs
-      },
-      create: {
-        sku: product.sku,
-        slug: product.slug,
-        name: product.name,
-        category: product.category,
-        summary: product.summary,
-        description: product.description,
-        priceCents: product.priceCents,
-        currency: product.currency,
-        images: product.images,
-        uses: product.uses,
-        handle: product.handle,
-        feel: product.feel,
-        level: product.level,
-        featured: product.featured ?? false,
-        specs: product.specs
-      }
-    });
+    await upsertProduct(product);
 
     const dbProduct = await prisma.product.findUniqueOrThrow({
       where: { sku: product.sku }
@@ -113,6 +78,66 @@ async function main() {
       active: true
     }
   });
+}
+
+async function upsertProduct(product) {
+  const data = productData(product);
+  const existingBySku = await prisma.product.findUnique({ where: { sku: product.sku } });
+
+  if (existingBySku) {
+    const slugOwner = await prisma.product.findUnique({ where: { slug: product.slug } });
+    if (slugOwner && slugOwner.id !== existingBySku.id) {
+      await prisma.product.update({
+        where: { id: slugOwner.id },
+        data: { slug: legacySlug(slugOwner.slug, slugOwner.id), status: "ARCHIVED" }
+      });
+    }
+
+    await prisma.product.update({ where: { id: existingBySku.id }, data });
+    return;
+  }
+
+  const existingBySlug = await prisma.product.findUnique({ where: { slug: product.slug } });
+  if (existingBySlug) {
+    await prisma.product.update({
+      where: { id: existingBySlug.id },
+      data: {
+        sku: product.sku,
+        ...data
+      }
+    });
+    return;
+  }
+
+  await prisma.product.create({
+    data: {
+      sku: product.sku,
+      ...data
+    }
+  });
+}
+
+function productData(product) {
+  return {
+    slug: product.slug,
+    name: product.name,
+    category: product.category,
+    summary: product.summary,
+    description: product.description,
+    priceCents: product.priceCents,
+    currency: product.currency,
+    images: product.images,
+    uses: product.uses,
+    handle: product.handle,
+    feel: product.feel,
+    level: product.level,
+    featured: product.featured ?? false,
+    specs: product.specs
+  };
+}
+
+function legacySlug(slug, id) {
+  return `${slug}-legacy-${id.slice(0, 8)}`;
 }
 
 function slugify(value) {

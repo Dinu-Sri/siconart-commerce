@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CheckCircle2, MessageCircle } from "lucide-react";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
-import { formatPrice, getProduct, products } from "@/data/products";
+import { formatProductPrice, getProduct, isPurchasable, products } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,7 @@ export default async function ProductPage({
   const t = await getTranslations("product");
   const product = getProduct(slug);
   if (!product) notFound();
+  const purchasable = isPurchasable(product);
 
   const related = products
     .filter((item) => item.slug !== product.slug && item.uses.some((use) => product.uses.includes(use)))
@@ -59,7 +60,7 @@ export default async function ProductPage({
         <div>
           <p className="eyebrow">{product.category}</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold">{product.name}</h1>
-          <p className="mt-4 text-2xl font-semibold">{formatPrice(product.priceCents, product.currency)}</p>
+          <p className="mt-4 text-2xl font-semibold">{formatProductPrice(product.priceCents, product.currency)}</p>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">{product.description}</p>
 
           {product.variants && (
@@ -68,7 +69,7 @@ export default async function ProductPage({
               <div className="mt-3 flex flex-wrap gap-3">
                 {product.variants.map((variant) => (
                   <span key={variant.sku} className="rounded-full border bg-surface px-4 py-2 text-sm font-semibold">
-                    {variant.name} - {formatPrice(variant.priceCents)}
+                    {variant.name} - {formatProductPrice(variant.priceCents)}
                   </span>
                 ))}
               </div>
@@ -76,7 +77,13 @@ export default async function ProductPage({
           )}
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <AddToCartButton sku={product.sku} label={t("addToCart")} />
+            {purchasable ? (
+              <AddToCartButton sku={product.sku} label={t("addToCart")} />
+            ) : (
+              <Button type="button" size="lg" disabled>
+                Coming soon
+              </Button>
+            )}
             <Button asChild variant="secondary" size="lg">
               <Link href={localeHref(activeLocale, "/contact")}>
                 <MessageCircle className="h-5 w-5" />
@@ -85,9 +92,11 @@ export default async function ProductPage({
             </Button>
           </div>
 
-          <div className="mt-4">
-            <OrderMinimumProgress amountCents={product.priceCents} />
-          </div>
+          {purchasable && (
+            <div className="mt-4">
+              <OrderMinimumProgress amountCents={product.priceCents} />
+            </div>
+          )}
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {["handmade", "secure", "returns"].map((key) => (

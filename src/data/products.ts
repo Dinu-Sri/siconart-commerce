@@ -1027,6 +1027,132 @@ export const products: Product[] = [
       "Feel": "Balanced"
     }
   },
+  {
+    sku: "SA-41",
+    slug: "color-ring-bamboo-brush",
+    name: "Color Ring Bamboo Brush",
+    category: "Coming Soon Brushes",
+    summary: "A new handcrafted Sicon Art brush preparing for release.",
+    description: "Color Ring Bamboo Brush is part of the next Sicon Art brush release. Full retail pricing and product guidance will be confirmed soon, but the brush is already prepared for preview in the collection.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/price-list/sa-41-color-ring-bamboo-brush.jpg"],
+    uses: ["sketching", "detail", "studio"],
+    handle: "short",
+    feel: "balanced",
+    level: "enthusiast",
+    specs: {
+      "Best for": "Watercolor control and expressive marks",
+      "Brush type": "Coming Soon Brushes",
+      "Handle": "Short handle",
+      "Feel": "Balanced"
+    }
+  },
+  {
+    sku: "SA-42",
+    slug: "jade-orb-dark-tip-brush",
+    name: "Jade Orb Dark Tip Brush",
+    category: "Coming Soon Brushes",
+    summary: "A new handcrafted Sicon Art brush preparing for release.",
+    description: "Jade Orb Dark Tip Brush is part of the next Sicon Art brush release. Full retail pricing and product guidance will be confirmed soon, but the brush is already prepared for preview in the collection.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/price-list/sa-42-jade-orb-dark-tip-brush.png"],
+    uses: ["detail", "sketching", "studio"],
+    handle: "short",
+    feel: "balanced",
+    level: "enthusiast",
+    specs: {
+      "Best for": "Watercolor control and expressive marks",
+      "Brush type": "Coming Soon Brushes",
+      "Handle": "Short handle",
+      "Feel": "Balanced"
+    }
+  },
+  {
+    sku: "SA-43",
+    slug: "pink-youth-glow-brush",
+    name: "Pink Youth Glow Brush",
+    category: "Coming Soon Brushes",
+    summary: "A new handcrafted Sicon Art brush preparing for release.",
+    description: "Pink Youth Glow Brush is part of the next Sicon Art brush release. Full retail pricing and product guidance will be confirmed soon, but the brush is already prepared for preview in the collection.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/price-list/sa-43-pink-youth-glow-brush.png"],
+    uses: ["sketching", "detail", "studio"],
+    handle: "short",
+    feel: "balanced",
+    level: "enthusiast",
+    specs: {
+      "Best for": "Watercolor control and expressive marks",
+      "Brush type": "Coming Soon Brushes",
+      "Handle": "Short handle",
+      "Feel": "Balanced"
+    }
+  },
+  {
+    sku: "SA-44",
+    slug: "sapphire-jade-brush",
+    name: "Sapphire Jade Brush",
+    category: "Coming Soon Brushes",
+    summary: "A new handcrafted Sicon Art brush preparing for release.",
+    description: "Sapphire Jade Brush is part of the next Sicon Art brush release. Full retail pricing and product guidance will be confirmed soon, but the brush is already prepared for preview in the collection.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/price-list/sa-44-sapphire-jade-brush.png"],
+    uses: ["sketching", "wash", "studio"],
+    handle: "short",
+    feel: "balanced",
+    level: "enthusiast",
+    specs: {
+      "Best for": "Watercolor control and expressive marks",
+      "Brush type": "Coming Soon Brushes",
+      "Handle": "Short handle",
+      "Feel": "Balanced"
+    }
+  },
+  {
+    sku: "SA-45",
+    slug: "skyward-dragon-brush",
+    name: "Skyward Dragon Brush",
+    category: "Coming Soon Brushes",
+    summary: "A new handcrafted Sicon Art brush preparing for release.",
+    description: "Skyward Dragon Brush is part of the next Sicon Art brush release. Full retail pricing and product guidance will be confirmed soon, but the brush is already prepared for preview in the collection.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/price-list/sa-45-skyward-dragon-brush.jpg"],
+    uses: ["sketching", "wash", "studio"],
+    handle: "short",
+    feel: "balanced",
+    level: "enthusiast",
+    specs: {
+      "Best for": "Watercolor control and expressive marks",
+      "Brush type": "Coming Soon Brushes",
+      "Handle": "Short handle",
+      "Feel": "Balanced"
+    }
+  },
+  {
+    sku: "SA-46",
+    slug: "turquoise-wave-brush",
+    name: "Turquoise Wave Brush",
+    category: "Coming Soon Brushes",
+    summary: "A new handcrafted Sicon Art brush preparing for release.",
+    description: "Turquoise Wave Brush is part of the next Sicon Art brush release. Full retail pricing and product guidance will be confirmed soon, but the brush is already prepared for preview in the collection.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/price-list/sa-46-turquoise-wave-brush.png"],
+    uses: ["sketching", "wash", "studio"],
+    handle: "short",
+    feel: "balanced",
+    level: "enthusiast",
+    specs: {
+      "Best for": "Watercolor control and expressive marks",
+      "Brush type": "Coming Soon Brushes",
+      "Handle": "Short handle",
+      "Feel": "Balanced"
+    }
+  },
 ];
 
 export const categories = Array.from(new Set(products.map((product) => product.category)));
@@ -1040,4 +1166,12 @@ export function formatPrice(cents: number, currency = "USD") {
     style: "currency",
     currency
   }).format(cents / 100);
+}
+
+export function formatProductPrice(cents: number, currency = "USD") {
+  return cents > 0 ? formatPrice(cents, currency) : "Coming soon";
+}
+
+export function isPurchasable(product: Pick<Product, "priceCents">) {
+  return product.priceCents > 0;
 }

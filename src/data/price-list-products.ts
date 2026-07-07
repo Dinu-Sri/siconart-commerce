@@ -480,4 +480,64 @@ export const priceListProducts: PriceListProduct[] = [
     wholesaleCents: 360,
     moq: 200
   },
+  {
+    sku: "SA-41",
+    name: "Color Ring Bamboo Brush",
+    image: "/products/price-list/sa-41-color-ring-bamboo-brush.jpg",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    wholesaleCents: 0,
+    moq: 0
+  },
+  {
+    sku: "SA-42",
+    name: "Jade Orb Dark Tip Brush",
+    image: "/products/price-list/sa-42-jade-orb-dark-tip-brush.png",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    wholesaleCents: 0,
+    moq: 0
+  },
+  {
+    sku: "SA-43",
+    name: "Pink Youth Glow Brush",
+    image: "/products/price-list/sa-43-pink-youth-glow-brush.png",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    wholesaleCents: 0,
+    moq: 0
+  },
+  {
+    sku: "SA-44",
+    name: "Sapphire Jade Brush",
+    image: "/products/price-list/sa-44-sapphire-jade-brush.png",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    wholesaleCents: 0,
+    moq: 0
+  },
+  {
+    sku: "SA-45",
+    name: "Skyward Dragon Brush",
+    image: "/products/price-list/sa-45-skyward-dragon-brush.jpg",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    wholesaleCents: 0,
+    moq: 0
+  },
+  {
+    sku: "SA-46",
+    name: "Turquoise Wave Brush",
+    image: "/products/price-list/sa-46-turquoise-wave-brush.png",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    wholesaleCents: 0,
+    moq: 0
+  },
 ];

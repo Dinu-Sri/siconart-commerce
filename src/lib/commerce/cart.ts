@@ -18,6 +18,7 @@ export function priceCart(lines: CartLineInput[]) {
   const items = lines.map((line) => {
     const row = productRows.find((product) => product.sku === line.sku);
     if (!row) throw new Error(`Unknown SKU: ${line.sku}`);
+    if (row.priceCents <= 0) throw new Error(`${row.name} is coming soon`);
 
     const quantity = Math.max(1, Math.min(99, Math.floor(line.quantity)));
     return {

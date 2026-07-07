@@ -83,6 +83,7 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Local Sicon product catalog seed
 - Product images in `public/products`
 - Public shop products now use the master price sheet product names, retail prices, and feature images only.
+- Public products with retail price `0` render as Coming soon and are not purchasable until a retail price is set.
 - Product seeding reconciles existing rows by SKU or slug so master-sheet SKU changes can reuse public product URLs without crashing on unique slug conflicts.
 - Cart pricing with $100 minimum-order progress
 - Discount code support seeded with `WELCOME10`
@@ -116,6 +117,7 @@ Set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer bef
 - 2026-07-04: Added password-protected `/list` product price list and temporarily switched public routing to English-only.
 - 2026-07-07: Promoted master-sheet product names, retail prices, and feature images into the public storefront catalog without exposing artist, wholesale, or MOQ fields.
 - 2026-07-07: Fixed production seed reconciliation for master-sheet SKU changes that reuse existing product slugs.
+- 2026-07-07: Added six new coming-soon brush products from the master sheet and hid zero retail prices on public store pages.
 
 ## Notes
 

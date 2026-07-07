@@ -23,6 +23,8 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 - UX/UI plan: `docs/siconart-nextjs-ux-ui-plan.md`
 - Deployment: `DEPLOY.md`
 - Product seed data: `src/data/products.ts`
+- Public product catalog: `src/data/products.ts` must contain retail-only public data; do not import private artist/wholesale/MOQ values into it.
+- Private internal price data: `src/data/price-list-products.ts`
 - Product images: `public/products/`
 - Brand assets: `public/brand/`
 - Translations: `messages/en.json`, `messages/zh.json`

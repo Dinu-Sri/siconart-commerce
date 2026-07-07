@@ -82,6 +82,7 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Shipping and return policy placeholders
 - Local Sicon product catalog seed
 - Product images in `public/products`
+- Public shop products now use the master price sheet product names, retail prices, and feature images only.
 - Cart pricing with $100 minimum-order progress
 - Discount code support seeded with `WELCOME10`
 - Admin dashboard for products, categories, discounts, orders, and agent leads
@@ -112,6 +113,7 @@ Set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer bef
 - 2026-06-28: Switched default English URLs to flat paths, refined homepage art direction, and added PayHere checkout.
 - 2026-06-28: Added full footer support links, exact policy highlights, cart quantity badge, homepage craft/testimonial/FAQ sections, and redesigned checkout summary.
 - 2026-07-04: Added password-protected `/list` product price list and temporarily switched public routing to English-only.
+- 2026-07-07: Promoted master-sheet product names, retail prices, and feature images into the public storefront catalog without exposing artist, wholesale, or MOQ fields.
 
 ## Notes
 

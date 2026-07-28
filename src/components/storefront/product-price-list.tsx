@@ -38,7 +38,7 @@ const VERSIONS_KEY = "siconart-price-list-versions";
 const SAVED_AT_KEY = "siconart-price-list-saved-at";
 
 const fieldLabels: Record<ValueField, string> = {
-  retail: "Retail",
+  retail: "Market",
   artist: "Artist",
   miniWholesale: "Mini wholesale price",
   miniWholesaleMoq: "Mini wholesale MOQ",
@@ -265,7 +265,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
                 <div className="mt-3 grid gap-2">
                   <ValueInput
                     field="retail"
-                    label="Retail"
+                    label="Market"
                     value={drafts[product.sku]?.retail ?? formatValue("retail", values[product.sku]?.retail ?? product.retailCents)}
                     onChange={(value) => updateDraft(product.sku, "retail", value)}
                     onCommit={() => requestCommit(product, "retail")}
@@ -274,10 +274,11 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
                     field="artist"
                     label="Artist"
                     value={drafts[product.sku]?.artist ?? formatValue("artist", values[product.sku]?.artist ?? product.artistCents)}
+                    tone="artist"
                     onChange={(value) => updateDraft(product.sku, "artist", value)}
                     onCommit={() => requestCommit(product, "artist")}
                   />
-                  <div className="rounded bg-[#fff4cc] p-2">
+                  <div className="rounded bg-[#eaf7ef] p-2">
                     <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#9a6d38]">Mini Wholesale</p>
                     <div className="grid gap-2">
                       <ValueInput
@@ -287,7 +288,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
                           drafts[product.sku]?.miniWholesale ??
                           formatValue("miniWholesale", values[product.sku]?.miniWholesale ?? product.miniWholesaleCents)
                         }
-                        tone="yellowInner"
+                        tone="miniWholesale"
                         onChange={(value) => updateDraft(product.sku, "miniWholesale", value)}
                         onCommit={() => requestCommit(product, "miniWholesale")}
                       />
@@ -298,13 +299,13 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
                           drafts[product.sku]?.miniWholesaleMoq ??
                           formatValue("miniWholesaleMoq", values[product.sku]?.miniWholesaleMoq ?? product.miniWholesaleMoq)
                         }
-                        tone="yellowInner"
+                        tone="miniWholesale"
                         onChange={(value) => updateDraft(product.sku, "miniWholesaleMoq", value)}
                         onCommit={() => requestCommit(product, "miniWholesaleMoq")}
                       />
                     </div>
                   </div>
-                  <div className="rounded bg-[#fff4cc] p-2">
+                  <div className="rounded bg-[#fff2bf] p-2">
                     <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#9a6d38]">Bulk Wholesale</p>
                     <div className="grid gap-2">
                       <ValueInput
@@ -314,7 +315,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
                           drafts[product.sku]?.bulkWholesale ??
                           formatValue("bulkWholesale", values[product.sku]?.bulkWholesale ?? product.bulkWholesaleCents)
                         }
-                        tone="yellowInner"
+                        tone="bulkWholesale"
                         onChange={(value) => updateDraft(product.sku, "bulkWholesale", value)}
                         onCommit={() => requestCommit(product, "bulkWholesale")}
                       />
@@ -325,7 +326,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
                           drafts[product.sku]?.bulkWholesaleMoq ??
                           formatValue("bulkWholesaleMoq", values[product.sku]?.bulkWholesaleMoq ?? product.bulkWholesaleMoq)
                         }
-                        tone="yellowInner"
+                        tone="bulkWholesale"
                         onChange={(value) => updateDraft(product.sku, "bulkWholesaleMoq", value)}
                         onCommit={() => requestCommit(product, "bulkWholesaleMoq")}
                       />
@@ -428,12 +429,18 @@ function ValueInput({
   label: string;
   onChange: (value: string) => void;
   onCommit: () => void;
-  tone?: "default" | "yellow" | "yellowInner";
+  tone?: "default" | "artist" | "miniWholesale" | "bulkWholesale";
   value: string;
 }) {
   const isMoq = isMoqField(field);
   const toneClass =
-    tone === "yellow" ? "bg-[#fff4cc]" : tone === "yellowInner" ? "bg-[#fff9df]" : "bg-[#fbf4e8]";
+    tone === "artist"
+      ? "bg-[#edf7f3]"
+      : tone === "miniWholesale"
+        ? "bg-[#f8fff8]"
+        : tone === "bulkWholesale"
+          ? "bg-[#fff9df]"
+          : "bg-[#fbf4e8]";
 
   return (
     <label className={`grid grid-cols-[76px_1fr] items-center gap-2 rounded px-2 py-2 ${toneClass}`}>

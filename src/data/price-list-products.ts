@@ -1,12 +1,14 @@
-﻿export type PriceListProduct = {
+export type PriceListProduct = {
   sku: string;
   name: string;
   image: string;
   currency: "USD";
   retailCents: number;
   artistCents: number;
-  wholesaleCents: number;
-  moq: number;
+  miniWholesaleCents: number;
+  miniWholesaleMoq: number;
+  bulkWholesaleCents: number;
+  bulkWholesaleMoq: number;
 };
 
 export const priceListProducts: PriceListProduct[] = [
@@ -17,8 +19,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1200,
     artistCents: 850,
-    wholesaleCents: 120,
-    moq: 600
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 120,
+    bulkWholesaleMoq: 600
   },
   {
     sku: "SA-06",
@@ -27,8 +31,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1300,
     artistCents: 900,
-    wholesaleCents: 160,
-    moq: 600
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 160,
+    bulkWholesaleMoq: 600
   },
   {
     sku: "SA-05",
@@ -37,8 +43,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1300,
     artistCents: 900,
-    wholesaleCents: 170,
-    moq: 800
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 170,
+    bulkWholesaleMoq: 800
   },
   {
     sku: "SA-12",
@@ -47,8 +55,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2300,
     artistCents: 1500,
-    wholesaleCents: 320,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 320,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-22",
@@ -57,8 +67,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1350,
     artistCents: 950,
-    wholesaleCents: 200,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 200,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-09",
@@ -67,8 +79,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1350,
     artistCents: 950,
-    wholesaleCents: 180,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 180,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-26",
@@ -77,8 +91,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1400,
     artistCents: 1000,
-    wholesaleCents: 220,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 220,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-24",
@@ -87,8 +103,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2300,
     artistCents: 1500,
-    wholesaleCents: 350,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 350,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-25",
@@ -97,8 +115,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2300,
     artistCents: 1500,
-    wholesaleCents: 350,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 350,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-15",
@@ -107,8 +127,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2300,
     artistCents: 1500,
-    wholesaleCents: 350,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 350,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-07",
@@ -117,28 +139,34 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 3900,
     artistCents: 2500,
-    wholesaleCents: 830,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 830,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-20-E",
-    name: "T10 Travel Brush 灼 (Ember)",
+    name: "T10 Travel Brush ? (Ember)",
     image: "/products/price-list/sa-20-e-t10-travel-brush-ember.jpg",
     currency: "USD",
     retailCents: 1500,
     artistCents: 1050,
-    wholesaleCents: 220,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 220,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-20-ST",
-    name: "T10 Travel Brush 默 (Still)",
+    name: "T10 Travel Brush ? (Still)",
     image: "/products/price-list/sa-20-st-t10-travel-brush-still.jpg",
     currency: "USD",
     retailCents: 1400,
     artistCents: 1000,
-    wholesaleCents: 210,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 210,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-13-A",
@@ -147,8 +175,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1500,
     artistCents: 1050,
-    wholesaleCents: 220,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 220,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-13-B",
@@ -157,8 +187,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1500,
     artistCents: 1050,
-    wholesaleCents: 220,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 220,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-34",
@@ -167,8 +199,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1700,
     artistCents: 1200,
-    wholesaleCents: 270,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 270,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-23",
@@ -177,8 +211,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1950,
     artistCents: 1350,
-    wholesaleCents: 320,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 320,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-19-S",
@@ -187,8 +223,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1000,
     artistCents: 700,
-    wholesaleCents: 80,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 80,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-19-L",
@@ -197,8 +235,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1050,
     artistCents: 750,
-    wholesaleCents: 90,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 90,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-16",
@@ -207,8 +247,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1900,
     artistCents: 1350,
-    wholesaleCents: 310,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 310,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-17",
@@ -217,8 +259,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1900,
     artistCents: 1350,
-    wholesaleCents: 310,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 310,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-35-S",
@@ -227,8 +271,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2600,
     artistCents: 1700,
-    wholesaleCents: 410,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 410,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-35-M",
@@ -237,8 +283,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2700,
     artistCents: 1800,
-    wholesaleCents: 420,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 420,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-35-L",
@@ -247,8 +295,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2800,
     artistCents: 1800,
-    wholesaleCents: 430,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 430,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-27",
@@ -257,8 +307,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1500,
     artistCents: 1050,
-    wholesaleCents: 220,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 220,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-29",
@@ -267,8 +319,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1300,
     artistCents: 900,
-    wholesaleCents: 170,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 170,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-10",
@@ -277,8 +331,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1400,
     artistCents: 1000,
-    wholesaleCents: 220,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 220,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-11#3",
@@ -287,8 +343,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2300,
     artistCents: 1500,
-    wholesaleCents: 350,
-    moq: 200
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 350,
+    bulkWholesaleMoq: 200
   },
   {
     sku: "SA-11#5",
@@ -297,8 +355,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2900,
     artistCents: 1900,
-    wholesaleCents: 650,
-    moq: 200
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 650,
+    bulkWholesaleMoq: 200
   },
   {
     sku: "SA-11#7",
@@ -307,8 +367,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 3200,
     artistCents: 2100,
-    wholesaleCents: 760,
-    moq: 200
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 760,
+    bulkWholesaleMoq: 200
   },
   {
     sku: "SA-08",
@@ -317,8 +379,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1500,
     artistCents: 1050,
-    wholesaleCents: 220,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 220,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-28",
@@ -327,8 +391,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 1950,
     artistCents: 1350,
-    wholesaleCents: 320,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 320,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-21",
@@ -337,8 +403,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 4200,
     artistCents: 2700,
-    wholesaleCents: 850,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 850,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-33",
@@ -347,8 +415,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2400,
     artistCents: 1600,
-    wholesaleCents: 360,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 360,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-36",
@@ -357,8 +427,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2300,
     artistCents: 1500,
-    wholesaleCents: 350,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 350,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-18",
@@ -367,8 +439,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2400,
     artistCents: 1600,
-    wholesaleCents: 360,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 360,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-32-S",
@@ -377,8 +451,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2400,
     artistCents: 1600,
-    wholesaleCents: 350,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 350,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-32-M",
@@ -387,8 +463,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2600,
     artistCents: 1700,
-    wholesaleCents: 360,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 360,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-32-L",
@@ -397,8 +475,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2600,
     artistCents: 1700,
-    wholesaleCents: 370,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 370,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-30-SET",
@@ -407,8 +487,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 5900,
     artistCents: 3800,
-    wholesaleCents: 900,
-    moq: 500
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 900,
+    bulkWholesaleMoq: 500
   },
   {
     sku: "SA-31",
@@ -417,8 +499,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 3800,
     artistCents: 2500,
-    wholesaleCents: 800,
-    moq: 300
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 800,
+    bulkWholesaleMoq: 300
   },
   {
     sku: "SA-39",
@@ -427,8 +511,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 6500,
     artistCents: 3900,
-    wholesaleCents: 2030,
-    moq: 5
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 2030,
+    bulkWholesaleMoq: 5
   },
   {
     sku: "SA-38",
@@ -437,8 +523,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 10500,
     artistCents: 6400,
-    wholesaleCents: 3500,
-    moq: 5
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 3500,
+    bulkWholesaleMoq: 5
   },
   {
     sku: "SA-37",
@@ -447,8 +535,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 12200,
     artistCents: 7400,
-    wholesaleCents: 5200,
-    moq: 5
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 5200,
+    bulkWholesaleMoq: 5
   },
   {
     sku: "SA-40",
@@ -457,8 +547,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 12200,
     artistCents: 7400,
-    wholesaleCents: 5200,
-    moq: 5
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 5200,
+    bulkWholesaleMoq: 5
   },
   {
     sku: "SA-ACC-01",
@@ -467,8 +559,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2400,
     artistCents: 1600,
-    wholesaleCents: 360,
-    moq: 200
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 360,
+    bulkWholesaleMoq: 200
   },
   {
     sku: "SA-ACC-02",
@@ -477,8 +571,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 2400,
     artistCents: 1600,
-    wholesaleCents: 360,
-    moq: 200
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 360,
+    bulkWholesaleMoq: 200
   },
   {
     sku: "SA-41",
@@ -487,8 +583,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 0,
     artistCents: 0,
-    wholesaleCents: 0,
-    moq: 0
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
   },
   {
     sku: "SA-42",
@@ -497,8 +595,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 0,
     artistCents: 0,
-    wholesaleCents: 0,
-    moq: 0
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
   },
   {
     sku: "SA-43",
@@ -507,8 +607,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 0,
     artistCents: 0,
-    wholesaleCents: 0,
-    moq: 0
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
   },
   {
     sku: "SA-44",
@@ -517,8 +619,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 0,
     artistCents: 0,
-    wholesaleCents: 0,
-    moq: 0
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
   },
   {
     sku: "SA-45",
@@ -527,8 +631,10 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 0,
     artistCents: 0,
-    wholesaleCents: 0,
-    moq: 0
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
   },
   {
     sku: "SA-46",
@@ -537,7 +643,9 @@ export const priceListProducts: PriceListProduct[] = [
     currency: "USD",
     retailCents: 0,
     artistCents: 0,
-    wholesaleCents: 0,
-    moq: 0
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
   },
 ];

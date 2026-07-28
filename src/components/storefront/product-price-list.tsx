@@ -5,10 +5,15 @@ import { ArrowUp, RotateCcw, Save, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { PriceListProduct } from "@/data/price-list-products";
 
-type ValueField = "retail" | "artist" | "wholesale" | "moq";
+type ValueField = "retail" | "artist" | "miniWholesale" | "miniWholesaleMoq" | "bulkWholesale" | "bulkWholesaleMoq";
 type ProductValues = Record<ValueField, number>;
 type ValueMap = Record<string, ProductValues>;
 type DraftMap = Record<string, Record<ValueField, string>>;
+type LegacyProductValues = Partial<ProductValues> & {
+  wholesale?: number;
+  moq?: number;
+};
+type StoredValueMap = Record<string, LegacyProductValues>;
 type PendingChange = {
   field: ValueField;
   name: string;
@@ -23,8 +28,8 @@ type PriceVersion = {
   values: ValueMap;
 };
 type StoredPriceVersion = Omit<PriceVersion, "values"> & {
-  prices?: ValueMap;
-  values?: ValueMap;
+  prices?: StoredValueMap;
+  values?: StoredValueMap;
 };
 
 const CURRENT_KEY = "siconart-price-list-current";
@@ -35,8 +40,10 @@ const SAVED_AT_KEY = "siconart-price-list-saved-at";
 const fieldLabels: Record<ValueField, string> = {
   retail: "Retail",
   artist: "Artist",
-  wholesale: "Wholesale",
-  moq: "MOQ"
+  miniWholesale: "Mini wholesale price",
+  miniWholesaleMoq: "Mini wholesale MOQ",
+  bulkWholesale: "Bulk wholesale price",
+  bulkWholesaleMoq: "Bulk wholesale MOQ"
 };
 
 export function ProductPriceList({ products }: { products: PriceListProduct[] }) {
@@ -53,7 +60,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
   const sortedProducts = useMemo(() => [...products].sort((a, b) => a.name.localeCompare(b.name)), [products]);
 
   useEffect(() => {
-    const storedValues = readJson<ValueMap>(CURRENT_KEY);
+    const storedValues = readJson<StoredValueMap>(CURRENT_KEY);
     const storedVersions = normalizeVersions(products, readJson<StoredPriceVersion[]>(VERSIONS_KEY) ?? []);
     const nextValues = storedValues ? mergeWithDefaults(products, storedValues) : defaultValues;
 
@@ -97,7 +104,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
   }
 
   function updateDraft(sku: string, field: ValueField, rawValue: string) {
-    const nextDraft = field === "moq" ? cleanMoqDraft(rawValue) : cleanPriceDraft(rawValue);
+    const nextDraft = isMoqField(field) ? cleanMoqDraft(rawValue) : cleanPriceDraft(rawValue);
     setDrafts((current) => ({
       ...current,
       [sku]: {
@@ -110,7 +117,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
   function requestCommit(product: PriceListProduct, field: ValueField) {
     const currentValue = values[product.sku]?.[field] ?? defaultValues[product.sku][field];
     const rawDraft = drafts[product.sku]?.[field] ?? formatValue(field, currentValue);
-    const nextValue = field === "moq" ? parseMoq(rawDraft) : parsePriceCents(rawDraft);
+    const nextValue = isMoqField(field) ? parseMoq(rawDraft) : parsePriceCents(rawDraft);
 
     if (nextValue === currentValue) {
       resetDraft(product.sku, field, currentValue);
@@ -184,7 +191,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
   }
 
   function restoreLatest() {
-    const storedValues = readJson<ValueMap>(LATEST_KEY) ?? readJson<ValueMap>(CURRENT_KEY);
+    const storedValues = readJson<StoredValueMap>(LATEST_KEY) ?? readJson<StoredValueMap>(CURRENT_KEY);
     if (!storedValues) return;
     const nextValues = mergeWithDefaults(products, storedValues);
     setValues(nextValues);
@@ -270,22 +277,60 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
                     onChange={(value) => updateDraft(product.sku, "artist", value)}
                     onCommit={() => requestCommit(product, "artist")}
                   />
-                  <ValueInput
-                    field="wholesale"
-                    label="Wholesale"
-                    value={drafts[product.sku]?.wholesale ?? formatValue("wholesale", values[product.sku]?.wholesale ?? product.wholesaleCents)}
-                    tone="yellow"
-                    onChange={(value) => updateDraft(product.sku, "wholesale", value)}
-                    onCommit={() => requestCommit(product, "wholesale")}
-                  />
-                  <ValueInput
-                    field="moq"
-                    label="MOQ"
-                    value={drafts[product.sku]?.moq ?? formatValue("moq", values[product.sku]?.moq ?? product.moq)}
-                    tone="yellow"
-                    onChange={(value) => updateDraft(product.sku, "moq", value)}
-                    onCommit={() => requestCommit(product, "moq")}
-                  />
+                  <div className="rounded bg-[#fff4cc] p-2">
+                    <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#9a6d38]">Mini Wholesale</p>
+                    <div className="grid gap-2">
+                      <ValueInput
+                        field="miniWholesale"
+                        label="Price"
+                        value={
+                          drafts[product.sku]?.miniWholesale ??
+                          formatValue("miniWholesale", values[product.sku]?.miniWholesale ?? product.miniWholesaleCents)
+                        }
+                        tone="yellowInner"
+                        onChange={(value) => updateDraft(product.sku, "miniWholesale", value)}
+                        onCommit={() => requestCommit(product, "miniWholesale")}
+                      />
+                      <ValueInput
+                        field="miniWholesaleMoq"
+                        label="MOQ"
+                        value={
+                          drafts[product.sku]?.miniWholesaleMoq ??
+                          formatValue("miniWholesaleMoq", values[product.sku]?.miniWholesaleMoq ?? product.miniWholesaleMoq)
+                        }
+                        tone="yellowInner"
+                        onChange={(value) => updateDraft(product.sku, "miniWholesaleMoq", value)}
+                        onCommit={() => requestCommit(product, "miniWholesaleMoq")}
+                      />
+                    </div>
+                  </div>
+                  <div className="rounded bg-[#fff4cc] p-2">
+                    <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#9a6d38]">Bulk Wholesale</p>
+                    <div className="grid gap-2">
+                      <ValueInput
+                        field="bulkWholesale"
+                        label="Price"
+                        value={
+                          drafts[product.sku]?.bulkWholesale ??
+                          formatValue("bulkWholesale", values[product.sku]?.bulkWholesale ?? product.bulkWholesaleCents)
+                        }
+                        tone="yellowInner"
+                        onChange={(value) => updateDraft(product.sku, "bulkWholesale", value)}
+                        onCommit={() => requestCommit(product, "bulkWholesale")}
+                      />
+                      <ValueInput
+                        field="bulkWholesaleMoq"
+                        label="MOQ"
+                        value={
+                          drafts[product.sku]?.bulkWholesaleMoq ??
+                          formatValue("bulkWholesaleMoq", values[product.sku]?.bulkWholesaleMoq ?? product.bulkWholesaleMoq)
+                        }
+                        tone="yellowInner"
+                        onChange={(value) => updateDraft(product.sku, "bulkWholesaleMoq", value)}
+                        onCommit={() => requestCommit(product, "bulkWholesaleMoq")}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
@@ -383,12 +428,15 @@ function ValueInput({
   label: string;
   onChange: (value: string) => void;
   onCommit: () => void;
-  tone?: "default" | "yellow";
+  tone?: "default" | "yellow" | "yellowInner";
   value: string;
 }) {
-  const isMoq = field === "moq";
+  const isMoq = isMoqField(field);
+  const toneClass =
+    tone === "yellow" ? "bg-[#fff4cc]" : tone === "yellowInner" ? "bg-[#fff9df]" : "bg-[#fbf4e8]";
+
   return (
-    <label className={`grid grid-cols-[92px_1fr] items-center gap-2 rounded px-2 py-2 ${tone === "yellow" ? "bg-[#fff4cc]" : "bg-[#fbf4e8]"}`}>
+    <label className={`grid grid-cols-[76px_1fr] items-center gap-2 rounded px-2 py-2 ${toneClass}`}>
       <span className="text-sm font-semibold text-[#8a6d56]">{label}</span>
       <span className="flex min-w-0 items-center rounded border border-[#ead9c3] bg-white px-2">
         {!isMoq && <span className="text-base text-[#8a6d56]">$</span>}
@@ -415,8 +463,10 @@ function createDefaultValues(products: PriceListProduct[]) {
     map[product.sku] = {
       retail: product.retailCents,
       artist: product.artistCents,
-      wholesale: product.wholesaleCents,
-      moq: product.moq
+      miniWholesale: product.miniWholesaleCents,
+      miniWholesaleMoq: product.miniWholesaleMoq,
+      bulkWholesale: product.bulkWholesaleCents,
+      bulkWholesaleMoq: product.bulkWholesaleMoq
     };
     return map;
   }, {});
@@ -429,23 +479,33 @@ function createDrafts(values: ValueMap) {
       {
         retail: formatValue("retail", item.retail),
         artist: formatValue("artist", item.artist),
-        wholesale: formatValue("wholesale", item.wholesale),
-        moq: formatValue("moq", item.moq)
+        miniWholesale: formatValue("miniWholesale", item.miniWholesale),
+        miniWholesaleMoq: formatValue("miniWholesaleMoq", item.miniWholesaleMoq),
+        bulkWholesale: formatValue("bulkWholesale", item.bulkWholesale),
+        bulkWholesaleMoq: formatValue("bulkWholesaleMoq", item.bulkWholesaleMoq)
       }
     ])
   ) as DraftMap;
 }
 
-function mergeWithDefaults(products: PriceListProduct[], storedValues: ValueMap) {
+function mergeWithDefaults(products: PriceListProduct[], storedValues: StoredValueMap) {
   const defaults = createDefaultValues(products);
   return Object.fromEntries(
-    products.map((product) => [
-      product.sku,
-      {
-        ...defaults[product.sku],
-        ...storedValues[product.sku]
-      }
-    ])
+    products.map((product) => {
+      const stored = storedValues[product.sku] ?? {};
+      return [
+        product.sku,
+        {
+          ...defaults[product.sku],
+          retail: stored.retail ?? defaults[product.sku].retail,
+          artist: stored.artist ?? defaults[product.sku].artist,
+          miniWholesale: stored.miniWholesale ?? defaults[product.sku].miniWholesale,
+          miniWholesaleMoq: stored.miniWholesaleMoq ?? defaults[product.sku].miniWholesaleMoq,
+          bulkWholesale: stored.bulkWholesale ?? stored.wholesale ?? defaults[product.sku].bulkWholesale,
+          bulkWholesaleMoq: stored.bulkWholesaleMoq ?? stored.moq ?? defaults[product.sku].bulkWholesaleMoq
+        }
+      ];
+    })
   ) as ValueMap;
 }
 
@@ -459,11 +519,15 @@ function normalizeVersions(products: PriceListProduct[], versions: StoredPriceVe
 }
 
 function formatValue(field: ValueField, value: number) {
-  return field === "moq" ? String(value) : centsToInput(value);
+  return isMoqField(field) ? String(value) : centsToInput(value);
 }
 
 function formatValueForMessage(field: ValueField, value: number) {
-  return field === "moq" ? `${value} pcs` : `$${centsToInput(value)}`;
+  return isMoqField(field) ? `${value} pcs` : `$${centsToInput(value)}`;
+}
+
+function isMoqField(field: ValueField) {
+  return field.endsWith("Moq");
 }
 
 function centsToInput(cents: number) {

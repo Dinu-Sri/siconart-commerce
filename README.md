@@ -95,7 +95,7 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Header cart icon shows the current local cart item count.
 - PayHere checkout creates local orders, signs the PayHere payload on the server, and receives payment notifications at `/api/payhere/notify`.
 - Public storefront is currently English-only with the language switcher hidden.
-- Private price list at `/list` is sourced from the master price sheet data, shows editable product cards with image preview, name, retail price, artist price, wholesale price, and MOQ. It hides normal header/footer, stores confirmed edits and versions in the browser, asks for confirmation before applying price/MOQ changes, and uses password `tina`.
+- Private price list at `/list` is sourced from the master price sheet data, shows editable product cards with image preview, name, retail price, artist price, Mini Wholesale price + MOQ, and Bulk Wholesale price + MOQ. It hides normal header/footer, stores confirmed edits and versions in the browser, asks for confirmation before applying price/MOQ changes, and uses password `tina`.
 
 ## Admin
 
@@ -118,6 +118,7 @@ Set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and `ADMIN_SESSION_SECRET` in Portainer bef
 - 2026-07-07: Promoted master-sheet product names, retail prices, and feature images into the public storefront catalog without exposing artist, wholesale, or MOQ fields.
 - 2026-07-07: Fixed production seed reconciliation for master-sheet SKU changes that reuse existing product slugs.
 - 2026-07-07: Added six new coming-soon brush products from the master sheet and hid zero retail prices on public store pages.
+- 2026-07-28: Split the private `/list` wholesale area into Mini Wholesale and Bulk Wholesale buckets, each with its own MOQ.
 
 ## Notes
 

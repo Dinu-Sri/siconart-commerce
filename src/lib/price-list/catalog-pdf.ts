@@ -24,11 +24,24 @@ type CatalogTheme = {
   filename: string;
   lightBg: string;
   moqField: "miniWholesaleMoq" | "bulkWholesaleMoq" | null;
+  pageBg: string;
   priceField: "artist" | "miniWholesale" | "bulkWholesale";
   priceLabel: string;
   rightLines: [string, string];
   subtle: string;
   title: string;
+};
+
+type CatalogItem = {
+  artist: number;
+  bulkWholesale: number;
+  bulkWholesaleMoq: number;
+  imagePath: string;
+  market: number;
+  miniWholesale: number;
+  miniWholesaleMoq: number;
+  name: string;
+  sku: string;
 };
 
 const catalogThemes: Record<PriceCatalogKind, CatalogTheme> = {
@@ -39,6 +52,7 @@ const catalogThemes: Record<PriceCatalogKind, CatalogTheme> = {
     filename: "SiconArt_Artist_Price_Catalog.pdf",
     lightBg: "#fdf7ef",
     moqField: null,
+    pageBg: "#fff6ec",
     priceField: "artist",
     priceLabel: "Artist Price",
     rightLines: ["Artist partner pricing", "Market price shown for reference."],
@@ -52,6 +66,7 @@ const catalogThemes: Record<PriceCatalogKind, CatalogTheme> = {
     filename: "SiconArt_MINI_Wholesale_Catalog.pdf",
     lightBg: "#f1fbf4",
     moqField: "miniWholesaleMoq",
+    pageBg: "#eef9f1",
     priceField: "miniWholesale",
     priceLabel: "Mini Wholesale",
     rightLines: ["Mini minimums shown per product", "Packing & shipping calculated separately."],
@@ -65,6 +80,7 @@ const catalogThemes: Record<PriceCatalogKind, CatalogTheme> = {
     filename: "SiconArt_Bulk_Wholesale_Catalog.pdf",
     lightBg: "#fff7dd",
     moqField: "bulkWholesaleMoq",
+    pageBg: "#fff3d8",
     priceField: "bulkWholesale",
     priceLabel: "Bulk Wholesale",
     rightLines: ["Bulk minimums shown per product", "Packing & shipping calculated separately."],
@@ -125,7 +141,7 @@ export async function generatePriceCatalogPdf({
   return finished;
 }
 
-function buildCatalogItems(products: PriceListProduct[], values: PriceCatalogValues = {}) {
+function buildCatalogItems(products: PriceListProduct[], values: PriceCatalogValues = {}): CatalogItem[] {
   const bySku = new Map(products.map((product) => [product.sku, product]));
   const orderedSkus = [
     ...familyOrder.flat(),
@@ -149,21 +165,37 @@ function buildCatalogItems(products: PriceListProduct[], values: PriceCatalogVal
         name: cleanName(product.name),
         sku: product.sku
       };
-    });
+    })
+    .filter(isCatalogItemPublishable);
 }
 
 function drawPages(
   doc: PDFKit.PDFDocument,
   theme: CatalogTheme,
-  items: ReturnType<typeof buildCatalogItems>
+  items: CatalogItem[]
 ) {
   let pageIndex = 0;
+
+  if (items.length === 0) {
+    doc.rect(0, 0, pageWidth, pageHeight).fill(theme.pageBg);
+    drawHeader(doc, theme);
+    doc
+      .font("PoppinsSemiBold")
+      .fontSize(12)
+      .fillColor(theme.subtle)
+      .text("No products with complete positive pricing are available for this catalog.", margin, margin + headerHeight + 32, {
+        align: "center",
+        width: pageWidth - margin * 2
+      });
+    drawFooter(doc, theme, 1, 1);
+    return;
+  }
 
   for (let start = 0; start < items.length; start += columns * rows) {
     if (start > 0) doc.addPage({ size: "A4", margin: 0 });
     pageIndex += 1;
 
-    doc.rect(0, 0, pageWidth, pageHeight).fill("#fffaf1");
+    doc.rect(0, 0, pageWidth, pageHeight).fill(theme.pageBg);
     drawHeader(doc, theme);
 
     items.slice(start, start + columns * rows).forEach((item, index) => {
@@ -210,7 +242,7 @@ function drawHeader(doc: PDFKit.PDFDocument, theme: CatalogTheme) {
 function drawCard(
   doc: PDFKit.PDFDocument,
   theme: CatalogTheme,
-  item: ReturnType<typeof buildCatalogItems>[number],
+  item: CatalogItem,
   x: number,
   y: number
 ) {
@@ -287,6 +319,17 @@ function resolvePublicAsset(publicPath: string) {
 
 function asNumber(value: unknown, fallback: number) {
   return typeof value === "number" && Number.isFinite(value) ? Math.max(0, Math.round(value)) : fallback;
+}
+
+function isCatalogItemPublishable(item: CatalogItem) {
+  return (
+    item.market > 0 &&
+    item.artist > 0 &&
+    item.miniWholesale > 0 &&
+    item.miniWholesaleMoq > 0 &&
+    item.bulkWholesale > 0 &&
+    item.bulkWholesaleMoq > 0
+  );
 }
 
 function formatMoney(cents: number) {

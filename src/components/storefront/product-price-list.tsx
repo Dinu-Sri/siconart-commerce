@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUp, RotateCcw, Save, X } from "lucide-react";
+import { ArrowUp, FileDown, RotateCcw, Save, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { PriceListProduct } from "@/data/price-list-products";
 
 type ValueField = "retail" | "artist" | "miniWholesale" | "miniWholesaleMoq" | "bulkWholesale" | "bulkWholesaleMoq";
+type PriceCatalogKind = "artist" | "mini" | "bulk";
 type ProductValues = Record<ValueField, number>;
 type ValueMap = Record<string, ProductValues>;
 type DraftMap = Record<string, Record<ValueField, string>>;
@@ -55,6 +56,8 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
   const [lastSavedAt, setLastSavedAt] = useState("");
   const [pendingChange, setPendingChange] = useState<PendingChange | null>(null);
   const [previewProduct, setPreviewProduct] = useState<PriceListProduct | null>(null);
+  const [downloadingCatalog, setDownloadingCatalog] = useState<PriceCatalogKind | null>(null);
+  const [catalogError, setCatalogError] = useState("");
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const sortedProducts = useMemo(() => [...products].sort((a, b) => a.name.localeCompare(b.name)), [products]);
@@ -199,6 +202,37 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
     setSelectedVersionId("");
   }
 
+  async function downloadCatalog(kind: PriceCatalogKind) {
+    setDownloadingCatalog(kind);
+    setCatalogError("");
+
+    try {
+      const response = await fetch("/api/price-list/pdf", {
+        body: JSON.stringify({ kind, values }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST"
+      });
+
+      if (!response.ok) {
+        throw new Error("PDF could not be generated.");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = getCatalogFilename(kind);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch {
+      setCatalogError("PDF download failed. Please refresh the list and try again.");
+    } finally {
+      setDownloadingCatalog(null);
+    }
+  }
+
   return (
     <div className="min-h-dvh bg-[#fef9ef] text-[#2f2118]" style={{ colorScheme: "light" }}>
       <section className="mx-auto w-full max-w-6xl px-3 py-3 sm:px-5 sm:py-5">
@@ -240,6 +274,28 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
               Save
             </button>
           </div>
+
+          <div className="mt-3 grid gap-2 sm:grid-cols-3">
+            <CatalogButton
+              kind="artist"
+              label="Artist prices"
+              loading={downloadingCatalog === "artist"}
+              onClick={() => downloadCatalog("artist")}
+            />
+            <CatalogButton
+              kind="mini"
+              label="Mini wholesale price list"
+              loading={downloadingCatalog === "mini"}
+              onClick={() => downloadCatalog("mini")}
+            />
+            <CatalogButton
+              kind="bulk"
+              label="Bulk wholesale price list"
+              loading={downloadingCatalog === "bulk"}
+              onClick={() => downloadCatalog("bulk")}
+            />
+          </div>
+          {catalogError && <p className="mt-2 text-sm font-semibold text-red-600">{catalogError}</p>}
         </header>
 
         <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -417,6 +473,37 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
   );
 }
 
+function CatalogButton({
+  kind,
+  label,
+  loading,
+  onClick
+}: {
+  kind: PriceCatalogKind;
+  label: string;
+  loading: boolean;
+  onClick: () => void;
+}) {
+  const tone =
+    kind === "artist"
+      ? "border-[#d9e9e1] bg-[#edf7f3] text-[#245c48]"
+      : kind === "mini"
+        ? "border-[#d9eadc] bg-[#eaf7ef] text-[#2f6a45]"
+        : "border-[#eadfbd] bg-[#fff2bf] text-[#704b18]";
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={loading}
+      className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-[0.5rem] border px-3 text-sm font-semibold transition disabled:cursor-wait disabled:opacity-70 ${tone}`}
+    >
+      <FileDown className="h-4 w-4" />
+      {loading ? "Preparing..." : label}
+    </button>
+  );
+}
+
 function ValueInput({
   field,
   label,
@@ -570,6 +657,15 @@ function formatTimestamp(date: Date) {
     hour: "2-digit",
     minute: "2-digit"
   });
+}
+
+function getCatalogFilename(kind: PriceCatalogKind) {
+  const names: Record<PriceCatalogKind, string> = {
+    artist: "SiconArt_Artist_Price_Catalog.pdf",
+    bulk: "SiconArt_Bulk_Wholesale_Catalog.pdf",
+    mini: "SiconArt_MINI_Wholesale_Catalog.pdf"
+  };
+  return names[kind];
 }
 
 function readJson<T>(key: string) {

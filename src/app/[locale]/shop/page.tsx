@@ -2,6 +2,9 @@ import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { categories, products } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { ProductCard } from "@/components/storefront/product-card";
+import { pickShopThumbnail, withProductImages } from "@/lib/product-images";
+
+export const dynamic = "force-dynamic";
 
 export default async function ShopPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -52,9 +55,17 @@ export default async function ShopPage({ params }: { params: Promise<{ locale: s
             <p className="text-sm font-semibold text-muted-foreground">{t("results", { count: products.length })}</p>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-            {products.map((product) => (
-              <ProductCard key={product.sku} product={product} locale={activeLocale} />
-            ))}
+            {products.map((product) => {
+              const shopProduct = withProductImages(product);
+              return (
+                <ProductCard
+                  key={product.sku}
+                  product={shopProduct}
+                  locale={activeLocale}
+                  imageSrc={pickShopThumbnail(shopProduct.images)}
+                />
+              );
+            })}
           </div>
         </div>
       </div>

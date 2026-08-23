@@ -15,3 +15,5 @@ tsconfig.tsbuildinfo
 .turbo
 .vscode
 .agents
+tmp
+output

@@ -60,6 +60,9 @@ export async function SiteFooter() {
             <a href="mailto:support@siconart.com" className="hover:text-accent-foreground">
               support@siconart.com
             </a>
+            <a href="https://www.instagram.com/siconarts/" target="_blank" rel="noreferrer" className="hover:text-accent-foreground">
+              Instagram @siconarts
+            </a>
             <span>Dongguan, Guangdong, China</span>
             <span>Returns: unused items within 30 days. Damaged, wrong, or defective items must be reported within 7 days.</span>
           </div>

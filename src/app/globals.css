@@ -58,6 +58,10 @@ body {
   animation: marquee 24s linear infinite;
 }
 
+.animate-marquee-slow {
+  animation: marquee 42s linear infinite;
+}
+
 ::selection {
   background: hsl(var(--primary));
   color: hsl(var(--primary-foreground));

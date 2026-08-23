@@ -2,20 +2,26 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, BadgeCheck, CheckCircle2, Feather, Gift, Hand, PackageCheck, Palette } from "lucide-react";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
-import { products } from "@/data/products";
+import { getHomepageFeatured, getNewArrivals } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
+import { pickGalleryThumbnail, withProductImages } from "@/lib/product-images";
 import { Button } from "@/components/ui/button";
 import { HeroProduct } from "@/components/storefront/hero-product";
 import { ProductCard } from "@/components/storefront/product-card";
 import { TestimonialsCarousel } from "@/components/storefront/testimonials-carousel";
+import { ArtistsAroundWorldSection, InstagramPostsSlider } from "@/components/storefront/instagram-section";
+import { getArtistStories, getInstagramFeedItems } from "@/lib/instagram";
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
   const activeLocale = (await getLocale()) as Locale;
   const t = await getTranslations("home");
-  const featured = products.filter((product) => product.featured).slice(0, 4);
+  const featured = getHomepageFeatured(12).map(withProductImages);
+  const newArrivals = getNewArrivals(8).map(withProductImages);
+  const artistStories = getArtistStories(8);
+  const instagramPosts = getInstagramFeedItems();
   const craftSteps = [
     {
       title: "Material Selection",
@@ -158,7 +164,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((product) => (
-            <ProductCard key={product.sku} product={product} locale={activeLocale} />
+            <ProductCard
+              key={product.sku}
+              product={product}
+              locale={activeLocale}
+              compact
+              imageSrc={pickGalleryThumbnail(product.images)}
+            />
           ))}
         </div>
       </section>
@@ -230,19 +242,28 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      <section className="border-y bg-surface-subtle">
-        <div className="container-content section-pad grid gap-10 lg:grid-cols-[0.8fr_1fr]">
+      <ArtistsAroundWorldSection stories={artistStories} />
+
+      <section className="container-content section-pad">
+        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="eyebrow">{t("craftEyebrow")}</p>
-            <h2 className="mt-3 font-serif text-4xl font-semibold">{t("craftTitle")}</h2>
+            <p className="eyebrow">Just in</p>
+            <h2 className="mt-3 font-serif text-4xl font-semibold">New arrivals</h2>
           </div>
-          <div className="grid gap-6 text-lg leading-8 text-muted-foreground">
-            <p>{t("craftBodyOne")}</p>
-            <p>{t("craftBodyTwo")}</p>
-            <Button asChild variant="secondary" className="w-fit">
-              <Link href={localeHref(activeLocale, "/about")}>{t("craftCta")}</Link>
-            </Button>
-          </div>
+          <Link href={localeHref(activeLocale, "/shop")} className="inline-flex items-center gap-2 font-semibold text-primary">
+            {t("viewAll")} <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {newArrivals.map((product) => (
+            <ProductCard
+              key={product.sku}
+              product={product}
+              locale={activeLocale}
+              compact
+              imageSrc={pickGalleryThumbnail(product.images)}
+            />
+          ))}
         </div>
       </section>
 
@@ -316,6 +337,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
         </div>
       </section>
+
+      <InstagramPostsSlider posts={instagramPosts} />
     </>
   );
 }

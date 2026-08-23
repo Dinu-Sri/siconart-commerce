@@ -5,7 +5,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 function loadProducts() {
-  const source = fs.readFileSync(path.join(__dirname, "../src/data/products.ts"), "utf8");
+  const source = fs.readFileSync(path.join(__dirname, "../src/data/products.ts"), "utf8").replaceAll("\r\n", "\n");
   const startToken = "export const products: Product[] = ";
   const endToken = ";\n\nexport const categories";
   const start = source.indexOf(startToken);
@@ -19,8 +19,39 @@ function loadProducts() {
   return Function(`"use strict"; return (${arraySource});`)();
 }
 
+const IMAGE_EXTENSIONS = new Set([".avif", ".jpeg", ".jpg", ".png", ".webp"]);
+
+function isImageFile(name) {
+  return IMAGE_EXTENSIONS.has(path.extname(name).toLowerCase()) && !name.startsWith(".");
+}
+
+function listImages(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && isImageFile(entry.name))
+    .map((entry) => path.join(dir, entry.name))
+    .sort((left, right) => left.localeCompare(right, "en"));
+}
+
+function publicUrl(absolutePath) {
+  return `/${path.relative(path.join(__dirname, "../public"), absolutePath).replaceAll("\\", "/")}`;
+}
+
+function resolveProductImages(product) {
+  const dir = path.join(__dirname, "../public/products", product.slug);
+  const rootImages = listImages(dir);
+  const featureFile = rootImages.find((file) => path.parse(file).name.toLowerCase() === "feature");
+  const galleryFiles = [
+    ...rootImages.filter((file) => path.parse(file).name.toLowerCase() !== "feature"),
+    ...listImages(path.join(dir, "gallery"))
+  ];
+  const urls = [featureFile ? publicUrl(featureFile) : product.images[0], ...galleryFiles.map(publicUrl)].filter(Boolean);
+  return [...new Set(urls)];
+}
+
 async function main() {
-  const products = loadProducts();
+  const products = loadProducts().map((product) => ({ ...product, images: resolveProductImages(product) }));
   const categoryNames = Array.from(new Set(products.map((product) => product.category)));
 
   for (const name of categoryNames) {

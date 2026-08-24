@@ -8,7 +8,8 @@ const links = [
   { label: "Categories", href: "/admin/categories" },
   { label: "Discounts", href: "/admin/discounts" },
   { label: "Orders", href: "/admin/orders" },
-  { label: "Agent leads", href: "/admin/agent-leads" }
+  { label: "Agent leads", href: "/admin/agent-leads" },
+  { label: "Emails", href: "/admin/emails" }
 ];
 
 export function AdminShell({

@@ -78,6 +78,7 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Product detail URLs under `/products/<slug>` with old `/shop/<slug>` redirects
 - Product detail
 - Become an Agent
+- Admin email preview and test page at `/admin/emails`
 - About
 - Contact
 - FAQ

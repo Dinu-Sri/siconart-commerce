@@ -30,6 +30,8 @@ Required Portainer environment variables:
 - `NOTIFY_EMAIL_1` - first administrator inbox for all order and form emails
 - `NOTIFY_EMAIL_2` - second administrator inbox for all order and form emails
 
+After login, open `/admin/emails` to preview every template and send `[TEST]` copies to those inboxes.
+
 Cloudflare Tunnel:
 
 - `CF_TUNNEL_TOKEN` - Cloudflare Tunnel token

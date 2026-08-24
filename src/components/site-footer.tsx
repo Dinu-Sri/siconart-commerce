@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Logo } from "@/components/logo";
 import { localeHref } from "@/lib/nav";
 import type { Locale } from "@/i18n/routing";
+import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
 
 export async function SiteFooter() {
   const locale = (await getLocale()) as Locale;
@@ -57,8 +58,11 @@ export async function SiteFooter() {
         <div>
           <h2 className="text-sm font-bold uppercase tracking-[0.18em]">{t("contact")}</h2>
           <div className="mt-4 grid gap-3 text-sm leading-6 text-accent-foreground/75">
-            <a href="mailto:support@siconart.com" className="hover:text-accent-foreground">
-              support@siconart.com
+            <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-accent-foreground">
+              {SUPPORT_EMAIL}
+            </a>
+            <a href={SUPPORT_WHATSAPP_LINK} target="_blank" rel="noreferrer" className="hover:text-accent-foreground">
+              WhatsApp {SUPPORT_WHATSAPP_DISPLAY}
             </a>
             <a href="https://www.instagram.com/siconarts/" target="_blank" rel="noreferrer" className="hover:text-accent-foreground">
               Instagram @siconarts

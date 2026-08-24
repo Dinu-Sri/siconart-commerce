@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { db } from "@/lib/db";
 import { notifyContactSubmission } from "@/lib/email";
+import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
 import { Button } from "@/components/ui/button";
 
 export default async function ContactPage({
@@ -46,8 +47,14 @@ export default async function ContactPage({
           <div className="mt-8 rounded-[0.5rem] border bg-surface p-6 text-sm leading-7 text-muted-foreground">
             <p>
               <strong className="text-foreground">{t("email")}:</strong>{" "}
-              <a href="mailto:support@siconart.com" className="text-primary">
-                support@siconart.com
+              <a href={`mailto:${SUPPORT_EMAIL}`} className="text-primary">
+                {SUPPORT_EMAIL}
+              </a>
+            </p>
+            <p>
+              <strong className="text-foreground">WhatsApp:</strong>{" "}
+              <a href={SUPPORT_WHATSAPP_LINK} target="_blank" rel="noreferrer" className="text-primary">
+                {SUPPORT_WHATSAPP_DISPLAY}
               </a>
             </p>
             <p>

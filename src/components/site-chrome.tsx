@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { WhatsAppFloat } from "@/components/whatsapp-float";
 
 export function SiteChrome({
   children,
@@ -23,6 +24,7 @@ export function SiteChrome({
       {header}
       <main className="flex-1">{children}</main>
       {footer}
+      <WhatsAppFloat />
     </div>
   );
 }

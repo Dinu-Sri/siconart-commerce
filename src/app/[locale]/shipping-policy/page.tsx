@@ -1,5 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
+import { SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
 
 export default async function ShippingPolicyPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -15,7 +16,11 @@ export default async function ShippingPolicyPage({ params }: { params: Promise<{
           <p>All orders are shipped from Dongguan, China, where our brushes are made and tested before dispatch.</p>
           <p>
             Shipping costs vary by destination country. Your exact shipping price is calculated and shown at checkout
-            based on your delivery address whenever available.
+            based on your delivery address whenever a rate is available. If your country is not listed,{" "}
+            <a href={SUPPORT_WHATSAPP_LINK} target="_blank" rel="noreferrer" className="text-primary">
+              message us on WhatsApp {SUPPORT_WHATSAPP_DISPLAY}
+            </a>{" "}
+            and we will calculate shipping and send you the details to place the order.
           </p>
           <p>
             Orders are typically processed within 2-5 business days, Monday-Friday excluding public holidays. Delivery

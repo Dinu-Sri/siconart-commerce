@@ -25,7 +25,7 @@ export function SiteHeader() {
       <div className="overflow-hidden border-b bg-accent py-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground">
         <div className="animate-marquee flex w-max gap-12 whitespace-nowrap">
           {Array.from({ length: 4 }).map((_, index) => (
-            <span key={index}>Minimum order quantity $100. Worldwide shipping.</span>
+            <span key={index}>Worldwide shipping from Dongguan, China.</span>
           ))}
         </div>
       </div>

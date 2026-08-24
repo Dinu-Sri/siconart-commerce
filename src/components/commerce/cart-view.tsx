@@ -7,7 +7,6 @@ import { products, formatPrice } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
-import { OrderMinimumProgress } from "@/components/commerce/order-minimum-progress";
 
 const CART_KEY = "siconart-cart";
 
@@ -152,8 +151,7 @@ export function CartView({ locale }: { locale: Locale }) {
       </div>
 
       <aside className="h-fit rounded-[0.5rem] border bg-surface p-5 lg:sticky lg:top-32">
-        <OrderMinimumProgress amountCents={totalCents} />
-        <label className="mt-5 block text-sm font-semibold">
+        <label className="block text-sm font-semibold">
           Discount code
           <input
             value={discountCode}
@@ -177,15 +175,9 @@ export function CartView({ locale }: { locale: Locale }) {
             <span>{formatPrice(totalCents)}</span>
           </div>
         </div>
-        {totalCents < 10000 ? (
-          <Button type="button" className="mt-6 w-full" disabled>
-            Checkout
-          </Button>
-        ) : (
-          <Button asChild className="mt-6 w-full">
-            <Link href={localeHref(locale, "/checkout")}>Checkout</Link>
-          </Button>
-        )}
+        <Button asChild className="mt-6 w-full">
+          <Link href={localeHref(locale, "/checkout")}>Checkout</Link>
+        </Button>
       </aside>
     </div>
   );

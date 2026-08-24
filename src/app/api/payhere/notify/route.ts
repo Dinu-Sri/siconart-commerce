@@ -39,6 +39,7 @@ export async function POST(request: Request) {
     email: order.email,
     status: paid ? "Paid" : "Payment failed",
     totalCents: order.totalCents,
+    shippingCents: order.shippingCents,
     currency: order.currency,
     discountCode: order.discountCode,
     items: order.items.map((item) => ({

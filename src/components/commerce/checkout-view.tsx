@@ -4,8 +4,11 @@ import Link from "next/link";
 import type { FormEvent } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { formatPrice, products } from "@/data/products";
+import { COUNTRIES, getCountry } from "@/data/countries";
+import { getShippingQuote } from "@/data/shipping";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
+import { SUPPORT_WHATSAPP_DISPLAY, whatsappShippingHelpLink } from "@/lib/support";
 import { Button } from "@/components/ui/button";
 
 const CART_KEY = "siconart-cart";
@@ -18,10 +21,12 @@ type CartLine = {
 type PayHereResponse = {
   orderNumber: string;
   payhere: {
+    sandbox: boolean;
     action: string;
     fields: Record<string, string>;
   };
 };
+
 type PricedCart = {
   items: Array<{ sku: string; name: string; quantity: number; priceCents: number; lineTotalCents: number }>;
   subtotalCents: number;
@@ -29,19 +34,49 @@ type PricedCart = {
   totalCents: number;
 };
 
+type PayHereSdk = {
+  startPayment: (payment: Record<string, string | boolean>) => void;
+  onCompleted: ((orderId: string) => void) | null;
+  onDismissed: (() => void) | null;
+  onError: ((error: string) => void) | null;
+};
+
+declare global {
+  interface Window {
+    payhere?: PayHereSdk;
+  }
+}
+
 export function CheckoutView({ locale }: { locale: Locale }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [discountCode, setDiscountCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [pricedCart, setPricedCart] = useState<PricedCart | null>(null);
+  const [countryCode, setCountryCode] = useState("");
+  const [phoneNational, setPhoneNational] = useState("");
+  const [shippingHelpOpen, setShippingHelpOpen] = useState(false);
+  const [cancelled, setCancelled] = useState(false);
+
+  const country = getCountry(countryCode);
+  const shippingQuote = countryCode ? getShippingQuote(countryCode) : null;
+  const shippingAvailable = shippingQuote?.available === true;
+  const shippingCents = shippingAvailable ? shippingQuote.cents : 0;
 
   useEffect(() => {
     setLines(readCart());
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("cancelled") === "1") {
+      setCancelled(true);
+      params.delete("cancelled");
+      const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}`;
+      window.history.replaceState({}, "", next);
+    }
   }, []);
 
   const subtotalCents = useMemo(() => estimateSubtotal(lines), [lines]);
-  const totalCents = pricedCart?.totalCents ?? subtotalCents;
+  const merchandiseTotal = pricedCart?.totalCents ?? subtotalCents;
+  const payableCents = merchandiseTotal + shippingCents;
 
   useEffect(() => {
     if (lines.length === 0) return;
@@ -67,11 +102,38 @@ export function CheckoutView({ locale }: { locale: Locale }) {
     return () => controller.abort();
   }, [lines, discountCode]);
 
+  function selectCountry(nextCode: string) {
+    setCountryCode(nextCode);
+    const quote = nextCode ? getShippingQuote(nextCode) : null;
+    setShippingHelpOpen(Boolean(quote && !quote.available));
+  }
+
   async function submitCheckout(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    const email = String(formData.get("email") || "").trim();
+    const phone = fullPhone(country?.dial, phoneNational);
+
+    if (!email.includes("@")) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (!country) {
+      setError("Please select your country.");
+      return;
+    }
+    if (!isValidPhone(phone)) {
+      setError("Please enter a valid mobile number.");
+      return;
+    }
+    if (!shippingAvailable) {
+      setShippingHelpOpen(true);
+      return;
+    }
+
     setLoading(true);
     setError("");
+    setCancelled(false);
 
     try {
       const response = await fetch("/api/checkout", {
@@ -80,9 +142,10 @@ export function CheckoutView({ locale }: { locale: Locale }) {
         body: JSON.stringify({
           lines,
           discountCode: discountCode || undefined,
-          email: String(formData.get("email") || ""),
+          email,
           firstName: String(formData.get("firstName") || ""),
           lastName: String(formData.get("lastName") || ""),
+          countryCode: country.code,
           shipping: {
             name: `${formData.get("firstName") || ""} ${formData.get("lastName") || ""}`.trim(),
             line1: String(formData.get("line1") || ""),
@@ -90,14 +153,29 @@ export function CheckoutView({ locale }: { locale: Locale }) {
             city: String(formData.get("city") || ""),
             region: String(formData.get("region") || ""),
             postalCode: String(formData.get("postalCode") || ""),
-            country: String(formData.get("country") || ""),
-            phone: String(formData.get("phone") || "")
+            country: country.name,
+            phone
           }
         })
       });
-      const payload = (await response.json()) as PayHereResponse & { error?: string };
-      if (!response.ok) throw new Error(payload.error || "Unable to start checkout");
-      submitToPayHere(payload.payhere.action, payload.payhere.fields);
+      const payload = (await response.json()) as PayHereResponse & { error?: string; code?: string };
+      if (!response.ok) {
+        if (payload.code === "SHIPPING_UNAVAILABLE") setShippingHelpOpen(true);
+        throw new Error(payload.error || "Unable to start checkout");
+      }
+      await openPayHerePopup(payload, {
+        onCompleted: (orderId) => {
+          window.location.assign(localeHref(locale, `/checkout/thank-you?order=${encodeURIComponent(orderId)}`));
+        },
+        onDismissed: () => {
+          setCancelled(true);
+          setLoading(false);
+        },
+        onError: (message) => {
+          setError(message || "Payment could not start");
+          setLoading(false);
+        }
+      });
     } catch (checkoutError) {
       setError(checkoutError instanceof Error ? checkoutError.message : "Unable to start checkout");
       setLoading(false);
@@ -125,24 +203,60 @@ export function CheckoutView({ locale }: { locale: Locale }) {
           <p className="mt-4 text-muted-foreground">Pay securely with PayHere after confirming your shipping details.</p>
         </div>
 
+        {cancelled && (
+          <p className="rounded-[0.5rem] border border-amber-200 bg-amber-50 p-3 text-sm font-semibold text-amber-800">
+            Payment was cancelled. Your cart is still here if you would like to try again.
+          </p>
+        )}
+
         <div className="grid gap-4 sm:grid-cols-2">
-          <Input name="firstName" label="First name" required />
-          <Input name="lastName" label="Last name" required />
+          <Input name="firstName" label="First name" required autoComplete="given-name" />
+          <Input name="lastName" label="Last name" required autoComplete="family-name" />
         </div>
+        <Input name="email" label="Email" type="email" required autoComplete="email" inputMode="email" />
+        <label className="text-sm font-semibold">
+          Country
+          <select
+            name="country"
+            required
+            value={countryCode}
+            onChange={(event) => selectCountry(event.target.value)}
+            className="mt-2 h-11 w-full rounded-[0.5rem] border bg-background px-3"
+          >
+            <option value="">Select country</option>
+            {COUNTRIES.map((item) => (
+              <option key={item.code} value={item.code}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label className="text-sm font-semibold">
+          Mobile number
+          <div className="mt-2 flex gap-2">
+            <span className="inline-flex h-11 min-w-[4.75rem] items-center justify-center rounded-[0.5rem] border bg-background px-3 text-sm font-semibold">
+              {country?.dial || "+"}
+            </span>
+            <input
+              required
+              name="phoneNational"
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel-national"
+              value={phoneNational}
+              onChange={(event) => setPhoneNational(event.target.value.replace(/[^\d\s-]/g, ""))}
+              placeholder="Mobile number"
+              className="h-11 min-w-0 flex-1 rounded-[0.5rem] border bg-background px-3"
+            />
+          </div>
+        </label>
+        <Input name="line1" label="Address line 1" required autoComplete="address-line1" />
+        <Input name="line2" label="Address line 2" autoComplete="address-line2" />
         <div className="grid gap-4 sm:grid-cols-2">
-          <Input name="email" label="Email" type="email" required />
-          <Input name="phone" label="Phone" />
+          <Input name="city" label="City" required autoComplete="address-level2" />
+          <Input name="region" label="State / region" autoComplete="address-level1" />
         </div>
-        <Input name="line1" label="Address line 1" required />
-        <Input name="line2" label="Address line 2" />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Input name="city" label="City" required />
-          <Input name="region" label="State / region" />
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Input name="postalCode" label="Postal code" />
-          <Input name="country" label="Country" defaultValue="Sri Lanka" required />
-        </div>
+        <Input name="postalCode" label="Postal code" autoComplete="postal-code" />
 
         {error && <p className="rounded-[0.5rem] border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-700">{error}</p>}
       </form>
@@ -164,7 +278,7 @@ export function CheckoutView({ locale }: { locale: Locale }) {
         </div>
         <div className="mt-5 grid gap-3 border-t pt-4 text-sm">
           <div className="flex justify-between font-semibold">
-          <span>Subtotal</span>
+            <span>Subtotal</span>
             <span>{formatPrice(pricedCart?.subtotalCents ?? subtotalCents)}</span>
           </div>
           <div className="flex justify-between text-muted-foreground">
@@ -173,11 +287,17 @@ export function CheckoutView({ locale }: { locale: Locale }) {
           </div>
           <div className="flex justify-between text-muted-foreground">
             <span>Shipping</span>
-            <span>Calculated after address review</span>
+            <span>
+              {!countryCode
+                ? "Select a country"
+                : shippingAvailable
+                  ? formatPrice(shippingCents)
+                  : "Contact us"}
+            </span>
           </div>
           <div className="flex justify-between border-t pt-3 text-lg font-semibold">
             <span>Total</span>
-            <span>{formatPrice(totalCents)}</span>
+            <span>{shippingAvailable || !countryCode ? formatPrice(payableCents) : formatPrice(merchandiseTotal)}</span>
           </div>
         </div>
         <label className="mt-5 block text-sm font-semibold">
@@ -194,16 +314,47 @@ export function CheckoutView({ locale }: { locale: Locale }) {
             </Button>
           </div>
         </label>
-        {totalCents < 10000 && (
-          <p className="mt-4 text-sm font-semibold text-red-600">Minimum order amount is $100.</p>
+        {shippingQuote && !shippingQuote.available ? (
+          <Button type="button" className="mt-6 w-full" onClick={() => setShippingHelpOpen(true)}>
+            Message us on WhatsApp
+          </Button>
+        ) : (
+          <Button form="checkout-form" type="submit" disabled={loading || !countryCode} className="mt-6 w-full">
+            {loading ? "Opening payment..." : `Place order - ${formatPrice(payableCents)}`}
+          </Button>
         )}
-        <Button form="checkout-form" type="submit" disabled={loading || totalCents < 10000} className="mt-6 w-full">
-          {loading ? "Redirecting..." : `Place order - ${formatPrice(totalCents)}`}
-        </Button>
         <Link href={localeHref(locale, "/cart")} className="mt-4 inline-flex text-sm font-semibold text-primary">
           Back to cart
         </Link>
       </aside>
+
+      {shippingHelpOpen && shippingQuote && !shippingQuote.available && (
+        <ShippingHelpDialog countryName={shippingQuote.countryName} onClose={() => setShippingHelpOpen(false)} />
+      )}
+    </div>
+  );
+}
+
+function ShippingHelpDialog({ countryName, onClose }: { countryName: string; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4" role="dialog" aria-modal="true">
+      <div className="max-w-md rounded-[0.75rem] border bg-background p-6 shadow-soft">
+        <h2 className="font-serif text-2xl font-semibold">Shipping for {countryName}</h2>
+        <p className="mt-4 text-sm leading-7 text-muted-foreground">
+          Your country shipping price is not calculated automatically. Please talk with us through WhatsApp. We will do
+          the calculation and send you the details on how to place the order.
+        </p>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Button asChild className="flex-1">
+            <a href={whatsappShippingHelpLink(countryName)} target="_blank" rel="noreferrer">
+              WhatsApp {SUPPORT_WHATSAPP_DISPLAY}
+            </a>
+          </Button>
+          <Button type="button" variant="secondary" className="flex-1" onClick={onClose}>
+            Close
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -213,7 +364,7 @@ function Input(props: React.InputHTMLAttributes<HTMLInputElement> & { label: str
   return (
     <label className="text-sm font-semibold">
       {label}
-      <input {...inputProps} className="mt-2 w-full rounded-[0.5rem] border bg-background px-3 py-2" />
+      <input {...inputProps} className="mt-2 h-11 w-full rounded-[0.5rem] border bg-background px-3" />
     </label>
   );
 }
@@ -247,11 +398,61 @@ function productRows() {
   ]);
 }
 
+function fullPhone(dial: string | undefined, national: string) {
+  const digits = national.replace(/\D/g, "");
+  if (!dial) return digits;
+  return `${dial}${digits}`;
+}
+
+function isValidPhone(phone: string) {
+  return /^\+\d{8,15}$/.test(phone.replace(/[\s-]/g, ""));
+}
+
+async function openPayHerePopup(
+  payload: PayHereResponse,
+  handlers: {
+    onCompleted: (orderId: string) => void;
+    onDismissed: () => void;
+    onError: (message: string) => void;
+  }
+) {
+  try {
+    const payhere = await loadPayHere();
+    payhere.onCompleted = handlers.onCompleted;
+    payhere.onDismissed = handlers.onDismissed;
+    payhere.onError = handlers.onError;
+    payhere.startPayment({
+      sandbox: payload.payhere.sandbox,
+      ...payload.payhere.fields
+    });
+  } catch {
+    submitToPayHere(payload.payhere.action, payload.payhere.fields);
+  }
+}
+
+function loadPayHere() {
+  if (window.payhere) return Promise.resolve(window.payhere);
+  return new Promise<PayHereSdk>((resolve, reject) => {
+    const existing = document.querySelector<HTMLScriptElement>("script[data-payhere-sdk]");
+    if (existing) {
+      existing.addEventListener("load", () => (window.payhere ? resolve(window.payhere) : reject(new Error("PayHere failed to load"))));
+      existing.addEventListener("error", () => reject(new Error("PayHere failed to load")));
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://www.payhere.lk/lib/payhere.js";
+    script.async = true;
+    script.dataset.payhereSdk = "true";
+    script.onload = () => (window.payhere ? resolve(window.payhere) : reject(new Error("PayHere failed to load")));
+    script.onerror = () => reject(new Error("PayHere failed to load"));
+    document.body.appendChild(script);
+  });
+}
+
 function submitToPayHere(action: string, fields: Record<string, string>) {
   const form = document.createElement("form");
   form.method = "POST";
   form.action = action;
-
   Object.entries(fields).forEach(([name, value]) => {
     const input = document.createElement("input");
     input.type = "hidden";
@@ -259,7 +460,6 @@ function submitToPayHere(action: string, fields: Record<string, string>) {
     input.value = value;
     form.appendChild(input);
   });
-
   document.body.appendChild(form);
   form.submit();
 }

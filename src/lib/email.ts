@@ -210,6 +210,7 @@ function orderBody(input: OrderEmailInput) {
       ["Status", input.status],
       ["Customer", input.email],
       ["Discount", input.discountCode || "None"],
+      ["Shipping", input.shippingCents != null ? money(input.shippingCents, input.currency) : "Included in total"],
       ["Ship to", shipping]
     ])}
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:8px;">
@@ -230,6 +231,7 @@ type OrderEmailInput = {
   email: string;
   status: string;
   totalCents: number;
+  shippingCents?: number;
   currency?: string;
   discountCode?: string | null;
   items: Array<{ name: string; sku: string; quantity: number; totalCents: number }>;
@@ -253,6 +255,7 @@ const sampleOrder: OrderEmailInput = {
   email: "artist@example.com",
   status: "Paid",
   totalCents: 12600,
+  shippingCents: 1100,
   currency: "USD",
   discountCode: "WELCOME10",
   items: [

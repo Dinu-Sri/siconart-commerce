@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 import type { Product } from "@/data/products";
 import { formatProductPrice, isPurchasable } from "@/data/products";
 import { AddToCartButton } from "@/components/commerce/add-to-cart-button";
-import { OrderMinimumProgress } from "@/components/commerce/order-minimum-progress";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -51,12 +50,6 @@ export function ProductPurchase({ product, addLabel }: { product: Product; addLa
           </Button>
         )}
       </div>
-
-      {purchasable && (
-        <div className="mt-4">
-          <OrderMinimumProgress amountCents={selected.priceCents} />
-        </div>
-      )}
     </div>
   );
 }

@@ -39,6 +39,7 @@ Set these in Portainer:
 DB_PASSWORD=<strong password>
 NEXT_PUBLIC_BASE_URL=http://<VPS-IP>:3224
 APP_URL=http://<VPS-IP>:3224
+STOREFRONT_URL=https://siconart.com
 ADMIN_EMAIL=<admin email>
 ADMIN_PASSWORD=<admin password>
 ADMIN_SESSION_SECRET=<long random secret>
@@ -90,7 +91,7 @@ The old WordPress API key in `reference/elementor-system/config/sites.json` was 
 - Public shop products now use the master price sheet product names, retail prices, and feature images only.
 - Public products with retail price `0` render as Coming soon and are not purchasable until a retail price is set.
 - Product seeding reconciles existing rows by SKU or slug so master-sheet SKU changes can reuse public product URLs without crashing on unique slug conflicts.
-- Cart pricing with $100 minimum-order progress
+- Cart and checkout accept any order amount, with country shipping rates at checkout
 - Discount code support seeded with `WELCOME10`
 - Admin dashboard for products, categories, discounts, orders, and agent leads
 - Commerce API route stubs for cart pricing, contact, and checkout

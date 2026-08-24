@@ -65,10 +65,7 @@ function toItems(files: string[], alt: string, href: string): InstagramItem[] {
       });
       continue;
     }
-    if (
-      IMAGE_EXTENSIONS.has(ext) &&
-      !files.some((other) => path.parse(other).name === base && VIDEO_EXTENSIONS.has(path.extname(other).toLowerCase()))
-    ) {
+    if (IMAGE_EXTENSIONS.has(ext)) {
       items.push({
         alt,
         href,
@@ -81,12 +78,12 @@ function toItems(files: string[], alt: string, href: string): InstagramItem[] {
   return items;
 }
 
-export function getArtistWorksHighlights(limit = 12): InstagramItem[] {
+export function getArtistWorksHighlights(): InstagramItem[] {
   const dir = findHighlightFolder(["artist"]);
-  return toItems(listMedia(dir ?? ""), "Artist work made with a Sicon Art brush", INSTAGRAM_HIGHLIGHT_URL).slice(0, limit);
+  return toItems(listMedia(dir ?? ""), "Artist work made with a Sicon Art brush", INSTAGRAM_HIGHLIGHT_URL);
 }
 
-export function getInternationalDemoHighlights(limit = 12): InstagramItem[] {
+export function getInternationalDemoHighlights(): InstagramItem[] {
   const dir = findHighlightFolder(["international"]);
-  return toItems(listMedia(dir ?? ""), "Sicon Art international demonstration", INSTAGRAM_PROFILE_URL).slice(0, limit);
+  return toItems(listMedia(dir ?? ""), "Sicon Art international demonstration", INSTAGRAM_PROFILE_URL);
 }

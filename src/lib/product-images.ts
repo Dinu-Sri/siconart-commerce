@@ -46,13 +46,13 @@ export function withProductImages<T extends { slug: string; images: string[] }>(
   return { ...product, images: resolveProductImages(product) };
 }
 
-function isDetailsImage(url: string) {
-  const name = url.split("/").pop()?.toLowerCase() ?? "";
-  return /detail|details|spec|close-?up|hair/.test(name);
+function isBrushDetailsImage(url: string) {
+  const name = decodeURIComponent(url.split("/").pop() ?? "").toLowerCase();
+  return /brush[\s._-]*(size[\s._-]*)?details/.test(name) || /size[\s._-]*details/.test(name);
 }
 
 export function pickCardThumbnail(images: string[]) {
   const feature = images[0];
-  const lifestyle = images.slice(1).filter((url) => !isDetailsImage(url));
-  return lifestyle[0] ?? feature ?? "";
+  const gallery = images.slice(1).filter((url) => !isBrushDetailsImage(url));
+  return gallery[0] ?? feature ?? "";
 }

@@ -1,11 +1,6 @@
 import Image from "next/image";
 import { Instagram } from "lucide-react";
-import {
-  INSTAGRAM_HANDLE,
-  INSTAGRAM_HIGHLIGHT_TITLE,
-  INSTAGRAM_HIGHLIGHT_URL,
-  INSTAGRAM_PROFILE_URL
-} from "@/data/instagram";
+import { INSTAGRAM_HIGHLIGHT_TITLE, INSTAGRAM_HIGHLIGHT_URL } from "@/data/instagram";
 import type { InstagramItem } from "@/lib/instagram";
 import { Button } from "@/components/ui/button";
 
@@ -67,44 +62,6 @@ export function ArtistsAroundWorldSection({ stories }: { stories: InstagramItem[
             ))}
           </div>
         )}
-      </div>
-    </section>
-  );
-}
-
-export function InstagramPostsSlider({ posts }: { posts: InstagramItem[] }) {
-  if (posts.length === 0) return null;
-
-  const loop = [...posts, ...posts];
-
-  return (
-    <section className="overflow-hidden border-t bg-background py-8">
-      <div className="container-content mb-5 flex items-center justify-between gap-4">
-        <p className="eyebrow">Instagram @{INSTAGRAM_HANDLE}</p>
-        <a
-          href={INSTAGRAM_PROFILE_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-primary"
-        >
-          <Instagram className="h-4 w-4" />
-          Follow
-        </a>
-      </div>
-      <div className="group flex overflow-hidden">
-        <div className="animate-marquee-slow flex w-max gap-3 pr-3 group-hover:[animation-play-state:paused]">
-          {loop.map((item, index) => (
-            <a
-              key={`${item.src}-${index}`}
-              href={item.href}
-              target="_blank"
-              rel="noreferrer"
-              className="relative h-24 w-24 shrink-0 overflow-hidden rounded-[0.5rem] border bg-white shadow-soft sm:h-28 sm:w-28"
-            >
-              <Image src={item.src} alt={item.alt} fill sizes="112px" className="object-cover" />
-            </a>
-          ))}
-        </div>
       </div>
     </section>
   );

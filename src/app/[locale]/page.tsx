@@ -5,13 +5,13 @@ import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { getHomepageFeatured, getNewArrivals } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
-import { pickGalleryThumbnail, withProductImages } from "@/lib/product-images";
+import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
 import { Button } from "@/components/ui/button";
 import { HeroProduct } from "@/components/storefront/hero-product";
 import { ProductCard } from "@/components/storefront/product-card";
 import { TestimonialsCarousel } from "@/components/storefront/testimonials-carousel";
-import { ArtistsAroundWorldSection, InstagramPostsSlider } from "@/components/storefront/instagram-section";
-import { getArtistStories, getInstagramFeedItems } from "@/lib/instagram";
+import { ArtistsAroundWorldSection } from "@/components/storefront/instagram-section";
+import { getInstagramHighlights } from "@/lib/instagram";
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -20,8 +20,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const t = await getTranslations("home");
   const featured = getHomepageFeatured(12).map(withProductImages);
   const newArrivals = getNewArrivals(8).map(withProductImages);
-  const artistStories = getArtistStories(8);
-  const instagramPosts = getInstagramFeedItems();
+  const artistStories = getInstagramHighlights(8);
   const craftSteps = [
     {
       title: "Material Selection",
@@ -168,8 +167,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               key={product.sku}
               product={product}
               locale={activeLocale}
-              compact
-              imageSrc={pickGalleryThumbnail(product.images)}
+              imageSrc={pickCardThumbnail(product.images)}
             />
           ))}
         </div>
@@ -260,8 +258,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               key={product.sku}
               product={product}
               locale={activeLocale}
-              compact
-              imageSrc={pickGalleryThumbnail(product.images)}
+              imageSrc={pickCardThumbnail(product.images)}
             />
           ))}
         </div>
@@ -338,7 +335,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      <InstagramPostsSlider posts={instagramPosts} />
     </>
   );
 }

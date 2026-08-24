@@ -2,7 +2,7 @@ import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { categories, products } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { ProductCard } from "@/components/storefront/product-card";
-import { pickShopThumbnail, withProductImages } from "@/lib/product-images";
+import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
 
 export const dynamic = "force-dynamic";
 
@@ -62,7 +62,7 @@ export default async function ShopPage({ params }: { params: Promise<{ locale: s
                   key={product.sku}
                   product={shopProduct}
                   locale={activeLocale}
-                  imageSrc={pickShopThumbnail(shopProduct.images)}
+                  imageSrc={pickCardThumbnail(shopProduct.images)}
                 />
               );
             })}

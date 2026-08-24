@@ -46,12 +46,13 @@ export function withProductImages<T extends { slug: string; images: string[] }>(
   return { ...product, images: resolveProductImages(product) };
 }
 
-export function pickShopThumbnail(images: string[]) {
-  if (images.length === 0) return "";
-  return images[Math.floor(Math.random() * images.length)];
+function isDetailsImage(url: string) {
+  const name = url.split("/").pop()?.toLowerCase() ?? "";
+  return /detail|details|spec|close-?up|hair/.test(name);
 }
 
-export function pickGalleryThumbnail(images: string[]) {
-  if (images.length > 1) return images[1];
-  return images[0] ?? "";
+export function pickCardThumbnail(images: string[]) {
+  const feature = images[0];
+  const lifestyle = images.slice(1).filter((url) => !isDetailsImage(url));
+  return lifestyle[0] ?? feature ?? "";
 }

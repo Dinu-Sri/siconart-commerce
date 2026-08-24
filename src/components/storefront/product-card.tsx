@@ -9,13 +9,11 @@ import { localeHref } from "@/lib/nav";
 export function ProductCard({
   product,
   locale,
-  imageSrc,
-  compact = false
+  imageSrc
 }: {
   product: Product;
   locale: Locale;
   imageSrc?: string;
-  compact?: boolean;
 }) {
   const purchasable = isPurchasable(product);
   const thumbnail = imageSrc ?? product.images[0];
@@ -31,18 +29,12 @@ export function ProductCard({
           alt={`${product.name} by Sicon Art`}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="object-contain p-6 transition-transform duration-300 group-hover:scale-105"
+          className="object-contain p-1.5 transition-transform duration-300 group-hover:scale-105 sm:p-2"
         />
-        {!compact && (
-          <div className="absolute left-3 top-3 rounded-full bg-background/90 px-3 py-1 text-xs font-semibold text-foreground">
-            {product.category}
-          </div>
-        )}
       </div>
-      <div className={`flex flex-1 flex-col ${compact ? "p-4" : "p-5"}`}>
-        <h3 className={`font-serif font-semibold leading-tight ${compact ? "text-lg" : "text-xl"}`}>{product.name}</h3>
-        {!compact && <p className="mt-3 flex-1 text-sm leading-6 text-muted-foreground">{product.summary}</p>}
-        <div className={`flex items-center justify-between gap-3 ${compact ? "mt-3" : "mt-5"}`}>
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="font-serif text-lg font-semibold leading-tight">{product.name}</h3>
+        <div className="mt-3 flex items-center justify-between gap-3">
           <span className={`font-semibold ${purchasable ? "" : "text-primary"}`}>
             {formatProductPrice(product.priceCents, product.currency)}
           </span>

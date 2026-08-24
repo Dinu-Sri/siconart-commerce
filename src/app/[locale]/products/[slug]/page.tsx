@@ -5,7 +5,7 @@ import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { formatProductPrice, getProduct, isPurchasable, products } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
-import { withProductImages } from "@/lib/product-images";
+import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/storefront/product-card";
 import { ProductGallery } from "@/components/storefront/product-gallery";
@@ -112,7 +112,12 @@ export default async function ProductPage({
           <h2 className="font-serif text-3xl font-semibold">{t("related")}</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((item) => (
-              <ProductCard key={item.sku} product={item} locale={activeLocale} />
+              <ProductCard
+                key={item.sku}
+                product={item}
+                locale={activeLocale}
+                imageSrc={pickCardThumbnail(item.images)}
+              />
             ))}
           </div>
         </section>

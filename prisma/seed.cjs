@@ -39,14 +39,19 @@ function publicUrl(absolutePath) {
 }
 
 function resolveProductImages(product) {
-  const dir = path.join(__dirname, "../public/products", product.slug);
-  const rootImages = listImages(dir);
-  const featureFile = rootImages.find((file) => path.parse(file).name.toLowerCase() === "feature");
-  const galleryFiles = [
-    ...rootImages.filter((file) => path.parse(file).name.toLowerCase() !== "feature"),
-    ...listImages(path.join(dir, "gallery"))
-  ];
-  const urls = [featureFile ? publicUrl(featureFile) : product.images[0], ...galleryFiles.map(publicUrl)].filter(Boolean);
+  const folders = product.imageFolders?.length ? product.imageFolders : [product.slug];
+  const urls = [];
+  for (const folder of folders) {
+    const dir = path.join(__dirname, "../public/products", folder);
+    const rootImages = listImages(dir);
+    const featureFile = rootImages.find((file) => path.parse(file).name.toLowerCase() === "feature");
+    if (featureFile) urls.push(publicUrl(featureFile));
+    for (const file of rootImages.filter((item) => path.parse(item).name.toLowerCase() !== "feature")) {
+      urls.push(publicUrl(file));
+    }
+    for (const file of listImages(path.join(dir, "gallery"))) urls.push(publicUrl(file));
+  }
+  if (!urls.length && product.images?.[0]) urls.push(product.images[0]);
   return [...new Set(urls)];
 }
 
@@ -64,6 +69,17 @@ async function main() {
         description: `${name} from the Sicon Art brush collection.`
       }
     });
+  }
+
+  const variantSkus = products.flatMap((product) => (product.variants ?? []).map((variant) => variant.sku));
+  if (variantSkus.length) {
+    const retired = await prisma.product.findMany({ where: { sku: { in: variantSkus } } });
+    for (const row of retired) {
+      await prisma.product.update({
+        where: { id: row.id },
+        data: { slug: legacySlug(row.slug, row.id), status: "ARCHIVED" }
+      });
+    }
   }
 
   for (const product of products) {

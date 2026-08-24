@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 import type { Product } from "@/data/products";
-import { formatProductPrice, isPurchasable } from "@/data/products";
+import { formatCardPrice, isPurchasable } from "@/data/products";
 import { localeHref } from "@/lib/nav";
 
 export function ProductCard({
@@ -36,7 +36,7 @@ export function ProductCard({
         <h3 className="font-serif text-lg font-semibold leading-tight">{product.name}</h3>
         <div className="mt-3 flex items-center justify-between gap-3">
           <span className={`font-semibold ${purchasable ? "" : "text-primary"}`}>
-            {formatProductPrice(product.priceCents, product.currency)}
+            {formatCardPrice(product)}
           </span>
           <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary">
             View <ArrowRight className="h-4 w-4" />

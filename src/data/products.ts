@@ -25,6 +25,8 @@ export type Product = {
   featured?: boolean;
   /** ISO date the product was added to the public catalog. Newer dates appear in New Arrivals. */
   addedAt?: string;
+  legacySlugs?: string[];
+  imageFolders?: string[];
   variants?: Array<{
     sku: string;
     name: string;
@@ -397,12 +399,12 @@ export const products: Product[] = [
     }
   },
   {
-    sku: "SA-19-S",
-    slug: "feng-hui-outline-brush-s",
-    name: "Feng Hui Outline Brush S",
+    sku: "SA-19",
+    slug: "feng-hui-outline-brush",
+    name: "Feng Hui Outline Brush",
     category: "Detail Brushes",
     summary: "A fine-control brush for precise lines, finishing marks, edges, and expressive detail work.",
-    description: "Feng Hui Outline Brush S is designed for fine marks, edges, lettering, branches, figures, and finishing details. It gives watercolor artists a focused point and responsive control for the final moments of a painting.",
+    description: "Feng Hui Outline Brush is designed for fine marks, edges, lettering, branches, figures, and finishing details. It gives watercolor artists a focused point and responsive control for the final moments of a painting.",
     priceCents: 1000,
     currency: "USD",
     images: ["/products/feng-hui-outline-brush-s/feature.jpg"],
@@ -410,27 +412,12 @@ export const products: Product[] = [
     handle: "short",
     feel: "springy",
     level: "beginner",
-    specs: {
-      "Best for": "Fine detail, edges, line work",
-      "Brush type": "Detail Brushes",
-      "Handle": "Short handle",
-      "Feel": "Springy"
-    }
-  },
-  {
-    sku: "SA-19-L",
-    slug: "feng-hui-outline-brush-l",
-    name: "Feng Hui Outline Brush L",
-    category: "Detail Brushes",
-    summary: "A fine-control brush for precise lines, finishing marks, edges, and expressive detail work.",
-    description: "Feng Hui Outline Brush L is designed for fine marks, edges, lettering, branches, figures, and finishing details. It gives watercolor artists a focused point and responsive control for the final moments of a painting.",
-    priceCents: 1050,
-    currency: "USD",
-    images: ["/products/feng-hui-outline-brush-l/feature.jpg"],
-    uses: ["detail", "line-and-wash"],
-    handle: "short",
-    feel: "springy",
-    level: "beginner",
+    legacySlugs: ["feng-hui-outline-brush-s", "feng-hui-outline-brush-l"],
+    imageFolders: ["feng-hui-outline-brush-s", "feng-hui-outline-brush-l"],
+    variants: [
+      { sku: "SA-19-S", name: "S", priceCents: 1000, image: "/products/feng-hui-outline-brush-s/feature.jpg" },
+      { sku: "SA-19-L", name: "L", priceCents: 1050, image: "/products/feng-hui-outline-brush-l/feature.jpg" }
+    ],
     specs: {
       "Best for": "Fine detail, edges, line work",
       "Brush type": "Detail Brushes",
@@ -481,12 +468,12 @@ export const products: Product[] = [
     }
   },
   {
-    sku: "SA-35-S",
-    slug: "sandalwood-handle-brush-series-l5-s",
-    name: "Sandalwood Handle Brush Series - L5 S",
+    sku: "SA-35",
+    slug: "sandalwood-handle-brush-series-l5",
+    name: "Sandalwood Handle Brush Series - L5",
     category: "Master Grade Brushes",
     summary: "A refined Sicon Art brush for expressive watercolor control, generous water holding, and studio work.",
-    description: "Sandalwood Handle Brush Series - L5 S is a refined brush for artists who want expressive range, water control, and a more distinctive traditional brush character. It is suited to studio work, washes, details, and confident watercolor handling.",
+    description: "Sandalwood Handle Brush Series - L5 is a refined brush for artists who want expressive range, water control, and a more distinctive traditional brush character. It is suited to studio work, washes, details, and confident watercolor handling.",
     priceCents: 2600,
     currency: "USD",
     images: ["/products/sandalwood-handle-brush-series-l5-s/feature.jpg"],
@@ -494,48 +481,21 @@ export const products: Product[] = [
     handle: "long",
     feel: "balanced",
     level: "professional",
-    specs: {
-      "Best for": "Expressive watercolor and studio work",
-      "Brush type": "Master Grade Brushes",
-      "Handle": "Long handle",
-      "Feel": "Balanced"
-    }
-  },
-  {
-    sku: "SA-35-M",
-    slug: "sandalwood-handle-brush-series-l5-m",
-    name: "Sandalwood Handle Brush Series - L5 M",
-    category: "Master Grade Brushes",
-    summary: "A refined Sicon Art brush for expressive watercolor control, generous water holding, and studio work.",
-    description: "Sandalwood Handle Brush Series - L5 M is a refined brush for artists who want expressive range, water control, and a more distinctive traditional brush character. It is suited to studio work, washes, details, and confident watercolor handling.",
-    priceCents: 2700,
-    currency: "USD",
-    images: ["/products/sandalwood-handle-brush-series-l5-m/feature.jpg"],
-    uses: ["wash", "studio", "detail"],
-    handle: "long",
-    feel: "balanced",
-    level: "professional",
-    specs: {
-      "Best for": "Expressive watercolor and studio work",
-      "Brush type": "Master Grade Brushes",
-      "Handle": "Long handle",
-      "Feel": "Balanced"
-    }
-  },
-  {
-    sku: "SA-35-L",
-    slug: "sandalwood-handle-brush-series-l5-l",
-    name: "Sandalwood Handle Brush Series - L5 L",
-    category: "Master Grade Brushes",
-    summary: "A refined Sicon Art brush for expressive watercolor control, generous water holding, and studio work.",
-    description: "Sandalwood Handle Brush Series - L5 L is a refined brush for artists who want expressive range, water control, and a more distinctive traditional brush character. It is suited to studio work, washes, details, and confident watercolor handling.",
-    priceCents: 2800,
-    currency: "USD",
-    images: ["/products/sandalwood-handle-brush-series-l5-l/feature.jpg"],
-    uses: ["wash", "studio", "detail"],
-    handle: "long",
-    feel: "balanced",
-    level: "professional",
+    legacySlugs: [
+      "sandalwood-handle-brush-series-l5-s",
+      "sandalwood-handle-brush-series-l5-m",
+      "sandalwood-handle-brush-series-l5-l"
+    ],
+    imageFolders: [
+      "sandalwood-handle-brush-series-l5-s",
+      "sandalwood-handle-brush-series-l5-m",
+      "sandalwood-handle-brush-series-l5-l"
+    ],
+    variants: [
+      { sku: "SA-35-S", name: "S", priceCents: 2600, image: "/products/sandalwood-handle-brush-series-l5-s/feature.jpg" },
+      { sku: "SA-35-M", name: "M", priceCents: 2700, image: "/products/sandalwood-handle-brush-series-l5-m/feature.jpg" },
+      { sku: "SA-35-L", name: "L", priceCents: 2800, image: "/products/sandalwood-handle-brush-series-l5-l/feature.jpg" }
+    ],
     specs: {
       "Best for": "Expressive watercolor and studio work",
       "Brush type": "Master Grade Brushes",
@@ -608,12 +568,12 @@ export const products: Product[] = [
     }
   },
   {
-    sku: "SA-11#3",
-    slug: "sicon-art-flat-brush-series-3",
-    name: "Sicon Art Flat Brush Series #3",
+    sku: "SA-11",
+    slug: "sicon-art-flat-brush-series",
+    name: "Sicon Art Flat Brush Series",
     category: "Flat Brushes",
     summary: "A handcrafted flat brush for crisp edges, broad strokes, and controlled watercolor shapes.",
-    description: "Sicon Art Flat Brush Series #3 helps artists build clean edges, broader passages, architectural shapes, and controlled washes. It is a useful Sicon Art option for painters who want a different mark from pointed round brushes.",
+    description: "Sicon Art Flat Brush Series helps artists build clean edges, broader passages, architectural shapes, and controlled washes. It is a useful Sicon Art option for painters who want a different mark from pointed round brushes.",
     priceCents: 2300,
     currency: "USD",
     images: ["/products/sicon-art-flat-brush-series-3/feature.jpg"],
@@ -621,48 +581,13 @@ export const products: Product[] = [
     handle: "short",
     feel: "springy",
     level: "enthusiast",
-    specs: {
-      "Best for": "Flat washes, edges, shapes",
-      "Brush type": "Flat Brushes",
-      "Handle": "Short handle",
-      "Feel": "Springy"
-    }
-  },
-  {
-    sku: "SA-11#5",
-    slug: "sicon-art-flat-brush-series-5",
-    name: "Sicon Art Flat Brush Series #5",
-    category: "Flat Brushes",
-    summary: "A handcrafted flat brush for crisp edges, broad strokes, and controlled watercolor shapes.",
-    description: "Sicon Art Flat Brush Series #5 helps artists build clean edges, broader passages, architectural shapes, and controlled washes. It is a useful Sicon Art option for painters who want a different mark from pointed round brushes.",
-    priceCents: 2900,
-    currency: "USD",
-    images: ["/products/sicon-art-flat-brush-series-5/feature.jpg"],
-    uses: ["flat", "wash", "sketching"],
-    handle: "short",
-    feel: "springy",
-    level: "enthusiast",
-    specs: {
-      "Best for": "Flat washes, edges, shapes",
-      "Brush type": "Flat Brushes",
-      "Handle": "Short handle",
-      "Feel": "Springy"
-    }
-  },
-  {
-    sku: "SA-11#7",
-    slug: "sicon-art-flat-brush-series-7",
-    name: "Sicon Art Flat Brush Series #7",
-    category: "Flat Brushes",
-    summary: "A handcrafted flat brush for crisp edges, broad strokes, and controlled watercolor shapes.",
-    description: "Sicon Art Flat Brush Series #7 helps artists build clean edges, broader passages, architectural shapes, and controlled washes. It is a useful Sicon Art option for painters who want a different mark from pointed round brushes.",
-    priceCents: 3200,
-    currency: "USD",
-    images: ["/products/sicon-art-flat-brush-series-7/feature.jpg"],
-    uses: ["flat", "wash", "sketching"],
-    handle: "short",
-    feel: "springy",
-    level: "enthusiast",
+    legacySlugs: ["sicon-art-flat-brush-series-3", "sicon-art-flat-brush-series-5", "sicon-art-flat-brush-series-7"],
+    imageFolders: ["sicon-art-flat-brush-series-3", "sicon-art-flat-brush-series-5", "sicon-art-flat-brush-series-7"],
+    variants: [
+      { sku: "SA-11#3", name: "#3", priceCents: 2300, image: "/products/sicon-art-flat-brush-series-3/feature.jpg" },
+      { sku: "SA-11#5", name: "#5", priceCents: 2900, image: "/products/sicon-art-flat-brush-series-5/feature.jpg" },
+      { sku: "SA-11#7", name: "#7", priceCents: 3200, image: "/products/sicon-art-flat-brush-series-7/feature.jpg" }
+    ],
     specs: {
       "Best for": "Flat washes, edges, shapes",
       "Brush type": "Flat Brushes",
@@ -798,12 +723,12 @@ export const products: Product[] = [
     }
   },
   {
-    sku: "SA-32-S",
-    slug: "suhan-brush-s",
-    name: "SuHan Brush  S",
+    sku: "SA-32",
+    slug: "suhan-brush",
+    name: "SuHan Brush",
     category: "Master Grade Brushes",
     summary: "A refined Sicon Art brush for expressive watercolor control, generous water holding, and studio work.",
-    description: "SuHan Brush  S is a refined brush for artists who want expressive range, water control, and a more distinctive traditional brush character. It is suited to studio work, washes, details, and confident watercolor handling.",
+    description: "SuHan Brush is a refined brush for artists who want expressive range, water control, and a more distinctive traditional brush character. It is suited to studio work, washes, details, and confident watercolor handling.",
     priceCents: 2400,
     currency: "USD",
     images: ["/products/suhan-brush-s/feature.jpg"],
@@ -811,48 +736,13 @@ export const products: Product[] = [
     handle: "long",
     feel: "balanced",
     level: "professional",
-    specs: {
-      "Best for": "Expressive watercolor and studio work",
-      "Brush type": "Master Grade Brushes",
-      "Handle": "Long handle",
-      "Feel": "Balanced"
-    }
-  },
-  {
-    sku: "SA-32-M",
-    slug: "suhan-brush-m",
-    name: "SuHan Brush  M",
-    category: "Master Grade Brushes",
-    summary: "A refined Sicon Art brush for expressive watercolor control, generous water holding, and studio work.",
-    description: "SuHan Brush  M is a refined brush for artists who want expressive range, water control, and a more distinctive traditional brush character. It is suited to studio work, washes, details, and confident watercolor handling.",
-    priceCents: 2600,
-    currency: "USD",
-    images: ["/products/suhan-brush-m/feature.jpg"],
-    uses: ["wash", "studio", "detail"],
-    handle: "long",
-    feel: "balanced",
-    level: "professional",
-    specs: {
-      "Best for": "Expressive watercolor and studio work",
-      "Brush type": "Master Grade Brushes",
-      "Handle": "Long handle",
-      "Feel": "Balanced"
-    }
-  },
-  {
-    sku: "SA-32-L",
-    slug: "suhan-brush-l",
-    name: "SuHan Brush  L",
-    category: "Master Grade Brushes",
-    summary: "A refined Sicon Art brush for expressive watercolor control, generous water holding, and studio work.",
-    description: "SuHan Brush  L is a refined brush for artists who want expressive range, water control, and a more distinctive traditional brush character. It is suited to studio work, washes, details, and confident watercolor handling.",
-    priceCents: 2600,
-    currency: "USD",
-    images: ["/products/suhan-brush-l/feature.jpg"],
-    uses: ["wash", "studio", "detail"],
-    handle: "long",
-    feel: "balanced",
-    level: "professional",
+    legacySlugs: ["suhan-brush-s", "suhan-brush-m", "suhan-brush-l"],
+    imageFolders: ["suhan-brush-s", "suhan-brush-m", "suhan-brush-l"],
+    variants: [
+      { sku: "SA-32-S", name: "S", priceCents: 2400, image: "/products/suhan-brush-s/feature.jpg" },
+      { sku: "SA-32-M", name: "M", priceCents: 2600, image: "/products/suhan-brush-m/feature.jpg" },
+      { sku: "SA-32-L", name: "L", priceCents: 2600, image: "/products/suhan-brush-l/feature.jpg" }
+    ],
     specs: {
       "Best for": "Expressive watercolor and studio work",
       "Brush type": "Master Grade Brushes",
@@ -1161,7 +1051,7 @@ export const products: Product[] = [
 export const categories = Array.from(new Set(products.map((product) => product.category)));
 
 export function getProduct(slug: string) {
-  return products.find((product) => product.slug === slug);
+  return products.find((product) => product.slug === slug || product.legacySlugs?.includes(slug));
 }
 
 export function formatPrice(cents: number, currency = "USD") {
@@ -1175,7 +1065,18 @@ export function formatProductPrice(cents: number, currency = "USD") {
   return cents > 0 ? formatPrice(cents, currency) : "Coming soon";
 }
 
-export function isPurchasable(product: Pick<Product, "priceCents">) {
+export function formatCardPrice(product: Product) {
+  const prices = [product.priceCents, ...(product.variants ?? []).map((variant) => variant.priceCents)].filter(
+    (cents) => cents > 0
+  );
+  if (prices.length === 0) return "Coming soon";
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+  return min === max ? formatPrice(min, product.currency) : `From ${formatPrice(min, product.currency)}`;
+}
+
+export function isPurchasable(product: Pick<Product, "priceCents" | "variants">) {
+  if ((product.variants ?? []).some((variant) => variant.priceCents > 0)) return true;
   return product.priceCents > 0;
 }
 

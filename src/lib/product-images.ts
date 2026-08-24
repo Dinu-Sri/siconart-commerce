@@ -26,23 +26,31 @@ function unique(urls: Array<string | undefined>) {
   return [...new Set(urls.filter((url): url is string => Boolean(url)))];
 }
 
-export function resolveProductImages(product: { slug: string; images: string[] }) {
-  const dir = path.join(PUBLIC_DIR, "products", product.slug);
-  const rootImages = listImages(dir);
-  const featureFile = rootImages.find((file) => path.parse(file).name.toLowerCase() === "feature");
-  const galleryFiles = [
-    ...rootImages.filter((file) => path.parse(file).name.toLowerCase() !== "feature"),
-    ...listImages(path.join(dir, "gallery"))
-  ];
+export function resolveProductImages(product: { slug: string; images: string[]; imageFolders?: string[] }) {
+  const folders = product.imageFolders?.length ? product.imageFolders : [product.slug];
+  const featureFiles: string[] = [];
+  const galleryFiles: string[] = [];
 
-  const featureUrl = featureFile ? publicUrl(featureFile) : product.images[0];
+  for (const folder of folders) {
+    const dir = path.join(PUBLIC_DIR, "products", folder);
+    const rootImages = listImages(dir);
+    const featureFile = rootImages.find((file) => path.parse(file).name.toLowerCase() === "feature");
+    if (featureFile) featureFiles.push(featureFile);
+    galleryFiles.push(
+      ...rootImages.filter((file) => path.parse(file).name.toLowerCase() !== "feature"),
+      ...listImages(path.join(dir, "gallery"))
+    );
+  }
+
+  const featureUrl = featureFiles[0] ? publicUrl(featureFiles[0]) : product.images[0];
   const galleryUrls = galleryFiles.map(publicUrl);
-  const fallbackGallery = featureFile ? [] : product.images.slice(1);
+  const extraFeatures = featureFiles.slice(1).map(publicUrl);
+  const fallbackGallery = featureFiles[0] ? [] : product.images.slice(1);
 
-  return unique([featureUrl, ...galleryUrls, ...fallbackGallery]);
+  return unique([featureUrl, ...galleryUrls, ...extraFeatures, ...fallbackGallery]);
 }
 
-export function withProductImages<T extends { slug: string; images: string[] }>(product: T): T {
+export function withProductImages<T extends { slug: string; images: string[]; imageFolders?: string[] }>(product: T): T {
   return { ...product, images: resolveProductImages(product) };
 }
 

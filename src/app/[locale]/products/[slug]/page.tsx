@@ -1,19 +1,21 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { CheckCircle2, MessageCircle } from "lucide-react";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
-import { formatProductPrice, getProduct, isPurchasable, products } from "@/data/products";
+import { getProduct, products } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/storefront/product-card";
 import { ProductGallery } from "@/components/storefront/product-gallery";
-import { AddToCartButton } from "@/components/commerce/add-to-cart-button";
-import { OrderMinimumProgress } from "@/components/commerce/order-minimum-progress";
+import { ProductPurchase } from "@/components/commerce/product-purchase";
 
 export function generateStaticParams() {
-  return products.map((product) => ({ slug: product.slug }));
+  return products.flatMap((product) => [
+    { slug: product.slug },
+    ...(product.legacySlugs ?? []).map((legacySlug) => ({ slug: legacySlug }))
+  ]);
 }
 
 export default async function ProductPage({
@@ -27,8 +29,10 @@ export default async function ProductPage({
   const t = await getTranslations("product");
   const catalogProduct = getProduct(slug);
   if (!catalogProduct) notFound();
+  if (catalogProduct.slug !== slug) {
+    redirect(localeHref(activeLocale, `/products/${catalogProduct.slug}`));
+  }
   const product = withProductImages(catalogProduct);
-  const purchasable = isPurchasable(product);
 
   const related = products
     .filter((item) => item.slug !== product.slug && item.uses.some((use) => product.uses.includes(use)))
@@ -43,30 +47,11 @@ export default async function ProductPage({
         <div>
           <p className="eyebrow">{product.category}</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold">{product.name}</h1>
-          <p className="mt-4 text-2xl font-semibold">{formatProductPrice(product.priceCents, product.currency)}</p>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">{product.description}</p>
 
-          {product.variants && (
-            <div className="mt-7">
-              <h2 className="text-sm font-bold uppercase tracking-[0.18em] text-muted-foreground">{t("options")}</h2>
-              <div className="mt-3 flex flex-wrap gap-3">
-                {product.variants.map((variant) => (
-                  <span key={variant.sku} className="rounded-full border bg-surface px-4 py-2 text-sm font-semibold">
-                    {variant.name} - {formatProductPrice(variant.priceCents)}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+          <ProductPurchase product={product} addLabel={t("addToCart")} />
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            {purchasable ? (
-              <AddToCartButton sku={product.sku} label={t("addToCart")} />
-            ) : (
-              <Button type="button" size="lg" disabled>
-                Coming soon
-              </Button>
-            )}
+          <div className="mt-3">
             <Button asChild variant="secondary" size="lg">
               <Link href={localeHref(activeLocale, "/contact")}>
                 <MessageCircle className="h-5 w-5" />
@@ -74,12 +59,6 @@ export default async function ProductPage({
               </Link>
             </Button>
           </div>
-
-          {purchasable && (
-            <div className="mt-4">
-              <OrderMinimumProgress amountCents={product.priceCents} />
-            </div>
-          )}
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {["handmade", "secure", "returns"].map((key) => (

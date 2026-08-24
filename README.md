@@ -47,6 +47,10 @@ PAYHERE_MERCHANT_ID=<payhere merchant id>
 PAYHERE_MERCHANT_SECRET=<payhere merchant secret>
 PAYHERE_CURRENCY=USD
 PAYHERE_SANDBOX=false
+RESEND_API_KEY=<resend api key>
+RESEND_FROM=Sicon Art <noreply@siconart.com>
+NOTIFY_EMAIL_1=<first admin email>
+NOTIFY_EMAIL_2=<second admin email>
 ```
 
 Enable Cloudflare Tunnel with:

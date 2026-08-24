@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
+import { notifyContactSubmission } from "@/lib/email";
 
 const contactSchema = z.object({
   name: z.string().min(2).max(120),
@@ -16,5 +17,6 @@ export async function POST(request: Request) {
   }
 
   const message = await db.contactMessage.create({ data: parsed.data });
+  await notifyContactSubmission(parsed.data);
   return NextResponse.json({ ok: true, id: message.id });
 }

@@ -21,6 +21,10 @@ services:
       - PAYHERE_MERCHANT_SECRET=${PAYHERE_MERCHANT_SECRET:?PAYHERE_MERCHANT_SECRET_is_required}
       - PAYHERE_CURRENCY=${PAYHERE_CURRENCY:-USD}
       - PAYHERE_SANDBOX=${PAYHERE_SANDBOX:-false}
+      - RESEND_API_KEY=${RESEND_API_KEY:-}
+      - RESEND_FROM=${RESEND_FROM:-Sicon Art <beth.t@example.com>}
+      - NOTIFY_EMAIL_1=${NOTIFY_EMAIL_1:-}
+      - NOTIFY_EMAIL_2=${NOTIFY_EMAIL_2:-}
       - DATABASE_URL=postgresql://siconart:${DB_PASSWORD:?DB_PASSWORD_is_required}@postgres:5432/siconart
       - DB_PASSWORD=${DB_PASSWORD:?DB_PASSWORD_is_required}
     depends_on:

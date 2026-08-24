@@ -25,6 +25,10 @@ Required Portainer environment variables:
 - `PAYHERE_MERCHANT_SECRET` - PayHere merchant secret
 - `PAYHERE_CURRENCY=USD`
 - `PAYHERE_SANDBOX=false` for live checkout on the approved `https://siconart.com/` domain
+- `RESEND_API_KEY` - Resend API key for order and form emails
+- `RESEND_FROM` - from address, e.g. `Sicon Art <noreply@siconart.com>` after the domain is verified in Resend
+- `NOTIFY_EMAIL_1` - first administrator inbox for all order and form emails
+- `NOTIFY_EMAIL_2` - second administrator inbox for all order and form emails
 
 Cloudflare Tunnel:
 

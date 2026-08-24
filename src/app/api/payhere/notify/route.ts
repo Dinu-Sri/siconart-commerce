@@ -2,6 +2,7 @@ import crypto from "node:crypto";
 import { OrderStatus, PaymentStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { notifyOrder } from "@/lib/email";
 
 export async function POST(request: Request) {
   const formData = await request.formData();
@@ -22,12 +23,32 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid PayHere signature" }, { status: 400 });
   }
 
-  await db.order.update({
+  const paid = statusCode === "2";
+  const order = await db.order.update({
     where: { orderNumber: orderId },
-    data:
-      statusCode === "2"
-        ? { status: OrderStatus.PAID, paymentStatus: PaymentStatus.PAID, paymentRef: paymentId }
-        : { paymentStatus: PaymentStatus.FAILED, paymentRef: paymentId }
+    data: paid
+      ? { status: OrderStatus.PAID, paymentStatus: PaymentStatus.PAID, paymentRef: paymentId }
+      : { paymentStatus: PaymentStatus.FAILED, paymentRef: paymentId },
+    include: { items: true, shippingAddress: true }
+  });
+
+  await notifyOrder({
+    title: paid ? "Payment received" : "Payment failed",
+    subject: paid ? `Payment received for ${order.orderNumber}` : `Payment failed for ${order.orderNumber}`,
+    orderNumber: order.orderNumber,
+    email: order.email,
+    status: paid ? "Paid" : "Payment failed",
+    totalCents: order.totalCents,
+    currency: order.currency,
+    discountCode: order.discountCode,
+    items: order.items.map((item) => ({
+      name: item.name,
+      sku: item.sku,
+      quantity: item.quantity,
+      totalCents: item.totalCents
+    })),
+    shipping: order.shippingAddress,
+    notifyCustomer: paid
   });
 
   return NextResponse.json({ ok: true });

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { priceCart } from "@/lib/commerce/cart";
+import { notifyOrder } from "@/lib/email";
 
 const checkoutSchema = z.object({
   discountCode: z.string().trim().optional(),
@@ -79,6 +80,23 @@ export async function POST(request: Request) {
           })
         }
       }
+    });
+
+    await notifyOrder({
+      title: "New order placed",
+      subject: `New Sicon Art order ${order.orderNumber} (pending payment)`,
+      orderNumber: order.orderNumber,
+      email: parsed.data.email,
+      status: "Pending payment",
+      totalCents,
+      discountCode: discount?.code,
+      items: priced.items.map((item) => ({
+        name: item.name,
+        sku: item.sku,
+        quantity: item.quantity,
+        totalCents: item.lineTotalCents
+      })),
+      shipping: parsed.data.shipping
     });
 
     return NextResponse.json({

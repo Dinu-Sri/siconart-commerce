@@ -1,26 +1,35 @@
-import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
+import { localeHref } from "@/lib/nav";
 import { db } from "@/lib/db";
+import { notifyAgentLead } from "@/lib/email";
 import { Button } from "@/components/ui/button";
 
-export default async function BecomeAgentPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function BecomeAgentPage({
+  params,
+  searchParams
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ sent?: string }>;
+}) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
+  const query = searchParams ? await searchParams : {};
 
   async function createLead(formData: FormData) {
     "use server";
 
-    await db.agentLead.create({
-      data: {
-        name: String(formData.get("name") || ""),
-        email: String(formData.get("email") || ""),
-        country: String(formData.get("country") || ""),
-        company: String(formData.get("company") || ""),
-        message: String(formData.get("message") || "")
-      }
-    });
-    revalidatePath(`/${locale}/become-an-agent`);
+    const lead = {
+      name: String(formData.get("name") || ""),
+      email: String(formData.get("email") || ""),
+      country: String(formData.get("country") || ""),
+      company: String(formData.get("company") || ""),
+      message: String(formData.get("message") || "")
+    };
+    await db.agentLead.create({ data: lead });
+    await notifyAgentLead(lead);
+    redirect(`${localeHref(locale as Locale, "/become-an-agent")}?sent=1`);
   }
 
   return (
@@ -75,6 +84,7 @@ export default async function BecomeAgentPage({ params }: { params: Promise<{ lo
               className="mt-2 w-full rounded-[0.5rem] border bg-background px-3 py-2"
             />
           </label>
+          {query.sent === "1" && <p className="text-sm font-semibold text-primary">Request sent. We will email you shortly.</p>}
           <Button type="submit" className="w-fit">
             Send agent request
           </Button>

@@ -3,16 +3,20 @@
 Profile: https://www.instagram.com/siconarts/
 Artists Works highlight: https://www.instagram.com/stories/highlights/18132383929515105/
 
-## Highlights (Artists Works)
-
-Put Highlight photos and videos here. This is the only folder the homepage reads for the artists section:
+## Artists Works
 
 ```text
-public/instagram/highlights/01.jpg
-public/instagram/highlights/01.mp4
-public/instagram/highlights/02.jpg
+public/instagram/highlights/artists works/
 ```
 
-Use `.jpg`, `.png`, `.webp`, or `.mp4`. For a video, a same-name `.jpg` is used as the poster. Name files `01`, `02`, `03` so they stay in order.
+Photos and videos here appear in the homepage Artists Works section.
 
-Stories are tall, so portrait photos work best. After copying files, refresh the homepage.
+## International demos
+
+```text
+public/instagram/highlights/international demos of siconart/
+```
+
+Photos and videos here appear in the homepage International demos section, just above the footer.
+
+Use `.jpg`, `.png`, `.webp`, or `.mp4`. A `.jpg` with the same name as a video is used as the poster frame.

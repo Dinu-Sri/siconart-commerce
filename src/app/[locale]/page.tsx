@@ -10,8 +10,9 @@ import { Button } from "@/components/ui/button";
 import { HeroProduct } from "@/components/storefront/hero-product";
 import { ProductCard } from "@/components/storefront/product-card";
 import { TestimonialsCarousel } from "@/components/storefront/testimonials-carousel";
-import { ArtistsAroundWorldSection } from "@/components/storefront/instagram-section";
-import { getInstagramHighlights } from "@/lib/instagram";
+import { InstagramHighlightSection } from "@/components/storefront/instagram-section";
+import { getArtistWorksHighlights, getInternationalDemoHighlights } from "@/lib/instagram";
+import { INSTAGRAM_HIGHLIGHT_URL, INSTAGRAM_PROFILE_URL } from "@/data/instagram";
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -20,7 +21,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const t = await getTranslations("home");
   const featured = getHomepageFeatured(12).map(withProductImages);
   const newArrivals = getNewArrivals(8).map(withProductImages);
-  const artistStories = getInstagramHighlights(8);
+  const artistStories = getArtistWorksHighlights();
+  const internationalDemos = getInternationalDemoHighlights();
   const craftSteps = [
     {
       title: "Material Selection",
@@ -240,7 +242,18 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
-      <ArtistsAroundWorldSection stories={artistStories} />
+      <InstagramHighlightSection
+        stories={artistStories}
+        eyebrow="Instagram"
+        title={
+          <>
+            Artists <span className="text-primary">Works</span>
+          </>
+        }
+        body="Paintings and studio moments from our Instagram Artists Works highlight, made with Sicon Art brushes."
+        actionHref={INSTAGRAM_HIGHLIGHT_URL}
+        actionLabel="Open Artists Works"
+      />
 
       <section className="container-content section-pad">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
@@ -335,6 +348,18 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
+      <InstagramHighlightSection
+        stories={internationalDemos}
+        eyebrow="Worldwide"
+        title={
+          <>
+            International demos of <span className="text-primary">Sicon Art</span>
+          </>
+        }
+        body="Workshops and live demonstrations from another highlight on our Instagram brand page, showing Sicon Art brushes in use around the world."
+        actionHref={INSTAGRAM_PROFILE_URL}
+        actionLabel="View on Instagram"
+      />
     </>
   );
 }

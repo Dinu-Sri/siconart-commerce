@@ -1,28 +1,37 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import { Instagram } from "lucide-react";
-import { INSTAGRAM_HIGHLIGHT_TITLE, INSTAGRAM_HIGHLIGHT_URL } from "@/data/instagram";
 import type { InstagramItem } from "@/lib/instagram";
 import { Button } from "@/components/ui/button";
 
-export function ArtistsAroundWorldSection({ stories }: { stories: InstagramItem[] }) {
+export function InstagramHighlightSection({
+  stories,
+  eyebrow,
+  title,
+  body,
+  actionHref,
+  actionLabel
+}: {
+  stories: InstagramItem[];
+  eyebrow: string;
+  title: ReactNode;
+  body: string;
+  actionHref: string;
+  actionLabel: string;
+}) {
   return (
     <section className="border-y bg-surface-subtle">
       <div className="container-content section-pad">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
-            <p className="eyebrow">Artists worldwide</p>
-            <h2 className="mt-3 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-              See what artists say — and how they use Sicon Art <span className="text-primary">around the world</span>
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              From our Instagram {INSTAGRAM_HIGHLIGHT_TITLE} highlight: painters, sketchers, and students using Sicon Art
-              brushes internationally.
-            </p>
+            <p className="eyebrow">{eyebrow}</p>
+            <h2 className="mt-3 font-serif text-4xl font-semibold leading-tight sm:text-5xl">{title}</h2>
+            <p className="mt-4 text-muted-foreground">{body}</p>
           </div>
           <Button asChild size="lg">
-            <a href={INSTAGRAM_HIGHLIGHT_URL} target="_blank" rel="noreferrer">
+            <a href={actionHref} target="_blank" rel="noreferrer">
               <Instagram className="h-4 w-4" />
-              Open Artists Works
+              {actionLabel}
             </a>
           </Button>
         </div>

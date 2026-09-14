@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { priceCart } from "@/lib/commerce/cart";
 import { notifyOrder } from "@/lib/email";
 import { getCountry } from "@/data/countries";
-import { getShippingQuote } from "@/data/shipping";
+import { getShippingQuote, needsShippingWeightReview } from "@/data/shipping";
 
 const checkoutSchema = z.object({
   discountCode: z.string().trim().optional(),
@@ -43,6 +43,15 @@ export async function POST(request: Request) {
         {
           error: "Shipping for this country is not calculated automatically. Please contact us on WhatsApp.",
           code: "SHIPPING_UNAVAILABLE"
+        },
+        { status: 400 }
+      );
+    }
+    if (needsShippingWeightReview(parsed.data.lines)) {
+      return NextResponse.json(
+        {
+          error: "This order is estimated to be over 1 kg. Please contact us for the best shipping rate.",
+          code: "SHIPPING_WEIGHT_REVIEW"
         },
         { status: 400 }
       );

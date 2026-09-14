@@ -26,6 +26,7 @@ Required Portainer environment variables:
 - `PAYHERE_MERCHANT_SECRET` - PayHere merchant secret
 - `PAYHERE_CURRENCY=USD`
 - `PAYHERE_SANDBOX=false` for live checkout on the approved `https://siconart.com/` domain
+- `NEXT_PUBLIC_SUPPORT_FACEBOOK_URL` - optional Facebook business-page or Messenger URL for larger-order shipping support
 - `RESEND_API_KEY` - Resend API key for order and form emails
 - `RESEND_FROM` - from address, e.g. `Sicon Art <noreply@siconart.com>` after the domain is verified in Resend
 - `NOTIFY_EMAIL_1` - first administrator inbox for all order and form emails

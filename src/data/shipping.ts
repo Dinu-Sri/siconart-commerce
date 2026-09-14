@@ -1,7 +1,8 @@
 import { getCountry } from "@/data/countries";
 
-// Flat USD rates from the live Sicon Art shipping-zones table, converted from
-// "Copy of shipping fee.xlsx" (RMB/kg) via ceil(RMB / 7.25) + 1.
+// Flat USD rates from the live Sicon Art shipping-zones table. Every listed
+// rate covers an order up to 1 kg. Orders estimated above that limit require a
+// manual quote, because product weights have not yet been measured individually.
 const SHIPPING_RATES_CENTS: Record<string, number> = {
   VN: 500,
   TW: 800,
@@ -41,8 +42,24 @@ const SHIPPING_RATES_CENTS: Record<string, number> = {
   BR: 2700,
   GE: 2800,
   AR: 3200,
-  AZ: 4900
+  AZ: 4900,
+  // ¥110 / $6.7743 (PBOC central parity, 11 September 2026), rounded to cents.
+  AE: 1624
 };
+
+export const SHIPPING_WEIGHT_LIMIT_GRAMS = 1000;
+// Conservative temporary estimate for a Chinese watercolor brush, including
+// the handle and a small allowance for packaging. Replace this with measured
+// product weights when they are available.
+export const ESTIMATED_BRUSH_WEIGHT_GRAMS = 50;
+
+export function estimateCartWeightGrams(lines: Array<{ quantity: number }>) {
+  return lines.reduce((total, line) => total + line.quantity * ESTIMATED_BRUSH_WEIGHT_GRAMS, 0);
+}
+
+export function needsShippingWeightReview(lines: Array<{ quantity: number }>) {
+  return estimateCartWeightGrams(lines) > SHIPPING_WEIGHT_LIMIT_GRAMS;
+}
 
 export type ShippingQuote =
   | { available: true; cents: number; countryCode: string; countryName: string }

@@ -5,10 +5,16 @@ import type { FormEvent } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { formatPrice, products } from "@/data/products";
 import { COUNTRIES, getCountry } from "@/data/countries";
-import { getShippingQuote } from "@/data/shipping";
+import { estimateCartWeightGrams, getShippingQuote, needsShippingWeightReview } from "@/data/shipping";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
-import { SUPPORT_WHATSAPP_DISPLAY, whatsappShippingHelpLink } from "@/lib/support";
+import {
+  SUPPORT_FACEBOOK_LINK,
+  SUPPORT_INSTAGRAM_LINK,
+  SUPPORT_WHATSAPP_DISPLAY,
+  whatsappLargeOrderShippingHelpLink,
+  whatsappShippingHelpLink
+} from "@/lib/support";
 import { Button } from "@/components/ui/button";
 
 const CART_KEY = "siconart-cart";
@@ -61,7 +67,10 @@ export function CheckoutView({ locale }: { locale: Locale }) {
   const country = getCountry(countryCode);
   const shippingQuote = countryCode ? getShippingQuote(countryCode) : null;
   const shippingAvailable = shippingQuote?.available === true;
-  const shippingCents = shippingAvailable ? shippingQuote.cents : 0;
+  const estimatedWeightGrams = estimateCartWeightGrams(lines);
+  const requiresWeightReview = needsShippingWeightReview(lines);
+  const automaticShippingAvailable = shippingAvailable && !requiresWeightReview;
+  const shippingCents = automaticShippingAvailable ? shippingQuote.cents : 0;
 
   useEffect(() => {
     setLines(readCart());
@@ -126,7 +135,7 @@ export function CheckoutView({ locale }: { locale: Locale }) {
       setError("Please enter a valid mobile number.");
       return;
     }
-    if (!shippingAvailable) {
+    if (!shippingAvailable || requiresWeightReview) {
       setShippingHelpOpen(true);
       return;
     }
@@ -160,7 +169,7 @@ export function CheckoutView({ locale }: { locale: Locale }) {
       });
       const payload = (await response.json()) as PayHereResponse & { error?: string; code?: string };
       if (!response.ok) {
-        if (payload.code === "SHIPPING_UNAVAILABLE") setShippingHelpOpen(true);
+        if (payload.code === "SHIPPING_UNAVAILABLE" || payload.code === "SHIPPING_WEIGHT_REVIEW") setShippingHelpOpen(true);
         throw new Error(payload.error || "Unable to start checkout");
       }
       await openPayHerePopup(payload, {
@@ -285,19 +294,30 @@ export function CheckoutView({ locale }: { locale: Locale }) {
             <span>Discount</span>
             <span>-{formatPrice(pricedCart?.discountCents ?? 0)}</span>
           </div>
+          {automaticShippingAvailable && (
+            <p className="text-xs leading-5 text-muted-foreground">
+              {countryCode === "AE" ? "United Arab Emirates: $16.24 (¥110)" : "Listed rate"} for orders up to 1 kg.
+            </p>
+          )}
+          {requiresWeightReview && (
+            <div className="rounded-[0.5rem] border border-amber-300 bg-amber-50 p-3 text-sm leading-6 text-amber-900">
+              This cart is estimated at {estimatedWeightGrams} g. The checkout rate covers up to 1 kg, so please ask us
+              for the best larger-order shipping rate.
+            </div>
+          )}
           <div className="flex justify-between text-muted-foreground">
             <span>Shipping</span>
             <span>
               {!countryCode
                 ? "Select a country"
-                : shippingAvailable
+                : automaticShippingAvailable
                   ? formatPrice(shippingCents)
                   : "Contact us"}
             </span>
           </div>
           <div className="flex justify-between border-t pt-3 text-lg font-semibold">
             <span>Total</span>
-            <span>{shippingAvailable || !countryCode ? formatPrice(payableCents) : formatPrice(merchandiseTotal)}</span>
+            <span>{automaticShippingAvailable || !countryCode ? formatPrice(payableCents) : formatPrice(merchandiseTotal)}</span>
           </div>
         </div>
         <label className="mt-5 block text-sm font-semibold">
@@ -314,9 +334,9 @@ export function CheckoutView({ locale }: { locale: Locale }) {
             </Button>
           </div>
         </label>
-        {shippingQuote && !shippingQuote.available ? (
+        {shippingQuote && (!shippingQuote.available || requiresWeightReview) ? (
           <Button type="button" className="mt-6 w-full" onClick={() => setShippingHelpOpen(true)}>
-            Message us on WhatsApp
+            Get a shipping quote
           </Button>
         ) : (
           <Button form="checkout-form" type="submit" disabled={loading || !countryCode} className="mt-6 w-full">
@@ -328,28 +348,62 @@ export function CheckoutView({ locale }: { locale: Locale }) {
         </Link>
       </aside>
 
-      {shippingHelpOpen && shippingQuote && !shippingQuote.available && (
-        <ShippingHelpDialog countryName={shippingQuote.countryName} onClose={() => setShippingHelpOpen(false)} />
+      {shippingHelpOpen && shippingQuote && (
+        <ShippingHelpDialog
+          countryName={shippingQuote.countryName}
+          estimatedWeightGrams={estimatedWeightGrams}
+          isLargeOrder={requiresWeightReview}
+          onClose={() => setShippingHelpOpen(false)}
+        />
       )}
     </div>
   );
 }
 
-function ShippingHelpDialog({ countryName, onClose }: { countryName: string; onClose: () => void }) {
+function ShippingHelpDialog({
+  countryName,
+  estimatedWeightGrams,
+  isLargeOrder,
+  onClose
+}: {
+  countryName: string;
+  estimatedWeightGrams: number;
+  isLargeOrder: boolean;
+  onClose: () => void;
+}) {
+  const whatsappLink = isLargeOrder
+    ? whatsappLargeOrderShippingHelpLink(countryName, estimatedWeightGrams)
+    : whatsappShippingHelpLink(countryName);
+
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40 p-4" role="dialog" aria-modal="true">
       <div className="max-w-md rounded-[0.75rem] border bg-background p-6 shadow-soft">
-        <h2 className="font-serif text-2xl font-semibold">Shipping for {countryName}</h2>
+        <h2 className="font-serif text-2xl font-semibold">
+          {isLargeOrder ? "Large-order shipping" : `Shipping for ${countryName}`}
+        </h2>
         <p className="mt-4 text-sm leading-7 text-muted-foreground">
-          Your country shipping price is not calculated automatically. Please talk with us through WhatsApp. We will do
-          the calculation and send you the details on how to place the order.
+          {isLargeOrder
+            ? `Your cart is estimated at ${estimatedWeightGrams} g. Listed rates cover up to 1 kg. Contact us for the best shipping rate before placing your order.`
+            : "Your country shipping price is not calculated automatically. Contact us and we will calculate shipping and send you the details on how to place the order."}
         </p>
-        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <Button asChild className="flex-1">
-            <a href={whatsappShippingHelpLink(countryName)} target="_blank" rel="noreferrer">
+            <a href={whatsappLink} target="_blank" rel="noreferrer">
               WhatsApp {SUPPORT_WHATSAPP_DISPLAY}
             </a>
           </Button>
+          <Button asChild variant="secondary" className="flex-1">
+            <a href={SUPPORT_INSTAGRAM_LINK} target="_blank" rel="noreferrer">
+              Message on Instagram
+            </a>
+          </Button>
+          {SUPPORT_FACEBOOK_LINK && (
+            <Button asChild variant="secondary" className="flex-1">
+              <a href={SUPPORT_FACEBOOK_LINK} target="_blank" rel="noreferrer">
+                Message on Facebook
+              </a>
+            </Button>
+          )}
           <Button type="button" variant="secondary" className="flex-1" onClick={onClose}>
             Close
           </Button>

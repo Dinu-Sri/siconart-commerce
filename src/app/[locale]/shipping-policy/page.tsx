@@ -23,6 +23,11 @@ export default async function ShippingPolicyPage({ params }: { params: Promise<{
             and we will calculate shipping and send you the details to place the order.
           </p>
           <p>
+            Listed checkout rates apply to parcels up to 1 kg. Individual brush weights are still being measured, so the
+            store temporarily estimates 50 g per Chinese watercolor brush. If a cart is estimated above 1 kg, checkout
+            pauses so you can contact us for the best larger-order shipping rate.
+          </p>
+          <p>
             Orders are typically processed within 2-5 business days, Monday-Friday excluding public holidays. Delivery
             time depends on your country, local courier handling, and customs clearance.
           </p>

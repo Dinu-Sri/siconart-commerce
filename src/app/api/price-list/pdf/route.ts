@@ -9,7 +9,7 @@ import {
 } from "@/lib/price-list/catalog-pdf";
 
 const ACCESS_COOKIE = "siconart_list_access";
-const allowedKinds = new Set<PriceCatalogKind>(["artist", "mini", "bulk"]);
+const allowedKinds = new Set<PriceCatalogKind>(["market", "artist", "mini", "bulk"]);
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { PriceListProduct } from "@/data/price-list-products";
 
 type ValueField = "retail" | "artist" | "miniWholesale" | "miniWholesaleMoq" | "bulkWholesale" | "bulkWholesaleMoq";
-type PriceCatalogKind = "artist" | "mini" | "bulk";
+type PriceCatalogKind = "market" | "artist" | "mini" | "bulk";
 type ProductValues = Record<ValueField, number>;
 type ValueMap = Record<string, ProductValues>;
 type DraftMap = Record<string, Record<ValueField, string>>;
@@ -275,7 +275,13 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
             </button>
           </div>
 
-          <div className="mt-3 grid gap-2 sm:grid-cols-3">
+          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            <CatalogButton
+              kind="market"
+              label="Market prices"
+              loading={downloadingCatalog === "market"}
+              onClick={() => downloadCatalog("market")}
+            />
             <CatalogButton
               kind="artist"
               label="Artist prices"
@@ -485,11 +491,13 @@ function CatalogButton({
   onClick: () => void;
 }) {
   const tone =
-    kind === "artist"
-      ? "border-[#d9e9e1] bg-[#edf7f3] text-[#245c48]"
-      : kind === "mini"
-        ? "border-[#d9eadc] bg-[#eaf7ef] text-[#2f6a45]"
-        : "border-[#eadfbd] bg-[#fff2bf] text-[#704b18]";
+    kind === "market"
+      ? "border-[#ead9c3] bg-[#fbf4e8] text-[#6d4b32]"
+      : kind === "artist"
+        ? "border-[#d9e9e1] bg-[#edf7f3] text-[#245c48]"
+        : kind === "mini"
+          ? "border-[#d9eadc] bg-[#eaf7ef] text-[#2f6a45]"
+          : "border-[#eadfbd] bg-[#fff2bf] text-[#704b18]";
 
   return (
     <button
@@ -663,6 +671,7 @@ function getCatalogFilename(kind: PriceCatalogKind) {
   const names: Record<PriceCatalogKind, string> = {
     artist: "SiconArt_Artist_Price_Catalog.pdf",
     bulk: "SiconArt_Bulk_Wholesale_Catalog.pdf",
+    market: "SiconArt_Market_Price_Catalog.pdf",
     mini: "SiconArt_MINI_Wholesale_Catalog.pdf"
   };
   return names[kind];

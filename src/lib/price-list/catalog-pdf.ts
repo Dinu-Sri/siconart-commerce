@@ -3,7 +3,7 @@ import path from "node:path";
 import PDFDocument from "pdfkit";
 import type { PriceListProduct } from "@/data/price-list-products";
 
-export type PriceCatalogKind = "artist" | "mini" | "bulk";
+export type PriceCatalogKind = "market" | "artist" | "mini" | "bulk";
 
 export type PriceCatalogValues = Record<
   string,
@@ -25,9 +25,11 @@ type CatalogTheme = {
   lightBg: string;
   moqField: "miniWholesaleMoq" | "bulkWholesaleMoq" | null;
   pageBg: string;
-  priceField: "artist" | "miniWholesale" | "bulkWholesale";
+  priceField: "market" | "artist" | "miniWholesale" | "bulkWholesale";
   priceLabel: string;
   rightLines: [string, string];
+  showMarketReference: boolean;
+  showWriteLine: boolean;
   subtle: string;
   title: string;
 };
@@ -45,6 +47,22 @@ type CatalogItem = {
 };
 
 const catalogThemes: Record<PriceCatalogKind, CatalogTheme> = {
+  market: {
+    accent: "#A67146",
+    cardBorder: "#ead8c4",
+    dark: "#523A27",
+    filename: "SiconArt_Market_Price_Catalog.pdf",
+    lightBg: "#fdf7ef",
+    moqField: null,
+    pageBg: "#fff6ec",
+    priceField: "market",
+    priceLabel: "Market Price",
+    rightLines: ["Public retail pricing", "Prices shown in USD."],
+    showMarketReference: false,
+    showWriteLine: true,
+    subtle: "#806c5b",
+    title: "Market Price Catalog"
+  },
   artist: {
     accent: "#9b5a35",
     cardBorder: "#ead8c4",
@@ -56,6 +74,8 @@ const catalogThemes: Record<PriceCatalogKind, CatalogTheme> = {
     priceField: "artist",
     priceLabel: "Artist Price",
     rightLines: ["Artist partner pricing", "Market price shown for reference."],
+    showMarketReference: true,
+    showWriteLine: false,
     subtle: "#806c5b",
     title: "Artist Price Catalog"
   },
@@ -70,6 +90,8 @@ const catalogThemes: Record<PriceCatalogKind, CatalogTheme> = {
     priceField: "miniWholesale",
     priceLabel: "Mini Wholesale",
     rightLines: ["Mini minimums shown per product", "Packing & shipping calculated separately."],
+    showMarketReference: true,
+    showWriteLine: false,
     subtle: "#68786c",
     title: "Mini Wholesale Price Catalog"
   },
@@ -84,6 +106,8 @@ const catalogThemes: Record<PriceCatalogKind, CatalogTheme> = {
     priceField: "bulkWholesale",
     priceLabel: "Bulk Wholesale",
     rightLines: ["Bulk minimums shown per product", "Packing & shipping calculated separately."],
+    showMarketReference: true,
+    showWriteLine: false,
     subtle: "#806c5b",
     title: "Bulk Wholesale Price Catalog"
   }
@@ -135,13 +159,17 @@ export async function generatePriceCatalogPdf({
   });
 
   registerFonts(doc);
-  drawPages(doc, theme, buildCatalogItems(products, values));
+  drawPages(doc, theme, buildCatalogItems(kind, products, values));
   doc.end();
 
   return finished;
 }
 
-function buildCatalogItems(products: PriceListProduct[], values: PriceCatalogValues = {}): CatalogItem[] {
+function buildCatalogItems(
+  kind: PriceCatalogKind,
+  products: PriceListProduct[],
+  values: PriceCatalogValues = {}
+): CatalogItem[] {
   const bySku = new Map(products.map((product) => [product.sku, product]));
   const orderedSkus = [
     ...familyOrder.flat(),
@@ -166,7 +194,7 @@ function buildCatalogItems(products: PriceListProduct[], values: PriceCatalogVal
         sku: product.sku
       };
     })
-    .filter(isCatalogItemPublishable);
+    .filter((item) => isCatalogItemPublishable(item, kind));
 }
 
 function drawPages(
@@ -267,13 +295,39 @@ function drawCard(
     width: cardWidth - 22
   });
 
-  const priceY = y + cardHeight - 74;
-  drawPriceBox(doc, theme, x + 10, priceY, cardWidth - 20, "Market", formatMoney(item.market), false);
-  drawPriceBox(doc, theme, x + 10, priceY + 24, cardWidth - 20, theme.priceLabel, formatMoney(item[theme.priceField]), true);
+  const boxCount = theme.moqField ? 3 : 2;
+  const priceY = y + cardHeight - (boxCount === 3 ? 74 : 50);
+  let boxY = priceY;
+
+  if (theme.showMarketReference) {
+    drawPriceBox(doc, theme, x + 10, boxY, cardWidth - 20, "Market", formatMoney(item.market), false);
+    boxY += 24;
+  }
+
+  drawPriceBox(doc, theme, x + 10, boxY, cardWidth - 20, theme.priceLabel, formatMoney(item[theme.priceField]), true);
+  boxY += 24;
 
   if (theme.moqField) {
-    drawPriceBox(doc, theme, x + 10, priceY + 48, cardWidth - 20, "Min. Order", `${item[theme.moqField]} pcs`, false);
+    drawPriceBox(doc, theme, x + 10, boxY, cardWidth - 20, "Min. Order", `${item[theme.moqField]} pcs`, false);
+  } else if (theme.showWriteLine) {
+    drawWriteLine(doc, theme, x + 10, boxY, cardWidth - 20);
   }
+}
+
+function drawWriteLine(
+  doc: PDFKit.PDFDocument,
+  theme: CatalogTheme,
+  x: number,
+  y: number,
+  width: number
+) {
+  const lineY = y + 10;
+  doc
+    .moveTo(x + 6, lineY)
+    .lineTo(x + width - 6, lineY)
+    .strokeColor(theme.cardBorder)
+    .lineWidth(0.8)
+    .stroke();
 }
 
 function drawPriceBox(
@@ -321,7 +375,11 @@ function asNumber(value: unknown, fallback: number) {
   return typeof value === "number" && Number.isFinite(value) ? Math.max(0, Math.round(value)) : fallback;
 }
 
-function isCatalogItemPublishable(item: CatalogItem) {
+function isCatalogItemPublishable(item: CatalogItem, kind: PriceCatalogKind) {
+  if (kind === "market") {
+    return item.market > 0;
+  }
+
   return (
     item.market > 0 &&
     item.artist > 0 &&

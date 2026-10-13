@@ -1,11 +1,12 @@
-import { products } from "@/data/products";
+import { getStorefrontProducts } from "@/lib/commerce/live-prices";
 
 export type CartLineInput = {
   sku: string;
   quantity: number;
 };
 
-export function priceCart(lines: CartLineInput[]) {
+export async function priceCart(lines: CartLineInput[]) {
+  const products = await getStorefrontProducts();
   const productRows = products.flatMap((product) => [
     { sku: product.sku, name: product.name, priceCents: product.priceCents },
     ...(product.variants ?? []).map((variant) => ({

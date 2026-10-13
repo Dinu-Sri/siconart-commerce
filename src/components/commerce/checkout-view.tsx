@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { FormEvent } from "react";
 import { useEffect, useMemo, useState } from "react";
-import { formatPrice, products } from "@/data/products";
+import { formatPrice, products as catalogProducts, type Product } from "@/data/products";
 import { COUNTRIES, getCountry } from "@/data/countries";
 import { estimateCartWeightGrams, getShippingQuote, needsShippingWeightReview } from "@/data/shipping";
 import type { Locale } from "@/i18n/routing";
@@ -53,7 +53,7 @@ declare global {
   }
 }
 
-export function CheckoutView({ locale }: { locale: Locale }) {
+export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Locale; catalog?: Product[] }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [discountCode, setDiscountCode] = useState("");
   const [error, setError] = useState("");
@@ -83,7 +83,7 @@ export function CheckoutView({ locale }: { locale: Locale }) {
     }
   }, []);
 
-  const subtotalCents = useMemo(() => estimateSubtotal(lines), [lines]);
+  const subtotalCents = useMemo(() => estimateSubtotal(lines, catalog), [catalog, lines]);
   const merchandiseTotal = pricedCart?.totalCents ?? subtotalCents;
   const payableCents = merchandiseTotal + shippingCents;
 
@@ -274,7 +274,7 @@ export function CheckoutView({ locale }: { locale: Locale }) {
         <h2 className="font-serif text-2xl font-semibold">Order summary</h2>
         <div className="mt-5 grid gap-4">
           {lines.map((line) => {
-            const row = productRows().find((item) => item.sku === line.sku);
+            const row = productRows(catalog).find((item) => item.sku === line.sku);
             return (
               <div key={line.sku} className="flex justify-between gap-4 text-sm">
                 <span>
@@ -433,16 +433,16 @@ function readCart(): CartLine[] {
   }
 }
 
-function estimateSubtotal(lines: CartLine[]) {
-  const rows = productRows();
+function estimateSubtotal(lines: CartLine[], catalog: Product[]) {
+  const rows = productRows(catalog);
   return lines.reduce((sum, line) => {
     const row = rows.find((product) => product.sku === line.sku);
     return sum + (row?.priceCents ?? 0) * line.quantity;
   }, 0);
 }
 
-function productRows() {
-  return products.flatMap((product) => [
+function productRows(catalog: Product[]) {
+  return catalog.flatMap((product) => [
     { sku: product.sku, name: product.name, priceCents: product.priceCents },
     ...(product.variants ?? []).map((variant) => ({
       sku: variant.sku,

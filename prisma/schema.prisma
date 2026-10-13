@@ -79,6 +79,12 @@ model ProductVariant {
   updatedAt   DateTime    @updatedAt
 }
 
+model PriceOverride {
+  sku        String   @id
+  priceCents Int
+  updatedAt  DateTime @updatedAt
+}
+
 model Customer {
   id        String   @id @default(cuid())
   email     String   @unique

@@ -1,16 +1,19 @@
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
-import { categories, products } from "@/data/products";
+import { categories } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { ProductCard } from "@/components/storefront/product-card";
+import { getStorefrontProducts } from "@/lib/commerce/live-prices";
 import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function ShopPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
   const activeLocale = (await getLocale()) as Locale;
   const t = await getTranslations("shop");
+  const products = await getStorefrontProducts();
   const priceRanges = [
     { label: "Under $15", value: "under-15" },
     { label: "$15 - $50", value: "15-50" },

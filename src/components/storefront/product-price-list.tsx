@@ -60,8 +60,14 @@ const fieldLabels: Record<ValueField, string> = {
   bulkWholesaleMoq: "Bulk wholesale MOQ"
 };
 
-export function ProductPriceList({ products }: { products: PriceListProduct[] }) {
-  const defaultValues = useMemo(() => createDefaultValues(products), [products]);
+export function ProductPriceList({
+  products,
+  marketOverrides = {}
+}: {
+  products: PriceListProduct[];
+  marketOverrides?: Record<string, number>;
+}) {
+  const defaultValues = useMemo(() => createDefaultValues(products, marketOverrides), [marketOverrides, products]);
   const [values, setValues] = useState<ValueMap>(() => defaultValues);
   const [drafts, setDrafts] = useState<DraftMap>(() => createDrafts(defaultValues));
   const [versions, setVersions] = useState<PriceVersion[]>([]);
@@ -84,13 +90,15 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
   useEffect(() => {
     const storedValues = readJson<StoredValueMap>(CURRENT_KEY);
     const storedVersions = normalizeVersions(products, readJson<StoredPriceVersion[]>(VERSIONS_KEY) ?? []);
-    const nextValues = storedValues ? mergeWithDefaults(products, storedValues) : defaultValues;
+    const nextValues = storedValues
+      ? mergeWithDefaults(products, storedValues, { marketOverrides, skipRetail: true })
+      : defaultValues;
 
     setValues(nextValues);
     setDrafts(createDrafts(nextValues));
     setVersions(storedVersions);
     setLastSavedAt(window.localStorage.getItem(SAVED_AT_KEY) || "");
-  }, [defaultValues, products]);
+  }, [defaultValues, marketOverrides, products]);
 
   useEffect(() => {
     function onScroll() {
@@ -124,6 +132,25 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
     window.localStorage.setItem(LATEST_KEY, JSON.stringify(stored));
     window.localStorage.setItem(SAVED_AT_KEY, savedAt);
     setLastSavedAt(savedAt);
+    void syncStorefrontPrices(nextValues);
+  }
+
+  async function syncStorefrontPrices(nextValues: ValueMap) {
+    try {
+      const response = await fetch("/api/price-list/prices", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          updates: products.map((product) => ({
+            sku: product.sku,
+            retailCents: nextValues[product.sku]?.retail ?? product.retailCents
+          }))
+        })
+      });
+      if (!response.ok) throw new Error("Storefront price sync failed");
+    } catch {
+      setCatalogError("List saved here, but the shop price did not update. Confirm again.");
+    }
   }
 
   function updateDraft(sku: string, field: ValueField, rawValue: string) {
@@ -211,6 +238,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
     setSelectedVersionId(version.id);
     setValues(nextValues);
     setDrafts(createDrafts(nextValues));
+    persistValues(nextValues);
   }
 
   function restoreLatest() {
@@ -220,6 +248,7 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
     setValues(nextValues);
     setDrafts(createDrafts(nextValues));
     setSelectedVersionId("");
+    persistValues(nextValues);
   }
 
   async function downloadCatalog(kind: PriceCatalogKind) {
@@ -608,10 +637,10 @@ function ValueInput({
   );
 }
 
-function createDefaultValues(products: PriceListProduct[]) {
+function createDefaultValues(products: PriceListProduct[], marketOverrides: Record<string, number> = {}) {
   return products.reduce<ValueMap>((map, product) => {
     map[product.sku] = {
-      retail: product.retailCents,
+      retail: marketOverrides[product.sku] ?? product.retailCents,
       artist: product.artistCents,
       miniWholesale: product.miniWholesaleCents,
       miniWholesaleMoq: product.miniWholesaleMoq,
@@ -662,8 +691,12 @@ function createDrafts(values: ValueMap) {
   ) as DraftMap;
 }
 
-function mergeWithDefaults(products: PriceListProduct[], storedValues: StoredValueMap) {
-  const defaults = createDefaultValues(products);
+function mergeWithDefaults(
+  products: PriceListProduct[],
+  storedValues: StoredValueMap,
+  options: { marketOverrides?: Record<string, number>; skipRetail?: boolean } = {}
+) {
+  const defaults = createDefaultValues(products, options.marketOverrides);
   return Object.fromEntries(
     products.map((product) => {
       const stored = storedValues[product.sku] ?? {};
@@ -671,7 +704,7 @@ function mergeWithDefaults(products: PriceListProduct[], storedValues: StoredVal
         product.sku,
         {
           ...defaults[product.sku],
-          retail: stored.retail ?? defaults[product.sku].retail,
+          retail: options.skipRetail ? defaults[product.sku].retail : (stored.retail ?? defaults[product.sku].retail),
           artist: stored.artist ?? defaults[product.sku].artist,
           miniWholesale: stored.miniWholesale ?? defaults[product.sku].miniWholesale,
           miniWholesaleMoq: stored.miniWholesaleMoq ?? defaults[product.sku].miniWholesaleMoq,

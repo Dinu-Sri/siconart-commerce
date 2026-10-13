@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
 import { priceListProducts } from "@/data/price-list-products";
+import { getMarketPriceOverrides } from "@/lib/commerce/live-prices";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { ProductPriceList } from "@/components/storefront/product-price-list";
@@ -82,5 +83,6 @@ export default async function ListPage({
     );
   }
 
-  return <ProductPriceList products={priceListProducts} />;
+  const marketOverrides = await getMarketPriceOverrides();
+  return <ProductPriceList products={priceListProducts} marketOverrides={marketOverrides} />;
 }

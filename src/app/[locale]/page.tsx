@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, BadgeCheck, CheckCircle2, Feather, Gift, Hand, PackageCheck, Palette } from "lucide-react";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { getHomepageFeatured, getNewArrivals } from "@/data/products";
+import { getStorefrontProducts } from "@/lib/commerce/live-prices";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
@@ -14,13 +15,17 @@ import { InstagramHighlightSection } from "@/components/storefront/instagram-sec
 import { getArtistWorksHighlights, getInternationalDemoHighlights } from "@/lib/instagram";
 import { INSTAGRAM_HIGHLIGHT_URL, INSTAGRAM_PROFILE_URL } from "@/data/instagram";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale as Locale);
   const activeLocale = (await getLocale()) as Locale;
   const t = await getTranslations("home");
-  const featured = getHomepageFeatured(12).map(withProductImages);
-  const newArrivals = getNewArrivals(8).map(withProductImages);
+  const catalog = await getStorefrontProducts();
+  const featured = getHomepageFeatured(12, catalog).map(withProductImages);
+  const newArrivals = getNewArrivals(8, catalog).map(withProductImages);
   const artistStories = getArtistWorksHighlights();
   const internationalDemos = getInternationalDemoHighlights();
   const craftSteps = [

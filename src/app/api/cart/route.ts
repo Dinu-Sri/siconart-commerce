@@ -20,7 +20,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const priced = priceCart(parsed.data.lines);
+    const priced = await priceCart(parsed.data.lines);
     const discount = await getDiscount(parsed.data.discountCode, priced.subtotalCents);
     return NextResponse.json({
       ...priced,

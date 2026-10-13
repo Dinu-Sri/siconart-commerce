@@ -5,11 +5,15 @@ import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { getProduct, products } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
+import { getStorefrontProduct, getStorefrontProducts } from "@/lib/commerce/live-prices";
 import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/storefront/product-card";
 import { ProductGallery } from "@/components/storefront/product-gallery";
 import { ProductPurchase } from "@/components/commerce/product-purchase";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export function generateStaticParams() {
   return products.flatMap((product) => [
@@ -32,9 +36,11 @@ export default async function ProductPage({
   if (catalogProduct.slug !== slug) {
     redirect(localeHref(activeLocale, `/products/${catalogProduct.slug}`));
   }
-  const product = withProductImages(catalogProduct);
+  const liveProduct = await getStorefrontProduct(slug);
+  const product = withProductImages(liveProduct ?? catalogProduct);
+  const liveCatalog = await getStorefrontProducts();
 
-  const related = products
+  const related = liveCatalog
     .filter((item) => item.slug !== product.slug && item.uses.some((use) => product.uses.includes(use)))
     .slice(0, 3)
     .map(withProductImages);

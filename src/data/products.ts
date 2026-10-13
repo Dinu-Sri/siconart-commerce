@@ -1029,6 +1029,34 @@ export const products: Product[] = [
     }
   },
   {
+    sku: "SA-49",
+    slug: "xiangfei-scroll-brush",
+    name: "Xiangfei Scroll",
+    category: "Coming Soon Brushes",
+    summary: "A rare Xiangfei bamboo brush with master-made goat hair, unique natural mottling, and a soft, springy point.",
+    description:
+      "Xiangfei Scroll is crafted from rare Xiangfei bamboo, known as the empress of bamboos. Naturally formed mottled marks make every handle one of a kind. The hair is 80% goat and 20% quality synthetic, hand-finished by a master maker for a full shape, strong water holding, a fine point, and a soft rebound that can wash or flatten into a broader stroke. Xiangfei bamboo carries the old story of empresses Ehuang and Nüying, whose tears stained the bamboo. Full retail pricing will be confirmed soon.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/xiangfei-scroll-brush/feature.jpg"],
+    uses: ["wash", "sketching", "studio"],
+    handle: "short",
+    feel: "soft",
+    level: "professional",
+    featured: true,
+    addedAt: "2026-10-13",
+    specs: {
+      "Best for": "Watercolor sketching, Chinese ink, washes and broader strokes",
+      "Brush type": "Limited collector bamboo",
+      "Hair": "80% goat, 20% quality synthetic",
+      "Tip length": "3 cm",
+      "Handle length": "15 cm",
+      "Shaft diameter": "0.85 cm",
+      "Handle": "Natural Xiangfei bamboo",
+      "Feel": "Soft, springy"
+    }
+  },
+  {
     sku: "SA-48",
     slug: "embroidered-prosperity-deer-brush",
     name: "Embroidered Prosperity Deer Brush",
@@ -1119,15 +1147,15 @@ function addedRank(product: Product) {
   return product.addedAt || `2026-06-28-${String(catalogIndex(product.sku)).padStart(3, "0")}`;
 }
 
-export function getHomepageFeatured(limit = 12) {
-  const featured = products.filter((product) => product.featured);
-  const extra = products.filter((product) => !product.featured && isPurchasable(product));
+export function getHomepageFeatured(limit = 12, source: Product[] = products) {
+  const featured = source.filter((product) => product.featured);
+  const extra = source.filter((product) => !product.featured && isPurchasable(product));
   return [...featured, ...extra].slice(0, limit);
 }
 
-export function getNewArrivals(limit = 8) {
-  const used = new Set(getHomepageFeatured(12).map((product) => product.sku));
-  return products
+export function getNewArrivals(limit = 8, source: Product[] = products) {
+  const used = new Set(getHomepageFeatured(12, source).map((product) => product.sku));
+  return source
     .filter((product) => isPurchasable(product) && !used.has(product.sku))
     .sort((left, right) => addedRank(right).localeCompare(addedRank(left)))
     .slice(0, limit);

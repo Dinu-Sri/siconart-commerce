@@ -4,6 +4,14 @@ import { products } from "../src/data/products";
 const prisma = new PrismaClient();
 
 async function main() {
+  const discontinued = await prisma.product.updateMany({
+    where: { sku: { in: ["SA-29"] } },
+    data: { status: "ARCHIVED" }
+  });
+  if (discontinued.count) {
+    console.log(`Archived ${discontinued.count} discontinued product(s).`);
+  }
+
   for (const product of products) {
     await upsertProduct(product);
 

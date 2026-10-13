@@ -313,18 +313,6 @@ export const priceListProducts: PriceListProduct[] = [
     bulkWholesaleMoq: 300
   },
   {
-    sku: "SA-29",
-    name: "Qing Yao Detail Brush",
-    image: "/products/price-list/sa-29-qing-yao-detail-brush.jpg",
-    currency: "USD",
-    retailCents: 1300,
-    artistCents: 900,
-    miniWholesaleCents: 340,
-    miniWholesaleMoq: 200,
-    bulkWholesaleCents: 170,
-    bulkWholesaleMoq: 500
-  },
-  {
     sku: "SA-10",
     name: "Shede Short Brush",
     image: "/products/price-list/sa-10-shede-short-brush.jpg",
@@ -482,15 +470,15 @@ export const priceListProducts: PriceListProduct[] = [
   },
   {
     sku: "SA-30-SET",
-    name: "Tai Chi Group Brush (Yin & Yang) Pair set",
-    image: "/products/price-list/sa-30-set-tai-chi-group-brush-yin-yang-pair-set.jpg",
+    name: "Tai Chi Yin Brush",
+    image: "/products/price-list/sa-30-set-tai-chi-yin-brush.jpg",
     currency: "USD",
-    retailCents: 5900,
-    artistCents: 3800,
-    miniWholesaleCents: 1900,
-    miniWholesaleMoq: 100,
-    bulkWholesaleCents: 900,
-    bulkWholesaleMoq: 500
+    retailCents: 2950,
+    artistCents: 1900,
+    miniWholesaleCents: 950,
+    miniWholesaleMoq: 50,
+    bulkWholesaleCents: 450,
+    bulkWholesaleMoq: 250
   },
   {
     sku: "SA-31",

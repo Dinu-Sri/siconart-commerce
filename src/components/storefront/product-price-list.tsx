@@ -33,10 +33,18 @@ type StoredPriceVersion = Omit<PriceVersion, "values"> & {
   values?: StoredValueMap;
 };
 
-const CURRENT_KEY = "siconart-price-list-current";
-const LATEST_KEY = "siconart-price-list-latest";
-const VERSIONS_KEY = "siconart-price-list-versions";
-const SAVED_AT_KEY = "siconart-price-list-saved-at";
+const CURRENT_KEY = "siconart-price-list-current-v2";
+const LATEST_KEY = "siconart-price-list-latest-v2";
+const VERSIONS_KEY = "siconart-price-list-versions-v2";
+const SAVED_AT_KEY = "siconart-price-list-saved-at-v2";
+const valueFields: ValueField[] = [
+  "retail",
+  "artist",
+  "miniWholesale",
+  "miniWholesaleMoq",
+  "bulkWholesale",
+  "bulkWholesaleMoq"
+];
 
 const fieldLabels: Record<ValueField, string> = {
   retail: "Market",
@@ -100,8 +108,9 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
 
   function persistValues(nextValues: ValueMap) {
     const savedAt = formatTimestamp(new Date());
-    window.localStorage.setItem(CURRENT_KEY, JSON.stringify(nextValues));
-    window.localStorage.setItem(LATEST_KEY, JSON.stringify(nextValues));
+    const stored = storedOverrides(products, nextValues);
+    window.localStorage.setItem(CURRENT_KEY, JSON.stringify(stored));
+    window.localStorage.setItem(LATEST_KEY, JSON.stringify(stored));
     window.localStorage.setItem(SAVED_AT_KEY, savedAt);
     setLastSavedAt(savedAt);
   }
@@ -572,6 +581,30 @@ function createDefaultValues(products: PriceListProduct[]) {
     };
     return map;
   }, {});
+}
+
+function storedOverrides(products: PriceListProduct[], values: ValueMap): StoredValueMap {
+  const defaults = createDefaultValues(products);
+  const stored: StoredValueMap = {};
+
+  for (const product of products) {
+    const current = values[product.sku];
+    const baseline = defaults[product.sku];
+    if (!current || !baseline) continue;
+
+    const diff: Partial<ProductValues> = {};
+    for (const field of valueFields) {
+      if (current[field] !== baseline[field]) {
+        diff[field] = current[field];
+      }
+    }
+
+    if (Object.keys(diff).length) {
+      stored[product.sku] = diff;
+    }
+  }
+
+  return stored;
 }
 
 function createDrafts(values: ValueMap) {

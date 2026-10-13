@@ -12,6 +12,28 @@ import { Logo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { CartIconLink } from "@/components/commerce/cart-icon-link";
 
+const tickerMessages = [
+  "Worldwide shipping from Dongguan, China.",
+  "Satisfaction guarantee.",
+  "Faster customer support.",
+  "Official Sicon Art store.",
+  "Artist owned, artist tested brand."
+];
+
+function TickerTrack({ hidden = false }: { hidden?: boolean }) {
+  const items = [...tickerMessages, ...tickerMessages];
+
+  return (
+    <div className="flex shrink-0 items-center gap-12 pr-12" aria-hidden={hidden || undefined}>
+      {items.map((message, index) => (
+        <span key={`${message}-${index}`} className="whitespace-nowrap">
+          {message}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export function SiteHeader() {
   const t = useTranslations("nav");
   const locale = useLocale() as Locale;
@@ -23,10 +45,9 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/88 backdrop-blur-xl">
       <div className="overflow-hidden border-b bg-accent py-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent-foreground">
-        <div className="animate-marquee flex w-max gap-12 whitespace-nowrap">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <span key={index}>Worldwide shipping from Dongguan, China.</span>
-          ))}
+        <div className="animate-marquee flex w-max">
+          <TickerTrack />
+          <TickerTrack hidden />
         </div>
       </div>
       <div className="container-content flex min-h-20 items-center justify-between gap-4 py-3">

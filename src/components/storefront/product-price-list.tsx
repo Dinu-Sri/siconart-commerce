@@ -3,7 +3,12 @@
 import Image from "next/image";
 import { ArrowUp, FileDown, RotateCcw, Save, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import type { PriceListProduct } from "@/data/price-list-products";
+import {
+  matchesPriceListBrowse,
+  priceListBrowseCategories,
+  type PriceListBrowseId,
+  type PriceListProduct
+} from "@/data/price-list-products";
 
 type ValueField = "retail" | "artist" | "miniWholesale" | "miniWholesaleMoq" | "bulkWholesale" | "bulkWholesaleMoq";
 type PriceCatalogKind = "market" | "artist" | "mini" | "bulk";
@@ -67,8 +72,14 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
   const [downloadingCatalog, setDownloadingCatalog] = useState<PriceCatalogKind | null>(null);
   const [catalogError, setCatalogError] = useState("");
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [browseId, setBrowseId] = useState<PriceListBrowseId>("all");
 
   const sortedProducts = useMemo(() => [...products].sort((a, b) => a.name.localeCompare(b.name)), [products]);
+  const visibleProducts = useMemo(() => {
+    return sortedProducts.filter((product) =>
+      matchesPriceListBrowse(product.sku, values[product.sku]?.retail ?? product.retailCents, browseId)
+    );
+  }, [browseId, sortedProducts, values]);
 
   useEffect(() => {
     const storedValues = readJson<StoredValueMap>(CURRENT_KEY);
@@ -248,7 +259,11 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
         <header className="-mx-3 border-b border-[#ead9c3] bg-[#fef9ef] px-3 py-3 sm:-mx-5 sm:px-5">
           <div className="flex items-center justify-between gap-3">
             <h1 className="font-serif text-xl font-semibold leading-tight sm:text-3xl">Sicon Art Price List</h1>
-            <p className="shrink-0 text-right text-xs font-semibold text-[#8a6d56] sm:text-sm">{sortedProducts.length} brush types</p>
+            <p className="shrink-0 text-right text-xs font-semibold text-[#8a6d56] sm:text-sm">
+              {browseId === "all"
+                ? `${sortedProducts.length} brush types`
+                : `${visibleProducts.length} of ${sortedProducts.length}`}
+            </p>
           </div>
 
           <div className="mt-3 grid grid-cols-[1fr_auto_auto] gap-2">
@@ -311,10 +326,34 @@ export function ProductPriceList({ products }: { products: PriceListProduct[] })
             />
           </div>
           {catalogError && <p className="mt-2 text-sm font-semibold text-red-600">{catalogError}</p>}
+
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+            {priceListBrowseCategories.map((category) => {
+              const active = browseId === category.id;
+              return (
+                <button
+                  key={category.id}
+                  type="button"
+                  onClick={() => setBrowseId(category.id)}
+                  className={`shrink-0 rounded-full border px-3 py-2 text-sm font-semibold transition ${
+                    active
+                      ? "border-[#a67146] bg-[#a67146] text-white"
+                      : "border-[#ead9c3] bg-white text-[#6d4b32]"
+                  }`}
+                >
+                  {category.label}
+                </button>
+              );
+            })}
+          </div>
         </header>
 
+        {visibleProducts.length === 0 ? (
+          <p className="mt-8 text-center text-sm font-semibold text-[#8a6d56]">No brushes in this category yet.</p>
+        ) : null}
+
         <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {sortedProducts.map((product) => (
+          {visibleProducts.map((product) => (
             <article key={product.sku} className="overflow-hidden rounded-[0.5rem] border border-[#ead9c3] bg-white shadow-sm">
               <button
                 type="button"

@@ -1029,6 +1029,34 @@ export const products: Product[] = [
     }
   },
   {
+    sku: "SA-48",
+    slug: "embroidered-prosperity-deer-brush",
+    name: "Embroidered Prosperity Deer Brush",
+    category: "Coming Soon Brushes",
+    summary: "A limited collector’s edition brush with hand embroidery, a sharp point, and generous water holding.",
+    description:
+      "Embroidered Prosperity Deer Brush is a Sicon Art limited collector’s edition. The middle of the handle is hand embroidered, with a deer stitched against a teal ground. In Chinese culture the deer stands for fortune, blessing, and artistic inspiration. The sculpted handle is smooth and balanced. The hair is a master-blended mix of 50% rabbit, 40% fox, and 10% synthetic fibre, made for a fine point, generous liquid capacity, and lively spring. It is suited to delicate watercolor washes, Chinese line drawing, and fine detail. Full retail pricing will be confirmed soon.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/embroidered-prosperity-deer-brush/feature.jpg"],
+    uses: ["wash", "detail", "line-and-wash", "studio"],
+    handle: "short",
+    feel: "springy",
+    level: "professional",
+    featured: true,
+    addedAt: "2026-10-13",
+    specs: {
+      "Best for": "Delicate washes, Chinese line drawing, fine detail",
+      "Brush type": "Limited Collector’s Edition",
+      "Hair": "50% rabbit, 40% fox, 10% synthetic",
+      "Tip length": "2.3 cm",
+      "Handle length": "17 cm",
+      "Shaft diameter": "0.9 cm",
+      "Handle": "Sculpted short handle",
+      "Feel": "Springy"
+    }
+  },
+  {
     sku: "SA-46",
     slug: "turquoise-wave-brush",
     name: "Turquoise Wave Brush",

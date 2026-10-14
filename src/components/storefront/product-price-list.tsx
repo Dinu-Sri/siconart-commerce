@@ -9,6 +9,12 @@ import {
   type PriceListBrowseId,
   type PriceListProduct
 } from "@/data/price-list-products";
+import {
+  pingListAccess,
+  saveRetailPrices,
+  unlockListAccess,
+  type PriceSaveError
+} from "@/lib/price-list-sync-client";
 
 type ValueField = "retail" | "artist" | "miniWholesale" | "miniWholesaleMoq" | "bulkWholesale" | "bulkWholesaleMoq";
 type PriceCatalogKind = "market" | "artist" | "mini" | "bulk";
@@ -79,6 +85,11 @@ export function ProductPriceList({
   const [catalogError, setCatalogError] = useState("");
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [browseId, setBrowseId] = useState<PriceListBrowseId>("all");
+  const [saving, setSaving] = useState(false);
+  const [saveNotice, setSaveNotice] = useState("");
+  const [saveError, setSaveError] = useState<PriceSaveError | null>(null);
+  const [unlockPassword, setUnlockPassword] = useState("");
+  const [sessionReady, setSessionReady] = useState(true);
 
   const sortedProducts = useMemo(() => [...products].sort((a, b) => a.name.localeCompare(b.name)), [products]);
   const visibleProducts = useMemo(() => {
@@ -99,6 +110,22 @@ export function ProductPriceList({
     setVersions(storedVersions);
     setLastSavedAt(window.localStorage.getItem(SAVED_AT_KEY) || "");
   }, [defaultValues, marketOverrides, products]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void pingListAccess().then((ok) => {
+      if (!cancelled) setSessionReady(ok);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!saveNotice) return;
+    const timer = window.setTimeout(() => setSaveNotice(""), 5000);
+    return () => window.clearTimeout(timer);
+  }, [saveNotice]);
 
   useEffect(() => {
     function onScroll() {
@@ -125,32 +152,38 @@ export function ProductPriceList({
     };
   }, [previewProduct]);
 
-  function persistValues(nextValues: ValueMap) {
+  function persistLocal(nextValues: ValueMap) {
     const savedAt = formatTimestamp(new Date());
     const stored = storedOverrides(products, nextValues);
     window.localStorage.setItem(CURRENT_KEY, JSON.stringify(stored));
     window.localStorage.setItem(LATEST_KEY, JSON.stringify(stored));
     window.localStorage.setItem(SAVED_AT_KEY, savedAt);
     setLastSavedAt(savedAt);
-    void syncStorefrontPrices(nextValues);
   }
 
-  async function syncStorefrontPrices(nextValues: ValueMap) {
-    try {
-      const response = await fetch("/api/price-list/prices", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          updates: products.map((product) => ({
-            sku: product.sku,
-            retailCents: nextValues[product.sku]?.retail ?? product.retailCents
-          }))
-        })
-      });
-      if (!response.ok) throw new Error("Storefront price sync failed");
-    } catch {
-      setCatalogError("List saved here, but the shop price did not update. Confirm again.");
+  function applyValues(nextValues: ValueMap) {
+    setValues(nextValues);
+    persistLocal(nextValues);
+  }
+
+  async function syncRetail(nextValues: ValueMap, skus: string[]) {
+    const uniqueSkus = [...new Set(skus.filter(Boolean))];
+    if (uniqueSkus.length === 0) return true;
+    const result = await saveRetailPrices(
+      uniqueSkus.map((sku) => ({
+        sku,
+        retailCents: nextValues[sku]?.retail ?? products.find((product) => product.sku === sku)?.retailCents ?? 0
+      }))
+    );
+    if (result.ok) {
+      setSessionReady(true);
+      setSaveError(null);
+      setCatalogError("");
+      return true;
     }
+    setSaveError(result.error);
+    setSessionReady(!result.error.needsUnlock);
+    return false;
   }
 
   function updateDraft(sku: string, field: ValueField, rawValue: string) {
@@ -165,6 +198,8 @@ export function ProductPriceList({
   }
 
   function requestCommit(product: PriceListProduct, field: ValueField) {
+    if (saving || pendingChange || saveError) return;
+
     const currentValue = values[product.sku]?.[field] ?? defaultValues[product.sku][field];
     const rawDraft = drafts[product.sku]?.[field] ?? formatValue(field, currentValue);
     const nextValue = isMoqField(field) ? parseMoq(rawDraft) : parsePriceCents(rawDraft);
@@ -183,28 +218,64 @@ export function ProductPriceList({
     });
   }
 
-  function confirmPendingChange() {
-    if (!pendingChange) return;
+  async function confirmPendingChange() {
+    if (!pendingChange || saving) return;
+    const change = pendingChange;
+    const nextValues = {
+      ...values,
+      [change.sku]: {
+        ...values[change.sku],
+        [change.field]: change.next
+      }
+    };
+
+    if (change.field === "retail") {
+      setSaving(true);
+      setSaveError(null);
+      const ok = await syncRetail(nextValues, [change.sku]);
+      setSaving(false);
+      if (!ok) return;
+      setSaveNotice(`Saved ${change.name} market price ${formatValueForMessage("retail", change.next)} to the shop.`);
+    }
+
     setSelectedVersionId("");
-    setValues((current) => {
-      const nextValues = {
-        ...current,
-        [pendingChange.sku]: {
-          ...current[pendingChange.sku],
-          [pendingChange.field]: pendingChange.next
-        }
-      };
-      persistValues(nextValues);
-      return nextValues;
-    });
-    resetDraft(pendingChange.sku, pendingChange.field, pendingChange.next);
+    applyValues(nextValues);
+    resetDraft(change.sku, change.field, change.next);
     setPendingChange(null);
+    setUnlockPassword("");
   }
 
   function cancelPendingChange() {
-    if (!pendingChange) return;
+    if (!pendingChange || saving) return;
     resetDraft(pendingChange.sku, pendingChange.field, pendingChange.previous);
     setPendingChange(null);
+    setSaveError(null);
+    setUnlockPassword("");
+  }
+
+  async function retryPendingSave() {
+    setUnlockPassword("");
+    await confirmPendingChange();
+  }
+
+  async function unlockAndRetry() {
+    if (saving) return;
+    setSaving(true);
+    setSaveError(null);
+    const unlocked = await unlockListAccess(unlockPassword);
+    if (!unlocked.ok) {
+      setSaving(false);
+      setSaveError(unlocked.error);
+      setSessionReady(false);
+      return;
+    }
+    setSessionReady(true);
+    setSaving(false);
+    if (pendingChange) {
+      await confirmPendingChange();
+      return;
+    }
+    setUnlockPassword("");
   }
 
   function resetDraft(sku: string, field: ValueField, value: number) {
@@ -217,7 +288,17 @@ export function ProductPriceList({
     }));
   }
 
-  function saveVersion() {
+  async function saveVersion() {
+    if (saving) return;
+    setSaving(true);
+    setSaveError(null);
+    const ok = await syncRetail(
+      values,
+      products.map((product) => product.sku)
+    );
+    setSaving(false);
+    if (!ok) return;
+
     const nextVersion: PriceVersion = {
       id: String(Date.now()),
       name: `Version ${versions.length + 1}`,
@@ -228,27 +309,47 @@ export function ProductPriceList({
     setVersions(nextVersions);
     setSelectedVersionId(nextVersion.id);
     window.localStorage.setItem(VERSIONS_KEY, JSON.stringify(nextVersions));
-    persistValues(values);
+    persistLocal(values);
+    setSaveNotice("Saved this version and wrote market prices to the shop.");
   }
 
-  function restoreVersion(versionId: string) {
+  async function restoreVersion(versionId: string) {
     const version = versions.find((item) => item.id === versionId);
-    if (!version) return;
+    if (!version || saving) return;
     const nextValues = mergeWithDefaults(products, version.values);
+    setSaving(true);
+    setSaveError(null);
+    const ok = await syncRetail(
+      nextValues,
+      products.map((product) => product.sku)
+    );
+    setSaving(false);
+    if (!ok) return;
     setSelectedVersionId(version.id);
     setValues(nextValues);
     setDrafts(createDrafts(nextValues));
-    persistValues(nextValues);
+    persistLocal(nextValues);
+    setSaveNotice(`Restored ${version.name} and wrote market prices to the shop.`);
   }
 
-  function restoreLatest() {
+  async function restoreLatest() {
+    if (saving) return;
     const storedValues = readJson<StoredValueMap>(LATEST_KEY) ?? readJson<StoredValueMap>(CURRENT_KEY);
     if (!storedValues) return;
     const nextValues = mergeWithDefaults(products, storedValues);
+    setSaving(true);
+    setSaveError(null);
+    const ok = await syncRetail(
+      nextValues,
+      products.map((product) => product.sku)
+    );
+    setSaving(false);
+    if (!ok) return;
     setValues(nextValues);
     setDrafts(createDrafts(nextValues));
     setSelectedVersionId("");
-    persistValues(nextValues);
+    persistLocal(nextValues);
+    setSaveNotice("Restored the latest list and wrote market prices to the shop.");
   }
 
   async function downloadCatalog(kind: PriceCatalogKind) {
@@ -355,6 +456,18 @@ export function ProductPriceList({
             />
           </div>
           {catalogError && <p className="mt-2 text-sm font-semibold text-red-600">{catalogError}</p>}
+          {saving && <p className="mt-2 text-sm font-semibold text-[#a67146]">Saving market price to the shop…</p>}
+          {saveNotice && (
+            <p className="mt-2 rounded-[0.5rem] border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-800">
+              {saveNotice}
+            </p>
+          )}
+          {!sessionReady && (
+            <p className="mt-2 rounded-[0.5rem] border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">
+              This browser is not logged in for saving. If a save fails, type the list password in the popup and tap Unlock
+              and save.
+            </p>
+          )}
 
           <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
             {priceListBrowseCategories.map((category) => {
@@ -405,6 +518,7 @@ export function ProductPriceList({
                   <ValueInput
                     field="retail"
                     label="Market"
+                    showCommitButton
                     value={drafts[product.sku]?.retail ?? formatValue("retail", values[product.sku]?.retail ?? product.retailCents)}
                     onChange={(value) => updateDraft(product.sku, "retail", value)}
                     onCommit={() => requestCommit(product, "retail")}
@@ -478,32 +592,18 @@ export function ProductPriceList({
         </div>
       </section>
 
-      {pendingChange && (
-        <div className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-md rounded-[0.5rem] border border-[#ead9c3] bg-white p-4 shadow-2xl">
-          <p className="text-sm font-semibold text-[#2f2118]">
-            You changed {fieldLabels[pendingChange.field].toLowerCase()} for {pendingChange.name}.
-          </p>
-          <p className="mt-1 text-sm text-[#8a6d56]">
-            {formatValueForMessage(pendingChange.field, pendingChange.previous)} to{" "}
-            {formatValueForMessage(pendingChange.field, pendingChange.next)}
-          </p>
-          <div className="mt-4 grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={cancelPendingChange}
-              className="h-11 rounded-[0.5rem] border border-[#ead9c3] bg-white text-base font-semibold text-[#6d4b32]"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={confirmPendingChange}
-              className="h-11 rounded-[0.5rem] bg-[#a67146] text-base font-semibold text-white"
-            >
-              Confirm
-            </button>
-          </div>
-        </div>
+      {(pendingChange || saveError) && (
+        <SaveDialog
+          error={saveError}
+          pendingChange={pendingChange}
+          saving={saving}
+          unlockPassword={unlockPassword}
+          onCancel={saveError && !pendingChange ? () => setSaveError(null) : cancelPendingChange}
+          onConfirm={() => void confirmPendingChange()}
+          onRetry={() => void retryPendingSave()}
+          onUnlock={() => void unlockAndRetry()}
+          onUnlockPassword={setUnlockPassword}
+        />
       )}
 
       {previewProduct && (
@@ -556,6 +656,175 @@ export function ProductPriceList({
   );
 }
 
+function SaveDialog({
+  error,
+  onCancel,
+  onConfirm,
+  onRetry,
+  onUnlock,
+  onUnlockPassword,
+  pendingChange,
+  saving,
+  unlockPassword
+}: {
+  error: PriceSaveError | null;
+  onCancel: () => void;
+  onConfirm: () => void;
+  onRetry: () => void;
+  onUnlock: () => void;
+  onUnlockPassword: (value: string) => void;
+  pendingChange: PendingChange | null;
+  saving: boolean;
+  unlockPassword: string;
+}) {
+  const box = useVisualViewportBox();
+
+  return (
+    <div
+      className="fixed inset-x-0 z-[80] flex items-end justify-center p-3 sm:items-center"
+      style={{ top: box.top, height: box.height }}
+    >
+      <div className="absolute inset-0 bg-black/45" />
+      <div className="relative z-10 w-full max-w-md overflow-y-auto rounded-[0.5rem] border border-[#ead9c3] bg-white p-4 shadow-2xl">
+        {saving ? (
+          <div className="py-6 text-center">
+            <p className="text-lg font-semibold text-[#2f2118]">Saving to the shop…</p>
+            <p className="mt-2 text-sm text-[#8a6d56]">Keep this screen open until it finishes.</p>
+          </div>
+        ) : error ? (
+          <div>
+            <p className="text-lg font-semibold text-red-700">{error.title}</p>
+            <p className="mt-2 text-sm leading-6 text-[#2f2118]">{error.message}</p>
+            {pendingChange ? (
+              <p className="mt-2 text-sm font-semibold text-[#6d4b32]">
+                {pendingChange.name}: {formatValueForMessage(pendingChange.field, pendingChange.previous)} →{" "}
+                {formatValueForMessage(pendingChange.field, pendingChange.next)}
+              </p>
+            ) : null}
+            <pre className="mt-3 max-h-48 overflow-auto whitespace-pre-wrap rounded-[0.5rem] bg-[#fbf4e8] p-3 text-left text-xs leading-5 text-[#2f2118]">
+              {formatSaveErrorDump(error, pendingChange)}
+            </pre>
+            {(error.needsUnlock || error.code === "BAD_PASSWORD") && (
+              <label className="mt-3 block text-sm font-semibold text-[#6d4b32]">
+                List password
+                <input
+                  type="password"
+                  value={unlockPassword}
+                  onChange={(event) => onUnlockPassword(event.target.value)}
+                  className="mt-2 h-11 w-full rounded-[0.5rem] border border-[#ead9c3] bg-white px-3 text-base text-[#2f2118] outline-none"
+                  placeholder="Enter password"
+                  autoComplete="current-password"
+                />
+              </label>
+            )}
+            <div className="mt-4 grid gap-2">
+              {error.needsUnlock || error.code === "BAD_PASSWORD" ? (
+                <button
+                  type="button"
+                  onClick={onUnlock}
+                  className="h-12 rounded-[0.5rem] bg-[#a67146] text-base font-semibold text-white"
+                >
+                  Unlock and save
+                </button>
+              ) : pendingChange ? (
+                <button
+                  type="button"
+                  onClick={onRetry}
+                  className="h-12 rounded-[0.5rem] bg-[#a67146] text-base font-semibold text-white"
+                >
+                  Retry save
+                </button>
+              ) : null}
+              <button
+                type="button"
+                onClick={onCancel}
+                className="h-12 rounded-[0.5rem] border border-[#ead9c3] bg-white text-base font-semibold text-[#6d4b32]"
+              >
+                {pendingChange ? "Cancel" : "Close"}
+              </button>
+            </div>
+          </div>
+        ) : pendingChange ? (
+          <div>
+            <p className="text-lg font-semibold text-[#2f2118]">Save this change to the shop?</p>
+            <p className="mt-2 text-sm text-[#8a6d56]">
+              {pendingChange.name}: {formatValueForMessage(pendingChange.field, pendingChange.previous)} to{" "}
+              {formatValueForMessage(pendingChange.field, pendingChange.next)}
+            </p>
+            <p className="mt-2 text-sm text-[#6d4b32]">
+              {pendingChange.field === "retail"
+                ? "Confirm writes the market price to the website for every shopper."
+                : "This value stays on this device only."}
+            </p>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={onCancel}
+                className="h-12 rounded-[0.5rem] border border-[#ead9c3] bg-white text-base font-semibold text-[#6d4b32]"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={onConfirm}
+                className="h-12 rounded-[0.5rem] bg-[#a67146] text-base font-semibold text-white"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+function formatSaveErrorDump(error: PriceSaveError, pendingChange: PendingChange | null) {
+  const lines = [
+    `Time: ${error.time}`,
+    `Host: ${error.host}`,
+    `Path: ${error.path}`,
+    `Status: ${error.httpStatus ?? "no HTTP response"}`,
+    `Code: ${error.code}`,
+    `Sync ID: ${error.syncId}`,
+    `Tries: ${error.tries}`,
+    `Browser online: ${error.online ? "yes" : "no"}`,
+    pendingChange ? `SKU: ${pendingChange.sku}` : "",
+    pendingChange ? `Field: ${pendingChange.field}` : "",
+    pendingChange ? `New value: ${formatValueForMessage(pendingChange.field, pendingChange.next)}` : "",
+    error.hint ? `Hint: ${error.hint}` : "",
+    `Detail: ${error.detail}`
+  ];
+  return lines.filter(Boolean).join("\n");
+}
+
+function useVisualViewportBox() {
+  const [box, setBox] = useState({ top: 0, height: 800 });
+
+  useEffect(() => {
+    function update() {
+      const viewport = window.visualViewport;
+      if (viewport) {
+        setBox({ top: Math.round(viewport.offsetTop), height: Math.round(viewport.height) });
+        return;
+      }
+      setBox({ top: 0, height: window.innerHeight });
+    }
+
+    update();
+    window.visualViewport?.addEventListener("resize", update);
+    window.visualViewport?.addEventListener("scroll", update);
+    window.addEventListener("resize", update);
+    return () => {
+      window.visualViewport?.removeEventListener("resize", update);
+      window.visualViewport?.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return box;
+}
+
 function CatalogButton({
   kind,
   label,
@@ -594,6 +863,7 @@ function ValueInput({
   label,
   onChange,
   onCommit,
+  showCommitButton = false,
   tone = "default",
   value
 }: {
@@ -601,6 +871,7 @@ function ValueInput({
   label: string;
   onChange: (value: string) => void;
   onCommit: () => void;
+  showCommitButton?: boolean;
   tone?: "default" | "artist" | "miniWholesale" | "bulkWholesale";
   value: string;
 }) {
@@ -615,7 +886,11 @@ function ValueInput({
           : "bg-[#fbf4e8]";
 
   return (
-    <label className={`grid grid-cols-[76px_1fr] items-center gap-2 rounded px-2 py-2 ${toneClass}`}>
+    <label
+      className={`grid items-center gap-2 rounded px-2 py-2 ${toneClass} ${
+        showCommitButton ? "grid-cols-[64px_1fr_auto]" : "grid-cols-[76px_1fr]"
+      }`}
+    >
       <span className="text-sm font-semibold text-[#8a6d56]">{label}</span>
       <span className="flex min-w-0 items-center rounded border border-[#ead9c3] bg-white px-2">
         {!isMoq && <span className="text-base text-[#8a6d56]">$</span>}
@@ -633,6 +908,19 @@ function ValueInput({
           aria-label={`${label} ${isMoq ? "quantity" : "price"}`}
         />
       </span>
+      {showCommitButton ? (
+        <button
+          type="button"
+          tabIndex={-1}
+          onPointerDown={(event) => {
+            event.preventDefault();
+            onCommit();
+          }}
+          className="h-10 rounded-[0.5rem] bg-[#a67146] px-3 text-sm font-semibold text-white"
+        >
+          Save
+        </button>
+      ) : null}
     </label>
   );
 }

@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { LockKeyhole } from "lucide-react";
 import { priceListProducts } from "@/data/price-list-products";
@@ -7,9 +6,7 @@ import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { ProductPriceList } from "@/components/storefront/product-price-list";
 import { Button } from "@/components/ui/button";
-
-const ACCESS_COOKIE = "siconart_list_access";
-const LIST_PASSWORD = "tina";
+import { grantListAccess, hasListAccess, isListPassword } from "@/lib/price-list-access";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -24,8 +21,7 @@ export default async function ListPage({
   const { locale } = await params;
   const activeLocale = locale as Locale;
   const query = searchParams ? await searchParams : {};
-  const cookieStore = await cookies();
-  const hasAccess = cookieStore.get(ACCESS_COOKIE)?.value === "1";
+  const hasAccess = await hasListAccess();
 
   async function unlockList(formData: FormData) {
     "use server";
@@ -33,17 +29,11 @@ export default async function ListPage({
     const password = String(formData.get("password") || "").trim();
     const listPath = localeHref(activeLocale, "/list");
 
-    if (password !== LIST_PASSWORD) {
+    if (!isListPassword(password)) {
       redirect(`${listPath}?error=1`);
     }
 
-    const writableCookies = await cookies();
-    writableCookies.set(ACCESS_COOKIE, "1", {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      path: "/"
-    });
+    await grantListAccess();
     redirect(listPath);
   }
 

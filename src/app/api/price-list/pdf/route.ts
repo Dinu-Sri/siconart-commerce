@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { priceListProducts } from "@/data/price-list-products";
 import {
@@ -7,16 +6,14 @@ import {
   type PriceCatalogKind,
   type PriceCatalogValues
 } from "@/lib/price-list/catalog-pdf";
-
-const ACCESS_COOKIE = "siconart_list_access";
+import { hasListAccess } from "@/lib/price-list-access";
 const allowedKinds = new Set<PriceCatalogKind>(["market", "artist", "mini", "bulk"]);
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
-  const cookieStore = await cookies();
-  if (cookieStore.get(ACCESS_COOKIE)?.value !== "1") {
+  if (!(await hasListAccess())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

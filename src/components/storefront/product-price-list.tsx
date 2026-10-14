@@ -9,14 +9,15 @@ import {
   type PriceListBrowseId,
   type PriceListProduct
 } from "@/data/price-list-products";
+import type { PriceListOverride, PriceListValueField } from "@/lib/price-list-fields";
 import {
   pingListAccess,
-  saveRetailPrices,
+  savePriceListUpdates,
   unlockListAccess,
   type PriceSaveError
 } from "@/lib/price-list-sync-client";
 
-type ValueField = "retail" | "artist" | "miniWholesale" | "miniWholesaleMoq" | "bulkWholesale" | "bulkWholesaleMoq";
+type ValueField = PriceListValueField;
 type PriceCatalogKind = "market" | "artist" | "mini" | "bulk";
 type ProductValues = Record<ValueField, number>;
 type ValueMap = Record<string, ProductValues>;
@@ -68,12 +69,12 @@ const fieldLabels: Record<ValueField, string> = {
 
 export function ProductPriceList({
   products,
-  marketOverrides = {}
+  listOverrides = {}
 }: {
   products: PriceListProduct[];
-  marketOverrides?: Record<string, number>;
+  listOverrides?: Record<string, PriceListOverride>;
 }) {
-  const defaultValues = useMemo(() => createDefaultValues(products, marketOverrides), [marketOverrides, products]);
+  const defaultValues = useMemo(() => createDefaultValues(products, listOverrides), [listOverrides, products]);
   const [values, setValues] = useState<ValueMap>(() => defaultValues);
   const [drafts, setDrafts] = useState<DraftMap>(() => createDrafts(defaultValues));
   const [versions, setVersions] = useState<PriceVersion[]>([]);
@@ -99,17 +100,12 @@ export function ProductPriceList({
   }, [browseId, sortedProducts, values]);
 
   useEffect(() => {
-    const storedValues = readJson<StoredValueMap>(CURRENT_KEY);
     const storedVersions = normalizeVersions(products, readJson<StoredPriceVersion[]>(VERSIONS_KEY) ?? []);
-    const nextValues = storedValues
-      ? mergeWithDefaults(products, storedValues, { marketOverrides, skipRetail: true })
-      : defaultValues;
-
-    setValues(nextValues);
-    setDrafts(createDrafts(nextValues));
+    setValues(defaultValues);
+    setDrafts(createDrafts(defaultValues));
     setVersions(storedVersions);
     setLastSavedAt(window.localStorage.getItem(SAVED_AT_KEY) || "");
-  }, [defaultValues, marketOverrides, products]);
+  }, [defaultValues, products]);
 
   useEffect(() => {
     let cancelled = false;
@@ -166,15 +162,16 @@ export function ProductPriceList({
     persistLocal(nextValues);
   }
 
-  async function syncRetail(nextValues: ValueMap, skus: string[]) {
-    const uniqueSkus = [...new Set(skus.filter(Boolean))];
-    if (uniqueSkus.length === 0) return true;
-    const result = await saveRetailPrices(
-      uniqueSkus.map((sku) => ({
-        sku,
-        retailCents: nextValues[sku]?.retail ?? products.find((product) => product.sku === sku)?.retailCents ?? 0
-      }))
-    );
+  async function syncFields(nextValues: ValueMap, targets: Array<{ sku: string; field: ValueField }>) {
+    const updates = targets
+      .filter((target) => target.sku)
+      .map((target) => ({
+        sku: target.sku,
+        field: target.field,
+        value: nextValues[target.sku]?.[target.field] ?? defaultValues[target.sku]?.[target.field] ?? 0
+      }));
+    if (updates.length === 0) return true;
+    const result = await savePriceListUpdates(updates);
     if (result.ok) {
       setSessionReady(true);
       setSaveError(null);
@@ -184,6 +181,10 @@ export function ProductPriceList({
     setSaveError(result.error);
     setSessionReady(!result.error.needsUnlock);
     return false;
+  }
+
+  function allFieldTargets() {
+    return products.flatMap((product) => valueFields.map((field) => ({ sku: product.sku, field })));
   }
 
   function updateDraft(sku: string, field: ValueField, rawValue: string) {
@@ -229,14 +230,14 @@ export function ProductPriceList({
       }
     };
 
-    if (change.field === "retail") {
-      setSaving(true);
-      setSaveError(null);
-      const ok = await syncRetail(nextValues, [change.sku]);
-      setSaving(false);
-      if (!ok) return;
-      setSaveNotice(`Saved ${change.name} market price ${formatValueForMessage("retail", change.next)} to the shop.`);
-    }
+    setSaving(true);
+    setSaveError(null);
+    const ok = await syncFields(nextValues, [{ sku: change.sku, field: change.field }]);
+    setSaving(false);
+    if (!ok) return;
+    setSaveNotice(
+      `Saved ${change.name} ${fieldLabels[change.field].toLowerCase()} ${formatValueForMessage(change.field, change.next)} on every device.`
+    );
 
     setSelectedVersionId("");
     applyValues(nextValues);
@@ -292,10 +293,7 @@ export function ProductPriceList({
     if (saving) return;
     setSaving(true);
     setSaveError(null);
-    const ok = await syncRetail(
-      values,
-      products.map((product) => product.sku)
-    );
+    const ok = await syncFields(values, allFieldTargets());
     setSaving(false);
     if (!ok) return;
 
@@ -310,7 +308,7 @@ export function ProductPriceList({
     setSelectedVersionId(nextVersion.id);
     window.localStorage.setItem(VERSIONS_KEY, JSON.stringify(nextVersions));
     persistLocal(values);
-    setSaveNotice("Saved this version and wrote market prices to the shop.");
+    setSaveNotice("Saved this version for every phone and computer that opens this list.");
   }
 
   async function restoreVersion(versionId: string) {
@@ -319,17 +317,14 @@ export function ProductPriceList({
     const nextValues = mergeWithDefaults(products, version.values);
     setSaving(true);
     setSaveError(null);
-    const ok = await syncRetail(
-      nextValues,
-      products.map((product) => product.sku)
-    );
+    const ok = await syncFields(nextValues, allFieldTargets());
     setSaving(false);
     if (!ok) return;
     setSelectedVersionId(version.id);
     setValues(nextValues);
     setDrafts(createDrafts(nextValues));
     persistLocal(nextValues);
-    setSaveNotice(`Restored ${version.name} and wrote market prices to the shop.`);
+    setSaveNotice(`Restored ${version.name} for every phone and computer that opens this list.`);
   }
 
   async function restoreLatest() {
@@ -339,17 +334,14 @@ export function ProductPriceList({
     const nextValues = mergeWithDefaults(products, storedValues);
     setSaving(true);
     setSaveError(null);
-    const ok = await syncRetail(
-      nextValues,
-      products.map((product) => product.sku)
-    );
+    const ok = await syncFields(nextValues, allFieldTargets());
     setSaving(false);
     if (!ok) return;
     setValues(nextValues);
     setDrafts(createDrafts(nextValues));
     setSelectedVersionId("");
     persistLocal(nextValues);
-    setSaveNotice("Restored the latest list and wrote market prices to the shop.");
+    setSaveNotice("Restored the latest list for every phone and computer that opens this list.");
   }
 
   async function downloadCatalog(kind: PriceCatalogKind) {
@@ -456,18 +448,6 @@ export function ProductPriceList({
             />
           </div>
           {catalogError && <p className="mt-2 text-sm font-semibold text-red-600">{catalogError}</p>}
-          {saving && <p className="mt-2 text-sm font-semibold text-[#a67146]">Saving market price to the shop…</p>}
-          {saveNotice && (
-            <p className="mt-2 rounded-[0.5rem] border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-800">
-              {saveNotice}
-            </p>
-          )}
-          {!sessionReady && (
-            <p className="mt-2 rounded-[0.5rem] border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700">
-              This browser is not logged in for saving. If a save fails, type the list password in the popup and tap Unlock
-              and save.
-            </p>
-          )}
 
           <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
             {priceListBrowseCategories.map((category) => {
@@ -518,7 +498,6 @@ export function ProductPriceList({
                   <ValueInput
                     field="retail"
                     label="Market"
-                    showCommitButton
                     value={drafts[product.sku]?.retail ?? formatValue("retail", values[product.sku]?.retail ?? product.retailCents)}
                     onChange={(value) => updateDraft(product.sku, "retail", value)}
                     onCommit={() => requestCommit(product, "retail")}
@@ -591,6 +570,13 @@ export function ProductPriceList({
           ))}
         </div>
       </section>
+
+      <FloatingNotice
+        saving={saving && !pendingChange && !saveError}
+        saveNotice={saveNotice}
+        sessionReady={sessionReady}
+        onDismissNotice={() => setSaveNotice("")}
+      />
 
       {(pendingChange || saveError) && (
         <SaveDialog
@@ -752,9 +738,8 @@ function SaveDialog({
               {formatValueForMessage(pendingChange.field, pendingChange.next)}
             </p>
             <p className="mt-2 text-sm text-[#6d4b32]">
-              {pendingChange.field === "retail"
-                ? "Confirm writes the market price to the website for every shopper."
-                : "This value stays on this device only."}
+              Confirm writes this value for every phone and computer that opens this list
+              {pendingChange.field === "retail" ? ", and updates the shop website." : "."}
             </p>
             <div className="mt-4 grid grid-cols-2 gap-2">
               <button
@@ -825,6 +810,49 @@ function useVisualViewportBox() {
   return box;
 }
 
+function FloatingNotice({
+  onDismissNotice,
+  saveNotice,
+  saving,
+  sessionReady
+}: {
+  onDismissNotice: () => void;
+  saveNotice: string;
+  saving: boolean;
+  sessionReady: boolean;
+}) {
+  const box = useVisualViewportBox();
+  if (!saving && !saveNotice && sessionReady) return null;
+
+  return (
+    <div className="pointer-events-none fixed inset-x-0 z-[90] flex justify-center px-3" style={{ top: box.top + 12 }}>
+      <div className="pointer-events-auto w-full max-w-md">
+        {saving ? (
+          <p className="rounded-[0.5rem] border border-[#ead9c3] bg-white px-4 py-3 text-center text-sm font-semibold text-[#a67146] shadow-2xl">
+            Saving to the list…
+          </p>
+        ) : saveNotice ? (
+          <p className="flex items-start gap-2 rounded-[0.5rem] border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800 shadow-2xl">
+            <span className="flex-1">{saveNotice}</span>
+            <button
+              type="button"
+              onClick={onDismissNotice}
+              className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-emerald-800"
+              aria-label="Dismiss saved message"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </p>
+        ) : (
+          <p className="rounded-[0.5rem] border border-red-200 bg-red-50 px-4 py-3 text-center text-sm font-semibold text-red-700 shadow-2xl">
+            This browser is not logged in for saving. If a save fails, type the list password in the popup.
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function CatalogButton({
   kind,
   label,
@@ -863,7 +891,7 @@ function ValueInput({
   label,
   onChange,
   onCommit,
-  showCommitButton = false,
+  showCommitButton = true,
   tone = "default",
   value
 }: {
@@ -925,15 +953,16 @@ function ValueInput({
   );
 }
 
-function createDefaultValues(products: PriceListProduct[], marketOverrides: Record<string, number> = {}) {
+function createDefaultValues(products: PriceListProduct[], listOverrides: Record<string, PriceListOverride> = {}) {
   return products.reduce<ValueMap>((map, product) => {
+    const override = listOverrides[product.sku] ?? {};
     map[product.sku] = {
-      retail: marketOverrides[product.sku] ?? product.retailCents,
-      artist: product.artistCents,
-      miniWholesale: product.miniWholesaleCents,
-      miniWholesaleMoq: product.miniWholesaleMoq,
-      bulkWholesale: product.bulkWholesaleCents,
-      bulkWholesaleMoq: product.bulkWholesaleMoq
+      retail: override.retail ?? product.retailCents,
+      artist: override.artist ?? product.artistCents,
+      miniWholesale: override.miniWholesale ?? product.miniWholesaleCents,
+      miniWholesaleMoq: override.miniWholesaleMoq ?? product.miniWholesaleMoq,
+      bulkWholesale: override.bulkWholesale ?? product.bulkWholesaleCents,
+      bulkWholesaleMoq: override.bulkWholesaleMoq ?? product.bulkWholesaleMoq
     };
     return map;
   }, {});
@@ -982,9 +1011,9 @@ function createDrafts(values: ValueMap) {
 function mergeWithDefaults(
   products: PriceListProduct[],
   storedValues: StoredValueMap,
-  options: { marketOverrides?: Record<string, number>; skipRetail?: boolean } = {}
+  options: { listOverrides?: Record<string, PriceListOverride> } = {}
 ) {
-  const defaults = createDefaultValues(products, options.marketOverrides);
+  const defaults = createDefaultValues(products, options.listOverrides);
   return Object.fromEntries(
     products.map((product) => {
       const stored = storedValues[product.sku] ?? {};
@@ -992,7 +1021,7 @@ function mergeWithDefaults(
         product.sku,
         {
           ...defaults[product.sku],
-          retail: options.skipRetail ? defaults[product.sku].retail : (stored.retail ?? defaults[product.sku].retail),
+          retail: stored.retail ?? defaults[product.sku].retail,
           artist: stored.artist ?? defaults[product.sku].artist,
           miniWholesale: stored.miniWholesale ?? defaults[product.sku].miniWholesale,
           miniWholesaleMoq: stored.miniWholesaleMoq ?? defaults[product.sku].miniWholesaleMoq,

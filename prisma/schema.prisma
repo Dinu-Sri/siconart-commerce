@@ -80,9 +80,14 @@ model ProductVariant {
 }
 
 model PriceOverride {
-  sku        String   @id
-  priceCents Int
-  updatedAt  DateTime @updatedAt
+  sku                 String   @id
+  priceCents          Int
+  artistCents         Int?
+  miniWholesaleCents  Int?
+  miniWholesaleMoq    Int?
+  bulkWholesaleCents  Int?
+  bulkWholesaleMoq    Int?
+  updatedAt           DateTime @updatedAt
 }
 
 model Customer {

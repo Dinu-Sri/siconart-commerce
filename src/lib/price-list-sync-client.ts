@@ -1,7 +1,6 @@
-export type RetailPriceUpdate = {
-  sku: string;
-  retailCents: number;
-};
+import type { PriceListFieldUpdate } from "@/lib/price-list-fields";
+
+export type { PriceListFieldUpdate };
 
 export type PriceSaveError = {
   code: string;
@@ -21,7 +20,7 @@ export type PriceSaveError = {
 };
 
 export type PriceSaveResult =
-  | { ok: true; syncId: string; saved: { sku: string; priceCents: number }[] }
+  | { ok: true; syncId: string; saved: PriceListFieldUpdate[] }
   | { ok: false; error: PriceSaveError };
 
 type AttemptKind = "ok" | "unlock" | "challenge" | "retry" | "fatal";
@@ -32,7 +31,7 @@ type Attempt = {
   detail: string;
   hint: string;
   code: string;
-  saved: { sku: string; priceCents: number }[];
+  saved: PriceListFieldUpdate[];
   syncId: string;
 };
 
@@ -41,7 +40,7 @@ const ATTEMPT_TIMEOUT_MS = 15000;
 const PRICES_PATH = "/api/price-list/prices";
 const UNLOCK_PATH = "/api/price-list/unlock";
 
-export async function saveRetailPrices(updates: RetailPriceUpdate[]): Promise<PriceSaveResult> {
+export async function savePriceListUpdates(updates: PriceListFieldUpdate[]): Promise<PriceSaveResult> {
   const syncId = createSyncId();
   const startedAt = new Date();
   let last: Attempt | null = null;
@@ -144,7 +143,7 @@ function createSyncId() {
   return `pls-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-async function postPrices(updates: RetailPriceUpdate[], syncId: string, mode: "json" | "plain"): Promise<Attempt> {
+async function postPrices(updates: PriceListFieldUpdate[], syncId: string, mode: "json" | "plain"): Promise<Attempt> {
   const body = JSON.stringify({ updates, syncId });
   try {
     const response = await fetchWithTimeout(PRICES_PATH, {
@@ -248,13 +247,13 @@ function toError(
               ? "The network shield blocked the save"
               : code === "DB_ERROR"
                 ? "The shop database rejected the save"
-                : "Market price was not saved";
+                : "Price was not saved";
 
   return {
     code,
     title,
     message:
-      "This new market price is still only on this phone or computer. It is not in the shop yet. Tap Retry save. If this browser lost the list login, enter the password below and tap Unlock and save.",
+      "This new value is still only on this phone or computer. It is not saved for the list or shop yet. Tap Retry save. If this browser lost the list login, enter the password below and tap Unlock and save.",
     httpStatus: attempt?.status ?? null,
     detail: attempt?.detail || "No response body.",
     hint: attempt?.hint || "",
@@ -277,7 +276,7 @@ function parseJson(raw: string) {
       code?: string;
       hint?: string;
       syncId?: string;
-      saved?: { sku: string; priceCents: number }[];
+      saved?: PriceListFieldUpdate[];
     };
   } catch {
     return null;

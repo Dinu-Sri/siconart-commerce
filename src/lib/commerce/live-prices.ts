@@ -1,14 +1,7 @@
 import { getProduct, products as catalogProducts, type Product } from "@/data/products";
-import { db } from "@/lib/db";
+import { getMarketPriceOverrides } from "@/lib/price-list-overrides";
 
-export async function getMarketPriceOverrides(): Promise<Record<string, number>> {
-  try {
-    const rows = await db.priceOverride.findMany();
-    return Object.fromEntries(rows.map((row) => [row.sku, row.priceCents]));
-  } catch {
-    return {};
-  }
-}
+export { getMarketPriceOverrides, getPriceListOverrides } from "@/lib/price-list-overrides";
 
 export function withMarketPrices(product: Product, overrides: Record<string, number>): Product {
   const variants = product.variants?.map((variant) => ({

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUp, FileDown, Save, X } from "lucide-react";
+import { ArrowDown, ArrowUp, FileDown, Save, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
   matchesPriceListBrowse,
@@ -69,7 +69,7 @@ export function ProductPriceList({
   const [previewProduct, setPreviewProduct] = useState<PriceListProduct | null>(null);
   const [downloadingCatalog, setDownloadingCatalog] = useState<PriceCatalogKind | null>(null);
   const [catalogError, setCatalogError] = useState("");
-  const [showScrollTop, setShowScrollTop] = useState(false);
+
   const [browseId, setBrowseId] = useState<PriceListBrowseId>("all");
   const [saving, setSaving] = useState(false);
   const [saveNotice, setSaveNotice] = useState("");
@@ -113,16 +113,6 @@ export function ProductPriceList({
     const timer = window.setTimeout(() => setSaveNotice(""), 5000);
     return () => window.clearTimeout(timer);
   }, [saveNotice]);
-
-  useEffect(() => {
-    function onScroll() {
-      setShowScrollTop(window.scrollY > 420);
-    }
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     if (!previewProduct) return;
@@ -335,8 +325,13 @@ export function ProductPriceList({
             />
           </div>
           {catalogError && <p className="mt-2 text-sm font-semibold text-red-600">{catalogError}</p>}
+        </header>
 
-          <div className="mt-3 flex items-center gap-2">
+        <div
+          data-list="chips"
+          className="-mx-3 mt-3 bg-[#fef9ef] px-3 pb-3 sm:-mx-5 sm:px-5 xl:sticky xl:top-0 xl:z-20 xl:border-b xl:border-[#ead9c3] xl:py-3 xl:shadow-[0_10px_18px_-14px_rgba(82,58,39,0.45)]"
+        >
+          <div className="flex items-center gap-2">
             <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto pb-1">
               {priceListBrowseCategories.map((category) => {
                 const active = browseId === category.id;
@@ -362,7 +357,7 @@ export function ProductPriceList({
                 : `${visibleProducts.length} of ${sortedProducts.length}`}
             </p>
           </div>
-        </header>
+        </div>
 
         {visibleProducts.length === 0 ? (
           <p className="mt-8 text-center text-sm font-semibold text-[#8a6d56]">No brushes in this category yet.</p>
@@ -522,18 +517,33 @@ export function ProductPriceList({
         </div>
       )}
 
-      <button
-        type="button"
-        aria-label="Scroll to top"
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`fixed bottom-4 right-4 z-40 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#a67146] text-white shadow-lg transition ${
-          showScrollTop ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0"
-        }`}
-      >
-        <ArrowUp className="h-5 w-5" />
-      </button>
+      <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2">
+        <button
+          type="button"
+          aria-label="Scroll to top"
+          onClick={() => scrollPage("top")}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#a67146] text-white shadow-lg"
+        >
+          <ArrowUp className="h-5 w-5" />
+        </button>
+        <button
+          type="button"
+          aria-label="Scroll to bottom"
+          onClick={() => scrollPage("bottom")}
+          className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#a67146] text-white shadow-lg"
+        >
+          <ArrowDown className="h-5 w-5" />
+        </button>
+      </div>
     </div>
   );
+}
+
+function scrollPage(to: "top" | "bottom") {
+  const root = document.scrollingElement || document.documentElement;
+  const top = to === "top" ? 0 : root.scrollHeight;
+  root.scrollTo({ top, behavior: "smooth" });
+  window.scrollTo({ top, behavior: "smooth" });
 }
 
 function SaveDialog({

@@ -1,9 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { getLocale, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
-import { formatListDate, formatListMoney, formatListStatus } from "@/lib/list-order-format";
+import { CountryFlag } from "@/components/storefront/country-flag";
+import { getCountryByName } from "@/data/countries";
+import { formatListDate, formatListMoney, formatListStatus, paymentBadgeClass } from "@/lib/list-order-format";
 import { getListOrder } from "@/lib/list-orders";
 
 export const dynamic = "force-dynamic";
@@ -23,18 +26,36 @@ export default async function ListOrderDetailPage({
 
   const customerName = order.customer?.name || order.shippingAddress?.name || "Not recorded";
   const phone = order.customer?.phone || order.shippingAddress?.phone || "Not recorded";
+  const countryName = order.shippingAddress?.country || "";
+  const countryCode = getCountryByName(countryName)?.code || "";
 
   return (
     <section className="mx-auto w-full max-w-6xl px-3 py-3 sm:px-5 sm:py-5">
-      <Link href={localeHref(activeLocale, "/list/orders")} className="text-sm font-semibold text-[#a67146]">
-        ← All orders
-      </Link>
-      <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
+      <div className="sticky top-[3.25rem] z-20 -mx-3 border-b border-[#ead9c3] bg-[#fef9ef] px-3 py-2 sm:-mx-5 sm:px-5 xl:top-0">
+        <Link
+          href={localeHref(activeLocale, "/list/orders")}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-[0.5rem] bg-[#a67146] px-4 py-3 text-base font-semibold text-white hover:bg-[#8b5d3a] sm:w-auto"
+        >
+          <ArrowLeft className="h-5 w-5" />
+          All orders
+        </Link>
+      </div>
+      <div className="mt-4 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="font-serif text-3xl font-semibold">{order.orderNumber}</h1>
           <p className="mt-1 text-sm font-semibold text-[#8a6d56]">Placed {formatListDate(order.createdAt)}</p>
+          <p className="mt-2 text-sm font-semibold text-[#6d4b32]">
+            <CountryFlag code={countryCode} name={countryName} />
+          </p>
         </div>
-        <p className="font-serif text-2xl font-semibold">{formatListMoney(order.totalCents, order.currency)}</p>
+        <div className="flex flex-col items-end gap-2">
+          <p className="font-serif text-2xl font-semibold">{formatListMoney(order.totalCents, order.currency)}</p>
+          <span
+            className={`inline-flex min-w-[7.5rem] items-center justify-center rounded-[0.5rem] px-3.5 py-2.5 text-base font-bold uppercase tracking-[0.14em] ${paymentBadgeClass(order.paymentStatus)}`}
+          >
+            {formatListStatus(order.paymentStatus)}
+          </span>
+        </div>
       </div>
 
       <div className="mt-5 grid gap-3 lg:grid-cols-2">

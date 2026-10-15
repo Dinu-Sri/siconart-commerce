@@ -129,3 +129,18 @@ export const COUNTRIES: CountryOption[] = [
 export function getCountry(code: string) {
   return COUNTRIES.find((country) => country.code === code.toUpperCase()) ?? null;
 }
+
+export function getCountryByName(name: string) {
+  const needle = name.trim().toLowerCase();
+  if (!needle) return null;
+  return (
+    COUNTRIES.find((country) => country.name.toLowerCase() === needle) ??
+    COUNTRIES.find((country) => country.code.toLowerCase() === needle) ??
+    null
+  );
+}
+
+export function countryFlagEmoji(code: string) {
+  if (!/^[a-z]{2}$/i.test(code)) return "";
+  return [...code.toUpperCase()].map((char) => String.fromCodePoint(127397 + char.charCodeAt(0))).join("");
+}

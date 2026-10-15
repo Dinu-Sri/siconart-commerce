@@ -1,5 +1,6 @@
 import { getLocale, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
+import { getCountryByName } from "@/data/countries";
 import { getListOrders } from "@/lib/list-orders";
 import { ListOrdersView } from "@/components/storefront/list-orders-view";
 
@@ -25,7 +26,9 @@ export default async function ListOrdersPage({ params }: { params: Promise<{ loc
         totalCents: order.totalCents,
         createdAt: order.createdAt.toISOString(),
         itemCount: order.items.length,
-        customerName: order.customer?.name || order.shippingAddress?.name || "Customer"
+        customerName: order.customer?.name || order.shippingAddress?.name || "Customer",
+        countryName: order.shippingAddress?.country || "",
+        countryCode: getCountryByName(order.shippingAddress?.country || "")?.code || ""
       }))}
     />
   );

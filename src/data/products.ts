@@ -1113,6 +1113,34 @@ export const products: Product[] = [
     }
   },
   {
+    sku: "SA-51",
+    slug: "verdant-snow-bristle-brush",
+    name: "Verdant Snow Bristle",
+    category: "Coming Soon Brushes",
+    summary: "A solid-wood emerald handle with snow-bright goat hair, made for soft washes, blending, and fine lines.",
+    description:
+      "Verdant Snow Bristle (青雪笔) has a 100% solid wood handle with a fine natural grain and a warm, elegant feel. Master craftsmen make each brush by hand from carefully chosen fine-peak goat hair, trimmed to a clean point. The bristles look pure, bright, and crystal-clear, like fresh snow. They are ultra-soft, with a sure spring-back and generous water holding, so the brush can lay large watercolor blends, transparent washes, and delicate line work. It is suited to watercolor, plein air landscape sketching, and oriental painting. Full retail pricing will be confirmed soon.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/verdant-snow-bristle-brush/feature.jpg"],
+    uses: ["wash", "sketching", "detail", "studio"],
+    handle: "short",
+    feel: "soft",
+    level: "professional",
+    featured: true,
+    addedAt: "2026-10-15",
+    specs: {
+      "Best for": "Large watercolor blends, transparent washes, delicate lines",
+      "Brush type": "Limited collector wood handle",
+      "Hair": "80% high-quality goat, 20% synthetic",
+      "Tip length": "2.2 cm",
+      "Handle length": "16 cm",
+      "Shaft diameter": "0.85 cm",
+      "Handle": "Solid wood, natural grain",
+      "Feel": "Ultra-soft, springy"
+    }
+  },
+  {
     sku: "SA-46",
     slug: "turquoise-wave-brush",
     name: "Turquoise Wave Brush",

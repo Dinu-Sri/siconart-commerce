@@ -1,9 +1,8 @@
-import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
-import { categories } from "@/data/products";
+import { getLocale, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
-import { ProductCard } from "@/components/storefront/product-card";
+import { ShopCatalog } from "@/components/storefront/shop-catalog";
 import { getStorefrontProducts } from "@/lib/commerce/live-prices";
-import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
+import { toShopListings } from "@/lib/shop-listings";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -12,66 +11,7 @@ export default async function ShopPage({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   setRequestLocale(locale as Locale);
   const activeLocale = (await getLocale()) as Locale;
-  const t = await getTranslations("shop");
-  const products = await getStorefrontProducts();
-  const priceRanges = [
-    { label: "Under $15", value: "under-15" },
-    { label: "$15 - $50", value: "15-50" },
-    { label: "$50 - $100", value: "50-100" },
-    { label: "$100 - $250", value: "100-250" },
-    { label: "Above $250", value: "above-250" }
-  ];
+  const products = toShopListings(await getStorefrontProducts());
 
-  return (
-    <section className="w-full px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-      <div className="grid gap-8 lg:grid-cols-[250px_1fr]">
-        <aside className="h-fit rounded-[0.5rem] border bg-surface p-5 lg:sticky lg:top-32">
-          <h2 className="font-semibold">{t("filters")}</h2>
-          <div className="mt-5 grid gap-6">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{t("price")}</p>
-              <div className="mt-3 grid gap-3">
-                {priceRanges.map((range) => (
-                  <label key={range.value} className="flex cursor-pointer items-center gap-3 text-sm font-semibold">
-                    <input type="checkbox" name="price" value={range.value} className="h-4 w-4 accent-primary" />
-                    <span>{range.label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">{t("category")}</p>
-              <div className="mt-3 grid gap-3">
-                {categories.map((category) => (
-                  <label key={category} className="flex cursor-pointer items-center gap-3 text-sm font-semibold">
-                    <input type="checkbox" name="category" value={category} className="h-4 w-4 accent-primary" />
-                    <span>{category}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        <div>
-          <div className="mb-5 flex items-center justify-between gap-4">
-            <p className="text-sm font-semibold text-muted-foreground">{t("results", { count: products.length })}</p>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-            {products.map((product) => {
-              const shopProduct = withProductImages(product);
-              return (
-                <ProductCard
-                  key={product.sku}
-                  product={shopProduct}
-                  locale={activeLocale}
-                  imageSrc={pickCardThumbnail(shopProduct.images)}
-                />
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  return <ShopCatalog products={products} locale={activeLocale} />;
 }

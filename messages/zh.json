@@ -44,7 +44,8 @@
     "filters": "筛选",
     "price": "Price",
     "category": "分类",
-    "filterNote": "交互筛选将连接到商务后端。当前脚手架已经保存每个产品的分类、笔杆、手感、等级和用途数据。",
+    "clearFilters": "Clear filters",
+    "empty": "No brushes in this category yet.",
     "results": "{count, plural, =0 {没有画笔} =1 {1 支画笔} other {# 支画笔}}"
   },
   "product": {

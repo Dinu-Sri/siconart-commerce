@@ -27,15 +27,23 @@ export type PriceListTag = "rare-collectable";
 export type PriceListKind = "short" | "long" | "accessories";
 export type PriceListBand = "under-20" | "from-20-to-50" | "above-50" | "coming-soon";
 
-export const priceListBrowseCategories: Array<{ id: PriceListBrowseId; label: string }> = [
-  { id: "all", label: "All" },
+export const priceListPriceCategories: Array<{ id: PriceListBrowseId; label: string }> = [
   { id: "under-20", label: "Under $20" },
   { id: "from-20-to-50", label: "$20 to $50" },
-  { id: "above-50", label: "Above $50" },
+  { id: "above-50", label: "Above $50" }
+];
+
+export const priceListGroupCategories: Array<{ id: PriceListBrowseId; label: string }> = [
   { id: "short", label: "Short brushes" },
   { id: "long", label: "Long brushes" },
-  { id: "accessories", label: "Brush accessories" },
-  { id: "rare-collectable", label: "Rare & collectable" }
+  { id: "rare-collectable", label: "Rare & collectable" },
+  { id: "accessories", label: "Brush accessories" }
+];
+
+export const priceListBrowseCategories: Array<{ id: PriceListBrowseId; label: string }> = [
+  { id: "all", label: "All" },
+  ...priceListPriceCategories,
+  ...priceListGroupCategories
 ];
 
 export const priceListTagsBySku: Record<string, PriceListTag[]> = {
@@ -55,7 +63,8 @@ export const priceListTagsBySku: Record<string, PriceListTag[]> = {
   "SA-48": ["rare-collectable"],
   "SA-49": ["rare-collectable"],
   "SA-50": ["rare-collectable"],
-  "SA-51": ["rare-collectable"]
+  "SA-51": ["rare-collectable"],
+  "SA-52": ["rare-collectable"]
 };
 
 const priceListKindBySku: Record<string, PriceListKind> = Object.fromEntries(
@@ -71,7 +80,11 @@ const priceListKindBySku: Record<string, PriceListKind> = Object.fromEntries(
 );
 
 export function priceListTagsFor(sku: string): PriceListTag[] {
-  return priceListTagsBySku[sku] ?? [];
+  if (priceListTagsBySku[sku]) return priceListTagsBySku[sku];
+  const parent = shopProducts.find(
+    (product) => product.sku === sku || product.variants?.some((variant) => variant.sku === sku)
+  );
+  return parent ? (priceListTagsBySku[parent.sku] ?? []) : [];
 }
 
 export function priceListKindFor(sku: string): PriceListKind {
@@ -773,6 +786,18 @@ export const priceListProducts: PriceListProduct[] = [
     sku: "SA-51",
     name: "Verdant Snow Bristle",
     image: "/products/price-list/sa-51-verdant-snow-bristle-brush.jpg",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
+  },
+  {
+    sku: "SA-52",
+    name: "Little Gourd Sprite",
+    image: "/products/price-list/sa-52-little-gourd-sprite-brush.jpg",
     currency: "USD",
     retailCents: 0,
     artistCents: 0,

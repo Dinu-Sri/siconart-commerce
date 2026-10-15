@@ -1141,6 +1141,34 @@ export const products: Product[] = [
     }
   },
   {
+    sku: "SA-52",
+    slug: "little-gourd-sprite-brush",
+    name: "Little Gourd Sprite",
+    category: "Coming Soon Brushes",
+    summary: "A mini line brush with a jade gourd finial, a short handle, and a fine point for precise linework and small studies.",
+    description:
+      "Little Gourd Sprite (小葫灵) is a mini line brush. A jade gourd sits on top of the handle, like a forest sprite guarding your inspiration. It is lightweight and portable, with a short reddish-wood handle. The fine sharp point holds shape well, so it is suited to precise linework and gentle local washes, plein air sketching, and small watercolor studies. The hair is 50% Shantu, 30% rabbit, and 20% synthetic fibre. Let this little gourd sprite accompany you to record every touching scenery along your journey. Full retail pricing will be confirmed soon.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/little-gourd-sprite-brush/feature.jpg"],
+    uses: ["detail", "sketching", "travel", "wash"],
+    handle: "short",
+    feel: "springy",
+    level: "professional",
+    featured: true,
+    addedAt: "2026-10-15",
+    specs: {
+      "Best for": "Precise linework, plein air sketching, small watercolor studies",
+      "Brush type": "Mini line brush",
+      "Hair": "50% Shantu, 30% rabbit, 20% synthetic",
+      "Tip length": "1.5 cm",
+      "Handle length": "12.8 cm",
+      "Shaft diameter": "0.5 cm",
+      "Handle": "Short reddish wood with jade gourd finial",
+      "Feel": "Fine, shape-holding"
+    }
+  },
+  {
     sku: "SA-46",
     slug: "turquoise-wave-brush",
     name: "Turquoise Wave Brush",

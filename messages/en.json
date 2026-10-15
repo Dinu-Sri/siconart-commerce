@@ -44,7 +44,8 @@
     "filters": "Filters",
     "price": "Price",
     "category": "Categories",
-    "filterNote": "Interactive filtering will connect to the commerce backend. This scaffold already stores category, handle, feel, level, and use-case data for every product.",
+    "clearFilters": "Clear filters",
+    "empty": "No brushes in this category yet.",
     "results": "{count, plural, =0 {No brushes} =1 {1 brush} other {# brushes}}"
   },
   "product": {

@@ -92,7 +92,16 @@ export function ProductPriceList({
   const [unlockPassword, setUnlockPassword] = useState("");
   const [sessionReady, setSessionReady] = useState(true);
 
-  const sortedProducts = useMemo(() => [...products].sort((a, b) => a.name.localeCompare(b.name)), [products]);
+  const sortedProducts = useMemo(() => {
+    return [...products].sort((a, b) => {
+      const priceA = values[a.sku]?.retail ?? a.retailCents;
+      const priceB = values[b.sku]?.retail ?? b.retailCents;
+      const rank = (cents: number) => (cents > 0 ? cents : Number.POSITIVE_INFINITY);
+      const diff = rank(priceA) - rank(priceB);
+      if (diff !== 0) return diff;
+      return a.name.localeCompare(b.name);
+    });
+  }, [products, values]);
   const visibleProducts = useMemo(() => {
     return sortedProducts.filter((product) =>
       matchesPriceListBrowse(product.sku, values[product.sku]?.retail ?? product.retailCents, browseId)

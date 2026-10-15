@@ -1,3 +1,5 @@
+import { products as shopProducts } from "@/data/products";
+
 export type PriceListProduct = {
   sku: string;
   name: string;
@@ -13,83 +15,83 @@ export type PriceListProduct = {
 
 export type PriceListBrowseId =
   | "all"
-  | "everyday"
-  | "signature"
-  | "collector"
-  | "sketch"
-  | "master-painter"
+  | "under-20"
+  | "from-20-to-50"
+  | "above-50"
+  | "short"
+  | "long"
+  | "accessories"
   | "rare-collectable";
 
-export type PriceListTag = "sketch" | "master-painter" | "rare-collectable";
+export type PriceListTag = "rare-collectable";
+export type PriceListKind = "short" | "long" | "accessories";
+export type PriceListBand = "under-20" | "from-20-to-50" | "above-50" | "coming-soon";
 
 export const priceListBrowseCategories: Array<{ id: PriceListBrowseId; label: string }> = [
   { id: "all", label: "All" },
-  { id: "everyday", label: "Everyday · Under $20" },
-  { id: "signature", label: "Signature · $20–$50" },
-  { id: "collector", label: "Collector · $50+" },
-  { id: "sketch", label: "Sketch brushes" },
-  { id: "master-painter", label: "Master painter" },
+  { id: "under-20", label: "Under $20" },
+  { id: "from-20-to-50", label: "$20 to $50" },
+  { id: "above-50", label: "Above $50" },
+  { id: "short", label: "Short brushes" },
+  { id: "long", label: "Long brushes" },
+  { id: "accessories", label: "Brush accessories" },
   { id: "rare-collectable", label: "Rare & collectable" }
 ];
 
 export const priceListTagsBySku: Record<string, PriceListTag[]> = {
-  "SA-05": ["sketch"],
-  "SA-06": ["sketch"],
-  "SA-07": ["sketch", "rare-collectable"],
-  "SA-09": ["sketch"],
-  "SA-10": ["sketch"],
-  "SA-12": ["sketch"],
-  "SA-14": ["sketch"],
-  "SA-15": ["sketch"],
-  "SA-19-L": ["sketch"],
-  "SA-19-S": ["sketch"],
-  "SA-20-E": ["sketch"],
-  "SA-20-ST": ["sketch"],
-  "SA-21": ["master-painter", "rare-collectable"],
-  "SA-22": ["sketch"],
-  "SA-24": ["sketch"],
-  "SA-25": ["sketch"],
-  "SA-26": ["sketch"],
-  "SA-30-SET": ["master-painter", "rare-collectable"],
-  "SA-31": ["master-painter", "rare-collectable"],
-  "SA-32-L": ["master-painter"],
-  "SA-32-M": ["master-painter"],
-  "SA-32-S": ["master-painter"],
-  "SA-33": ["master-painter", "rare-collectable"],
-  "SA-34": ["sketch"],
-  "SA-35-L": ["master-painter"],
-  "SA-35-M": ["master-painter"],
-  "SA-35-S": ["master-painter"],
-  "SA-36": ["sketch"],
-  "SA-37": ["master-painter", "rare-collectable"],
-  "SA-38": ["master-painter", "rare-collectable"],
-  "SA-39": ["master-painter", "rare-collectable"],
-  "SA-40": ["master-painter", "rare-collectable"],
+  "SA-07": ["rare-collectable"],
+  "SA-21": ["rare-collectable"],
+  "SA-30-SET": ["rare-collectable"],
+  "SA-31": ["rare-collectable"],
+  "SA-33": ["rare-collectable"],
+  "SA-37": ["rare-collectable"],
+  "SA-38": ["rare-collectable"],
+  "SA-39": ["rare-collectable"],
+  "SA-40": ["rare-collectable"],
   "SA-41": ["rare-collectable"],
   "SA-42": ["rare-collectable"],
   "SA-45": ["rare-collectable"],
   "SA-46": ["rare-collectable"],
-  "SA-48": ["master-painter", "rare-collectable"],
-  "SA-49": ["sketch", "master-painter", "rare-collectable"],
-  "SA-50": ["sketch", "master-painter", "rare-collectable"],
-  "SA-51": ["sketch", "master-painter", "rare-collectable"]
+  "SA-48": ["rare-collectable"],
+  "SA-49": ["rare-collectable"],
+  "SA-50": ["rare-collectable"],
+  "SA-51": ["rare-collectable"]
 };
+
+const priceListKindBySku: Record<string, PriceListKind> = Object.fromEntries(
+  shopProducts.flatMap((product) => {
+    const kind: PriceListKind =
+      product.category === "Accessories" || product.sku.startsWith("SA-ACC")
+        ? "accessories"
+        : product.handle === "long"
+          ? "long"
+          : "short";
+    return [[product.sku, kind], ...(product.variants ?? []).map((variant) => [variant.sku, kind] as const)];
+  })
+);
 
 export function priceListTagsFor(sku: string): PriceListTag[] {
   return priceListTagsBySku[sku] ?? [];
 }
 
-export function priceListBandFor(retailCents: number): "everyday" | "signature" | "collector" | "coming-soon" {
+export function priceListKindFor(sku: string): PriceListKind {
+  return priceListKindBySku[sku] ?? (sku.startsWith("SA-ACC") ? "accessories" : "short");
+}
+
+export function priceListBandFor(retailCents: number): PriceListBand {
   if (retailCents <= 0) return "coming-soon";
-  if (retailCents < 2000) return "everyday";
-  if (retailCents < 5000) return "signature";
-  return "collector";
+  if (retailCents < 2000) return "under-20";
+  if (retailCents <= 5000) return "from-20-to-50";
+  return "above-50";
 }
 
 export function matchesPriceListBrowse(sku: string, retailCents: number, browseId: PriceListBrowseId) {
   if (browseId === "all") return true;
-  if (browseId === "everyday" || browseId === "signature" || browseId === "collector") {
+  if (browseId === "under-20" || browseId === "from-20-to-50" || browseId === "above-50") {
     return priceListBandFor(retailCents) === browseId;
+  }
+  if (browseId === "short" || browseId === "long" || browseId === "accessories") {
+    return priceListKindFor(sku) === browseId;
   }
   return priceListTagsFor(sku).includes(browseId);
 }

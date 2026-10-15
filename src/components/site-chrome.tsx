@@ -13,7 +13,11 @@ export function SiteChrome({
   header: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const isPrivateList = pathname === "/list" || pathname === "/en/list";
+  const isPrivateList =
+    pathname === "/list" ||
+    pathname === "/en/list" ||
+    pathname.startsWith("/list/") ||
+    pathname.startsWith("/en/list/");
 
   if (isPrivateList) {
     return <main className="min-h-dvh">{children}</main>;

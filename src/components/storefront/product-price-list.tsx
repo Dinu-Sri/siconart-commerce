@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUp, FileDown, RotateCcw, Save, X } from "lucide-react";
+import { ArrowUp, FileDown, Save, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
   matchesPriceListBrowse,
@@ -34,20 +34,8 @@ type PendingChange = {
   previous: number;
   sku: string;
 };
-type PriceVersion = {
-  id: string;
-  name: string;
-  createdAt: string;
-  values: ValueMap;
-};
-type StoredPriceVersion = Omit<PriceVersion, "values"> & {
-  prices?: StoredValueMap;
-  values?: StoredValueMap;
-};
-
 const CURRENT_KEY = "siconart-price-list-current-v2";
 const LATEST_KEY = "siconart-price-list-latest-v2";
-const VERSIONS_KEY = "siconart-price-list-versions-v2";
 const SAVED_AT_KEY = "siconart-price-list-saved-at-v2";
 const valueFields: ValueField[] = [
   "retail",
@@ -77,9 +65,6 @@ export function ProductPriceList({
   const defaultValues = useMemo(() => createDefaultValues(products, listOverrides), [listOverrides, products]);
   const [values, setValues] = useState<ValueMap>(() => defaultValues);
   const [drafts, setDrafts] = useState<DraftMap>(() => createDrafts(defaultValues));
-  const [versions, setVersions] = useState<PriceVersion[]>([]);
-  const [selectedVersionId, setSelectedVersionId] = useState("");
-  const [lastSavedAt, setLastSavedAt] = useState("");
   const [pendingChange, setPendingChange] = useState<PendingChange | null>(null);
   const [previewProduct, setPreviewProduct] = useState<PriceListProduct | null>(null);
   const [downloadingCatalog, setDownloadingCatalog] = useState<PriceCatalogKind | null>(null);
@@ -109,11 +94,8 @@ export function ProductPriceList({
   }, [browseId, sortedProducts, values]);
 
   useEffect(() => {
-    const storedVersions = normalizeVersions(products, readJson<StoredPriceVersion[]>(VERSIONS_KEY) ?? []);
     setValues(defaultValues);
     setDrafts(createDrafts(defaultValues));
-    setVersions(storedVersions);
-    setLastSavedAt(window.localStorage.getItem(SAVED_AT_KEY) || "");
   }, [defaultValues, products]);
 
   useEffect(() => {
@@ -158,12 +140,10 @@ export function ProductPriceList({
   }, [previewProduct]);
 
   function persistLocal(nextValues: ValueMap) {
-    const savedAt = formatTimestamp(new Date());
     const stored = storedOverrides(products, nextValues);
     window.localStorage.setItem(CURRENT_KEY, JSON.stringify(stored));
     window.localStorage.setItem(LATEST_KEY, JSON.stringify(stored));
-    window.localStorage.setItem(SAVED_AT_KEY, savedAt);
-    setLastSavedAt(savedAt);
+    window.localStorage.setItem(SAVED_AT_KEY, formatTimestamp(new Date()));
   }
 
   function applyValues(nextValues: ValueMap) {
@@ -190,10 +170,6 @@ export function ProductPriceList({
     setSaveError(result.error);
     setSessionReady(!result.error.needsUnlock);
     return false;
-  }
-
-  function allFieldTargets() {
-    return products.flatMap((product) => valueFields.map((field) => ({ sku: product.sku, field })));
   }
 
   function updateDraft(sku: string, field: ValueField, rawValue: string) {
@@ -248,7 +224,6 @@ export function ProductPriceList({
       `Saved ${change.name} ${fieldLabels[change.field].toLowerCase()} ${formatValueForMessage(change.field, change.next)} on every device.`
     );
 
-    setSelectedVersionId("");
     applyValues(nextValues);
     resetDraft(change.sku, change.field, change.next);
     setPendingChange(null);
@@ -298,61 +273,6 @@ export function ProductPriceList({
     }));
   }
 
-  async function saveVersion() {
-    if (saving) return;
-    setSaving(true);
-    setSaveError(null);
-    const ok = await syncFields(values, allFieldTargets());
-    setSaving(false);
-    if (!ok) return;
-
-    const nextVersion: PriceVersion = {
-      id: String(Date.now()),
-      name: `Version ${versions.length + 1}`,
-      createdAt: formatTimestamp(new Date()),
-      values
-    };
-    const nextVersions = [nextVersion, ...versions];
-    setVersions(nextVersions);
-    setSelectedVersionId(nextVersion.id);
-    window.localStorage.setItem(VERSIONS_KEY, JSON.stringify(nextVersions));
-    persistLocal(values);
-    setSaveNotice("Saved this version for every phone and computer that opens this list.");
-  }
-
-  async function restoreVersion(versionId: string) {
-    const version = versions.find((item) => item.id === versionId);
-    if (!version || saving) return;
-    const nextValues = mergeWithDefaults(products, version.values);
-    setSaving(true);
-    setSaveError(null);
-    const ok = await syncFields(nextValues, allFieldTargets());
-    setSaving(false);
-    if (!ok) return;
-    setSelectedVersionId(version.id);
-    setValues(nextValues);
-    setDrafts(createDrafts(nextValues));
-    persistLocal(nextValues);
-    setSaveNotice(`Restored ${version.name} for every phone and computer that opens this list.`);
-  }
-
-  async function restoreLatest() {
-    if (saving) return;
-    const storedValues = readJson<StoredValueMap>(LATEST_KEY) ?? readJson<StoredValueMap>(CURRENT_KEY);
-    if (!storedValues) return;
-    const nextValues = mergeWithDefaults(products, storedValues);
-    setSaving(true);
-    setSaveError(null);
-    const ok = await syncFields(nextValues, allFieldTargets());
-    setSaving(false);
-    if (!ok) return;
-    setValues(nextValues);
-    setDrafts(createDrafts(nextValues));
-    setSelectedVersionId("");
-    persistLocal(nextValues);
-    setSaveNotice("Restored the latest list for every phone and computer that opens this list.");
-  }
-
   async function downloadCatalog(kind: PriceCatalogKind) {
     setDownloadingCatalog(kind);
     setCatalogError("");
@@ -385,52 +305,10 @@ export function ProductPriceList({
   }
 
   return (
-    <div className="min-h-dvh bg-[#fef9ef] text-[#2f2118]" style={{ colorScheme: "light" }}>
+    <div className="text-[#2f2118]" style={{ colorScheme: "light" }}>
       <section className="mx-auto w-full max-w-6xl px-3 py-3 sm:px-5 sm:py-5">
-        <header className="-mx-3 border-b border-[#ead9c3] bg-[#fef9ef] px-3 py-3 sm:-mx-5 sm:px-5">
-          <div className="flex items-center justify-between gap-3">
-            <h1 className="font-serif text-xl font-semibold leading-tight sm:text-3xl">Sicon Art Price List</h1>
-            <p className="shrink-0 text-right text-xs font-semibold text-[#8a6d56] sm:text-sm">
-              {browseId === "all"
-                ? `${sortedProducts.length} brush types`
-                : `${visibleProducts.length} of ${sortedProducts.length}`}
-            </p>
-          </div>
-
-          <div className="mt-3 grid grid-cols-[1fr_auto_auto] gap-2">
-            <select
-              value={selectedVersionId}
-              onChange={(event) => restoreVersion(event.target.value)}
-              className="min-w-0 rounded-[0.5rem] border border-[#ead9c3] bg-white px-3 py-2 text-base font-semibold outline-none sm:text-sm"
-              aria-label="Price version"
-            >
-              <option value="">Current version{lastSavedAt ? ` - saved ${lastSavedAt}` : ""}</option>
-              {versions.map((version) => (
-                <option key={version.id} value={version.id}>
-                  {version.name} - {version.createdAt}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              onClick={restoreLatest}
-              className="inline-flex h-10 items-center justify-center rounded-[0.5rem] border border-[#ead9c3] bg-white px-3 text-[#6d4b32]"
-              aria-label="Restore latest"
-              title="Restore latest"
-            >
-              <RotateCcw className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={saveVersion}
-              className="inline-flex h-10 items-center justify-center gap-1 rounded-[0.5rem] bg-[#a67146] px-3 text-sm font-semibold text-white"
-            >
-              <Save className="h-4 w-4" />
-              Save
-            </button>
-          </div>
-
-          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        <header className="-mx-3 border-b border-[#ead9c3] bg-[#fef9ef] px-3 pb-3 sm:-mx-5 sm:px-5">
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
             <CatalogButton
               kind="market"
               label="Market prices"
@@ -458,24 +336,31 @@ export function ProductPriceList({
           </div>
           {catalogError && <p className="mt-2 text-sm font-semibold text-red-600">{catalogError}</p>}
 
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
-            {priceListBrowseCategories.map((category) => {
-              const active = browseId === category.id;
-              return (
-                <button
-                  key={category.id}
-                  type="button"
-                  onClick={() => setBrowseId(category.id)}
-                  className={`shrink-0 rounded-full border px-3 py-2 text-sm font-semibold transition ${
-                    active
-                      ? "border-[#a67146] bg-[#a67146] text-white"
-                      : "border-[#ead9c3] bg-white text-[#6d4b32]"
-                  }`}
-                >
-                  {category.label}
-                </button>
-              );
-            })}
+          <div className="mt-3 flex items-center gap-2">
+            <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto pb-1">
+              {priceListBrowseCategories.map((category) => {
+                const active = browseId === category.id;
+                return (
+                  <button
+                    key={category.id}
+                    type="button"
+                    onClick={() => setBrowseId(category.id)}
+                    className={`shrink-0 rounded-full border px-3 py-2 text-sm font-semibold transition ${
+                      active
+                        ? "border-[#a67146] bg-[#a67146] text-white"
+                        : "border-[#ead9c3] bg-white text-[#6d4b32]"
+                    }`}
+                  >
+                    {category.label}
+                  </button>
+                );
+              })}
+            </div>
+            <p className="shrink-0 text-right text-xs font-semibold text-[#8a6d56] sm:text-sm">
+              {browseId === "all"
+                ? `${sortedProducts.length} brush types`
+                : `${visibleProducts.length} of ${sortedProducts.length}`}
+            </p>
           </div>
         </header>
 
@@ -1040,15 +925,6 @@ function mergeWithDefaults(
       ];
     })
   ) as ValueMap;
-}
-
-function normalizeVersions(products: PriceListProduct[], versions: StoredPriceVersion[]) {
-  return versions.map((version) => ({
-    id: version.id,
-    name: version.name,
-    createdAt: version.createdAt,
-    values: mergeWithDefaults(products, version.values ?? version.prices ?? {})
-  }));
 }
 
 function formatValue(field: ValueField, value: number) {

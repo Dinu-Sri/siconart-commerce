@@ -70,7 +70,8 @@ export const priceListTagsBySku: Record<string, PriceListTag[]> = {
   "SA-45": ["rare-collectable"],
   "SA-46": ["rare-collectable"],
   "SA-48": ["master-painter", "rare-collectable"],
-  "SA-49": ["sketch", "master-painter", "rare-collectable"]
+  "SA-49": ["sketch", "master-painter", "rare-collectable"],
+  "SA-50": ["sketch", "master-painter", "rare-collectable"]
 };
 
 export function priceListTagsFor(sku: string): PriceListTag[] {
@@ -745,6 +746,18 @@ export const priceListProducts: PriceListProduct[] = [
     sku: "SA-49",
     name: "Xiangfei Scroll",
     image: "/products/price-list/sa-49-xiangfei-scroll-brush.jpg",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
+  },
+  {
+    sku: "SA-50",
+    name: "Verdant Hare Point",
+    image: "/products/price-list/sa-50-verdant-hare-point-brush.jpg",
     currency: "USD",
     retailCents: 0,
     artistCents: 0,

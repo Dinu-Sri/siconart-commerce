@@ -1085,6 +1085,34 @@ export const products: Product[] = [
     }
   },
   {
+    sku: "SA-50",
+    slug: "verdant-hare-point-brush",
+    name: "Verdant Hare Point",
+    category: "Coming Soon Brushes",
+    summary: "An emerald-green handle with a light, nimble point, made for outdoor watercolor among villages and mountains.",
+    description:
+      "Verdant Hare Point (翠翎) takes its name from the emerald-green handle, like fresh mountain branches, and a fine tip as light and nimble as a bird’s feather. The hair is 50% Shantu, 30% rabbit, and 20% synthetic fibre. Ergonomic and elegant in the hand, it is made for painting outdoors among ancient villages and mountains, capturing natural light, flowing colour, and quiet poetic moments. Full retail pricing will be confirmed soon.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/verdant-hare-point-brush/feature.jpg"],
+    uses: ["sketching", "detail", "wash", "travel"],
+    handle: "short",
+    feel: "soft",
+    level: "professional",
+    featured: true,
+    addedAt: "2026-10-15",
+    specs: {
+      "Best for": "Outdoor watercolor, landscape sketching, natural light",
+      "Brush type": "Limited collector handle",
+      "Hair": "50% Shantu, 30% rabbit, 20% synthetic",
+      "Tip length": "2 cm",
+      "Handle length": "13.8 cm",
+      "Shaft diameter": "0.8 cm",
+      "Handle": "Emerald-green short handle",
+      "Feel": "Light, nimble"
+    }
+  },
+  {
     sku: "SA-46",
     slug: "turquoise-wave-brush",
     name: "Turquoise Wave Brush",

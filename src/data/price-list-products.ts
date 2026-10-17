@@ -64,7 +64,9 @@ export const priceListTagsBySku: Record<string, PriceListTag[]> = {
   "SA-49": ["rare-collectable"],
   "SA-50": ["rare-collectable"],
   "SA-51": ["rare-collectable"],
-  "SA-52": ["rare-collectable"]
+  "SA-52": ["rare-collectable"],
+  "SA-53": ["rare-collectable"],
+  "SA-54": ["rare-collectable"]
 };
 
 const priceListKindBySku: Record<string, PriceListKind> = Object.fromEntries(
@@ -798,6 +800,30 @@ export const priceListProducts: PriceListProduct[] = [
     sku: "SA-52",
     name: "Little Gourd Sprite",
     image: "/products/price-list/sa-52-little-gourd-sprite-brush.jpg",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
+  },
+  {
+    sku: "SA-53",
+    name: "Blue Timber Brush",
+    image: "/products/price-list/sa-53-blue-timber-brush.jpg",
+    currency: "USD",
+    retailCents: 0,
+    artistCents: 0,
+    miniWholesaleCents: 0,
+    miniWholesaleMoq: 0,
+    bulkWholesaleCents: 0,
+    bulkWholesaleMoq: 0
+  },
+  {
+    sku: "SA-54",
+    name: "Coiled Dragon Elegant Brush",
+    image: "/products/price-list/sa-54-coiled-dragon-elegant-brush.jpg",
     currency: "USD",
     retailCents: 0,
     artistCents: 0,

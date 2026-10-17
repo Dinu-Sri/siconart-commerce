@@ -43,7 +43,12 @@ export function resolveProductImages(product: { slug: string; images: string[]; 
   }
 
   const featureUrl = featureFiles[0] ? publicUrl(featureFiles[0]) : product.images[0];
-  const galleryUrls = galleryFiles.map(publicUrl);
+  const galleryUrls = galleryFiles.map(publicUrl).sort((left, right) => {
+    const leftSpec = isBrushDetailsImage(left);
+    const rightSpec = isBrushDetailsImage(right);
+    if (leftSpec !== rightSpec) return leftSpec ? -1 : 1;
+    return left.localeCompare(right, "en");
+  });
   const extraFeatures = featureFiles.slice(1).map(publicUrl);
   const fallbackGallery = featureFiles[0] ? [] : product.images.slice(1);
 
@@ -56,7 +61,13 @@ export function withProductImages<T extends { slug: string; images: string[]; im
 
 function isBrushDetailsImage(url: string) {
   const name = decodeURIComponent(url.split("/").pop() ?? "").toLowerCase();
-  return /brush[\s._-]*(size[\s._-]*)?details/.test(name) || /size[\s._-]*details/.test(name);
+  return (
+    /brush[\s._-]*(size[\s._-]*)?details/.test(name) ||
+    /size[\s._-]*details/.test(name) ||
+    /spec[-_]?card/.test(name) ||
+    /specification/.test(name) ||
+    /dimensions/.test(name)
+  );
 }
 
 export function pickCardThumbnail(images: string[]) {

@@ -1169,6 +1169,63 @@ export const products: Product[] = [
     }
   },
   {
+    sku: "SA-53",
+    slug: "blue-timber-brush",
+    name: "Blue Timber Brush",
+    category: "Coming Soon Brushes",
+    summary: "A solid-wood brush with deep blue fittings, a calm grain, and a springy tip for washes, plein air, and oriental painting.",
+    description:
+      "Blue Timber Brush is crafted from solid wood, pairing a natural log handle with deep blue wood fittings. The collocation is simple, with a calm and understated texture and a smooth, comfortable grip. The brush tip holds water well and springs back cleanly, so it is suited to watercolor blending, plein air sketching, and oriental painting. It works for large washes as well as fine detailing — a practical, timeless brush for daily studio work. The hair is 70% rabbit and 30% synthetic fibre. Full retail pricing will be confirmed soon.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/blue-timber-brush/feature.jpg"],
+    uses: ["wash", "sketching", "detail", "studio"],
+    handle: "short",
+    feel: "springy",
+    level: "professional",
+    featured: true,
+    addedAt: "2026-10-16",
+    specs: {
+      "Best for": "Watercolor blending, plein air sketching, oriental painting",
+      "Brush type": "Solid wood studio brush",
+      "Hair": "70% rabbit, 30% synthetic",
+      "Tip length": "2.3 cm",
+      "Handle length": "16 cm",
+      "Shaft diameter": "0.85 cm",
+      "Handle": "Natural log with deep blue wood fittings",
+      "Feel": "Springy, water-holding"
+    }
+  },
+  {
+    sku: "SA-54",
+    slug: "coiled-dragon-elegant-brush",
+    name: "Coiled Dragon Elegant Brush",
+    category: "Coming Soon Brushes",
+    summary: "A compact collector brush with a hand-carved coiled dragon shaft, imitation camel bone and ox horn fittings, and a springy tip for washes and freehand linework.",
+    description:
+      "Coiled Dragon Elegant Brush (盘龙雅笔) carries a 3D coiled dragon pattern, hand-carved with intricate, vivid detail. The imitation camel bone shaft is paired with imitation ox horn fittings for a remarkable texture and classic elegance. Compact and portable, it sits comfortably in the hand. The brush tip holds plenty of liquid and has great elasticity, so it is suited to watercolor washes and Chinese freehand painting, from large washes to delicate linework. It is a brush for art creation, collection, and gifting. The hair is 80% rabbit and 20% synthetic fibre. Full retail pricing will be confirmed soon.",
+    priceCents: 0,
+    currency: "USD",
+    images: ["/products/coiled-dragon-elegant-brush/feature.jpg"],
+    uses: ["wash", "detail", "line-and-wash", "studio"],
+    handle: "short",
+    feel: "springy",
+    level: "professional",
+    featured: true,
+    addedAt: "2026-10-16",
+    specs: {
+      "Best for": "Watercolor washes, Chinese freehand painting, delicate linework",
+      "Brush type": "Hand-carved collector brush",
+      "Pattern": "Hand-carved coiled dragon",
+      "Hair": "80% rabbit, 20% synthetic",
+      "Tip length": "2.1 cm",
+      "Handle length": "12 cm",
+      "Shaft diameter": "0.75 cm",
+      "Handle": "Imitation camel bone with imitation ox horn fittings",
+      "Feel": "Elastic, liquid-holding"
+    }
+  },
+  {
     sku: "SA-46",
     slug: "turquoise-wave-brush",
     name: "Turquoise Wave Brush",

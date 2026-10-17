@@ -28,6 +28,8 @@ App: `http://localhost:3000`
 
 ## VPS/IP Deployment
 
+Next.js is compiled in GitHub Actions. Portainer only pulls `ghcr.io/dinu-sri/siconart-app:latest`. Do not add a `build:` key to the Portainer stack. Full workflow: [`docs/DEPLOYMENT_WORKFLOW.md`](./docs/DEPLOYMENT_WORKFLOW.md).
+
 The production compose file exposes:
 
 - Host `3224`

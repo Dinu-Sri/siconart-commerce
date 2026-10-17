@@ -4,19 +4,24 @@ import { ArrowRight } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 import type { Product } from "@/data/products";
 import { formatCardPrice, isPurchasable } from "@/data/products";
+import { productSocialProof } from "@/data/product-social-proof";
 import { localeHref } from "@/lib/nav";
+import { StarRating } from "@/components/storefront/star-rating";
 
 export function ProductCard({
   product,
   locale,
-  imageSrc
+  imageSrc,
+  showSocialProof = false
 }: {
   product: Product;
   locale: Locale;
   imageSrc?: string;
+  showSocialProof?: boolean;
 }) {
   const purchasable = isPurchasable(product);
   const thumbnail = imageSrc ?? product.images[0];
+  const proof = showSocialProof ? productSocialProof(product.sku) : null;
 
   return (
     <Link
@@ -34,8 +39,14 @@ export function ProductCard({
       </div>
       <div className="flex flex-1 flex-col p-4">
         <h3 className="font-serif text-lg font-semibold leading-tight">{product.name}</h3>
+        {proof ? (
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+            <StarRating rating={proof.rating} />
+            <span className="font-semibold text-[#8a6d56]">{proof.sold}+ sold</span>
+          </div>
+        ) : null}
         <div className="mt-3 flex items-center justify-between gap-3">
-          <span className={`font-semibold ${purchasable ? "" : "text-primary"}`}>
+          <span className={`font-semibold ${proof ? "text-lg" : ""} ${purchasable ? "" : "text-primary"}`}>
             {formatCardPrice(product)}
           </span>
           <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary">

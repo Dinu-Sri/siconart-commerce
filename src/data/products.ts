@@ -1244,3 +1244,22 @@ export function getNewArrivals(limit = 8, source: Product[] = products) {
     .sort((left, right) => addedRank(right).localeCompare(addedRank(left)))
     .slice(0, limit);
 }
+
+export function getLatestProducts(limit = 8, source: Product[] = products) {
+  return [...source]
+    .sort((left, right) => {
+      const byDate = addedRank(right).localeCompare(addedRank(left));
+      if (byDate !== 0) return byDate;
+      return left.name.localeCompare(right.name);
+    })
+    .slice(0, limit);
+}
+
+export function getBrushSets(limit = 8, source: Product[] = products) {
+  return source
+    .filter((product) => {
+      if ((product.variants?.length ?? 0) > 1) return true;
+      return /series|set/i.test(`${product.name} ${product.slug}`);
+    })
+    .slice(0, limit);
+}

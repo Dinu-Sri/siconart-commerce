@@ -1,4 +1,7 @@
 # Sicon Art commerce - standalone Next.js build with Prisma/Postgres.
+# Built on GitHub Actions (ubuntu-latest) and pushed to
+# ghcr.io/dinu-sri/siconart-app:latest. The VPS/Portainer stack pulls that
+# image and must not compile Next.js.
 
 FROM node:20-alpine AS base
 

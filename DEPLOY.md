@@ -1,6 +1,8 @@
 # Sicon Art Deployment Guide
 
-This mirrors the Sinours deployment pattern with separate ports so both projects can run on the same VPS.
+This mirrors the BookOne / Sinours VPS pattern. Next.js is compiled in GitHub Actions. Portainer only pulls `ghcr.io/dinu-sri/siconart-app:latest`. Do not build the app image on the VPS.
+
+The full pull-only workflow is in [`docs/DEPLOYMENT_WORKFLOW.md`](./docs/DEPLOYMENT_WORKFLOW.md).
 
 ## Ports
 
@@ -9,6 +11,26 @@ This mirrors the Sinours deployment pattern with separate ports so both projects
 | siconart-app | 3224 | 3225 |
 | siconart-postgres | internal | 5432 |
 | local dev postgres | 5434 | 5432 |
+
+## How a release reaches the VPS
+
+1. Push to `master`.
+2. Wait for GitHub Action **Build Docker image** to go green. That job compiles Next.js and publishes:
+   - `ghcr.io/dinu-sri/siconart-app:latest`
+   - `ghcr.io/dinu-sri/siconart-app:<commit-sha>`
+3. In Portainer, Update the stack with **Re-pull image and redeploy** ON.
+4. The app container pulls the new image. Postgres and Cloudflare Tunnel use `pull_policy: missing` so they are not replaced on every app release.
+
+The production compose file has **no** `build:` key on `app`. If a deploy takes as long as a Next.js compile, the stack is still building on the VPS — fix the compose, do not wait it out.
+
+### GHCR pull access
+
+The git repo may be public while the GHCR package is still private on first publish.
+
+1. GitHub → Packages → **siconart-app** → Package settings → Change visibility → **Public**, or
+2. Portainer → Registries → add `ghcr.io` with a GitHub username and a PAT that has `read:packages`.
+
+A 401 / `pull access denied` on Update means the package is private and the registry credential is missing.
 
 ## Production Stack
 
@@ -42,7 +64,7 @@ The tunnel container starts as part of the production stack when `CF_TUNNEL_TOKE
 
 ## GitHub Actions
 
-Pushes to `master` build and publish:
+Pushes to `master` build and publish on GitHub-hosted runners:
 
 - `ghcr.io/dinu-sri/siconart-app:latest`
 - `ghcr.io/dinu-sri/siconart-app:<commit-sha>`
@@ -72,4 +94,4 @@ When the tunnel is ready:
 2. Point it to `http://app:3225`.
 3. Add `CF_TUNNEL_TOKEN` in Portainer.
 4. Update `NEXT_PUBLIC_BASE_URL` and `APP_URL` to the tunnel/domain URL.
-5. Redeploy the stack.
+5. Redeploy the stack (Re-pull ON after a green image build).

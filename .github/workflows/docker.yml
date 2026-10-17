@@ -1,3 +1,5 @@
+# Compiles Next.js here, then Portainer only pulls the GHCR image.
+# Do not add a `build:` key to docker-compose.yml.
 name: Build Docker image
 
 on:
@@ -33,6 +35,7 @@ jobs:
         with:
           context: .
           push: true
+          platforms: linux/amd64
           tags: |
             ghcr.io/dinu-sri/siconart-app:latest
             ghcr.io/dinu-sri/siconart-app:${{ github.sha }}

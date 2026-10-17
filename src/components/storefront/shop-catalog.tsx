@@ -21,14 +21,16 @@ function toggleId(current: PriceListBrowseId[], id: PriceListBrowseId) {
 
 export function ShopCatalog({
   products,
-  locale
+  locale,
+  initialGroups = []
 }: {
   products: ShopListing[];
   locale: Locale;
+  initialGroups?: PriceListBrowseId[];
 }) {
   const t = useTranslations("shop");
   const [prices, setPrices] = useState<PriceListBrowseId[]>([]);
-  const [groups, setGroups] = useState<PriceListBrowseId[]>([]);
+  const [groups, setGroups] = useState<PriceListBrowseId[]>(initialGroups);
 
   const visibleProducts = useMemo(() => {
     return sortShopListings(

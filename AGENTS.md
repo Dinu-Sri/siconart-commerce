@@ -14,7 +14,7 @@ Build and maintain Sicon Art as a premium Next.js commerce site for handcrafted 
 - Translation: `next-intl`, matching the Sinours pattern
 - Locales: currently `en` only. Chinese/other languages are paused until the user asks to restore language switching.
 - Commerce backend: Prisma + Postgres owned by this app
-- Deployment: Docker standalone app + Postgres, GHCR image, Portainer stack
+- Deployment: GitHub Actions builds the GHCR image; Portainer pulls it. Docker standalone app + Postgres. VPS does not compile Next.js.
 - Direct test port: host `3224` to container `3225`
 - Cloudflare Tunnel: disabled by default, enabled later with env/profile
 
@@ -99,6 +99,10 @@ Before handoff when dependencies are installed:
 
 ## GitHub And Deployment
 
-- Pushes to `master` build `ghcr.io/dinu-sri/siconart-app:latest`.
+- Pushes to `master` trigger GitHub Action **Build Docker image**, which compiles Next.js on `ubuntu-latest` and publishes `ghcr.io/dinu-sri/siconart-app:latest` plus `:<commit-sha>`.
+- Portainer must **pull** that image. `docker-compose.yml` sets `image: ghcr.io/dinu-sri/siconart-app:latest` with `pull_policy: always` and **no** `build:` key. Postgres and the tunnel use `pull_policy: missing`.
+- After a green Action, Portainer Update with **Re-pull image and redeploy** ON. A 10–20 minute Update means the VPS is still compiling — that is a misconfigured stack, not the intended path.
+- First GHCR package may be private. Make `siconart-app` Public or add a Portainer `ghcr.io` registry with a `read:packages` PAT.
+- Same VPS/Portainer style as BookOne (`docs/DEPLOYMENT_WORKFLOW.md` there). Sicon Art guide: `docs/DEPLOYMENT_WORKFLOW.md` and `DEPLOY.md`.
 - Update `README.md` and `DEPLOY.md` when commands, ports, architecture, or deployment behavior changes.
 - Use `codex/` branch prefix unless the user asks otherwise.

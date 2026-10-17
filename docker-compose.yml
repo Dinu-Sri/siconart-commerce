@@ -1,10 +1,16 @@
 # Sicon Art production stack.
 # Direct IP/debug access: host 3224 -> app container 3225.
 # Cloudflare Tunnel starts when CF_TUNNEL_TOKEN is set in Portainer.
+#
+# Next.js is compiled in GitHub Actions and published to GHCR.
+# Portainer must ONLY pull the image. Never add a `build:` key on `app`.
+# Wait until the "Build Docker image" Action is green, then stack Update
+# with "Re-pull image and redeploy" ON.
 
 services:
   app:
     image: ghcr.io/dinu-sri/siconart-app:latest
+    pull_policy: always
     container_name: siconart-app
     restart: unless-stopped
     ports:
@@ -36,6 +42,7 @@ services:
 
   postgres:
     image: postgres:16-alpine
+    pull_policy: missing
     container_name: siconart-postgres
     restart: unless-stopped
     environment:
@@ -54,6 +61,7 @@ services:
 
   tunnel:
     image: cloudflare/cloudflared:latest
+    pull_policy: missing
     container_name: siconart-tunnel
     command: tunnel run
     environment:

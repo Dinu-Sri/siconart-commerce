@@ -8,8 +8,7 @@ export function ArtistVoices() {
         <p className="eyebrow">Artists</p>
         <h2 className="mt-3 font-serif text-4xl font-semibold sm:text-5xl">Painters using Sicon Art</h2>
         <p className="mt-4 text-muted-foreground">
-          Words from artists who paint with our handmade Chinese watercolor brushes. We sometimes send brushes to
-          artists we work with.
+          Words from artists who paint with our handmade Chinese watercolor brushes.
         </p>
       </div>
       <div className="mt-10 grid gap-6 md:grid-cols-3">

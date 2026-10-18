@@ -23,3 +23,7 @@ Mandatory constraints:
 - Blog pages need original evidence, real authors, semantic accessible components and accurate product links. Keep unsupported articles unpublished.
 
 When implementation is subsequently authorized, provide a PR for each phase with changed paths, resolved ticket IDs, actual validation results, remaining blocked facts and next action. Run typecheck/build and phase-specific acceptance checks for application changes. Record incomplete checks honestly. Plan SEO-001 through SEO-004 and safe foundation work first; a small verified release is preferable to shipping inaccurate data across the whole catalog.
+
+## Facebook media and artist-video handoff
+
+Read files 16–17, `media-manifest.json` (55 downloaded images), `facebook-source-register.json` (121 deduplicated visible source records), `page-media-map.csv` (26 content/entity mappings), `video-trust-register.json` (nine existing videos) and `testimonial-candidates.csv` (three quote candidates). The browser reached the available feed bottom; collapsed captions and album previews remain incomplete. Plan provenance-aware media import, seven event candidates, seven named product modules, mappings for the same ten commercial articles, and honest artist-use/testimonial modules. Do not publish automatically or invent missing facts, rights, exact SKUs, ratings or ambassador status. Current task remains implementation planning.

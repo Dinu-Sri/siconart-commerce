@@ -40,3 +40,7 @@ Events and ambassadors should supply attributable examples in decision articles,
 ## Next asset tasks
 
 Owner/team identifies exact product SKUs, artist-approved names/roles, original image/video files, creators, public reuse permissions and event dates. Add observed post URL and audit date as provenance to the asset register. Keep public source claims distinct from maker-verified specifications, measured observations and independent review evidence. Preserve cultural names accurately; social captions may contain spelling or translation errors.
+
+## Later archive acquisition
+
+The initial limited scope above has now been extended by files 16–17. A later connected-browser pass reached the available Facebook feed bottom, produced 121 deduplicated source records, downloaded 55 selected images, mapped event/blog/product uses, and classified nine existing website videos. Use the new manifests for the current acquisition status; original-resolution images, full collapsed captions, complete albums and remaining publication facts still require editorial follow-up.

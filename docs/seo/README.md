@@ -47,3 +47,7 @@ Supporting files: `product-fact-workbook.csv` covers every parent product; `keyw
 Visitors and crawlers can discover the products, understand their actual differences, retrieve consistent current prices and availability, and follow original buying and painting guidance. Google rich-result eligibility, rankings, sales, and AI citations remain outcomes to measure, never promises.
 
 The storefront remains English-only. Research now covers six owner-confirmed markets; local-language terms are a proposal, not permission to activate locales. Relative commercial performance and quantified keyword demand remain unknown.
+
+## Facebook media and artist-video handoff
+
+Read files 16–17, `media-manifest.json` (55 downloaded images), `facebook-source-register.json` (121 deduplicated visible source records), `page-media-map.csv` (26 content/entity mappings), `video-trust-register.json` (nine existing videos) and `testimonial-candidates.csv` (three quote candidates). The browser reached the available feed bottom; collapsed captions and album previews remain incomplete. Plan provenance-aware media import, seven event candidates, seven named product modules, mappings for the same ten commercial articles, and honest artist-use/testimonial modules. Do not publish automatically or invent missing facts, rights, exact SKUs, ratings or ambassador status. Current task remains implementation planning.

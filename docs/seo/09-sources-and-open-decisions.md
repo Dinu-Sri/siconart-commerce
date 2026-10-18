@@ -1,5 +1,7 @@
 # Sources, research limits and open decisions
 
+Update: files 10–12 supersede earlier provisional audience/market priorities with the confirmed urban-sketcher focus, six named markets, professional/large-painting segment, sponsored events, collaborations and ambassadors. Demand volumes remain unmeasured.
+
 Retrieved/checked 18 October 2026. Recheck current primary documentation before implementation, especially supported Google features, merchant requirements, crawler policies and installed Next.js API behavior. Links are references, not permission to copy competitor text or images.
 
 ## Primary technical sources
@@ -36,7 +38,7 @@ Keyword findings are a seed strategy, not a full multi-country rank/volume study
 
 | Decision/evidence | Why it matters | Safe default while waiting |
 |---|---|---|
-| Priority countries; actual sales/margins/stock | Determines keyword research and merchant rollout | English global architecture; country-specific demand remains unknown. |
+| Actual sales/margins/stock within confirmed TH/VN/ID/US/IN/HK markets | Determines rollout sequencing | Markets confirmed by owner; relative performance and demand remain unknown. |
 | GSC export by query/page/country/device | Reveals existing opportunity and migration risks | No demand ranking or traffic forecast. |
 | Keyword Planner export by target country | Validates highest-demand relevant clusters | Hypothesis labels in keyword map. |
 | Actual manufacturer facts and measured dimensions | Product differentiation and accurate entity data | Omit unverified claims; preserve workbook gaps. |

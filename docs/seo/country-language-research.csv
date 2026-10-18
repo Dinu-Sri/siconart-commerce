@@ -1,0 +1,7 @@
+market_code,market,language_research,evidence_ids,seed_terms,intent_risk,audited_code_shipping_usd,shipping_evidence_limit,localization_scope
+TH,Thailand,Thai + English,M01;M08,พู่กันพกพา; พู่กันสีน้ำ; พู่กันจีน,Reservoir pen/calligraphy ambiguity,8,Audited code only; confirm deployed rates,English first; Thai is a proposal
+VN,Vietnam,Vietnamese + English,M02,cọ vẽ màu nước; cọ vẽ du lịch,cọ nước can indicate reservoir pen,5,Audited code only; confirm deployed rates,English first; native review required
+ID,Indonesia,Indonesian + English,M04;M09;M10,kuas cat air; kuas travel; kuas cat air cina,Digital brushes and broad beginner kits,15,Audited code only; confirm deployed rates,English first; validate hybrid terms
+US,United States,English,M06;M07,urban sketching brushes; travel watercolor brush,Calligraphy-only ambiguity,11,Audited code only; confirm deployed rates,No local-stock claims without proof
+IN,India,English; other languages from audience evidence,M05;M11,travel watercolour brush; Chinese watercolor brush,Shipping/order economics,20,Audited code only; confirm deployed rates,Do not assume one language covers all buyers
+HK,Hong Kong,Traditional Chinese + English,M03,旅行水彩筆; 水彩畫筆; 城市速寫,毛筆 broad; paintbrush vs markers,,No HK rate in audited code; manual quote path; verify live,Traditional Chinese proposal only

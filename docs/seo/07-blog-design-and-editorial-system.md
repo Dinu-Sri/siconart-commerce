@@ -1,5 +1,7 @@
 # Blog design and editorial system
 
+Update: files 10–12 supersede earlier provisional audience/market priorities with the confirmed urban-sketcher focus, six named markets, professional/large-painting segment, sponsored events, collaborations and ambassadors. Demand volumes remain unmeasured.
+
 ## Mission and content advantage
 
 Build an artist-led reference for selecting and using Chinese brushes in watercolor and urban sketching. Win through original demonstrations, measured brush differences, maker knowledge and clearly attributed artist experience. Avoid a bulk generic AI article library. Content should help someone choose, paint or care for a real tool, even when they do not buy immediately.

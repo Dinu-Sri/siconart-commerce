@@ -1,5 +1,7 @@
 # Brand, product entities and sales personas
 
+Update: files 10–12 supersede earlier provisional audience/market priorities with the confirmed urban-sketcher focus, six named markets, professional/large-painting segment, sponsored events, collaborations and ambassadors. Demand volumes remain unmeasured.
+
 ## Positioning
 
 Recommended search positioning: artist-led handcrafted Chinese brushes for watercolor and urban sketching. Distinguish functional painting tools from decorative collectibles through measured dimensions, material disclosures and real painting demonstrations. Preserve Sicon Art as the public brand spelling, with SiconArt as an alternate name if approved. Keep the broader gallery/academy identity visible through genuine About, artist and event content; do not let it obscure the storefront's purchase paths.

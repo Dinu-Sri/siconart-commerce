@@ -4,6 +4,10 @@ Prepared 18 October 2026. Repository baseline: `Dinu-Sri/siconart-commerce`, `ma
 
 Purpose: give the coding agent a practical, evidence-based specification for technical SEO, product discovery, Google ecommerce eligibility, AI-readable content, and an editorial blog. This is a planning deliverable; no production changes or account submissions have been made.
 
+## Updated owner brief and research
+
+18 October update: urban sketchers are the primary audience; professional plein-air and large-format painters are a second core segment. Confirmed targets: Thailand, Vietnam, Indonesia, United States, India and Hong Kong. Read files 10, 11 and 12 before planning; they supersede earlier provisional audience/country assumptions and add sponsored events, collaborations and ambassadors. New CSVs contain 50 qualitative market keyword seeds and six country research profiles, with no measured volumes.
+
 ## Read in this order
 
 1. `01-audit-and-evidence.md`: confirmed implementation gaps and limits of this investigation.
@@ -34,4 +38,4 @@ Supporting files: `product-fact-workbook.csv` covers every parent product; `keyw
 
 Visitors and crawlers can discover the products, understand their actual differences, retrieve consistent current prices and availability, and follow original buying and painting guidance. Google rich-result eligibility, rankings, sales, and AI citations remain outcomes to measure, never promises.
 
-The default strategy is international English, with travel watercolor and urban sketching as the initial product-intent focus. Target countries and commercial priorities remain provisional until shipping capability, orders, margins, and demand exports are reviewed.
+The storefront remains English-only. Research now covers six owner-confirmed markets; local-language terms are a proposal, not permission to activate locales. Relative commercial performance and quantified keyword demand remain unknown.

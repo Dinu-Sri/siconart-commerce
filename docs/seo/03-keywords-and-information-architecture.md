@@ -1,5 +1,7 @@
 # Keywords, intent and information architecture
 
+Update: files 10–12 supersede earlier provisional audience/market priorities with the confirmed urban-sketcher focus, six named markets, professional/large-painting segment, sponsored events, collaborations and ambassadors. Demand volumes remain unmeasured.
+
 ## What this research can establish
 
 Public search sampling supports relevant query families: travel watercolor brushes, Chinese brushes for watercolor, urban sketching brushes, materials, point control and brush care. It does not provide reliable search volume, difficulty or a “most demanded” ranking. All priorities here are business-fit hypotheses. No numeric volume, CPC or difficulty score has been fabricated.
@@ -25,7 +27,7 @@ Use watercolor as the consistent English house spelling, with watercolour natura
 
 ## Demand validation before scaling content
 
-1. Choose target countries using actual fulfilled orders, delivery capability, currency/payment support and margin. Provisional research groups: US/UK/Australia for English intent and Singapore/Malaysia for regional shipping fit; these are not proven top markets.
+1. Choose target countries using actual fulfilled orders, delivery capability, currency/payment support and margin. Confirmed scope: Thailand, Vietnam, Indonesia, US, India and Hong Kong. Other Asian markets remain unspecified expansion possibilities. Research local vocabulary without assuming current sales rank.
 2. Export Search Console query/page/country/device data over the available period; separate brand from non-brand and note site-age limitations. Use impressions as first-party opportunity evidence, not market-wide volume.
 3. Run the same seed families through Google Ads Keyword Planner by country and language. Record date, range, competition definition and account limitations. Optionally use a paid SEO dataset with its provider/date clearly retained.
 4. Inspect actual country SERPs for intended page type, visual results, competing brands, shopping presence and content gaps. Keyword Planner ad competition is not organic difficulty.

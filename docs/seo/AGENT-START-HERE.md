@@ -6,6 +6,8 @@ The current assignment is to read, understand and PLAN implementation. Do not be
 
 After syncing, read the full pack and inspect current code. Commit a concrete implementation plan to `docs/seo/IMPLEMENTATION-PLAN.md` on a `codex/` branch. Identify existing files, proposed changes, dependencies, acceptance checks, release order and facts requiring owner evidence. Distinguish tasks that can proceed independently from publication gates. Present the plan and its open decisions for review. Do not change application code, deploy, modify production commerce values, submit merchant feeds or publish content during this planning assignment.
 
+Updated scope: read files 10–12 and the two market research CSVs. Plan six confirmed markets, core urban-sketching and professional plein-air/large-format segments, product-use demonstrations, sponsored event archive/detail pages, collaboration enquiries and ambassador profiles. Include SEO-501–SEO-505. Remain planning-only.
+
 Mandatory constraints:
 
 - Preserve current English-only flat URLs and product slugs, design tokens, actual commerce and GHCR/Portainer deployment workflow.

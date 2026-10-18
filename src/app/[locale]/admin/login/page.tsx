@@ -4,6 +4,8 @@ import type { Locale } from "@/i18n/routing";
 import { createAdminSession, isValidAdminLogin } from "@/lib/admin-auth";
 import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
+import { HoneypotFields } from "@/components/forms/honeypot-fields";
+import { isBotSubmission, readFormGuard } from "@/lib/form-guard";
 
 export default async function AdminLoginPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -12,6 +14,9 @@ export default async function AdminLoginPage({ params }: { params: Promise<{ loc
   async function login(formData: FormData) {
     "use server";
 
+    if (isBotSubmission(readFormGuard(formData))) {
+      redirect(`${localeHref(locale as Locale, "/admin/login")}?error=1`);
+    }
     const email = String(formData.get("email") || "");
     const password = String(formData.get("password") || "");
 
@@ -29,7 +34,8 @@ export default async function AdminLoginPage({ params }: { params: Promise<{ loc
         <p className="mt-4 text-sm leading-6 text-muted-foreground">
           Use the admin email and password from your server environment.
         </p>
-        <form action={login} className="mt-6 grid gap-4">
+        <form action={login} className="relative mt-6 grid gap-4">
+          <HoneypotFields />
           <label className="text-sm font-semibold">
             Email
             <input

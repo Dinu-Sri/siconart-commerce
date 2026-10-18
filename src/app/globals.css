@@ -80,6 +80,15 @@ body {
     @apply text-xs font-semibold uppercase tracking-[0.22em] text-primary;
   }
 
+  .hp-field {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
   .link-underline {
     background-image: linear-gradient(currentColor, currentColor);
     background-position: 0 100%;

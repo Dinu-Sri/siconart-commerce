@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
@@ -5,6 +6,16 @@ import { localeHref } from "@/lib/nav";
 import { db } from "@/lib/db";
 import { notifyAgentLead } from "@/lib/email";
 import { Button } from "@/components/ui/button";
+import { HoneypotFields } from "@/components/forms/honeypot-fields";
+import { isBotSubmission, readFormGuard, tooManyRequests } from "@/lib/form-guard";
+import { clientKey } from "@/lib/form-guard-server";
+import { pageMeta } from "@/lib/seo/page-meta";
+
+export const metadata: Metadata = pageMeta({
+  title: "Become an Agent",
+  description: "Enquire about becoming a Sicon Art agent or wholesale partner for handmade Chinese watercolor brushes.",
+  path: "/become-an-agent"
+});
 
 export default async function BecomeAgentPage({
   params,
@@ -20,6 +31,10 @@ export default async function BecomeAgentPage({
   async function createLead(formData: FormData) {
     "use server";
 
+    const agentPath = localeHref(locale as Locale, "/become-an-agent");
+    if (isBotSubmission(readFormGuard(formData))) redirect(`${agentPath}?sent=1`);
+    if (tooManyRequests(await clientKey("agent"))) redirect(`${agentPath}?sent=1`);
+
     const lead = {
       name: String(formData.get("name") || ""),
       email: String(formData.get("email") || ""),
@@ -29,7 +44,7 @@ export default async function BecomeAgentPage({
     };
     await db.agentLead.create({ data: lead });
     await notifyAgentLead(lead);
-    redirect(`${localeHref(locale as Locale, "/become-an-agent")}?sent=1`);
+    redirect(`${agentPath}?sent=1`);
   }
 
   return (
@@ -50,6 +65,7 @@ export default async function BecomeAgentPage({
         </div>
 
         <form action={createLead} className="grid gap-4 rounded-[0.5rem] border bg-surface p-6">
+          <HoneypotFields />
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="text-sm font-semibold">
               Name

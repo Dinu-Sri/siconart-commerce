@@ -7,10 +7,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 import type { Product } from "@/data/products";
 import { formatCardPrice, isPurchasable } from "@/data/products";
-import { productSocialProof } from "@/data/product-social-proof";
 import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
-import { StarRating } from "@/components/storefront/star-rating";
 
 export type HomeV2Slide = {
   product: Product;
@@ -38,7 +36,6 @@ export function HomeV2HeroSlider({
   if (count === 0) return null;
 
   const slide = slides[index];
-  const proof = productSocialProof(slide.product.sku);
   const purchasable = isPurchasable(slide.product);
 
   return (
@@ -63,10 +60,6 @@ export function HomeV2HeroSlider({
           <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
             {slide.product.summary}
           </p>
-          <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2">
-            <StarRating rating={proof.rating} size="md" />
-            <span className="text-sm font-semibold text-[#8a6d56]">{proof.sold}+ sold</span>
-          </div>
           <p className={`mt-5 font-serif text-4xl font-semibold ${purchasable ? "" : "text-primary"}`}>
             {formatCardPrice(slide.product)}
           </p>

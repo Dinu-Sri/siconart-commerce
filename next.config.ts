@@ -22,7 +22,23 @@ const nextConfig: NextConfig = {
       { source: "/list", headers: noIndexHeader },
       { source: "/list/:path*", headers: noIndexHeader },
       { source: "/en/list", headers: noIndexHeader },
-      { source: "/en/list/:path*", headers: noIndexHeader }
+      { source: "/en/list/:path*", headers: noIndexHeader },
+      { source: "/cart", headers: noIndexHeader },
+      { source: "/cart/:path*", headers: noIndexHeader },
+      { source: "/checkout", headers: noIndexHeader },
+      { source: "/checkout/:path*", headers: noIndexHeader },
+      { source: "/admin", headers: noIndexHeader },
+      { source: "/admin/:path*", headers: noIndexHeader },
+      { source: "/en/cart", headers: noIndexHeader },
+      { source: "/en/checkout", headers: noIndexHeader },
+      { source: "/en/checkout/:path*", headers: noIndexHeader },
+      { source: "/en/admin", headers: noIndexHeader },
+      { source: "/en/admin/:path*", headers: noIndexHeader },
+      { source: "/home-v2", headers: noIndexHeader },
+      { source: "/home-v2/:path*", headers: noIndexHeader },
+      { source: "/en/home-v2", headers: noIndexHeader },
+      { source: "/en/home-v2/:path*", headers: noIndexHeader },
+      { source: "/en/cart/:path*", headers: noIndexHeader }
     ];
   }
 };

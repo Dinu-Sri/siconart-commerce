@@ -11,6 +11,9 @@ import { SiteHeader } from "@/components/site-header";
 import { ThemeScript } from "@/components/theme-script";
 
 import "../globals.css";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/organization";
+import { siteOrigin } from "@/lib/site-origin";
 
 const sans = Inter({
   subsets: ["latin"],
@@ -45,7 +48,7 @@ export async function generateMetadata({
       locale === "zh"
         ? "Sicon Art 手工中国画笔，适合水彩、城市速写与旅行绘画。"
         : "Sicon Art crafts traditional Chinese brushes for watercolor, urban sketching, and travel painting.",
-    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"),
+    metadataBase: new URL(siteOrigin()),
     icons: {
       icon: "/brand/sicon-favicon.webp"
     }
@@ -69,6 +72,8 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${sans.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={websiteJsonLd()} />
       </head>
       <body className="min-h-dvh bg-background text-foreground antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>

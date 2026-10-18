@@ -11,34 +11,56 @@ export async function SiteFooter() {
 
   const shopLinks = [
     { label: t("shop"), href: "/shop" },
-    { label: t("agent"), href: "/become-an-agent" },
-    { label: "Track order", href: "/track-your-order" },
-    { label: t("contact"), href: "/contact" }
+    { label: "Urban sketching brushes", href: "/collections/urban-sketching-brushes" },
+    { label: "Travel brushes", href: "/collections/travel-watercolor-brushes" },
+    { label: "Chinese watercolor brushes", href: "/collections/chinese-watercolor-brushes" },
+    { label: t("agent"), href: "/become-an-agent" }
+  ];
+  const communityLinks = [
+    { label: "Events", href: "/events" },
+    { label: "Brand ambassadors", href: "/ambassadors" },
+    { label: "Collaborate", href: "/collaborate" }
   ];
   const helpLinks = [
     { label: "About Us", href: "/about" },
     { label: t("faq"), href: "/faq" },
     { label: t("shipping"), href: "/shipping-policy" },
     { label: "Return & Exchange", href: "/return-exchange-policy" },
+    { label: "Track order", href: "/track-your-order" },
     { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Terms & Conditions", href: "/terms-conditions" }
+    { label: "Terms & Conditions", href: "/terms-conditions" },
+    { label: t("contact"), href: "/contact" }
   ];
 
   return (
     <footer className="border-t bg-accent text-accent-foreground">
-      <div className="container-content grid gap-10 py-12 md:grid-cols-[1.2fr_0.8fr_0.9fr_1fr]">
+      <div className="container-content grid gap-10 py-12 md:grid-cols-[1.3fr_0.8fr_0.8fr_0.9fr]">
         <div>
           <Logo variant="footer" />
-          <p className="mt-5 max-w-sm text-sm leading-7 text-accent-foreground/75">{t("tagline")}</p>
+          <p className="mt-5 max-w-sm text-sm leading-7 text-accent-foreground/75">
+            Sicon Art creates handmade traditional Chinese brushes for urban sketchers and watercolor artists. Explore
+            compact travel brushes, new brush designs and larger brushes for expressive plein-air painting.
+          </p>
           <p className="mt-4 max-w-sm text-sm leading-7 text-accent-foreground/75">
-            Orders ship from Dongguan, China. Processing usually takes 2-5 business days. International customs duties
-            and import taxes are the customer's responsibility unless checkout states otherwise.
+            Worldwide shipping enquiries welcome—from Thailand, Indonesia, Vietnam, India, Hong Kong and the United
+            States to destinations across Europe. Check destination availability and rates at checkout, or contact us
+            for a shipping quote.
           </p>
         </div>
         <div>
           <h2 className="text-sm font-bold uppercase tracking-[0.18em]">Shop</h2>
           <div className="mt-4 grid gap-3 text-sm text-accent-foreground/75">
             {shopLinks.map((link) => (
+              <Link key={link.href} href={localeHref(locale, link.href)} className="hover:text-accent-foreground">
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h2 className="text-sm font-bold uppercase tracking-[0.18em]">Community</h2>
+          <div className="mt-4 grid gap-3 text-sm text-accent-foreground/75">
+            {communityLinks.map((link) => (
               <Link key={link.href} href={localeHref(locale, link.href)} className="hover:text-accent-foreground">
                 {link.label}
               </Link>
@@ -53,22 +75,12 @@ export async function SiteFooter() {
                 {link.label}
               </Link>
             ))}
-          </div>
-        </div>
-        <div>
-          <h2 className="text-sm font-bold uppercase tracking-[0.18em]">{t("contact")}</h2>
-          <div className="mt-4 grid gap-3 text-sm leading-6 text-accent-foreground/75">
             <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-accent-foreground">
               {SUPPORT_EMAIL}
             </a>
             <a href={SUPPORT_WHATSAPP_LINK} target="_blank" rel="noreferrer" className="hover:text-accent-foreground">
               WhatsApp {SUPPORT_WHATSAPP_DISPLAY}
             </a>
-            <a href="https://www.instagram.com/siconarts/" target="_blank" rel="noreferrer" className="hover:text-accent-foreground">
-              Instagram @siconarts
-            </a>
-            <span>Dongguan, Guangdong, China</span>
-            <span>Returns: unused items within 30 days. Damaged, wrong, or defective items must be reported within 7 days.</span>
           </div>
         </div>
       </div>

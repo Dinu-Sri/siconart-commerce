@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
 import { getLocale, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { priceListGroupCategories, type PriceListBrowseId } from "@/data/price-list-products";
 import { ShopCatalog } from "@/components/storefront/shop-catalog";
 import { getStorefrontProducts } from "@/lib/commerce/live-prices";
 import { toShopListings } from "@/lib/shop-listings";
+import { pageMeta } from "@/lib/seo/page-meta";
+
+export const metadata: Metadata = pageMeta({
+  title: "Shop handmade watercolor brushes",
+  description:
+    "Browse handcrafted Chinese brushes for watercolor, urban sketching, travel painting, washes, and detail work.",
+  path: "/shop"
+});
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

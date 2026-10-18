@@ -6,6 +6,7 @@ import { priceCart } from "@/lib/commerce/cart";
 import { notifyOrder } from "@/lib/email";
 import { getCountry } from "@/data/countries";
 import { getShippingQuote, needsShippingWeightReview } from "@/data/shipping";
+import { FORM_STARTED_FIELD, HONEYPOT_FIELD, isBotSubmission } from "@/lib/form-guard";
 
 const checkoutSchema = z.object({
   discountCode: z.string().trim().optional(),
@@ -23,13 +24,19 @@ const checkoutSchema = z.object({
     postalCode: z.string().optional(),
     country: z.string().min(2),
     phone: z.string().regex(/^\+\d{8,15}$/)
-  })
+  }),
+  [HONEYPOT_FIELD]: z.string().optional(),
+  [FORM_STARTED_FIELD]: z.string().optional()
 });
 
 export async function POST(request: Request) {
   const parsed = checkoutSchema.safeParse(await request.json());
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid checkout payload" }, { status: 400 });
+  }
+
+  if (isBotSubmission({ honeypot: parsed.data.website, startedAt: parsed.data.form_started })) {
+    return NextResponse.json({ error: "Unable to start checkout" }, { status: 400 });
   }
 
   try {

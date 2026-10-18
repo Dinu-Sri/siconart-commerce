@@ -1,6 +1,15 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/routing";
+import { SUPPORT_EMAIL } from "@/lib/support";
+import { pageMeta } from "@/lib/seo/page-meta";
+
+export const metadata: Metadata = pageMeta({
+  title: "Privacy Policy",
+  description: "How Sicon Art collects, uses, and protects personal information on siconart.com.",
+  path: "/privacy-policy"
+});
 
 export default async function PrivacyPolicyPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -31,7 +40,7 @@ export default async function PrivacyPolicyPage({ params }: { params: Promise<{ 
       <h2>Your Rights</h2>
       <p>
         Depending on your location, you may request access, correction, deletion, marketing opt-out, or data portability
-        by emailing support@siconart.com.
+        by emailing {SUPPORT_EMAIL}.
       </p>
     </Policy>
   );

@@ -1,5 +1,6 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { CheckCircle2, MessageCircle } from "lucide-react";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { getProduct, products } from "@/data/products";
@@ -11,6 +12,9 @@ import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/storefront/product-card";
 import { ProductGallery } from "@/components/storefront/product-gallery";
 import { ProductPurchase } from "@/components/commerce/product-purchase";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { productJsonLd } from "@/lib/seo/product";
+import { absoluteUrl } from "@/lib/site-origin";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -22,10 +26,37 @@ export function generateStaticParams() {
   ]);
 }
 
-export default async function ProductPage({
+export async function generateMetadata({
   params
 }: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const catalogProduct = getProduct(slug);
+  if (!catalogProduct) return {};
+  const product = catalogProduct;
+  const canonical = absoluteUrl(`/products/${product.slug}`);
+  const image = product.images[0];
+  return {
+    title: product.name,
+    description: product.summary,
+    alternates: { canonical },
+    openGraph: {
+      title: product.name,
+      description: product.summary,
+      url: canonical,
+      type: "website",
+      images: image ? [{ url: image.startsWith("http") ? image : absoluteUrl(image) }] : undefined
+    }
+  };
+}
+
+export default async function ProductPage({
+  params,
+  searchParams
+}: {
   params: Promise<{ locale: string; slug: string }>;
+  searchParams?: Promise<{ variant?: string }>;
 }) {
   const { locale, slug } = await params;
   setRequestLocale(locale as Locale);
@@ -34,8 +65,9 @@ export default async function ProductPage({
   const catalogProduct = getProduct(slug);
   if (!catalogProduct) notFound();
   if (catalogProduct.slug !== slug) {
-    redirect(localeHref(activeLocale, `/products/${catalogProduct.slug}`));
+    permanentRedirect(localeHref(activeLocale, `/products/${catalogProduct.slug}`));
   }
+  const query = searchParams ? await searchParams : {};
   const liveProduct = await getStorefrontProduct(slug);
   const product = withProductImages(liveProduct ?? catalogProduct);
   const liveCatalog = await getStorefrontProducts();
@@ -47,6 +79,7 @@ export default async function ProductPage({
 
   return (
     <article className="container-content section-pad">
+      <JsonLd data={productJsonLd(product)} />
       <div className="grid gap-10 lg:grid-cols-[0.95fr_1fr]">
         <ProductGallery images={product.images} name={product.name} />
 
@@ -55,7 +88,11 @@ export default async function ProductPage({
           <h1 className="mt-3 font-serif text-5xl font-semibold">{product.name}</h1>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">{product.description}</p>
 
-          <ProductPurchase product={product} addLabel={t("addToCart")} />
+          <ProductPurchase
+            product={product}
+            addLabel={t("addToCart")}
+            initialVariant={typeof query.variant === "string" ? query.variant : undefined}
+          />
 
           <div className="mt-3">
             <Button asChild variant="secondary" size="lg">
@@ -82,14 +119,14 @@ export default async function ProductPage({
           <p className="eyebrow">{t("specs")}</p>
           <h2 className="mt-3 font-serif text-3xl font-semibold">{t("madeFor")}</h2>
         </div>
-        <div className="overflow-hidden rounded-[0.5rem] border bg-surface">
+        <dl className="overflow-hidden rounded-[0.5rem] border bg-surface">
           {Object.entries(product.specs).map(([key, value]) => (
             <div key={key} className="grid gap-2 border-b p-5 last:border-0 sm:grid-cols-[180px_1fr]">
               <dt className="font-semibold">{key}</dt>
               <dd className="text-muted-foreground">{value}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
 
       {related.length > 0 && (

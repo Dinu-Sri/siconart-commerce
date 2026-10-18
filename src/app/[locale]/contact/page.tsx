@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
@@ -6,6 +7,16 @@ import { db } from "@/lib/db";
 import { notifyContactSubmission } from "@/lib/email";
 import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
 import { Button } from "@/components/ui/button";
+import { HoneypotFields } from "@/components/forms/honeypot-fields";
+import { isBotSubmission, readFormGuard, tooManyRequests } from "@/lib/form-guard";
+import { clientKey } from "@/lib/form-guard-server";
+import { pageMeta } from "@/lib/seo/page-meta";
+
+export const metadata: Metadata = pageMeta({
+  title: "Contact Sicon Art",
+  description: "Email hello@siconart.com or send a message about brushes, shipping, wholesale, or custom orders.",
+  path: "/contact"
+});
 
 export default async function ContactPage({
   params,
@@ -22,6 +33,10 @@ export default async function ContactPage({
   async function sendContact(formData: FormData) {
     "use server";
 
+    const contactPath = localeHref(locale as Locale, "/contact");
+    if (isBotSubmission(readFormGuard(formData))) redirect(`${contactPath}?sent=1`);
+    if (tooManyRequests(await clientKey("contact"))) redirect(`${contactPath}?error=1`);
+
     const payload = {
       name: String(formData.get("name") || "").trim(),
       email: String(formData.get("email") || "").trim(),
@@ -29,7 +44,7 @@ export default async function ContactPage({
       message: String(formData.get("message") || "").trim()
     };
     if (payload.name.length < 2 || !payload.email.includes("@") || payload.subject.length < 2 || payload.message.length < 10) {
-      redirect(`${localeHref(locale as Locale, "/contact")}?error=1`);
+      redirect(`${contactPath}?error=1`);
     }
 
     await db.contactMessage.create({ data: payload });
@@ -64,6 +79,7 @@ export default async function ContactPage({
         </div>
         <form action={sendContact} className="rounded-[0.5rem] border bg-surface p-6">
           <div className="grid gap-5">
+            <HoneypotFields />
             {["name", "email", "subject"].map((field) => (
               <label key={field} className="grid gap-2 text-sm font-semibold">
                 {t(`form.${field}`)}

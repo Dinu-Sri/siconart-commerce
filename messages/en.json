@@ -6,6 +6,7 @@
   },
   "nav": {
     "shop": "Shop",
+    "events": "Events",
     "agent": "Become an Agent",
     "about": "About",
     "contact": "Contact",
@@ -39,7 +40,8 @@
   },
   "shop": {
     "eyebrow": "Collection",
-    "title": "Shop Sicon Art Brushes",
+    "title": "Shop handmade watercolor brushes",
+    "heading": "Shop handmade watercolor brushes",
     "subtitle": "Browse handcrafted brushes for watercolor, urban sketching, travel painting, washes, detail work, and expressive line.",
     "filters": "Filters",
     "price": "Price",
@@ -132,7 +134,7 @@
     },
     "shipping": {
       "q": "Do you ship internationally?",
-      "a": "Yes. Shipping is planned as an international checkout flow with country-based rates and clear customs/import notes."
+      "a": "Yes. Orders ship from Dongguan, China. Checkout shows shipping for listed countries. We deliver to Hong Kong; send us a message so we can calculate the rate."
     },
     "returns": {
       "q": "What is the return policy?",

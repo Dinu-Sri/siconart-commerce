@@ -1,6 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
+import { pageMeta } from "@/lib/seo/page-meta";
+
+export const metadata: Metadata = pageMeta({
+  title: "About Sicon Art",
+  description:
+    "Meet Wang Feng (Tina), founder of Sicon Art, and the Dongguan workshop behind handmade Chinese watercolor brushes.",
+  path: "/about"
+});
 
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

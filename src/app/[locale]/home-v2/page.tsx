@@ -75,7 +75,7 @@ export default async function HomeV2Page({ params }: { params: Promise<{ locale:
             <p className="eyebrow">Just in</p>
             <h2 className="mt-3 font-serif text-4xl font-semibold">Latest brushes</h2>
             <p className="mt-3 max-w-2xl text-muted-foreground">
-              New arrivals from the Sicon Art workshop, with live market prices and the pieces artists are buying now.
+              New arrivals from the Sicon Art workshop, shown with live market prices.
             </p>
           </div>
           <Link href={localeHref(activeLocale, "/shop")} className="inline-flex items-center gap-2 font-semibold text-primary">
@@ -89,7 +89,6 @@ export default async function HomeV2Page({ params }: { params: Promise<{ locale:
               product={product}
               locale={activeLocale}
               imageSrc={pickCardThumbnail(product.images)}
-              showSocialProof
             />
           ))}
         </div>
@@ -153,7 +152,6 @@ export default async function HomeV2Page({ params }: { params: Promise<{ locale:
               product={product}
               locale={activeLocale}
               imageSrc={pickCardThumbnail(product.images)}
-              showSocialProof
             />
           ))}
         </div>

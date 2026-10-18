@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import Script from "next/script";
 import { getLocale, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { CheckoutView } from "@/components/commerce/checkout-view";
 import { getStorefrontProducts } from "@/lib/commerce/live-prices";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false }
+};
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

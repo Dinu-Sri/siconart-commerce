@@ -1,8 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getLocale, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  robots: { index: false, follow: false }
+};
 
 export default async function CheckoutThankYouPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

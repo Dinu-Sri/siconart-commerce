@@ -76,10 +76,18 @@ export async function savePriceListUpdates(updates: PriceListFieldUpdate[]): Pro
   };
 }
 
-export async function unlockListAccess(password: string): Promise<PriceSaveResult> {
+export async function unlockListAccess(
+  password: string,
+  guard: { website?: string; formStarted?: string } = {}
+): Promise<PriceSaveResult> {
   const syncId = createSyncId();
   const startedAt = new Date();
-  const body = JSON.stringify({ password, syncId });
+  const body = JSON.stringify({
+    password,
+    syncId,
+    website: guard.website || "",
+    form_started: guard.formStarted || ""
+  });
 
   try {
     const response = await fetchWithTimeout(UNLOCK_PATH, {

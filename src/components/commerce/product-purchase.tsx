@@ -1,20 +1,38 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Product } from "@/data/products";
 import { formatProductPrice, isPurchasable } from "@/data/products";
 import { AddToCartButton } from "@/components/commerce/add-to-cart-button";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-export function ProductPurchase({ product, addLabel }: { product: Product; addLabel: string }) {
+export function ProductPurchase({
+  product,
+  addLabel,
+  initialVariant
+}: {
+  product: Product;
+  addLabel: string;
+  initialVariant?: string;
+}) {
   const variants = product.variants ?? [];
-  const [selectedSku, setSelectedSku] = useState(variants[0]?.sku ?? product.sku);
+  const defaultSku = variants[0]?.sku ?? product.sku;
+  const matchedSku = variants.find((variant) => variant.sku === initialVariant)?.sku;
+  const [selectedSku, setSelectedSku] = useState(matchedSku ?? defaultSku);
   const selected = useMemo(
     () => variants.find((variant) => variant.sku === selectedSku) ?? { sku: product.sku, name: product.name, priceCents: product.priceCents },
     [product, selectedSku, variants]
   );
   const purchasable = isPurchasable(product) && selected.priceCents > 0;
+
+  useEffect(() => {
+    if (variants.length === 0) return;
+    const url = new URL(window.location.href);
+    if (selectedSku === defaultSku) url.searchParams.delete("variant");
+    else url.searchParams.set("variant", selectedSku);
+    window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  }, [defaultSku, selectedSku, variants.length]);
 
   return (
     <div>

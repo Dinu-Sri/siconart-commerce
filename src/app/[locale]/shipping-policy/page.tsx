@@ -1,6 +1,15 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
-import { SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
+import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
+import { pageMeta } from "@/lib/seo/page-meta";
+
+export const metadata: Metadata = pageMeta({
+  title: "Shipping Policy",
+  description:
+    "Sicon Art ships from Dongguan, China. Hong Kong delivery is available by message. Checkout shows rates for listed countries.",
+  path: "/shipping-policy"
+});
 
 export default async function ShippingPolicyPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -23,6 +32,10 @@ export default async function ShippingPolicyPage({ params }: { params: Promise<{
             and we will calculate shipping and send you the details to place the order.
           </p>
           <p>
+            We deliver to Hong Kong. Checkout does not show an automatic Hong Kong rate yet, so choose Hong Kong as the
+            destination and send us a message so we can calculate shipping and complete the order.
+          </p>
+          <p>
             Listed checkout rates apply to parcels up to 1 kg. Individual brush weights are still being measured, so the
             store temporarily estimates 50 g per Chinese watercolor brush. If a cart is estimated above 1 kg, checkout
             pauses so you can contact us for the best larger-order shipping rate.
@@ -32,16 +45,16 @@ export default async function ShippingPolicyPage({ params }: { params: Promise<{
             time depends on your country, local courier handling, and customs clearance.
           </p>
           <p>
-            If tracking is available, tracking details will be shared once available. For help, email
-            support@siconart.com with your order number.
+            If tracking is available, tracking details will be shared once available. For help, email {SUPPORT_EMAIL}{" "}
+            with your order number.
           </p>
           <p>
             Customs duties and import taxes are the customer's responsibility unless checkout explicitly states
             otherwise. Address changes are only possible before the order ships.
           </p>
           <p>
-            If your order arrives damaged, email support@siconart.com within 7 days of delivery with your order number
-            and clear photos of the packaging and item.
+            If your order arrives damaged, email {SUPPORT_EMAIL} within 7 days of delivery with your order number and
+            clear photos of the packaging and item.
           </p>
         </div>
       </article>

@@ -1,5 +1,13 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
+import { pageMeta } from "@/lib/seo/page-meta";
+
+export const metadata: Metadata = pageMeta({
+  title: "FAQ",
+  description: "Answers about Sicon Art brushes, materials, shipping from Dongguan, Hong Kong delivery, returns, and care.",
+  path: "/faq"
+});
 
 export default async function FaqPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

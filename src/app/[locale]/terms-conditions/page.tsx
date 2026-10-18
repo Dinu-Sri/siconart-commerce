@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
+import { SUPPORT_EMAIL } from "@/lib/support";
+import { pageMeta } from "@/lib/seo/page-meta";
+
+export const metadata: Metadata = pageMeta({
+  title: "Terms & Conditions",
+  description: "Terms that govern shopping and using siconart.com, including orders, shipping, and returns.",
+  path: "/terms-conditions"
+});
 
 export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -39,7 +48,7 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
             may not be copied, reproduced, redistributed, or used commercially without permission.
           </p>
           <h2>Contact</h2>
-          <p>Questions about these Terms can be sent to support@siconart.com.</p>
+          <p>Questions about these Terms can be sent to {SUPPORT_EMAIL}.</p>
         </div>
       </article>
     </section>

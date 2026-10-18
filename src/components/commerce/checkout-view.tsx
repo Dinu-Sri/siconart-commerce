@@ -16,6 +16,8 @@ import {
   whatsappShippingHelpLink
 } from "@/lib/support";
 import { Button } from "@/components/ui/button";
+import { HoneypotFields } from "@/components/forms/honeypot-fields";
+import { FORM_STARTED_FIELD, HONEYPOT_FIELD, isBotSubmission } from "@/lib/form-guard";
 
 const CART_KEY = "siconart-cart";
 
@@ -120,6 +122,10 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
   async function submitCheckout(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
+    if (isBotSubmission({ honeypot: formData.get(HONEYPOT_FIELD), startedAt: formData.get(FORM_STARTED_FIELD) })) {
+      setError("Unable to start checkout.");
+      return;
+    }
     const email = String(formData.get("email") || "").trim();
     const phone = fullPhone(country?.dial, phoneNational);
 
@@ -155,6 +161,8 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
           firstName: String(formData.get("firstName") || ""),
           lastName: String(formData.get("lastName") || ""),
           countryCode: country.code,
+          website: String(formData.get(HONEYPOT_FIELD) || ""),
+          form_started: String(formData.get(FORM_STARTED_FIELD) || ""),
           shipping: {
             name: `${formData.get("firstName") || ""} ${formData.get("lastName") || ""}`.trim(),
             line1: String(formData.get("line1") || ""),
@@ -205,7 +213,8 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
-      <form id="checkout-form" onSubmit={submitCheckout} className="grid gap-6 rounded-[0.5rem] border bg-surface p-6">
+      <form id="checkout-form" onSubmit={submitCheckout} className="relative grid gap-6 rounded-[0.5rem] border bg-surface p-6">
+        <HoneypotFields />
         <div>
           <p className="eyebrow">Checkout</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold">Secure checkout</h1>
@@ -384,7 +393,9 @@ function ShippingHelpDialog({
         <p className="mt-4 text-sm leading-7 text-muted-foreground">
           {isLargeOrder
             ? `Your cart is estimated at ${estimatedWeightGrams} g. Listed rates cover up to 1 kg. Contact us for the best shipping rate before placing your order.`
-            : "Your country shipping price is not calculated automatically. Contact us and we will calculate shipping and send you the details on how to place the order."}
+            : countryName.toLowerCase().includes("hong kong")
+              ? "We deliver to Hong Kong. Checkout does not calculate that rate automatically, so send us a message and we will quote shipping and help you place the order."
+              : "Your country shipping price is not calculated automatically. Contact us and we will calculate shipping and send you the details on how to place the order."}
         </p>
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <Button asChild className="flex-1">

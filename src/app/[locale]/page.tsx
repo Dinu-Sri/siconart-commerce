@@ -10,10 +10,19 @@ import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
 import { Button } from "@/components/ui/button";
 import { HeroProduct } from "@/components/storefront/hero-product";
 import { ProductCard } from "@/components/storefront/product-card";
-import { TestimonialsCarousel } from "@/components/storefront/testimonials-carousel";
 import { InstagramHighlightSection } from "@/components/storefront/instagram-section";
 import { getArtistWorksHighlights, getInternationalDemoHighlights } from "@/lib/instagram";
 import { INSTAGRAM_HIGHLIGHT_URL, INSTAGRAM_PROFILE_URL } from "@/data/instagram";
+import { ambassadors } from "@/data/community";
+import { events } from "@/data/events";
+import { pageMeta } from "@/lib/seo/page-meta";
+
+export const metadata = pageMeta({
+  title: "Handmade Chinese watercolor brushes",
+  description:
+    "Sicon Art crafts traditional Chinese brushes for watercolor, urban sketching, and travel painting. Ships from Dongguan, with Hong Kong delivery by message.",
+  path: "/"
+});
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -78,11 +87,11 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     },
     {
       q: "What type of hair is used in your brushes?",
-      a: "We use carefully selected natural hair blends including goat, weasel, and mixed hair. Each blend is chosen for soft washes, fine detail, or versatile all-round performance."
+      a: "We use carefully selected natural hair chosen for water holding, point, and spring. Each blend is chosen for soft washes, fine detail, or versatile all-round performance. Product pages list confirmed materials where we have them."
     },
     {
       q: "Do you ship internationally?",
-      a: "Yes. Orders ship from Dongguan, China. Shipping costs vary by destination and are shown during checkout where available."
+      a: "Yes. Orders ship from Dongguan, China. Shipping costs vary by destination and are shown during checkout where available. We deliver to Hong Kong; send us a message so we can calculate the rate."
     }
   ];
 
@@ -120,30 +129,26 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 </div>
               ))}
             </div>
-            <div className="mt-10 grid overflow-hidden rounded-[1.5rem] border bg-white shadow-soft sm:grid-cols-[0.9fr_1fr] lg:max-w-xl">
+            <Link
+              href={localeHref(activeLocale, "/ambassadors/sanjeewee")}
+              className="mt-10 grid overflow-hidden rounded-[1.5rem] border bg-white shadow-soft sm:grid-cols-[0.9fr_1fr] lg:max-w-xl"
+            >
               <div className="relative min-h-32 bg-white">
-                <Image src="/brand/classic-brushes.webp" alt="Sicon Art classic brushes" fill sizes="260px" className="object-contain p-4" />
+                <Image
+                  src="/media/ambassadors/sanjeewee/gallery-poster.jpg"
+                  alt="Sanjeewee Senevirathna, Sicon Art brand ambassador"
+                  fill
+                  sizes="260px"
+                  className="object-contain p-2"
+                />
               </div>
-              <div className="flex items-center gap-4 p-5">
-                <div className="flex -space-x-3">
-                  {["A", "M", "S"].map((letter) => (
-                    <span
-                      key={letter}
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-primary text-sm font-bold text-primary-foreground"
-                    >
-                      {letter}
-                    </span>
-                  ))}
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-accent text-2xl text-accent-foreground">
-                    +
-                  </span>
-                </div>
+              <div className="flex items-center p-5">
                 <div>
-                  <p className="font-serif text-xl font-semibold">Loved by watercolorists</p>
-                  <p className="mt-1 text-sm text-muted-foreground">4.9 (250+) reviews</p>
+                  <p className="font-serif text-xl font-semibold">Sanjeewee Senevirathna</p>
+                  <p className="mt-1 text-sm text-muted-foreground">First brand ambassador · Sri Lanka</p>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
           <div className="relative">
             <Image
@@ -316,15 +321,59 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section className="border-y bg-surface-subtle">
         <div className="container-content section-pad">
           <div className="mx-auto max-w-4xl text-center">
+            <p className="eyebrow">Community</p>
             <h2 className="font-serif text-5xl font-semibold leading-tight">
-              What Artists Say About <span className="text-primary">Sicon Art</span>
+              Ambassadors and <span className="text-primary">events</span>
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Hear from watercolor artists around the world who trust Sicon Art brushes for their creative work.
+              Meet the artists we work with and see where Sicon Art brushes have been demonstrated.
             </p>
           </div>
-          <div className="mt-10">
-            <TestimonialsCarousel />
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            {ambassadors.slice(0, 1).map((ambassador) => (
+              <Link
+                key={ambassador.slug}
+                href={localeHref(activeLocale, `/ambassadors/${ambassador.slug}`)}
+                className="overflow-hidden rounded-[0.5rem] border bg-surface shadow-soft"
+              >
+                <div className="relative aspect-square bg-white">
+                  <Image
+                    src={ambassador.portrait.src}
+                    alt={ambassador.portrait.alt}
+                    fill
+                    sizes="(min-width: 768px) 40vw, 100vw"
+                    className="object-contain p-4"
+                  />
+                </div>
+                <div className="p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">{ambassador.role}</p>
+                  <h3 className="mt-2 font-serif text-2xl font-semibold">{ambassador.name}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{ambassador.excerpt}</p>
+                </div>
+              </Link>
+            ))}
+            {events.slice(0, 1).map((event) => (
+              <Link
+                key={event.slug}
+                href={localeHref(activeLocale, `/events/${event.slug}`)}
+                className="overflow-hidden rounded-[0.5rem] border bg-surface shadow-soft"
+              >
+                <div className="relative aspect-square bg-white">
+                  <Image
+                    src={event.images[0].src}
+                    alt={event.images[0].alt}
+                    fill
+                    sizes="(min-width: 768px) 40vw, 100vw"
+                    className="object-contain p-4"
+                  />
+                </div>
+                <div className="p-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">{event.relationship}</p>
+                  <h3 className="mt-2 font-serif text-2xl font-semibold">{event.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">{event.summary}</p>
+                </div>
+              </Link>
+            ))}
           </div>
 
           <div className="mt-16 grid gap-10 lg:grid-cols-[1fr_0.7fr] lg:items-center">

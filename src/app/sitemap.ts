@@ -3,6 +3,7 @@ import { products } from "@/data/products";
 import { storeCollections } from "@/data/collections";
 import { ambassadors } from "@/data/community";
 import { events } from "@/data/events";
+import { blogPosts } from "@/data/blog";
 import { absoluteUrl } from "@/lib/site-origin";
 
 const staticPaths = [
@@ -15,6 +16,7 @@ const staticPaths = [
   "/collaborate",
   "/events",
   "/ambassadors",
+  "/blog",
   "/shipping-policy",
   "/return-exchange-policy",
   "/privacy-policy",
@@ -48,6 +50,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: absoluteUrl(`/ambassadors/${ambassador.slug}`),
       changeFrequency: "monthly" as const,
       priority: 0.5
+    })),
+    ...blogPosts.map((post) => ({
+      url: absoluteUrl(`/blog/${post.slug}`),
+      changeFrequency: "monthly" as const,
+      priority: 0.6
     }))
   ];
 }

@@ -18,7 +18,8 @@ export default function robots(): MetadataRoute.Robots {
           "/api/",
           "/cart",
           "/checkout",
-          "/home-v2"
+          "/home-v2",
+          "/feeds/"
         ]
       }
     ],

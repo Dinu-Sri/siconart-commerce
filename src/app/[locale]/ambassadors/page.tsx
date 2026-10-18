@@ -9,7 +9,7 @@ import { absoluteUrl } from "@/lib/site-origin";
 
 export const metadata: Metadata = {
   title: "Brand ambassadors",
-  description: "Artists who work with Sicon Art in a disclosed ambassador relationship.",
+  description: "Meet the artists who represent Sicon Art, starting with first brand ambassador Sanjeewee Senevirathna.",
   alternates: { canonical: absoluteUrl("/ambassadors") }
 };
 
@@ -22,7 +22,7 @@ export default async function AmbassadorsPage({ params }: { params: Promise<{ lo
       <p className="eyebrow">Community</p>
       <h1 className="mt-3 font-serif text-5xl font-semibold">Brand ambassadors</h1>
       <p className="mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">
-        Ambassador profiles describe a current brand relationship. They are not independent reviews or star ratings.
+        Artists who paint with Sicon Art and represent the brand.
       </p>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         {ambassadors.map((ambassador) => (

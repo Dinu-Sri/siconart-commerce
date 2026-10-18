@@ -30,7 +30,7 @@ export const storeCollections: StoreCollection[] = [
     title: "Chinese watercolor brushes",
     eyebrow: "Traditional forms",
     description:
-      "Chinese-style watercolor brushes from the Sicon Art catalog, chosen for expressive marks rather than calligraphy-only use.",
+      "Handmade Chinese watercolor brushes from our Dongguan workshop, shaped for washes, line-and-wash, and expressive studio painting.",
     match: (product) => product.category === "Chinese Brushes"
   }
 ];

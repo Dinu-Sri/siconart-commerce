@@ -7,6 +7,9 @@ import { getStorefrontProducts } from "@/lib/commerce/live-prices";
 import { pickCardThumbnail, withProductImages } from "@/lib/product-images";
 import { ProductCard } from "@/components/storefront/product-card";
 import { JsonLd } from "@/lib/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo/breadcrumb";
+import { Breadcrumbs } from "@/components/storefront/breadcrumbs";
+import { localeHref } from "@/lib/nav";
 import { absoluteUrl } from "@/lib/site-origin";
 
 export const dynamic = "force-dynamic";
@@ -56,7 +59,21 @@ export default async function CollectionPage({
           description: collection.description
         }}
       />
-      <p className="eyebrow">{collection.eyebrow}</p>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Shop", path: "/shop" },
+          { name: collection.title, path: `/collections/${collection.slug}` }
+        ])}
+      />
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: localeHref(activeLocale, "/") },
+          { name: "Shop", href: localeHref(activeLocale, "/shop") },
+          { name: collection.title, href: localeHref(activeLocale, `/collections/${collection.slug}`) }
+        ]}
+      />
+      <p className="eyebrow mt-6">{collection.eyebrow}</p>
       <h1 className="mt-3 font-serif text-5xl font-semibold">{collection.title}</h1>
       <p className="mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">{collection.description}</p>
       <p className="mt-4 text-sm font-semibold text-muted-foreground">

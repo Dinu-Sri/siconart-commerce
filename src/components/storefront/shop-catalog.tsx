@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import type { Locale } from "@/i18n/routing";
 import {
@@ -22,11 +22,13 @@ function toggleId(current: PriceListBrowseId[], id: PriceListBrowseId) {
 export function ShopCatalog({
   products,
   locale,
-  initialGroups = []
+  initialGroups = [],
+  children
 }: {
   products: ShopListing[];
   locale: Locale;
   initialGroups?: PriceListBrowseId[];
+  children?: ReactNode;
 }) {
   const t = useTranslations("shop");
   const [prices, setPrices] = useState<PriceListBrowseId[]>([]);
@@ -47,8 +49,7 @@ export function ShopCatalog({
 
   return (
     <section className="w-full px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-      <h1 className="font-serif text-3xl font-semibold sm:text-4xl">{t("heading")}</h1>
-      <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">{t("subtitle")}</p>
+      {children}
       <div className="mt-8 grid gap-8 lg:grid-cols-[250px_1fr]">
         <aside className="h-fit rounded-[0.5rem] border bg-surface p-5 lg:sticky lg:top-32">
           <h2 className="font-semibold">{t("filters")}</h2>

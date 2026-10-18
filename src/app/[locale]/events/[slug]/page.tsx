@@ -9,6 +9,8 @@ import { getAmbassador } from "@/data/community";
 import { getProduct } from "@/data/products";
 import { localeHref } from "@/lib/nav";
 import { JsonLd } from "@/lib/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo/breadcrumb";
+import { Breadcrumbs } from "@/components/storefront/breadcrumbs";
 import { absoluteUrl } from "@/lib/site-origin";
 
 export function generateStaticParams() {
@@ -54,7 +56,21 @@ export default async function EventDetailPage({
           image: event.images.map((image) => absoluteUrl(image.src))
         }}
       />
-      <p className="eyebrow">Past event</p>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Events", path: "/events" },
+          { name: event.title, path: `/events/${event.slug}` }
+        ])}
+      />
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: localeHref(locale as Locale, "/") },
+          { name: "Events", href: localeHref(locale as Locale, "/events") },
+          { name: event.title, href: localeHref(locale as Locale, `/events/${event.slug}`) }
+        ]}
+      />
+      <p className="eyebrow mt-6">Past event</p>
       <h1 className="mt-3 max-w-4xl font-serif text-5xl font-semibold">{event.title}</h1>
       <dl className="mt-8 grid gap-4 rounded-[0.5rem] border bg-surface p-6 sm:grid-cols-3">
         <div>

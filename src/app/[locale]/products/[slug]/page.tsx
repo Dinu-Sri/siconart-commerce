@@ -13,8 +13,11 @@ import { ProductCard } from "@/components/storefront/product-card";
 import { ProductGallery } from "@/components/storefront/product-gallery";
 import { ProductPurchase } from "@/components/commerce/product-purchase";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { productJsonLd } from "@/lib/seo/product";
+import { productJsonLd, productSeoTitle } from "@/lib/seo/product";
+import { breadcrumbJsonLd } from "@/lib/seo/breadcrumb";
+import { Breadcrumbs } from "@/components/storefront/breadcrumbs";
 import { absoluteUrl } from "@/lib/site-origin";
+import { SUPPORT_WHATSAPP_LINK } from "@/lib/support";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -37,12 +40,13 @@ export async function generateMetadata({
   const product = catalogProduct;
   const canonical = absoluteUrl(`/products/${product.slug}`);
   const image = product.images[0];
+  const title = productSeoTitle(product);
   return {
-    title: product.name,
+    title,
     description: product.summary,
     alternates: { canonical },
     openGraph: {
-      title: product.name,
+      title,
       description: product.summary,
       url: canonical,
       type: "website",
@@ -76,22 +80,50 @@ export default async function ProductPage({
     .filter((item) => item.slug !== product.slug && item.uses.some((use) => product.uses.includes(use)))
     .slice(0, 3)
     .map(withProductImages);
+  const selectedVariant = typeof query.variant === "string" ? query.variant : undefined;
 
   return (
     <article className="container-content section-pad">
-      <JsonLd data={productJsonLd(product)} />
-      <div className="grid gap-10 lg:grid-cols-[0.95fr_1fr]">
+      <JsonLd data={productJsonLd(product, selectedVariant)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Shop", path: "/shop" },
+          { name: product.name, path: `/products/${product.slug}` }
+        ])}
+      />
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: localeHref(activeLocale, "/") },
+          { name: "Shop", href: localeHref(activeLocale, "/shop") },
+          { name: product.name, href: localeHref(activeLocale, `/products/${product.slug}`) }
+        ]}
+      />
+      <div className="mt-6 grid gap-10 lg:grid-cols-[0.95fr_1fr]">
         <ProductGallery images={product.images} name={product.name} />
 
         <div>
           <p className="eyebrow">{product.category}</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold">{product.name}</h1>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">{product.description}</p>
+          {product.specs["Custom engraving"] ? (
+            <p className="mt-4 text-sm leading-7 text-muted-foreground">
+              Custom handle engraving is available by enquiry.{" "}
+              <Link href={localeHref(activeLocale, "/contact")} className="font-semibold text-primary">
+                Write to us
+              </Link>{" "}
+              or message us on{" "}
+              <a href={SUPPORT_WHATSAPP_LINK} target="_blank" rel="noreferrer" className="font-semibold text-primary">
+                WhatsApp
+              </a>
+              .
+            </p>
+          ) : null}
 
           <ProductPurchase
             product={product}
             addLabel={t("addToCart")}
-            initialVariant={typeof query.variant === "string" ? query.variant : undefined}
+            initialVariant={selectedVariant}
           />
 
           <div className="mt-3">

@@ -65,14 +65,14 @@ export default async function CollaboratePage({
           <p className="eyebrow">Community</p>
           <h1 className="mt-3 font-serif text-5xl font-semibold">Collaborate with Sicon Art</h1>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">
-            We consider brush demonstrations at sketchwalks, artist-led workshops, product trials, and community-event
-            support. An enquiry is a request, not an acceptance of sponsorship.
+            Invite Sicon Art to a sketchwalk, workshop, product trial, or community event. Tell us the city, dates, and
+            how you would like to use the brushes.
           </p>
           <div className="mt-8 grid gap-3 text-sm font-semibold text-muted-foreground">
             <span>Tell us the event, city, dates, and how brushes would be used.</span>
             <span>Include a public profile or organizer page if you have one.</span>
             <span>
-              We reply at {SUPPORT_EMAIL}. We do not promise gifts, fees, or coverage.
+              Write to {SUPPORT_EMAIL} and we will reply with next steps.
             </span>
           </div>
         </div>

@@ -19,14 +19,13 @@ export const ambassadors: Ambassador[] = [
     role: "Brand ambassador",
     location: "Sri Lanka",
     status: "current",
-    relationship:
-      "Sanjeewee is Sicon Art’s first brand ambassador. This is a disclosed brand relationship, not an independent product review.",
+    relationship: "Sicon Art’s first brand ambassador",
     excerpt:
-      "Sri Lankan master artist and Sicon Art’s first brand ambassador, working with handmade Chinese watercolor brushes.",
+      "Sri Lankan master artist and Sicon Art’s first brand ambassador. He paints with our handmade Chinese watercolor brushes, including the T1 Soulmate Limited Travel Brush.",
     biography: [
       "Sanjeewee Senevirathna is a Sri Lankan master artist and Sicon Art’s first brand ambassador.",
       "On 7 October 2026 he presented a mini exhibition and live demonstration with students of the Academy of Sicon Art at SiconArt Gallery in Dongguan Zhangmutou.",
-      "Brand posts also show him painting in a sketchbook with the T1 Soulmate Limited Travel Brush. That association comes from Sicon Art’s public social caption and is not a star rating or verified-purchase review."
+      "He paints with our T1 Soulmate Limited Travel Brush, a compact handmade brush for sketchbook watercolor and travel painting."
     ],
     portrait: {
       src: "/media/ambassadors/sanjeewee/gallery-poster.jpg",

@@ -6,6 +6,7 @@
   },
   "nav": {
     "shop": "Shop",
+    "guides": "Guides",
     "events": "Events",
     "agent": "Become an Agent",
     "about": "About",
@@ -35,7 +36,7 @@
     "craftEyebrow": "The Craft",
     "craftTitle": "A bridge between ancient brush wisdom and watercolor practice.",
     "craftBodyOne": "Every Sicon Art brush begins with the idea that tool character matters. Water holding, point, snap, release, and handle balance all change the way paint moves across paper.",
-    "craftBodyTwo": "The new storefront will make those differences easier to understand, so artists can buy with confidence instead of sorting through a generic catalog.",
+    "craftBodyTwo": "We make those differences easier to understand, so you can choose a brush with confidence.",
     "craftCta": "Read our story"
   },
   "shop": {

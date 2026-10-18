@@ -9,7 +9,7 @@ import { absoluteUrl } from "@/lib/site-origin";
 
 export const metadata: Metadata = {
   title: "Events",
-  description: "Past Sicon Art sponsored events, gallery demonstrations, and community records.",
+  description: "Exhibitions, festivals, and live demonstrations with Sicon Art handmade Chinese watercolor brushes.",
   alternates: { canonical: absoluteUrl("/events") }
 };
 
@@ -22,8 +22,7 @@ export default async function EventsPage({ params }: { params: Promise<{ locale:
       <p className="eyebrow">Community</p>
       <h1 className="mt-3 font-serif text-5xl font-semibold">Events</h1>
       <p className="mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">
-        A public archive of events Sicon Art has supported. Past events stay here so artists can see where the brushes
-        have been demonstrated.
+        Exhibitions, festivals, and gallery demonstrations where we bring handmade Chinese watercolor brushes to artists.
       </p>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
         {events.map((event) => (

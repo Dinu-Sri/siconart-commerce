@@ -16,6 +16,12 @@ export async function SiteFooter() {
     { label: "Chinese watercolor brushes", href: "/collections/chinese-watercolor-brushes" },
     { label: t("agent"), href: "/become-an-agent" }
   ];
+  const guideLinks = [
+    { label: "Buying guides", href: "/blog" },
+    { label: "Chinese watercolor brush prices", href: "/blog/chinese-watercolor-brush-prices" },
+    { label: "Urban sketching brushes", href: "/blog/choose-brush-urban-sketching" },
+    { label: "Travel or short handle", href: "/blog/travel-vs-short-handle-watercolor-brush" }
+  ];
   const communityLinks = [
     { label: "Events", href: "/events" },
     { label: "Brand ambassadors", href: "/ambassadors" },
@@ -34,7 +40,7 @@ export async function SiteFooter() {
 
   return (
     <footer className="border-t bg-accent text-accent-foreground">
-      <div className="container-content grid gap-10 py-12 md:grid-cols-[1.3fr_0.8fr_0.8fr_0.9fr]">
+      <div className="container-content grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_0.8fr_0.8fr_0.9fr]">
         <div>
           <Logo variant="footer" />
           <p className="mt-5 max-w-sm text-sm leading-7 text-accent-foreground/75">
@@ -51,6 +57,16 @@ export async function SiteFooter() {
           <h2 className="text-sm font-bold uppercase tracking-[0.18em]">Shop</h2>
           <div className="mt-4 grid gap-3 text-sm text-accent-foreground/75">
             {shopLinks.map((link) => (
+              <Link key={link.href} href={localeHref(locale, link.href)} className="hover:text-accent-foreground">
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h2 className="text-sm font-bold uppercase tracking-[0.18em]">Guides</h2>
+          <div className="mt-4 grid gap-3 text-sm text-accent-foreground/75">
+            {guideLinks.map((link) => (
               <Link key={link.href} href={localeHref(locale, link.href)} className="hover:text-accent-foreground">
                 {link.label}
               </Link>

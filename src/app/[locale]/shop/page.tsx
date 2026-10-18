@@ -38,5 +38,12 @@ export default async function ShopPage({
   const activeLocale = (await getLocale()) as Locale;
   const products = toShopListings(await getStorefrontProducts());
 
-  return <ShopCatalog products={products} locale={activeLocale} initialGroups={parseGroup(query.group)} />;
+  return (
+    <ShopCatalog products={products} locale={activeLocale} initialGroups={parseGroup(query.group)}>
+      <h1 className="font-serif text-3xl font-semibold sm:text-4xl">Shop handmade watercolor brushes</h1>
+      <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+        Browse handcrafted Chinese brushes for watercolor, urban sketching, travel painting, washes, and detail work.
+      </p>
+    </ShopCatalog>
+  );
 }

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { HeroProduct } from "@/components/storefront/hero-product";
 import { ProductCard } from "@/components/storefront/product-card";
 import { InstagramHighlightSection } from "@/components/storefront/instagram-section";
+import { ArtistVoices } from "@/components/storefront/artist-voices";
 import { getArtistWorksHighlights, getInternationalDemoHighlights } from "@/lib/instagram";
 import { INSTAGRAM_HIGHLIGHT_URL, INSTAGRAM_PROFILE_URL } from "@/data/instagram";
 import { ambassadors } from "@/data/community";
@@ -62,14 +63,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       icon: PackageCheck
     },
     {
-      title: "Gift Sets",
-      body: "Beautifully packaged brush sets perfect for gifting to the watercolor artist in your life.",
+      title: "Collector brushes",
+      body: "Limited handmade handles and coming-soon pieces from the Dongguan workshop, made for artists who want a distinctive studio brush.",
       image: "/brand/experience-craft-2.webp",
       icon: Gift
     },
     {
-      title: "Custom Orders",
-      body: "Work with our master brush makers to create brushes tailored to your painting style.",
+      title: "Custom engraving",
+      body: "Ask us to engrave a T3 travel handle. Write the wording you want and we will confirm the details.",
       image: "/brand/experience-craft-3.jpg",
       icon: Palette
     },
@@ -87,7 +88,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     },
     {
       q: "What type of hair is used in your brushes?",
-      a: "We use carefully selected natural hair chosen for water holding, point, and spring. Each blend is chosen for soft washes, fine detail, or versatile all-round performance. Product pages list confirmed materials where we have them."
+      a: "We use carefully selected natural hair chosen for water holding, point, and spring. Each blend is chosen for soft washes, fine detail, or versatile all-round performance. Each product page lists the hair mix and measurements we publish for that brush."
     },
     {
       q: "Do you ship internationally?",
@@ -252,6 +253,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
       </section>
 
+      <ArtistVoices />
+
       <InstagramHighlightSection
         stories={artistStories}
         eyebrow="Instagram"
@@ -326,7 +329,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               Ambassadors and <span className="text-primary">events</span>
             </h2>
             <p className="mt-4 text-muted-foreground">
-              Meet the artists we work with and see where Sicon Art brushes have been demonstrated.
+              Our first ambassador, Sanjeewee Senevirathna, and the exhibitions where we bring the brushes to painters.
             </p>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-2">

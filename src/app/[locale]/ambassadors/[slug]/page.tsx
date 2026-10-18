@@ -9,6 +9,8 @@ import { getEvent } from "@/data/events";
 import { getProduct } from "@/data/products";
 import { localeHref } from "@/lib/nav";
 import { JsonLd } from "@/lib/seo/json-ld";
+import { breadcrumbJsonLd } from "@/lib/seo/breadcrumb";
+import { Breadcrumbs } from "@/components/storefront/breadcrumbs";
 import { absoluteUrl } from "@/lib/site-origin";
 
 export function generateStaticParams() {
@@ -57,7 +59,21 @@ export default async function AmbassadorProfilePage({
           }
         }}
       />
-      <p className="eyebrow">Ambassador</p>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Ambassadors", path: "/ambassadors" },
+          { name: ambassador.name, path: `/ambassadors/${ambassador.slug}` }
+        ])}
+      />
+      <Breadcrumbs
+        items={[
+          { name: "Home", href: localeHref(locale as Locale, "/") },
+          { name: "Ambassadors", href: localeHref(locale as Locale, "/ambassadors") },
+          { name: ambassador.name, href: localeHref(locale as Locale, `/ambassadors/${ambassador.slug}`) }
+        ]}
+      />
+      <p className="eyebrow mt-6">Ambassador</p>
       <h1 className="mt-3 font-serif text-5xl font-semibold">{ambassador.name}</h1>
       <p className="mt-4 text-sm font-semibold uppercase tracking-[0.16em] text-primary">
         {ambassador.role} · {ambassador.location}
@@ -97,7 +113,7 @@ export default async function AmbassadorProfilePage({
       )}
       {relatedProducts.length > 0 && (
         <section className="mt-10">
-          <h2 className="font-serif text-3xl font-semibold">Brushes shown in brand posts</h2>
+          <h2 className="font-serif text-3xl font-semibold">Brushes he paints with</h2>
           <div className="mt-5 grid gap-3">
             {relatedProducts.map((product) =>
               product ? (

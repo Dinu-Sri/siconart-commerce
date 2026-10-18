@@ -4,6 +4,10 @@ Prepared 18 October 2026. Repository baseline: `Dinu-Sri/siconart-commerce`, `ma
 
 Purpose: give the coding agent a practical, evidence-based specification for technical SEO, product discovery, Google ecommerce eligibility, AI-readable content, and an editorial blog. This is a planning deliverable; no production changes or account submissions have been made.
 
+## Latest priority: buying decisions and browser social review
+
+Read files 13 and 14 first, plus buying-intent-keywords.csv. They supersede earlier blog ordering: pricing, value, comparisons and model/size selection now lead the commercial publishing plan. Browser review successfully inspected public social content and recorded specific candidate event/product evidence; earlier public-fetch failures are historical limits, not the final social-review status. Thirty commercial query seeds have unknown volumes, clearly labelled.
+
 ## Updated owner brief and research
 
 18 October update: urban sketchers are the primary audience; professional plein-air and large-format painters are a second core segment. Confirmed targets: Thailand, Vietnam, Indonesia, United States, India and Hong Kong. Read files 10, 11 and 12 before planning; they supersede earlier provisional audience/country assumptions and add sponsored events, collaborations and ambassadors. New CSVs contain 50 qualitative market keyword seeds and six country research profiles, with no measured volumes.

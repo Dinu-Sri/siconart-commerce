@@ -1,5 +1,7 @@
 # Market keyword research: urban sketching and handmade Chinese brushes
 
+Latest update: file 13 supersedes the initial article order with buying-intent price/value/comparison/selection topics. File 14 records successful browser review of public social content, replacing the earlier inability-to-inspect limitation. Existing technique/event topics support the commercial guides.
+
 Research date: 18 October 2026. This update supersedes earlier provisional audience/market priorities in this pack. Source IDs M01–M14 are listed below. Read alongside `11-product-seo-and-event-content.md`, `market-keyword-opportunities.csv` and `country-language-research.csv`.
 
 ## Confirmed owner brief
@@ -103,6 +105,6 @@ M11 https://kdsartstore.com/product/chinese-travel-brush-set-for-calligraphy-wat
 
 M12 https://www.jacksonsart.com/studio-essentials-chinese-brush-gift-set-3-goat-hair-brushes-fabric-box — retailer specification benchmark; dimensions, hair and medium use. Do not copy values to Sicon Art.
 
-M13 https://www.instagram.com/siconarts/ and https://www.facebook.com/siconart — retrieval blocked/throttled; NOT treated as successfully audited post sources.
+M13 https://www.instagram.com/siconarts/ and https://www.facebook.com/siconart — initial public web retrieval blocked/throttled. Subsequent connected-browser review succeeded; file 14 records the inspected public posts and limits.
 
 M14 Owner brief in this conversation, 18 October 2026 — audience, product focus, event/photo archive and named target markets. No analytics or sales performance asserted.

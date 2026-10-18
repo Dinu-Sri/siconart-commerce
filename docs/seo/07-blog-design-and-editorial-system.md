@@ -1,5 +1,7 @@
 # Blog design and editorial system
 
+Latest update: file 13 supersedes the initial article order with buying-intent price/value/comparison/selection topics. File 14 records successful browser review of public social content, replacing the earlier inability-to-inspect limitation. Existing technique/event topics support the commercial guides.
+
 Update: files 10–12 supersede earlier provisional audience/market priorities with the confirmed urban-sketcher focus, six named markets, professional/large-painting segment, sponsored events, collaborations and ambassadors. Demand volumes remain unmeasured.
 
 ## Mission and content advantage

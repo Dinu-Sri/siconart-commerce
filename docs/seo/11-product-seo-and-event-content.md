@@ -1,5 +1,7 @@
 # Product SEO and an event-led content advantage
 
+Latest update: file 13 supersedes the initial article order with buying-intent price/value/comparison/selection topics. File 14 records successful browser review of public social content, replacing the earlier inability-to-inspect limitation. Existing technique/event topics support the commercial guides.
+
 Updated 18 October 2026 from the owner-confirmed urban-sketching focus. Read the technical/schema contracts in 04–06; this file adds product merchandising, evidence and content relationships. Implementation remains planning-only until authorized.
 
 ## Make every product answer a real artist's choice

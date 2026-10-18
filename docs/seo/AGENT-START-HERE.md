@@ -8,6 +8,8 @@ After syncing, read the full pack and inspect current code. Commit a concrete im
 
 Updated scope: read files 10–12 and the two market research CSVs. Plan six confirmed markets, core urban-sketching and professional plein-air/large-format segments, product-use demonstrations, sponsored event archive/detail pages, collaboration enquiries and ambassador profiles. Include SEO-501–SEO-505. Remain planning-only.
 
+Latest planning priority: read files 13–14 and buying-intent-keywords.csv. Lead the blog roadmap with price/value/comparison/model-selection queries. Use the browser-observed public social evidence register to plan authentic event and product modules; verify SKUs/rights/specifications before publication. No keyword volume is established. Keep implementation planning-only.
+
 Mandatory constraints:
 
 - Preserve current English-only flat URLs and product slugs, design tokens, actual commerce and GHCR/Portainer deployment workflow.

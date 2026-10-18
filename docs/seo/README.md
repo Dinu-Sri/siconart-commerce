@@ -4,6 +4,10 @@ Prepared 18 October 2026. Repository baseline: `Dinu-Sri/siconart-commerce`, `ma
 
 Purpose: give the coding agent a practical, evidence-based specification for technical SEO, product discovery, Google ecommerce eligibility, AI-readable content, and an editorial blog. This is a planning deliverable; no production changes or account submissions have been made.
 
+## Current count and footer
+
+The current prioritized commercial plan has 10 article briefs, mirrored in editorial-calendar.csv. Earlier 12 briefs and supporting ideas overlap and are not additional approved articles. File 15 documents the authoritative count, copy-ready footer wording, natural country references and conditional AI-information links.
+
 ## Latest priority: buying decisions and browser social review
 
 Read files 13 and 14 first, plus buying-intent-keywords.csv. They supersede earlier blog ordering: pricing, value, comparisons and model/size selection now lead the commercial publishing plan. Browser review successfully inspected public social content and recorded specific candidate event/product evidence; earlier public-fetch failures are historical limits, not the final social-review status. Thirty commercial query seeds have unknown volumes, clearly labelled.
@@ -25,7 +29,7 @@ Read files 13 and 14 first, plus buying-intent-keywords.csv. They supersede earl
 9. `09-sources-and-open-decisions.md`: authoritative references and information still required.
 10. `AGENT-START-HERE.md`: copyable coding-agent instruction.
 
-Supporting files: `product-fact-workbook.csv` covers every parent product; `keyword-map.csv` maps queries to one intended owner; `editorial-calendar.csv` sequences twelve proposed articles. Templates are design examples, not approved product claims or live endpoints.
+Supporting files: `product-fact-workbook.csv` covers every parent product; `keyword-map.csv` maps queries to one intended owner; `editorial-calendar.csv` sequences ten current commercial article briefs. Templates are design examples, not approved product claims or live endpoints.
 
 ## Working rules
 

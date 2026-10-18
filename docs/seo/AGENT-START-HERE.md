@@ -10,6 +10,8 @@ Updated scope: read files 10–12 and the two market research CSVs. Plan six con
 
 Latest planning priority: read files 13–14 and buying-intent-keywords.csv. Lead the blog roadmap with price/value/comparison/model-selection queries. Use the browser-observed public social evidence register to plan authentic event and product modules; verify SKUs/rights/specifications before publication. No keyword volume is established. Keep implementation planning-only.
 
+Read file 15 for the authoritative 10-article shortlist and footer specification. Earlier brief lists overlap and are not additive. Plan visible natural footer copy and only live shopping/community/guide/llms links; preserve support/legal links and real delivery/quote limits.
+
 Mandatory constraints:
 
 - Preserve current English-only flat URLs and product slugs, design tokens, actual commerce and GHCR/Portainer deployment workflow.

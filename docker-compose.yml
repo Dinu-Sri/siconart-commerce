@@ -17,6 +17,8 @@ services:
       - "3224:3225"
     environment:
       - NODE_ENV=production
+      # IP/debug origins may be set here for direct :3224 access.
+      # Public canonical, schema, emails, and PayHere URLs ignore IPs and always use the domain.
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
       - APP_URL=${APP_URL}
       - STOREFRONT_URL=${STOREFRONT_URL:-https://siconart.com}

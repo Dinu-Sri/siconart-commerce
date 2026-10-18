@@ -72,6 +72,7 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${sans.variable} ${serif.variable}`} suppressHydrationWarning>
       <head>
         <ThemeScript />
+        <link rel="describedby" href={`${siteOrigin()}/llms.txt`} type="text/plain" />
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
       </head>

@@ -19,7 +19,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npx prisma generate
 
-ARG NEXT_PUBLIC_BASE_URL=http://localhost:3000
+ARG NEXT_PUBLIC_BASE_URL=https://siconart.com
 ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
 
 RUN npm run build

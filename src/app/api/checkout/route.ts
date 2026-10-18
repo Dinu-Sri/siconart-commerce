@@ -7,6 +7,7 @@ import { notifyOrder } from "@/lib/email";
 import { getCountry } from "@/data/countries";
 import { getShippingQuote, needsShippingWeightReview } from "@/data/shipping";
 import { FORM_STARTED_FIELD, HONEYPOT_FIELD, isBotSubmission } from "@/lib/form-guard";
+import { siteOrigin } from "@/lib/site-origin";
 
 const checkoutSchema = z.object({
   discountCode: z.string().trim().optional(),
@@ -137,7 +138,6 @@ export async function POST(request: Request) {
       ok: true,
       orderNumber: order.orderNumber,
       payhere: createPayHerePayload({
-        request,
         orderNumber: order.orderNumber,
         amountCents: totalCents,
         firstName: parsed.data.firstName,
@@ -181,7 +181,6 @@ async function getDiscount(code: string | undefined, subtotalCents: number) {
 }
 
 function createPayHerePayload({
-  request,
   orderNumber,
   amountCents,
   firstName,
@@ -190,7 +189,6 @@ function createPayHerePayload({
   shipping,
   items
 }: {
-  request: Request;
   orderNumber: string;
   amountCents: number;
   firstName: string;
@@ -201,8 +199,8 @@ function createPayHerePayload({
 }) {
   const merchantId = requiredEnv("PAYHERE_MERCHANT_ID");
   const merchantSecret = requiredEnv("PAYHERE_MERCHANT_SECRET");
-  const publicUrl = customerFacingBaseUrl(request);
-  const notifyUrl = (process.env.APP_URL || process.env.NEXT_PUBLIC_BASE_URL || publicUrl).replace(/\/$/, "");
+  const publicUrl = siteOrigin();
+  const notifyUrl = publicUrl;
   const currency = process.env.PAYHERE_CURRENCY || "USD";
   const amount = (amountCents / 100).toFixed(2);
   const sandbox = process.env.PAYHERE_SANDBOX === "true";
@@ -233,23 +231,6 @@ function createPayHerePayload({
       hash: payHereCheckoutHash(merchantId, orderNumber, amount, currency, merchantSecret)
     }
   };
-}
-
-function customerFacingBaseUrl(request: Request) {
-  const origin = request.headers.get("origin") || request.headers.get("referer") || "";
-  try {
-    const url = new URL(origin);
-    if (url.hostname && !isIpHostname(url.hostname)) return url.origin;
-  } catch {
-    // fall through to configured storefront URL
-  }
-  const storefront = process.env.STOREFRONT_URL?.trim() || process.env.NEXT_PUBLIC_STOREFRONT_URL?.trim();
-  if (storefront) return storefront.replace(/\/$/, "");
-  return "https://siconart.com";
-}
-
-function isIpHostname(hostname: string) {
-  return /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname);
 }
 
 function payHereCheckoutHash(merchantId: string, orderId: string, amount: string, currency: string, merchantSecret: string) {

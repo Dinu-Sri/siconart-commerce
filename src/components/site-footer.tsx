@@ -35,7 +35,8 @@ export async function SiteFooter() {
     { label: "Track order", href: "/track-your-order" },
     { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms & Conditions", href: "/terms-conditions" },
-    { label: t("contact"), href: "/contact" }
+    { label: t("contact"), href: "/contact" },
+    { label: "AI & product information", href: "/llms.txt" }
   ];
 
   return (
@@ -86,11 +87,17 @@ export async function SiteFooter() {
         <div>
           <h2 className="text-sm font-bold uppercase tracking-[0.18em]">{t("help")}</h2>
           <div className="mt-4 grid gap-3 text-sm text-accent-foreground/75">
-            {helpLinks.map((link) => (
-              <Link key={link.href} href={localeHref(locale, link.href)} className="hover:text-accent-foreground">
-                {link.label}
-              </Link>
-            ))}
+            {helpLinks.map((link) =>
+              link.href.endsWith(".txt") ? (
+                <a key={link.href} href={link.href} className="hover:text-accent-foreground">
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.href} href={localeHref(locale, link.href)} className="hover:text-accent-foreground">
+                  {link.label}
+                </Link>
+              )
+            )}
             <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-accent-foreground">
               {SUPPORT_EMAIL}
             </a>

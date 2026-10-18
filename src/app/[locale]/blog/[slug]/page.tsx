@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { blogPosts, getBlogPost } from "@/data/blog";
-import type { Product } from "@/data/products";
+import { isPurchasable, type Product } from "@/data/products";
 import { getStorefrontProducts } from "@/lib/commerce/live-prices";
 import { withProductImages } from "@/lib/product-images";
 import { JsonLd } from "@/lib/seo/json-ld";
@@ -52,10 +52,19 @@ export default async function BlogPostPage({
   const post = getBlogPost(slug);
   if (!post) notFound();
   const catalog = await getStorefrontProducts();
-  const mentioned = post.productSlugs
-    .map((productSlug) => catalog.find((product) => product.slug === productSlug))
-    .filter((product): product is Product => Boolean(product))
-    .map(withProductImages);
+  const mentioned =
+    post.productSelect === "under-20-travel"
+      ? catalog
+          .filter(
+            (product) =>
+              product.handle === "travel" && isPurchasable(product) && product.priceCents > 0 && product.priceCents < 2000
+          )
+          .sort((a, b) => a.priceCents - b.priceCents)
+          .map(withProductImages)
+      : post.productSlugs
+          .map((productSlug) => catalog.find((product) => product.slug === productSlug))
+          .filter((product): product is Product => Boolean(product))
+          .map(withProductImages);
 
   return (
     <>

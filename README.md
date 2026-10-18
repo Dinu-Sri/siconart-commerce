@@ -62,7 +62,7 @@ Enable Cloudflare Tunnel with:
 CF_TUNNEL_TOKEN=<token>
 ```
 
-Then update `NEXT_PUBLIC_BASE_URL` and `APP_URL` to the final tunnel/domain URL and redeploy the stack.
+`NEXT_PUBLIC_BASE_URL` and `APP_URL` may stay as the IP for direct testing. Canonical tags, Open Graph, JSON-LD, sitemap, robots, emails, and PayHere URLs always use `https://siconart.com`. Never set `STOREFRONT_URL` to a VPS IP.
 
 ## Reference Files
 

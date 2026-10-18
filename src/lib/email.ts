@@ -1,3 +1,4 @@
+import { siteOrigin } from "@/lib/site-origin";
 import { SITE_NAME, SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
 
 type MailInput = {
@@ -29,7 +30,7 @@ function fromAddress() {
 }
 
 function siteUrl() {
-  return (process.env.APP_URL || process.env.NEXT_PUBLIC_BASE_URL || "https://siconart.com").replace(/\/$/, "");
+  return siteOrigin();
 }
 
 function logoUrl(origin?: string) {

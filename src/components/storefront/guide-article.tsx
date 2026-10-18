@@ -107,6 +107,40 @@ export function GuideArticle({
                     ) : null}
                   </figure>
                 ) : null}
+                {section.table ? (
+                  <div className="mt-8 overflow-x-auto rounded-[1.25rem] border bg-white shadow-soft">
+                    <table className="w-full min-w-[36rem] text-left text-sm">
+                      {section.table.caption ? (
+                        <caption className="border-b bg-surface px-5 py-4 text-left text-sm text-muted-foreground">
+                          {section.table.caption}
+                        </caption>
+                      ) : null}
+                      <thead>
+                        <tr className="border-b bg-surface">
+                          {section.table.headers.map((header) => (
+                            <th key={header} className="px-5 py-3 font-semibold text-foreground">
+                              {header}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {section.table.rows.map((row) => (
+                          <tr key={row.join("-")} className="border-b last:border-0">
+                            {row.map((cell, index) => (
+                              <td
+                                key={`${row[0]}-${index}`}
+                                className={`px-5 py-3 leading-6 text-muted-foreground ${index === 0 ? "font-medium text-foreground" : ""}`}
+                              >
+                                {cell}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : null}
               </section>
             ))}
           </div>
@@ -125,6 +159,17 @@ export function GuideArticle({
                   />
                 ))}
               </div>
+            </section>
+          ) : post.productSelect === "under-20-travel" ? (
+            <section className="mt-16 rounded-[1.25rem] border bg-surface p-8 shadow-soft">
+              <h2 className="font-serif text-3xl font-semibold">No travel brushes under $20 right now</h2>
+              <p className="mt-4 max-w-2xl text-lg leading-8 text-muted-foreground">
+                No travel watercolor brush currently has a public USD retail price under $20, before shipping. Open the
+                travel collection for live prices.
+              </p>
+              <Link href={localeHref(locale, post.collectionHref)} className="mt-6 inline-flex font-semibold text-primary">
+                {post.collectionLabel}
+              </Link>
             </section>
           ) : null}
 

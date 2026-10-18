@@ -13,7 +13,7 @@ import { Breadcrumbs } from "@/components/storefront/breadcrumbs";
 const blogIndexMeta = pageMeta({
   title: "Guides to handmade Chinese watercolor brushes",
   description:
-    "Sicon Art buying guides for Chinese watercolor brush prices, urban sketching brushes, and travel versus short handles.",
+    "Sicon Art buying guides for Chinese watercolor brush prices, travel kits, hair blends, large washes, and handmade value.",
   path: "/blog"
 });
 
@@ -51,8 +51,8 @@ export default async function BlogIndexPage({ params }: { params: Promise<{ loca
         <p className="eyebrow">Guides</p>
         <h1 className="mt-4 font-serif text-5xl font-semibold sm:text-6xl">Brush buying guides</h1>
         <p className="mt-5 text-lg leading-8 text-muted-foreground">
-          Three practical guides from founder Tina Wang: what our brushes cost, which brush to take urban sketching, and
-          whether you need a travel handle or a short handle.
+          Buying guides from founder Tina Wang: prices, Chinese and Western forms, urban sketching kits, travel handles,
+          hair blends, large washes, and what handmade work costs.
         </p>
       </div>
 

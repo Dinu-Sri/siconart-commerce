@@ -37,9 +37,9 @@ A 401 / `pull access denied` on Update means the package is private and the regi
 Required Portainer environment variables:
 
 - `DB_PASSWORD` - strong Postgres password
-- `NEXT_PUBLIC_BASE_URL` - for IP testing, use `http://<VPS-IP>:3224`
-- `APP_URL` - same as above for now. Used for PayHere payment notifications.
-- `STOREFRONT_URL` - public customer URL for PayHere return/cancel, e.g. `https://siconart.com`. Defaults to `https://siconart.com` so customers are not sent back to the VPS IP.
+- `NEXT_PUBLIC_BASE_URL` - debug/IP access only (`http://<VPS-IP>:3224`). Never used for canonical, Open Graph, JSON-LD, sitemap, robots, emails, or PayHere notify/return URLs.
+- `APP_URL` - same debug origin as above. Public pages always advertise `https://siconart.com`.
+- `STOREFRONT_URL` - public customer origin. Must stay `https://siconart.com`. Do not set this to a VPS IP or debug port.
 - `ADMIN_EMAIL` - admin login email
 - `ADMIN_PASSWORD` - admin login password
 - `ADMIN_SESSION_SECRET` - long random secret used to sign the admin cookie
@@ -69,10 +69,7 @@ Pushes to `master` build and publish on GitHub-hosted runners:
 - `ghcr.io/dinu-sri/siconart-app:latest`
 - `ghcr.io/dinu-sri/siconart-app:<commit-sha>`
 
-Set GitHub Actions variable:
-
-- `NEXT_PUBLIC_BASE_URL=http://<VPS-IP>:3224` during IP testing
-- Later change it to the final tunneled/domain URL
+The image build hard-codes `NEXT_PUBLIC_BASE_URL=https://siconart.com`. Public canonical URLs stay on the domain even when the stack is reached at `http://<VPS-IP>:3224`.
 
 ## Local Development
 
@@ -93,5 +90,5 @@ When the tunnel is ready:
 1. Create Cloudflare tunnel public hostname.
 2. Point it to `http://app:3225`.
 3. Add `CF_TUNNEL_TOKEN` in Portainer.
-4. Update `NEXT_PUBLIC_BASE_URL` and `APP_URL` to the tunnel/domain URL.
+4. Keep `STOREFRONT_URL=https://siconart.com`. Public canonical, schema, emails, and PayHere URLs stay on the domain.
 5. Redeploy the stack (Re-pull ON after a green image build).

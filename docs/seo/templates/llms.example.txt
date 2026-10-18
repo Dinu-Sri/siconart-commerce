@@ -1,0 +1,21 @@
+# Sicon Art
+
+> Artist-led Chinese brush brand for watercolor and urban sketching.
+
+EXAMPLE ONLY: publish after every linked Markdown endpoint exists and brand facts are approved. Public HTML product pages are preferred citation targets. Current prices, availability and delivery terms should be checked at the time of purchase.
+
+## Brand and purchasing
+
+- [About Sicon Art](https://siconart.com/about.md): Approved brand and founder information.
+- [Shipping](https://siconart.com/shipping-policy.md): Supported shipping terms and limitations.
+- [Returns](https://siconart.com/return-exchange-policy.md): Current approved return terms.
+
+## Product selection
+
+- [Travel watercolor brushes](https://siconart.com/collections/travel-watercolor-brushes.md): Verified portable brush choices.
+- [Chi Ling Travel Brush](https://siconart.com/products/chi-ling-travel-brush.md): Current public product information.
+- [Xiangfei Scroll](https://siconart.com/products/xiangfei-scroll-brush.md): Current public product information.
+
+## Optional
+
+- [Brush journal](https://siconart.com/blog/index.md): Published selection, technique and care articles.

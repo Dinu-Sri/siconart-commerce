@@ -1,0 +1,35 @@
+query_seed,intent,proposed_owner_path,priority_hypothesis,rationale_or_gate,volume,volume_country,volume_source_date,demand_status
+travel watercolor brushes,transactional,/collections/travel-watercolor-brushes,First,Travel product inventory,,,,Unmeasured; validate by market; priority is business fit
+travel watercolour brush,transactional,/collections/travel-watercolor-brushes,First,Spelling variant; same owner,,,,Unmeasured; validate by market; priority is business fit
+portable watercolor brush,transactional,/collections/travel-watercolor-brushes,First,Verify actual packing design,,,,Unmeasured; validate by market; priority is business fit
+plein air watercolor brush,transactional,/collections/travel-watercolor-brushes,First,Real outdoor demonstration needed,,,,Unmeasured; validate by market; priority is business fit
+Chinese watercolor brushes,transactional,/collections/chinese-watercolor-brushes,First,Brand differentiation,,,,Unmeasured; validate by market; priority is business fit
+Chinese brushes for watercolor,transactional,/collections/chinese-watercolor-brushes,First,Same transactional cluster,,,,Unmeasured; validate by market; priority is business fit
+urban sketching brushes,transactional,/collections/urban-sketching-brushes,First,Use-case fit,,,,Unmeasured; validate by market; priority is business fit
+brushes for urban sketching,transactional,/collections/urban-sketching-brushes,First,Same cluster,,,,Unmeasured; validate by market; priority is business fit
+Sicon Art,brand,/,First,Brand identity,,,,Unmeasured; validate by market; priority is business fit
+SiconArt brushes,brand,/,First,Approved alternate spelling,,,,Unmeasured; validate by market; priority is business fit
+Chi Ling Travel Brush,product,/products/chi-ling-travel-brush,First,Existing URL,,,,Unmeasured; validate by market; priority is business fit
+Xiangfei Scroll brush,product,/products/xiangfei-scroll-brush,First,Verified material candidate,,,,Unmeasured; validate by market; priority is business fit
+Feng Hui Outline Brush,product,/products/feng-hui-outline-brush,First,Variant family,,,,Unmeasured; validate by market; priority is business fit
+fine detail watercolor brush,transactional,/collections/detail-watercolor-brushes,Next,Requires sufficient verified inventory,,,,Unmeasured; validate by market; priority is business fit
+flat watercolor brushes,transactional,/collections/flat-watercolor-brushes,Next,Width/size evidence,,,,Unmeasured; validate by market; priority is business fit
+natural hair watercolor brushes,transactional,/collections/natural-hair-watercolor-brushes,Later,Publish only verified membership and clear blends,,,,Unmeasured; validate by market; priority is business fit
+goat hair watercolor brush,transactional,/collections/natural-hair-watercolor-brushes,Later,Do not infer unspecified hair,,,,Unmeasured; validate by market; priority is business fit
+collectible Chinese brushes,transactional,/collections/collectible-chinese-brushes,Later,Provenance and edition verification,,,,Unmeasured; validate by market; priority is business fit
+artist paintbrush gifts,transactional,/collections/collectible-chinese-brushes,Later,Confirm gift packaging,,,,Unmeasured; validate by market; priority is business fit
+watercolor brush roll,transactional,/collections/brush-accessories,Next,Accessory specs required,,,,Unmeasured; validate by market; priority is business fit
+watercolor brushes wholesale,B2B,/become-an-agent,Later,Public capability only; no private prices,,,,Unmeasured; validate by market; priority is business fit
+how to choose a travel watercolor brush,informational,/blog/choose-travel-watercolor-brush,First,Original measured comparison,,,,Unmeasured; validate by market; priority is business fit
+Chinese brush watercolor technique,informational,/blog/chinese-brushes-for-watercolor,First,Original painting evidence,,,,Unmeasured; validate by market; priority is business fit
+urban sketching brush kit,informational,/blog/small-brush-kit-urban-sketching,First,Not necessarily a sold set,,,,Unmeasured; validate by market; priority is business fit
+soft vs springy watercolor brushes,informational,/blog/soft-vs-springy-watercolor-brushes,Next,Real test protocol,,,,Unmeasured; validate by market; priority is business fit
+how to clean watercolor brushes,informational,/blog/clean-store-watercolor-brushes,Next,Maker-approved care,,,,Unmeasured; validate by market; priority is business fit
+fine lines and washes one brush,informational,/blog/fine-lines-broad-washes-chinese-brush,Next,Original stroke sequence,,,,Unmeasured; validate by market; priority is business fit
+watercolor brush sizes explained,informational,/blog/brush-measurements-explained,Next,Physical units and measurement points,,,,Unmeasured; validate by market; priority is business fit
+natural hair vs synthetic watercolor brushes,informational,/blog/natural-hair-synthetic-brush-blends,Later,Review overlap with watercolor.lk,,,,Unmeasured; validate by market; priority is business fit
+flat vs round watercolor brush,informational,/blog/flat-pointed-brushes-architecture,Later,Same-subject original comparison,,,,Unmeasured; validate by market; priority is business fit
+handmade Chinese brush making,informational,/blog/how-sicon-art-brushes-are-made,Later,Maker interview needed,,,,Unmeasured; validate by market; priority is business fit
+gift for watercolor artist brush,informational,/blog/choose-brush-gift-watercolor-artist,Later,Actual packaging and delivery limits,,,,Unmeasured; validate by market; priority is business fit
+best watercolor brushes,commercial research,/blog/choose-watercolor-brush,Later,"Broad competition; transparent method, not self-awarded best",,,,Unmeasured; validate by market; priority is business fit
+watercolor brushes for beginners,commercial research,/blog/choose-watercolor-brush,Later,Validate beginner fit and intent before publishing,,,,Unmeasured; validate by market; priority is business fit

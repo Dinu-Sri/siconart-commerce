@@ -242,9 +242,11 @@ model BrandAgentCertificate {
   periodKind String
   startsAt   DateTime
   endsAt     DateTime
+  archivedAt DateTime?
   createdAt  DateTime   @default(now())
   agent      BrandAgent @relation(fields: [agentId], references: [id], onDelete: Cascade)
 
   @@index([agentId])
   @@index([endsAt])
+  @@index([archivedAt])
 }

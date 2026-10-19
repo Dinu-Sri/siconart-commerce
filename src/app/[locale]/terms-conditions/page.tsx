@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { SUPPORT_EMAIL } from "@/lib/support";
+import { SICONART_LEGAL_ADDRESS_ZH, SICONART_LEGAL_NAME_ZH } from "@/lib/siconart-company";
 import { pageMeta } from "@/lib/seo/page-meta";
 
 export const metadata: Metadata = pageMeta({
@@ -21,8 +22,9 @@ export default async function TermsPage({ params }: { params: Promise<{ locale: 
         <p className="mt-4 text-muted-foreground">Last updated: 23 March 2026</p>
         <div className="mt-8 grid gap-5 leading-8 text-muted-foreground">
           <p>
-            These Terms govern your access to and use of siconart.com, including purchases made through the website. By
-            using the website, you agree to these Terms.
+            These Terms govern your access to and use of siconart.com, including purchases made through the website.
+            siconart.com is operated by {SICONART_LEGAL_NAME_ZH} (Sicon Art), {SICONART_LEGAL_ADDRESS_ZH}. By using the
+            website, you agree to these Terms.
           </p>
           <h2>Products and Pricing</h2>
           <p>

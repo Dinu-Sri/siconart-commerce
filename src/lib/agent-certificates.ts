@@ -17,8 +17,8 @@ function isPeriodKind(value: string): value is CertificatePeriodKind {
 function resolveRange(periodKind: CertificatePeriodKind, startsAt: Date, endsAtRaw?: string | null) {
   if (periodKind === "custom") {
     const endsAt = endsAtRaw ? parseDateOnly(endsAtRaw) : null;
-    if (!endsAt) throw new Error("Choose an end date for a custom period.");
-    if (endsAt.getTime() < startsAt.getTime()) throw new Error("The end date must be on or after the start date.");
+    if (!endsAt) throw new Error("Choose an end date for a custom period. / 自定义期限请选择结束日期。");
+    if (endsAt.getTime() < startsAt.getTime()) throw new Error("The end date must be on or after the start date. / 结束日期不能早于开始日期。");
     return { startsAt, endsAt };
   }
   return {
@@ -42,6 +42,7 @@ export function serializeCertificate(cert: {
   periodKind: string;
   startsAt: Date;
   endsAt: Date;
+  archivedAt: Date | null;
   createdAt: Date;
 }) {
   const remaining = remainingDays(cert.endsAt);
@@ -51,9 +52,11 @@ export function serializeCertificate(cert: {
     periodKind: cert.periodKind as CertificatePeriodKind,
     startsAt: cert.startsAt.toISOString(),
     endsAt: cert.endsAt.toISOString(),
+    archivedAt: cert.archivedAt?.toISOString() ?? null,
     createdAt: cert.createdAt.toISOString(),
     remainingDays: remaining,
-    active: remaining >= 0
+    active: remaining >= 0,
+    archived: Boolean(cert.archivedAt)
   };
 }
 
@@ -65,7 +68,9 @@ export async function listBrandAgents() {
     }
   });
   return agents.map((agent) => {
-    const latest = agent.certificates[0] ?? null;
+    const visible = agent.certificates.filter((cert) => !cert.archivedAt);
+    const archived = agent.certificates.filter((cert) => cert.archivedAt);
+    const latest = visible[0] ?? null;
     return {
       id: agent.id,
       companyName: agent.companyName,
@@ -75,7 +80,8 @@ export async function listBrandAgents() {
       officialZh: agent.officialZh,
       createdAt: agent.createdAt.toISOString(),
       latest: latest ? serializeCertificate(latest) : null,
-      certificates: agent.certificates.map(serializeCertificate),
+      certificates: visible.map(serializeCertificate),
+      archivedCertificates: archived.map(serializeCertificate),
       active: latest ? isCertificateActive(latest.endsAt) : false
     };
   });
@@ -91,12 +97,12 @@ export async function createBrandAgent(input: {
   endsAt?: string;
 }) {
   const companyName = input.companyName.trim();
-  if (companyName.length < 2) throw new Error("Enter the company name.");
+  if (companyName.length < 2) throw new Error("Enter the company name. / 请填写公司名称。");
   const country = getCertificateCountry(input.countryCode);
-  if (!country) throw new Error("Choose a country.");
-  if (!isPeriodKind(input.periodKind)) throw new Error("Choose 1 year, 3 years, or a custom period.");
+  if (!country) throw new Error("Choose a country. / 请选择国家/地区。");
+  if (!isPeriodKind(input.periodKind)) throw new Error("Choose 1 year, 3 years, or a custom period. / 请选择一年、三年或自定义期限。");
   const startsAt = parseDateOnly(input.startsAt);
-  if (!startsAt) throw new Error("Choose a start date.");
+  if (!startsAt) throw new Error("Choose a start date. / 请选择开始日期。");
   const range = resolveRange(input.periodKind, startsAt, input.endsAt);
   const code = await uniqueCode();
 
@@ -126,17 +132,19 @@ export async function extendBrandAgent(
 ) {
   const agent = await db.brandAgent.findUnique({
     where: { id: agentId },
-    include: { certificates: { orderBy: { createdAt: "desc" }, take: 1 } }
+    include: {
+      certificates: { where: { archivedAt: null }, orderBy: { createdAt: "desc" }, take: 1 }
+    }
   });
-  if (!agent) throw new Error("Agent not found.");
-  if (!isPeriodKind(input.periodKind)) throw new Error("Choose 1 year, 3 years, or a custom period.");
+  if (!agent) throw new Error("Agent not found. / 未找到该代理。");
+  if (!isPeriodKind(input.periodKind)) throw new Error("Choose 1 year, 3 years, or a custom period. / 请选择一年、三年或自定义期限。");
   const latest = agent.certificates[0];
   const startsAt = input.startsAt
     ? parseDateOnly(input.startsAt)
     : latest
       ? nextPeriodStart(latest.endsAt)
       : parseDateOnly(new Date().toISOString().slice(0, 10));
-  if (!startsAt) throw new Error("Choose a start date.");
+  if (!startsAt) throw new Error("Choose a start date. / 请选择开始日期。");
   const range = resolveRange(input.periodKind, startsAt, input.endsAt);
   const code = await uniqueCode();
   return db.brandAgentCertificate.create({
@@ -154,5 +162,14 @@ export async function getCertificateByCode(code: string) {
   return db.brandAgentCertificate.findUnique({
     where: { code },
     include: { agent: true }
+  });
+}
+
+export async function setCertificateArchived(code: string, archived: boolean) {
+  const certificate = await db.brandAgentCertificate.findUnique({ where: { code } });
+  if (!certificate) throw new Error("Certificate not found. / 未找到该授权书。");
+  return db.brandAgentCertificate.update({
+    where: { code: certificate.code },
+    data: { archivedAt: archived ? new Date() : null }
   });
 }

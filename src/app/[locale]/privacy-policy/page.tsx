@@ -3,6 +3,7 @@ import { setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 import type { Locale } from "@/i18n/routing";
 import { SUPPORT_EMAIL } from "@/lib/support";
+import { SICONART_LEGAL_ADDRESS_ZH, SICONART_LEGAL_NAME_ZH } from "@/lib/siconart-company";
 import { pageMeta } from "@/lib/seo/page-meta";
 
 export const metadata: Metadata = pageMeta({
@@ -17,8 +18,9 @@ export default async function PrivacyPolicyPage({ params }: { params: Promise<{ 
   return (
     <Policy title="Privacy Policy" subtitle="Last updated: 23 March 2026">
       <p>
-        SiconArt operates siconart.com. This policy explains how we collect, use, store, and protect personal
-        information when you visit the website, place an order, or contact us.
+        siconart.com is operated by {SICONART_LEGAL_NAME_ZH} (Sicon Art), {SICONART_LEGAL_ADDRESS_ZH}. This policy
+        explains how we collect, use, store, and protect personal information when you visit the website, place an
+        order, or contact us.
       </p>
       <h2>Information We Collect</h2>
       <p>

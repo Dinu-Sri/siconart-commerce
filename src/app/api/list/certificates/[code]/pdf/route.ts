@@ -7,12 +7,11 @@ import type { CertificatePeriodKind } from "@/lib/agent-certificate-dates";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET(_request: Request, { params }: { params: Promise<{ code: string }> }) {
+async function buildCertificatePdf(rawCode: string) {
   if (!(await hasListAccess())) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
   }
-  const { code } = await params;
-  const certificate = await getCertificateByCode(decodeURIComponent(code).trim().toUpperCase());
+  const certificate = await getCertificateByCode(decodeURIComponent(rawCode).trim().toUpperCase());
   if (!certificate) {
     return NextResponse.json({ error: "Certificate not found" }, { status: 404 });
   }
@@ -33,4 +32,14 @@ export async function GET(_request: Request, { params }: { params: Promise<{ cod
       "Content-Type": "application/pdf"
     }
   });
+}
+
+export async function GET(_request: Request, { params }: { params: Promise<{ code: string }> }) {
+  const { code } = await params;
+  return buildCertificatePdf(code);
+}
+
+export async function POST(_request: Request, { params }: { params: Promise<{ code: string }> }) {
+  const { code } = await params;
+  return buildCertificatePdf(code);
 }

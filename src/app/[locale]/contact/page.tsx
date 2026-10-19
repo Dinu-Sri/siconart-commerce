@@ -6,6 +6,7 @@ import { localeHref } from "@/lib/nav";
 import { db } from "@/lib/db";
 import { notifyContactSubmission } from "@/lib/email";
 import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
+import { SICONART_LEGAL_ADDRESS_ZH, SICONART_LEGAL_LOCALITY_EN, SICONART_LEGAL_NAME_ZH } from "@/lib/siconart-company";
 import { Button } from "@/components/ui/button";
 import { HoneypotFields } from "@/components/forms/honeypot-fields";
 import { isBotSubmission, readFormGuard, tooManyRequests } from "@/lib/form-guard";
@@ -73,8 +74,10 @@ export default async function ContactPage({
               </a>
             </p>
             <p>
-              <strong className="text-foreground">{t("location")}:</strong> Dongguan, Guangdong, China
+              <strong className="text-foreground">{t("location")}:</strong> {SICONART_LEGAL_NAME_ZH}
             </p>
+            <p>{SICONART_LEGAL_ADDRESS_ZH}</p>
+            <p>{SICONART_LEGAL_LOCALITY_EN}</p>
           </div>
         </div>
         <form action={sendContact} className="rounded-[0.5rem] border bg-surface p-6">

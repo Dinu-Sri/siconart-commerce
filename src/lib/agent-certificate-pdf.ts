@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import PDFDocument from "pdfkit";
 import { formatZhDate, periodLabelZh, type CertificatePeriodKind } from "@/lib/agent-certificate-dates";
+import { SICONART_LEGAL_ADDRESS_ZH, SICONART_LEGAL_NAME_ZH } from "@/lib/siconart-company";
 
 const SRC_W = 1054;
 const SRC_H = 1492;
@@ -102,7 +103,12 @@ export function generateAgentCertificatePdf(input: AgentCertificatePdfInput) {
     });
 
     doc.font("CertRegular").fontSize(srcFont(20)).fillColor("#1c1c1c");
-    doc.text("授权单位（盖章）：SiconArt 艺术用品有限公司", srcX(80), srcY(1326), {
+    doc.text(`授权单位（盖章）：${SICONART_LEGAL_NAME_ZH}`, srcX(80), srcY(1310), {
+      width: srcX(860),
+      align: "right"
+    });
+    doc.font("CertRegular").fontSize(srcFont(16)).fillColor("#1c1c1c");
+    doc.text(`地址：${SICONART_LEGAL_ADDRESS_ZH}`, srcX(80), srcY(1354), {
       width: srcX(860),
       align: "right"
     });

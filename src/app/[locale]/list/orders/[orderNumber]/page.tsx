@@ -40,18 +40,18 @@ export default async function ListOrderDetailPage({
           All orders
         </Link>
       </div>
-      <div className="mt-4 flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h1 className="font-serif text-3xl font-semibold">{order.orderNumber}</h1>
+      <div className="mt-4 grid w-full gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
+        <div className="min-w-0">
+          <h1 className="break-all font-serif text-2xl font-semibold sm:text-3xl">{order.orderNumber}</h1>
           <p className="mt-1 text-sm font-semibold text-[#8a6d56]">Placed {formatListDate(order.createdAt)}</p>
           <p className="mt-2 text-sm font-semibold text-[#6d4b32]">
             <CountryFlag code={countryCode} name={countryName} />
           </p>
         </div>
-        <div className="flex flex-col items-end gap-2">
+        <div className="flex w-full items-center justify-between gap-3 border-t border-[#ead9c3] pt-3 sm:w-auto sm:flex-col sm:items-end sm:border-0 sm:pt-0">
           <p className="font-serif text-2xl font-semibold">{formatListMoney(order.totalCents, order.currency)}</p>
           <span
-            className={`inline-flex min-w-[7.5rem] items-center justify-center rounded-[0.5rem] px-3.5 py-2.5 text-base font-bold uppercase tracking-[0.14em] ${paymentBadgeClass(order.paymentStatus)}`}
+            className={`inline-flex shrink-0 items-center justify-center rounded-[0.5rem] px-3.5 py-2.5 text-sm font-bold uppercase tracking-[0.14em] sm:min-w-[7.5rem] sm:text-base ${paymentBadgeClass(order.paymentStatus)}`}
           >
             {formatListStatus(order.paymentStatus)}
           </span>

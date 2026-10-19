@@ -4,6 +4,7 @@ import { Logo } from "@/components/logo";
 import { localeHref } from "@/lib/nav";
 import type { Locale } from "@/i18n/routing";
 import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
+import { SICONART_LEGAL_ADDRESS_ZH, SICONART_LEGAL_LOCALITY_EN, SICONART_LEGAL_NAME_ZH } from "@/lib/siconart-company";
 
 export async function SiteFooter() {
   const locale = (await getLocale()) as Locale;
@@ -52,6 +53,11 @@ export async function SiteFooter() {
             Worldwide shipping enquiries welcome—from Thailand, Indonesia, Vietnam, India, Hong Kong and the United
             States to destinations across Europe. Check destination availability and rates at checkout, or contact us
             for a shipping quote.
+          </p>
+          <p className="mt-4 max-w-sm text-sm leading-7 text-accent-foreground/75">
+            {SICONART_LEGAL_NAME_ZH}
+            <span className="mt-1 block">{SICONART_LEGAL_ADDRESS_ZH}</span>
+            <span className="mt-1 block">{SICONART_LEGAL_LOCALITY_EN}</span>
           </p>
         </div>
         <div>

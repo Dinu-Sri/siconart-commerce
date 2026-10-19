@@ -78,13 +78,13 @@ export function ListOrdersView({
             <Link
               key={order.id}
               href={localeHref(locale, `/list/orders/${order.orderNumber}`)}
-              className="rounded-[0.5rem] border border-[#ead9c3] bg-white p-4 shadow-sm transition hover:border-[#a67146]"
+              className="block w-full rounded-[0.5rem] border border-[#ead9c3] bg-white p-4 shadow-sm transition hover:border-[#a67146]"
             >
-              <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="grid w-full gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start">
                 <div className="min-w-0">
-                  <p className="font-serif text-lg font-semibold">{order.orderNumber}</p>
+                  <p className="break-all font-serif text-lg font-semibold">{order.orderNumber}</p>
                   <p className="mt-1 text-sm text-[#6d4b32]">{order.customerName}</p>
-                  <p className="text-sm text-[#8a6d56]">{order.email}</p>
+                  <p className="break-all text-sm text-[#8a6d56]">{order.email}</p>
                   <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
                     <span className="rounded-full bg-[#f7efe3] px-2.5 py-1 text-[#6d4b32]">{formatListDate(order.createdAt)}</span>
                     <span className="rounded-full bg-[#f7efe3] px-2.5 py-1 text-[#6d4b32]">
@@ -93,13 +93,15 @@ export function ListOrdersView({
                     <span className="rounded-full bg-[#f7efe3] px-2.5 py-1 text-[#6d4b32]">{formatListStatus(order.status)}</span>
                   </div>
                 </div>
-                <div className="flex min-w-[9.5rem] flex-col items-end gap-2 text-right">
-                  <p className="text-lg font-semibold">{formatListMoney(order.totalCents, order.currency)}</p>
-                  <p className="text-sm font-semibold text-[#6d4b32]">
-                    <CountryFlag code={order.countryCode} name={order.countryName} />
-                  </p>
+                <div className="flex w-full items-center justify-between gap-3 border-t border-[#f0e3d3] pt-3 sm:w-auto sm:min-w-[10rem] sm:flex-col sm:items-end sm:border-0 sm:pt-0 sm:text-right">
+                  <div className="min-w-0">
+                    <p className="text-lg font-semibold">{formatListMoney(order.totalCents, order.currency)}</p>
+                    <p className="mt-1 text-sm font-semibold text-[#6d4b32]">
+                      <CountryFlag code={order.countryCode} name={order.countryName} />
+                    </p>
+                  </div>
                   <span
-                    className={`inline-flex min-w-[7.5rem] items-center justify-center rounded-[0.5rem] px-3.5 py-2.5 text-base font-bold uppercase tracking-[0.14em] ${paymentBadgeClass(order.paymentStatus)}`}
+                    className={`inline-flex shrink-0 items-center justify-center rounded-[0.5rem] px-3.5 py-2.5 text-sm font-bold uppercase tracking-[0.14em] sm:min-w-[7.5rem] sm:text-base ${paymentBadgeClass(order.paymentStatus)}`}
                   >
                     {formatListStatus(order.paymentStatus)}
                   </span>

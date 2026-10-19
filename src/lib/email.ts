@@ -94,9 +94,12 @@ export async function sendTransactionalEmail({ subject, html, replyTo, toCustome
       const adminResult = await sendResend(admins, subject, html, replyTo);
       if (!adminResult.ok) return adminResult;
     }
-    if ((audience === "customer" || audience === "both") && toCustomer && !admins.includes(toCustomer)) {
-      const customerResult = await sendResend([toCustomer], subject, html);
-      if (!customerResult.ok) return customerResult;
+    if ((audience === "customer" || audience === "both") && toCustomer) {
+      const skipDuplicate = audience === "both" && admins.some((admin) => admin.toLowerCase() === toCustomer.toLowerCase());
+      if (!skipDuplicate) {
+        const customerResult = await sendResend([toCustomer], subject, html);
+        if (!customerResult.ok) return customerResult;
+      }
     }
     return { ok: true };
   } catch (error) {

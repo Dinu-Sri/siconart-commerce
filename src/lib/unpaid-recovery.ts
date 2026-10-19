@@ -166,7 +166,11 @@ export async function sendUnpaidReminder(orderNumber: string, draftCode?: string
   return draft;
 }
 
-export async function sendUnpaidReminderTest() {
+export async function sendUnpaidReminderTest(to: string) {
+  const email = to.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error("Enter a valid email address.");
+  }
   const expiresAt = new Date(Date.now() + RECOVERY_HOURS * 3_600_000);
   const built = buildUnpaidRecoveryEmail({
     firstName: "Alex",
@@ -182,10 +186,11 @@ export async function sendUnpaidReminderTest() {
   const sent = await sendTransactionalEmail({
     subject: `[TEST] ${built.subject}`,
     html: built.html,
-    audience: "admins"
+    toCustomer: email,
+    audience: "customer"
   });
   if (!sent.ok) throw new Error(sent.error || "Test email could not be sent.");
-  return { subject: `[TEST] ${built.subject}`, html: built.html };
+  return { subject: `[TEST] ${built.subject}`, to: email };
 }
 
 async function loadUnpaidOrder(orderNumber: string) {
@@ -205,7 +210,7 @@ async function assertCanSend(order: { id: string; email: string; createdAt: Date
   const waitMs = UNPAID_REMINDER_WAIT_MS - (Date.now() - order.createdAt.getTime());
   if (waitMs > 0) {
     const hours = Math.ceil(waitMs / 3_600_000);
-    throw new Error(`Wait ${hours} more hour${hours === 1 ? "" : "s"} before sending. The button unlocks 3 days after checkout.`);
+    throw new Error(`Wait ${hours} more hour${hours === 1 ? "" : "s"} before sending. The button unlocks 24 hours after checkout.`);
   }
   const other = await db.order.findFirst({
     where: {

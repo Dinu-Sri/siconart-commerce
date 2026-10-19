@@ -1,5 +1,4 @@
-// Abandoned-checkout sequences commonly use 1h / 24h / 72h. Unlock at 3 days so same-day PayHere retries are not nagged.
-export const UNPAID_REMINDER_WAIT_MS = 3 * 24 * 60 * 60 * 1000;
+export const UNPAID_REMINDER_WAIT_MS = 24 * 60 * 60 * 1000;
 export const RECOVERY_PERCENT = 7;
 export const RECOVERY_HOURS = 48;
 export const RECOVERY_KIND = "unpaid-recovery";
@@ -59,7 +58,7 @@ export function reminderButtonState(
     return {
       canSend: false,
       label: hours >= 24 ? `In ${Math.ceil(hours / 24)}d` : `In ${hours}h`,
-      reason: `Unlocks 3 days after checkout (${hours} hour${hours === 1 ? "" : "s"} left).`
+      reason: `Unlocks 24 hours after checkout (${hours} hour${hours === 1 ? "" : "s"} left).`
     };
   }
   return { canSend: true, label: "Send 7%", reason: "" };

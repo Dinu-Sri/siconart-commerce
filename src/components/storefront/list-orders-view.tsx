@@ -39,6 +39,8 @@ export function ListOrdersView({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [testStatus, setTestStatus] = useState("");
+  const [testOpen, setTestOpen] = useState(false);
+  const [testEmail, setTestEmail] = useState("");
 
   const visible = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -100,17 +102,25 @@ export function ListOrdersView({
   }
 
   async function sendTest() {
+    const to = testEmail.trim();
+    if (!to.includes("@")) {
+      setError("Enter a valid email address.");
+      return;
+    }
     setBusy(true);
     setError("");
     setTestStatus("");
     try {
       const response = await fetch("/api/list/orders/reminder-test", {
         method: "POST",
-        credentials: "include"
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to })
       });
-      const payload = (await response.json()) as { ok?: boolean; error?: string; subject?: string };
+      const payload = (await response.json()) as { ok?: boolean; error?: string; subject?: string; to?: string };
       if (!response.ok) throw new Error(payload.error || "Unable to send the test email");
-      setTestStatus(`Test reminder sent. Subject: ${payload.subject || "lucky 7% reminder"}`);
+      setTestOpen(false);
+      setTestStatus(`Test reminder sent to ${payload.to || to}. Subject: ${payload.subject || "lucky 7% reminder"}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to send the test email");
     } finally {
@@ -133,7 +143,10 @@ export function ListOrdersView({
           <button
             type="button"
             disabled={busy}
-            onClick={() => void sendTest()}
+            onClick={() => {
+              setError("");
+              setTestOpen(true);
+            }}
             className="w-full rounded-[0.5rem] border border-[#ead9c3] bg-white px-3 py-3 text-sm font-semibold text-[#6d4b32] sm:w-auto"
           >
             Test reminder email
@@ -225,6 +238,64 @@ export function ListOrdersView({
           })}
         </div>
       )}
+
+      {testOpen ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 p-3 sm:items-center"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget && !busy) setTestOpen(false);
+          }}
+        >
+          <form
+            className="w-full max-w-md rounded-[1rem] bg-white p-4 shadow-2xl sm:p-5"
+            onSubmit={(event) => {
+              event.preventDefault();
+              void sendTest();
+            }}
+          >
+            <h2 className="font-serif text-xl font-semibold">Send a test reminder</h2>
+            <p className="mt-1 text-sm text-[#8a6d56]">Enter the inbox that should receive the sample lucky 7% email.</p>
+            <label className="mt-4 block text-sm font-semibold text-[#6d4b32]">
+              Email
+              <input
+                type="email"
+                required
+                autoFocus
+                autoComplete="email"
+                inputMode="email"
+                value={testEmail}
+                onChange={(event) => setTestEmail(event.target.value)}
+                placeholder="you@email.com"
+                className="mt-2 w-full rounded-[0.5rem] border border-[#ead9c3] bg-white px-3 py-3 text-base outline-none focus:border-[#a67146]"
+              />
+            </label>
+            {error ? (
+              <p className="mt-3 rounded-[0.5rem] border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-800">
+                {error}
+              </p>
+            ) : null}
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => setTestOpen(false)}
+                className="rounded-[0.5rem] border border-[#ead9c3] px-4 py-3 text-sm font-semibold text-[#6d4b32]"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={busy}
+                className="rounded-[0.5rem] bg-[#a67146] px-4 py-3 text-sm font-semibold text-white disabled:opacity-60"
+              >
+                {busy ? "Sending…" : "Send test"}
+              </button>
+            </div>
+          </form>
+        </div>
+      ) : null}
 
       {draft ? (
         <div

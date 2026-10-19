@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ClipboardList, Package } from "lucide-react";
+import { ClipboardList, Package, Stamp } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 
@@ -16,11 +16,14 @@ export function ListShell({
   const pathname = usePathname();
   const priceHref = localeHref(locale, "/list");
   const ordersHref = localeHref(locale, "/list/orders");
+  const agentsHref = localeHref(locale, "/list/agents");
   const onOrders = pathname.includes("/list/orders");
+  const onAgents = pathname.includes("/list/agents");
 
   const links = [
-    { href: priceHref, label: "Price list", icon: ClipboardList, active: !onOrders },
-    { href: ordersHref, label: "Orders", icon: Package, active: onOrders }
+    { href: priceHref, label: "Price list", icon: ClipboardList, active: !onOrders && !onAgents },
+    { href: ordersHref, label: "Orders", icon: Package, active: onOrders },
+    { href: agentsHref, label: "Agents", icon: Stamp, active: onAgents }
   ];
 
   return (
@@ -54,7 +57,7 @@ export function ListShell({
               key={link.href}
               href={link.href}
               data-list-nav={link.label}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-full border px-3 py-2 text-sm font-semibold ${
+              className={`flex min-w-0 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border px-2 py-2 text-xs font-semibold sm:gap-2 sm:px-3 sm:text-sm ${
                 link.active ? "border-[#a67146] bg-[#a67146] text-white" : "border-[#ead9c3] bg-white text-[#6d4b32]"
               }`}
             >

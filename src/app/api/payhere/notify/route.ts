@@ -23,7 +23,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid PayHere signature" }, { status: 400 });
   }
 
+  const existing = await db.order.findUnique({ where: { orderNumber: orderId } });
+  if (!existing) {
+    return NextResponse.json({ error: "Order not found" }, { status: 404 });
+  }
+  if (existing.paymentStatus === PaymentStatus.PAID) {
+    return NextResponse.json({ ok: true });
+  }
+
   const paid = statusCode === "2";
+  const failed = statusCode === "-1" || statusCode === "-2" || statusCode === "-3";
+  if (!paid && !failed) {
+    return NextResponse.json({ ok: true });
+  }
+
   const order = await db.order.update({
     where: { orderNumber: orderId },
     data: paid
@@ -31,6 +44,20 @@ export async function POST(request: Request) {
       : { paymentStatus: PaymentStatus.FAILED, paymentRef: paymentId },
     include: { items: true, shippingAddress: true }
   });
+
+  if (paid && order.discountCode) {
+    const discount = await db.discountCode.findUnique({ where: { code: order.discountCode } });
+    if (discount) {
+      const usedCount = discount.usedCount + 1;
+      await db.discountCode.update({
+        where: { id: discount.id },
+        data: {
+          usedCount,
+          active: discount.usageLimit === null || usedCount < discount.usageLimit
+        }
+      });
+    }
+  }
 
   await notifyOrder({
     title: paid ? "Payment received" : "Payment failed",

@@ -143,6 +143,8 @@ model Order {
   paymentProvider String?
   paymentRef      String?
   notes           String?
+  recoveryCode    String?
+  recoverySentAt  DateTime?
   customer        Customer?     @relation(fields: [customerId], references: [id])
   items           OrderItem[]
   shippingAddress Address?      @relation("ShippingAddress")
@@ -212,8 +214,14 @@ model DiscountCode {
   endsAt           DateTime?
   usageLimit       Int?
   usedCount        Int       @default(0)
+  kind             String    @default("manual")
+  allowedEmail     String?
+  sourceOrderId    String?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
+
+  @@index([allowedEmail])
+  @@index([sourceOrderId])
 }
 
 model NewsletterSubscriber {

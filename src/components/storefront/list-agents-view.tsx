@@ -55,7 +55,6 @@ export function ListAgentsView({
   const [busy, setBusy] = useState(false);
   const [downloadingCode, setDownloadingCode] = useState("");
   const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
   const [extendId, setExtendId] = useState<string | null>(null);
   const [extendKind, setExtendKind] = useState<CertificatePeriodKind>("1y");
   const [extendStart, setExtendStart] = useState(localToday);
@@ -132,7 +131,6 @@ export function ListAgentsView({
     event.preventDefault();
     setBusy(true);
     setError("");
-    setNotice("");
     try {
       await postJson("/api/list/agents", {
         companyName,
@@ -141,7 +139,6 @@ export function ListAgentsView({
         startsAt,
         endsAt: periodKind === "custom" ? endsAt : undefined
       });
-      setNotice("Certificate created. Open Update certificates to download it. / 授权书已生成。请到「更新授权书」下载。");
       setCompanyName("");
       setCountryCode("");
       setTab("update");
@@ -155,14 +152,12 @@ export function ListAgentsView({
   async function onExtend(agentId: string) {
     setBusy(true);
     setError("");
-    setNotice("");
     try {
       await postJson(`/api/list/agents/${agentId}/certificates`, {
         periodKind: extendKind,
         startsAt: extendKind === "custom" ? extendStart : undefined,
         endsAt: extendKind === "custom" ? extendEnd : undefined
       });
-      setNotice("Certificate extended. Download the new PDF from this record. / 授权已续期。请下载新的 PDF。");
       setExtendId(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to extend the certificate / 无法续期授权书");
@@ -175,10 +170,8 @@ export function ListAgentsView({
     if (!archiveTarget) return;
     setBusy(true);
     setError("");
-    setNotice("");
     try {
       await postJson(`/api/list/certificates/${encodeURIComponent(archiveTarget.code)}/archive`, { archived: true });
-      setNotice("Certificate archived and hidden from this list. / 授权书已归档并从列表中隐藏。");
       setArchiveTarget(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to archive the certificate / 无法归档授权书");
@@ -190,10 +183,8 @@ export function ListAgentsView({
   async function onUnarchive(code: string) {
     setBusy(true);
     setError("");
-    setNotice("");
     try {
       await postJson(`/api/list/certificates/${encodeURIComponent(code)}/archive`, { archived: false });
-      setNotice("Certificate restored to this list. / 授权书已恢复到列表。");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to restore the certificate / 无法恢复授权书");
     } finally {
@@ -303,12 +294,6 @@ export function ListAgentsView({
           {error}
         </p>
       ) : null}
-      {notice ? (
-        <p className="mt-4 rounded-[0.5rem] border border-[#ead9c3] bg-white px-4 py-3 text-sm font-semibold leading-6 text-[#523A27]">
-          {notice}
-        </p>
-      ) : null}
-
       {tab === "add" ? (
         <form onSubmit={onCreate} className="mt-5 grid gap-4 rounded-[1rem] border border-[#ead9c3] bg-white p-4 sm:p-6">
           <label className="grid gap-2 text-sm font-semibold text-[#6d4b32]">

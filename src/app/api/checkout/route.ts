@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { priceCart } from "@/lib/commerce/cart";
+import { quoteDiscountCode } from "@/lib/commerce/discount";
 import { notifyOrder } from "@/lib/email";
 import { getCountry } from "@/data/countries";
 import { getShippingQuote, needsShippingWeightReview } from "@/data/shipping";
@@ -66,7 +67,7 @@ export async function POST(request: Request) {
     }
 
     const priced = await priceCart(parsed.data.lines);
-    const discount = await getDiscount(parsed.data.discountCode, priced.subtotalCents);
+    const discount = await quoteDiscountCode(parsed.data.discountCode, priced.subtotalCents, parsed.data.email);
     const discountCents = discount?.discountCents ?? 0;
     const shippingCents = shippingQuote.cents;
     const totalCents = Math.max(0, priced.subtotalCents - discountCents + shippingCents);
@@ -80,59 +81,100 @@ export async function POST(request: Request) {
     });
 
     const shipping = { ...parsed.data.shipping, country: country.name };
-    const orderNumber = `SA-${Date.now()}`;
-    const order = await db.order.create({
-      data: {
-        orderNumber,
+    const itemKey = priced.items
+      .map((item) => `${item.sku}:${item.quantity}`)
+      .sort()
+      .join("|");
+    const recentUnpaid = await db.order.findFirst({
+      where: {
+        email: { equals: parsed.data.email, mode: "insensitive" },
+        paymentStatus: "UNPAID",
+        createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) }
+      },
+      include: { items: true, shippingAddress: true },
+      orderBy: { createdAt: "desc" }
+    });
+    const sameCart = Boolean(
+      recentUnpaid &&
+        recentUnpaid.items
+          .map((item) => `${item.sku}:${item.quantity}`)
+          .sort()
+          .join("|") === itemKey
+    );
+
+    const orderNumber = sameCart && recentUnpaid ? recentUnpaid.orderNumber : `SA-${Date.now()}`;
+    const order = sameCart && recentUnpaid
+      ? await db.order.update({
+          where: { id: recentUnpaid.id },
+          data: {
+            email: parsed.data.email,
+            subtotalCents: priced.subtotalCents,
+            discountCode: discount?.code,
+            discountCents,
+            shippingCents,
+            totalCents,
+            paymentProvider: "payhere",
+            shippingAddress: recentUnpaid.shippingAddress
+              ? {
+                  update: shipping
+                }
+              : { create: shipping }
+          }
+        })
+      : await db.order.create({
+          data: {
+            orderNumber,
+            email: parsed.data.email,
+            subtotalCents: priced.subtotalCents,
+            discountCode: discount?.code,
+            discountCents,
+            shippingCents,
+            totalCents,
+            paymentProvider: "payhere",
+            shippingAddress: {
+              create: shipping
+            },
+            items: {
+              create: priced.items.map((item) => {
+                const product =
+                  productRows.find((row) => row.sku === item.sku) ??
+                  productRows.find((row) => row.variants.some((variant) => variant.sku === item.sku));
+                const variant = product?.variants.find((row) => row.sku === item.sku);
+                if (!product) throw new Error(`Unknown SKU: ${item.sku}`);
+
+                return {
+                  productId: product.id,
+                  variantId: variant?.id,
+                  sku: item.sku,
+                  name: item.name,
+                  quantity: item.quantity,
+                  unitCents: item.priceCents,
+                  totalCents: item.lineTotalCents
+                };
+              })
+            }
+          }
+        });
+
+    if (!sameCart) {
+      await notifyOrder({
+        title: "New order placed",
+        subject: `New Sicon Art order ${order.orderNumber} (pending payment)`,
+        orderNumber: order.orderNumber,
         email: parsed.data.email,
-        subtotalCents: priced.subtotalCents,
-        discountCode: discount?.code,
-        discountCents,
-        shippingCents,
+        status: "Pending payment",
         totalCents,
-        paymentProvider: "payhere",
-        shippingAddress: {
-          create: shipping
-        },
-        items: {
-          create: priced.items.map((item) => {
-            const product =
-              productRows.find((row) => row.sku === item.sku) ??
-              productRows.find((row) => row.variants.some((variant) => variant.sku === item.sku));
-            const variant = product?.variants.find((row) => row.sku === item.sku);
-            if (!product) throw new Error(`Unknown SKU: ${item.sku}`);
-
-            return {
-              productId: product.id,
-              variantId: variant?.id,
-              sku: item.sku,
-              name: item.name,
-              quantity: item.quantity,
-              unitCents: item.priceCents,
-              totalCents: item.lineTotalCents
-            };
-          })
-        }
-      }
-    });
-
-    await notifyOrder({
-      title: "New order placed",
-      subject: `New Sicon Art order ${order.orderNumber} (pending payment)`,
-      orderNumber: order.orderNumber,
-      email: parsed.data.email,
-      status: "Pending payment",
-      totalCents,
-      shippingCents,
-      discountCode: discount?.code,
-      items: priced.items.map((item) => ({
-        name: item.name,
-        sku: item.sku,
-        quantity: item.quantity,
-        totalCents: item.lineTotalCents
-      })),
-      shipping,
-    });
+        shippingCents,
+        discountCode: discount?.code,
+        items: priced.items.map((item) => ({
+          name: item.name,
+          sku: item.sku,
+          quantity: item.quantity,
+          totalCents: item.lineTotalCents
+        })),
+        shipping
+      });
+    }
 
     return NextResponse.json({
       ok: true,
@@ -153,31 +195,6 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-}
-
-async function getDiscount(code: string | undefined, subtotalCents: number) {
-  const normalizedCode = code?.trim().toUpperCase();
-  if (!normalizedCode) return null;
-
-  const discount = await db.discountCode.findUnique({ where: { code: normalizedCode } });
-  const now = new Date();
-
-  if (!discount || !discount.active) throw new Error("Discount code is not active");
-  if (discount.startsAt && discount.startsAt > now) throw new Error("Discount code is not active yet");
-  if (discount.endsAt && discount.endsAt < now) throw new Error("Discount code has expired");
-  if (discount.usageLimit !== null && discount.usedCount >= discount.usageLimit) {
-    throw new Error("Discount code usage limit reached");
-  }
-  if (subtotalCents < discount.minSubtotalCents) {
-    throw new Error(`Discount requires a minimum order of $${(discount.minSubtotalCents / 100).toFixed(0)}`);
-  }
-
-  const discountCents =
-    discount.type === "percent"
-      ? Math.floor((subtotalCents * discount.value) / 100)
-      : Math.min(subtotalCents, discount.value);
-
-  return { code: discount.code, discountCents };
 }
 
 function createPayHerePayload({

@@ -58,6 +58,7 @@ declare global {
 export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Locale; catalog?: Product[] }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [discountCode, setDiscountCode] = useState("");
+  const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [pricedCart, setPricedCart] = useState<PricedCart | null>(null);
@@ -77,12 +78,37 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
   useEffect(() => {
     setLines(readCart());
     const params = new URLSearchParams(window.location.search);
+    const codeFromUrl = params.get("code")?.trim();
+    const orderFromUrl = params.get("order")?.trim();
+    if (codeFromUrl) setDiscountCode(codeFromUrl.toUpperCase());
     if (params.get("cancelled") === "1") {
       setCancelled(true);
       params.delete("cancelled");
       const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}`;
       window.history.replaceState({}, "", next);
     }
+    if (!codeFromUrl || !orderFromUrl) return;
+    const controller = new AbortController();
+    fetch(
+      `/api/checkout/resume?order=${encodeURIComponent(orderFromUrl)}&code=${encodeURIComponent(codeFromUrl.toUpperCase())}`,
+      { signal: controller.signal }
+    )
+      .then(async (response) => {
+        if (!response.ok) return null;
+        return (await response.json()) as { email?: string; lines?: CartLine[] };
+      })
+      .then((payload) => {
+        if (!payload) return;
+        if (payload.email) setEmail(payload.email);
+        if (payload.lines?.length && readCart().length === 0) {
+          writeCart(payload.lines);
+          setLines(payload.lines);
+        }
+      })
+      .catch((requestError) => {
+        if (requestError.name !== "AbortError") return;
+      });
+    return () => controller.abort();
   }, []);
 
   const subtotalCents = useMemo(() => estimateSubtotal(lines, catalog), [catalog, lines]);
@@ -95,7 +121,11 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
     fetch("/api/cart", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ lines, discountCode: discountCode || undefined }),
+      body: JSON.stringify({
+        lines,
+        discountCode: discountCode || undefined,
+        email: email.includes("@") ? email : undefined
+      }),
       signal: controller.signal
     })
       .then(async (response) => {
@@ -111,7 +141,7 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
         if (requestError.name !== "AbortError") setError(requestError.message);
       });
     return () => controller.abort();
-  }, [lines, discountCode]);
+  }, [lines, discountCode, email]);
 
   function selectCountry(nextCode: string) {
     setCountryCode(nextCode);
@@ -126,10 +156,10 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
       setError("Unable to start checkout.");
       return;
     }
-    const email = String(formData.get("email") || "").trim();
+    const checkoutEmail = email.trim() || String(formData.get("email") || "").trim();
     const phone = fullPhone(country?.dial, phoneNational);
 
-    if (!email.includes("@")) {
+    if (!checkoutEmail.includes("@")) {
       setError("Please enter a valid email address.");
       return;
     }
@@ -157,7 +187,7 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
         body: JSON.stringify({
           lines,
           discountCode: discountCode || undefined,
-          email,
+          email: checkoutEmail,
           firstName: String(formData.get("firstName") || ""),
           lastName: String(formData.get("lastName") || ""),
           countryCode: country.code,
@@ -231,7 +261,16 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
           <Input name="firstName" label="First name" required autoComplete="given-name" />
           <Input name="lastName" label="Last name" required autoComplete="family-name" />
         </div>
-        <Input name="email" label="Email" type="email" required autoComplete="email" inputMode="email" />
+        <Input
+          name="email"
+          label="Email"
+          type="email"
+          required
+          autoComplete="email"
+          inputMode="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
         <label className="text-sm font-semibold">
           Country
           <select
@@ -442,6 +481,10 @@ function readCart(): CartLine[] {
   } catch {
     return [];
   }
+}
+
+function writeCart(next: CartLine[]) {
+  window.localStorage.setItem(CART_KEY, JSON.stringify(next));
 }
 
 function estimateSubtotal(lines: CartLine[], catalog: Product[]) {

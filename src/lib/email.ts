@@ -17,7 +17,8 @@ export type EmailKind =
   | "order-pending"
   | "order-paid-admin"
   | "order-paid-customer"
-  | "order-failed";
+  | "order-failed"
+  | "unpaid-recovery";
 
 function notifyEmails() {
   return [process.env.NOTIFY_EMAIL_1, process.env.NOTIFY_EMAIL_2]
@@ -37,7 +38,7 @@ function logoUrl(origin?: string) {
   return `${(origin || siteUrl()).replace(/\/$/, "")}/brand/siconart-logo-pdf.jpg`;
 }
 
-function paragraph(html: string) {
+export function paragraph(html: string) {
   return `<p style="margin:0 0 16px;font-family:Arial,sans-serif;font-size:15px;line-height:1.7;color:#523A27;">${html}</p>`;
 }
 
@@ -366,8 +367,44 @@ export const emailCatalog: Record<EmailKind, { label: string; subject: string; h
     label: "Payment failed (admin)",
     subject: `Payment failed for ${sampleOrder.orderNumber}`,
     html: (origin) => emailLayout("Payment failed", orderBody({ ...sampleOrder, status: "Payment failed" }), origin)
+  },
+  "unpaid-recovery": {
+    label: "Unpaid order, lucky 7% reminder",
+    subject: "Alex, save $9.10 on your Sicon Art order — 48 hours only",
+    html: (origin) => unpaidRecoverySampleHtml(origin)
   }
 };
+
+function unpaidRecoverySampleHtml(origin?: string) {
+  const home = (origin || siteUrl()).replace(/\/$/, "");
+  const save = money(910, "USD");
+  return emailLayout(
+    "Alex, your brushes are still waiting",
+    paragraph(
+      `I noticed you started order <strong>${escapeHtml(sampleOrder.orderNumber)}</strong> for Chi Ling Travel Brush and SuHan Brush - M, and payment is not finished yet.`
+    ) +
+      paragraph(
+        `I set aside a <strong>lucky 7% studio gift</strong> for you, one time only. It takes <strong>${save}</strong> off the brushes. Shipping stays as quoted.`
+      ) +
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:8px 0 20px;background:#f7efe3;border:1px solid #ead9c3;border-radius:14px;">
+        <tr>
+          <td style="padding:20px 22px;text-align:center;">
+            <p style="margin:0 0 6px;font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#A67146;">Your one-time code</p>
+            <p style="margin:0 0 10px;font-family:Georgia,'Times New Roman',serif;font-size:28px;letter-spacing:0.08em;color:#523A27;">LUCKY7-TEST</p>
+            <p style="margin:0;font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:#523A27;">Save <strong>${save}</strong> · valid <strong>48 hours</strong></p>
+          </td>
+        </tr>
+      </table>
+      <p style="margin:0 0 18px;text-align:center;">
+        <a href="${home}/checkout?code=LUCKY7-TEST" style="display:inline-block;padding:14px 26px;background:#A67146;color:#ffffff;text-decoration:none;border-radius:999px;font-family:Arial,sans-serif;font-size:14px;font-weight:bold;line-height:1;">Complete checkout and save ${save}</a>
+      </p>` +
+      paragraph(
+        "<strong>How to use it</strong><br>1. Tap the button above. Your brushes and this code will be waiting at checkout.<br>2. Confirm your email is the same one you used for this order.<br>3. Pay within 48 hours. After that, <strong>LUCKY7-TEST</strong> closes."
+      ) +
+      paragraph("This code works <strong>once</strong>, and only for this email.") +
+      paragraph("Warmly,<br>Sicon Art workshop")
+  );
+}
 
 export async function notifyContactSubmission(input: ContactInput) {
   await sendTransactionalEmail({

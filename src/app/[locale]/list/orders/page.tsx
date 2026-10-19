@@ -24,11 +24,14 @@ export default async function ListOrdersPage({ params }: { params: Promise<{ loc
         paymentStatus: order.paymentStatus,
         currency: order.currency,
         totalCents: order.totalCents,
+        subtotalCents: order.subtotalCents,
         createdAt: order.createdAt.toISOString(),
         itemCount: order.items.length,
         customerName: order.customer?.name || order.shippingAddress?.name || "Customer",
         countryName: order.shippingAddress?.country || "",
-        countryCode: getCountryByName(order.shippingAddress?.country || "")?.code || ""
+        countryCode: getCountryByName(order.shippingAddress?.country || "")?.code || "",
+        recoverySentAt: order.recoverySentAt?.toISOString() ?? null,
+        recoveryCode: order.recoveryCode,
       }))}
     />
   );

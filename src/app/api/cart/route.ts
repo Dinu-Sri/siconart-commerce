@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { priceCart } from "@/lib/commerce/cart";
-import { db } from "@/lib/db";
+import { quoteDiscountCode } from "@/lib/commerce/discount";
 
 const cartSchema = z.object({
   discountCode: z.string().trim().optional(),
+  email: z.string().trim().optional(),
   lines: z.array(
     z.object({
       sku: z.string().min(1),
@@ -21,7 +22,7 @@ export async function POST(request: Request) {
 
   try {
     const priced = await priceCart(parsed.data.lines);
-    const discount = await getDiscount(parsed.data.discountCode, priced.subtotalCents);
+    const discount = await quoteDiscountCode(parsed.data.discountCode, priced.subtotalCents, parsed.data.email);
     return NextResponse.json({
       ...priced,
       discountCode: discount?.code ?? null,
@@ -34,29 +35,4 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-}
-
-async function getDiscount(code: string | undefined, subtotalCents: number) {
-  const normalizedCode = code?.trim().toUpperCase();
-  if (!normalizedCode) return null;
-
-  const discount = await db.discountCode.findUnique({ where: { code: normalizedCode } });
-  const now = new Date();
-
-  if (!discount || !discount.active) throw new Error("Discount code is not active");
-  if (discount.startsAt && discount.startsAt > now) throw new Error("Discount code is not active yet");
-  if (discount.endsAt && discount.endsAt < now) throw new Error("Discount code has expired");
-  if (discount.usageLimit !== null && discount.usedCount >= discount.usageLimit) {
-    throw new Error("Discount code usage limit reached");
-  }
-  if (subtotalCents < discount.minSubtotalCents) {
-    throw new Error(`Discount requires a minimum order of $${(discount.minSubtotalCents / 100).toFixed(0)}`);
-  }
-
-  const discountCents =
-    discount.type === "percent"
-      ? Math.floor((subtotalCents * discount.value) / 100)
-      : Math.min(subtotalCents, discount.value);
-
-  return { code: discount.code, discountCents };
 }

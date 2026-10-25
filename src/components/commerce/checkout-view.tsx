@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { FormEvent } from "react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { formatPrice, products as catalogProducts, type Product } from "@/data/products";
 import { COUNTRIES, getCountry } from "@/data/countries";
 import { estimateCartWeightGrams, getShippingQuote, needsShippingWeightReview } from "@/data/shipping";
@@ -16,6 +16,7 @@ import {
   whatsappShippingHelpLink
 } from "@/lib/support";
 import { Button } from "@/components/ui/button";
+import { PaymentMarks } from "@/components/payment-marks";
 import { HoneypotFields } from "@/components/forms/honeypot-fields";
 import { FORM_STARTED_FIELD, HONEYPOT_FIELD, isBotSubmission } from "@/lib/form-guard";
 import { pullAccountCart, pushAccountCart, readBrowserCart, writeBrowserCart, type CartLine } from "@/lib/browser-cart";
@@ -94,6 +95,9 @@ export function CheckoutView({
   const [feedbackDetail, setFeedbackDetail] = useState("");
   const [feedbackNote, setFeedbackNote] = useState("");
   const [feedbackBusy, setFeedbackBusy] = useState(false);
+  const feedbackSent = useRef(false);
+  const feedbackContext = useRef({ orderNumber: "", email: "", open: false });
+  feedbackContext.current = { orderNumber: pendingOrderNumber, email, open: feedbackOpen };
 
   const country = getCountry(countryCode);
   const shippingQuote = countryCode ? getShippingQuote(countryCode) : null;
@@ -111,6 +115,7 @@ export function CheckoutView({
     if (params.get("cancelled") === "1") {
       setCancelled(true);
       setFeedbackNote("");
+      feedbackSent.current = false;
       setFeedbackOpen(true);
       if (orderFromUrl) setPendingOrderNumber(orderFromUrl);
       params.delete("cancelled");
@@ -258,6 +263,7 @@ export function CheckoutView({
         onDismissed: () => {
           setCancelled(true);
           setFeedbackNote("");
+          feedbackSent.current = false;
           setFeedbackOpen(true);
           setLoading(false);
         },
@@ -272,6 +278,35 @@ export function CheckoutView({
     }
   }
 
+  useEffect(() => {
+    function onHide() {
+      const current = feedbackContext.current;
+      if (!current.open || feedbackSent.current) return;
+      feedbackSent.current = true;
+      void fetch("/api/checkout/feedback", {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderNumber: current.orderNumber, email: current.email, reason: "closed" })
+      });
+    }
+    window.addEventListener("pagehide", onHide);
+    return () => window.removeEventListener("pagehide", onHide);
+  }, []);
+
+  function closeCheckoutFeedback() {
+    if (feedbackBusy) return;
+    setFeedbackOpen(false);
+    if (feedbackSent.current) return;
+    feedbackSent.current = true;
+    void fetch("/api/checkout/feedback", {
+      method: "POST",
+      keepalive: true,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderNumber: pendingOrderNumber, email, reason: "closed" })
+    });
+  }
+
   async function submitFeedback() {
     if (!feedbackReason) {
       setFeedbackNote("Choose the option that fits.");
@@ -283,6 +318,7 @@ export function CheckoutView({
     }
     setFeedbackBusy(true);
     setFeedbackNote("");
+    feedbackSent.current = true;
     try {
       const response = await fetch("/api/checkout/feedback", {
         method: "POST",
@@ -299,6 +335,7 @@ export function CheckoutView({
       setFeedbackOpen(false);
       setFeedbackNote("Thank you. That helps us.");
     } catch (feedbackError) {
+      feedbackSent.current = false;
       setFeedbackNote(feedbackError instanceof Error ? feedbackError.message : "Could not save that");
     } finally {
       setFeedbackBusy(false);
@@ -321,9 +358,7 @@ export function CheckoutView({
             note={feedbackNote}
             onReason={setFeedbackReason}
             onDetail={setFeedbackDetail}
-            onClose={() => {
-              if (!feedbackBusy) setFeedbackOpen(false);
-            }}
+            onClose={closeCheckoutFeedback}
             onSubmit={() => void submitFeedback()}
           />
         ) : null}
@@ -487,6 +522,10 @@ export function CheckoutView({
         <Link href={localeHref(locale, "/cart")} className="mt-4 inline-flex text-sm font-semibold text-primary">
           Back to cart
         </Link>
+        <div className="mt-5 border-t pt-4">
+          <p className="text-center text-xs font-semibold text-muted-foreground">Securely pay with Clossyan Technologies (Pvt) Ltd</p>
+          <PaymentMarks className="mt-2 justify-center" />
+        </div>
       </aside>
 
       {shippingHelpOpen && shippingQuote && (

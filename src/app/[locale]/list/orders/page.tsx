@@ -1,7 +1,7 @@
 import { getLocale, setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
 import { getCountryByName } from "@/data/countries";
-import { getListOrders } from "@/lib/list-orders";
+import { getCheckoutNotes, getListOrders } from "@/lib/list-orders";
 import { ListOrdersView } from "@/components/storefront/list-orders-view";
 
 export const dynamic = "force-dynamic";
@@ -12,6 +12,7 @@ export default async function ListOrdersPage({ params }: { params: Promise<{ loc
   setRequestLocale(locale as Locale);
   const activeLocale = (await getLocale()) as Locale;
   const orders = await getListOrders();
+  const checkoutNotes = await getCheckoutNotes(orders.map((order) => order.orderNumber));
 
   return (
     <ListOrdersView
@@ -34,7 +35,8 @@ export default async function ListOrdersPage({ params }: { params: Promise<{ loc
         recoveryCode: order.recoveryCode,
         guestCheckout: order.guestCheckout,
         trackingNumber: order.trackingNumber,
-        trackingSentAt: order.trackingSentAt?.toISOString() ?? null
+        trackingSentAt: order.trackingSentAt?.toISOString() ?? null,
+        checkoutNote: checkoutNotes.get(order.orderNumber) || null
       }))}
     />
   );

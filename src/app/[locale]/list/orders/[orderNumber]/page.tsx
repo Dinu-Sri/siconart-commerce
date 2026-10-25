@@ -7,7 +7,7 @@ import { localeHref } from "@/lib/nav";
 import { CountryFlag } from "@/components/storefront/country-flag";
 import { getCountryByName } from "@/data/countries";
 import { formatListDate, formatListMoney, formatListStatus, paymentBadgeClass } from "@/lib/list-order-format";
-import { getListOrder } from "@/lib/list-orders";
+import { getCheckoutNotes, getListOrder } from "@/lib/list-orders";
 import { yuntrackUrl } from "@/lib/yuntrack-shared";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +29,8 @@ export default async function ListOrderDetailPage({
   const phone = order.customer?.phone || order.shippingAddress?.phone || "Not recorded";
   const countryName = order.shippingAddress?.country || "";
   const countryCode = getCountryByName(countryName)?.code || "";
+  const checkoutNotes = await getCheckoutNotes([order.orderNumber]);
+  const checkoutNote = checkoutNotes.get(order.orderNumber) || "No answer recorded";
 
   return (
     <section className="mx-auto w-full max-w-6xl px-3 py-3 sm:px-5 sm:py-5">
@@ -63,6 +65,7 @@ export default async function ListOrderDetailPage({
         <DetailCard title="Status">
           <Row label="Fulfilment" value={formatListStatus(order.status)} />
           <Row label="Payment" value={formatListStatus(order.paymentStatus)} />
+          {order.paymentStatus === "UNPAID" ? <Row label="Checkout note" value={checkoutNote} /> : null}
           <Row label="Checkout" value={order.guestCheckout ? "Guest order" : "Account order"} />
           <Row label="Provider" value={order.paymentProvider || "Not recorded"} />
           <Row label="Reference" value={order.paymentRef || "Not recorded"} />

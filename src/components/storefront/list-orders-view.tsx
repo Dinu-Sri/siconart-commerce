@@ -27,6 +27,7 @@ export type ListOrderRow = {
   guestCheckout: boolean;
   trackingNumber: string | null;
   trackingSentAt: string | null;
+  checkoutNote: string | null;
 };
 
 type TrackingMail = {
@@ -313,6 +314,11 @@ export function ListOrdersView({
                         </button>
                         {order.recoveryCode ? (
                           <p className="mt-1 break-all text-center text-[11px] font-semibold text-[#8a6d56]">{order.recoveryCode}</p>
+                        ) : null}
+                        {order.paymentStatus === "UNPAID" ? (
+                          <p className="mt-2 rounded-[0.5rem] bg-[#f7efe3] px-2.5 py-2 text-left text-xs font-semibold leading-5 text-[#6d4b32]">
+                            {order.checkoutNote || "No answer recorded"}
+                          </p>
                         ) : null}
                       </div>
                     ) : (

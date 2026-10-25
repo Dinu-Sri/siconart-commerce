@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Menu, User, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Locale } from "@/i18n/routing";
 import { localeHref, navItems } from "@/lib/nav";
 import { cn } from "@/lib/utils";
@@ -39,6 +39,27 @@ export function SiteHeader() {
   const locale = useLocale() as Locale;
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [firstName, setFirstName] = useState<string | null>(null);
+  const accountLabel = firstName || t("account");
+
+  useEffect(() => {
+    let cancel = false;
+    async function loadName() {
+      try {
+        const response = await fetch("/api/account/me", { credentials: "include" });
+        const payload = (await response.json()) as { firstName?: string | null };
+        if (!cancel) setFirstName(response.ok ? payload.firstName || null : null);
+      } catch {
+        if (!cancel) setFirstName(null);
+      }
+    }
+    void loadName();
+    window.addEventListener("siconart-account-updated", loadName);
+    return () => {
+      cancel = true;
+      window.removeEventListener("siconart-account-updated", loadName);
+    };
+  }, [pathname]);
 
   const isActive = (href: string) => pathname.startsWith(localeHref(locale, href));
 
@@ -74,11 +95,11 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href={localeHref(locale, "/account")}
-            aria-label={t("account")}
-            className="inline-flex h-10 items-center gap-1 rounded-full px-2 text-sm font-semibold text-foreground transition-colors hover:bg-surface-subtle"
+            aria-label={accountLabel}
+            className="inline-flex h-10 max-w-[9rem] items-center gap-1 rounded-full px-2 text-sm font-semibold text-foreground transition-colors hover:bg-surface-subtle"
           >
-            <User className="h-5 w-5" />
-            <span className="hidden sm:inline">{t("account")}</span>
+            <User className="h-5 w-5 shrink-0" />
+            <span className="hidden truncate sm:inline">{accountLabel}</span>
           </Link>
           <CartIconLink locale={locale} label={t("cart")} />
           <button

@@ -7,7 +7,8 @@ const REASONS: Record<string, string> = {
   "payment-method": "I need a different payment method",
   price: "Prices are expensive",
   gateway: "Payment gateway error",
-  other: "Other"
+  other: "Other",
+  closed: "Closed without answering"
 };
 
 export const dynamic = "force-dynamic";
@@ -36,18 +37,20 @@ export async function POST(request: NextRequest) {
     }
   });
 
-  await sendTransactionalEmail({
-    subject: `Checkout cancelled: ${reason}`,
-    html: emailLayout(
-      "Checkout was cancelled",
-      paragraph(`Reason: <strong>${escapeHtml(reason)}</strong>`) +
-        paragraph(
-          `Order: ${escapeHtml(body?.orderNumber || "Not recorded")}<br>Email: ${escapeHtml(body?.email || "Not recorded")}`
-        ) +
-        (detail ? paragraph(escapeHtml(detail)) : "")
-    ),
-    audience: "admins"
-  });
+  if (body?.reason !== "closed") {
+    await sendTransactionalEmail({
+      subject: `Checkout cancelled: ${reason}`,
+      html: emailLayout(
+        "Checkout was cancelled",
+        paragraph(`Reason: <strong>${escapeHtml(reason)}</strong>`) +
+          paragraph(
+            `Order: ${escapeHtml(body?.orderNumber || "Not recorded")}<br>Email: ${escapeHtml(body?.email || "Not recorded")}`
+          ) +
+          (detail ? paragraph(escapeHtml(detail)) : "")
+      ),
+      audience: "admins"
+    });
+  }
 
   return NextResponse.json({ ok: true });
 }

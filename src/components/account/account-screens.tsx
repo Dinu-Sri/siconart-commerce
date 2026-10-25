@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState, type InputHTMLAttributes } from "react";
+import { FormEvent, useEffect, useState, type InputHTMLAttributes } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { Locale } from "@/i18n/routing";
@@ -79,6 +79,7 @@ export function AccountAuth({ locale }: { locale: Locale }) {
       });
       if (!response.ok) throw new Error(response.error || "Unable to continue");
       if (Array.isArray(response.lines)) writeBrowserCart(response.lines as CartLine[]);
+      window.dispatchEvent(new Event("siconart-account-updated"));
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to continue");
@@ -148,6 +149,25 @@ export function AccountHome({
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [draft, setDraft] = useState<Address | null>(null);
+  const [tab, setTab] = useState<AccountTab>("orders");
+  const [paying, setPaying] = useState("");
+  const [cancelFor, setCancelFor] = useState("");
+  const [helpFor, setHelpFor] = useState("");
+  const [helpReason, setHelpReason] = useState("");
+  const [helpDetail, setHelpDetail] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("payment") !== "cancelled") return;
+    setTab("orders");
+    setNotice("Payment was not completed. You can pay again when you are ready.");
+    const order = params.get("order");
+    if (order) setHelpFor(order);
+    params.delete("payment");
+    params.delete("order");
+    const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}`;
+    window.history.replaceState({}, "", next);
+  }, []);
 
   async function save(path: string, body: unknown, okText: string) {
     setBusy(true);
@@ -158,9 +178,90 @@ export function AccountHome({
       if (!response.ok) throw new Error(response.error || "Unable to save");
       setNotice(okText);
       setDraft(null);
+      window.dispatchEvent(new Event("siconart-account-updated"));
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to save");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function payNow(orderNumber: string) {
+    setPaying(orderNumber);
+    setError("");
+    setHelpFor("");
+    try {
+      const response = await fetch(`/api/account/orders/${encodeURIComponent(orderNumber)}/pay`, {
+        method: "POST",
+        credentials: "include"
+      });
+      const payload = (await response.json()) as {
+        error?: string;
+        payhere?: { sandbox: boolean; action: string; fields: Record<string, string> };
+      };
+      if (!response.ok || !payload.payhere) throw new Error(payload.error || "Unable to open payment");
+      await openAccountPayHere(payload.payhere, {
+        onCompleted: (orderId) => {
+          window.location.assign(`/checkout/thank-you?order=${encodeURIComponent(orderId)}`);
+        },
+        onDismissed: () => {
+          setPaying("");
+          setHelpFor(orderNumber);
+          setHelpReason("");
+          setHelpDetail("");
+          setNotice("Payment was not completed.");
+        },
+        onError: (message) => {
+          setPaying("");
+          setError(message || "Payment could not start");
+        }
+      });
+    } catch (err) {
+      setPaying("");
+      setError(err instanceof Error ? err.message : "Unable to open payment");
+    }
+  }
+
+  async function cancelOrder(orderNumber: string) {
+    setBusy(true);
+    setError("");
+    try {
+      const response = await postJson(`/api/account/orders/${encodeURIComponent(orderNumber)}/cancel`, {});
+      if (!response.ok) throw new Error(response.error || "Unable to cancel this order");
+      setCancelFor("");
+      setNotice("Order cancelled.");
+      router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to cancel this order");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function sendHelp(orderNumber: string) {
+    if (!helpReason) {
+      setError("Choose the option that fits.");
+      return;
+    }
+    if (helpReason === "other" && helpDetail.trim().length < 3) {
+      setError("Tell us a little more.");
+      return;
+    }
+    setBusy(true);
+    setError("");
+    try {
+      const response = await postJson("/api/checkout/feedback", {
+        orderNumber,
+        email: customer.email,
+        reason: helpReason,
+        detail: helpDetail
+      });
+      if (!response.ok) throw new Error(response.error || "Could not save that");
+      setHelpFor("");
+      setNotice("Thank you. That helps us.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save that");
     } finally {
       setBusy(false);
     }
@@ -189,7 +290,22 @@ export function AccountHome({
       {error ? <p className="rounded-[0.5rem] border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-700">{error}</p> : null}
       {notice ? <p className="rounded-[0.5rem] border bg-surface p-3 text-sm font-semibold">{notice}</p> : null}
 
-      <section className="rounded-[0.5rem] border bg-surface p-5">
+      <div className="flex gap-1 overflow-x-auto rounded-[0.75rem] border bg-surface p-1">
+        {accountTabs.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setTab(item.id)}
+            className={`shrink-0 rounded-[0.55rem] px-4 py-2.5 text-sm font-semibold ${
+              tab === item.id ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-background"
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      <section className={`${tab === "orders" ? "" : "hidden "}rounded-[0.5rem] border bg-surface p-5`}>
         <h2 className="font-serif text-2xl font-semibold">Orders</h2>
         {orders.length === 0 ? <p className="mt-3 text-sm text-muted-foreground">No orders yet.</p> : null}
         <div className="mt-4 grid gap-3">
@@ -212,12 +328,88 @@ export function AccountHome({
                   Track {order.trackingNumber}
                 </a>
               ) : null}
+              {(order.paymentStatus === "UNPAID" || order.paymentStatus === "FAILED") && order.status !== "CANCELLED" ? (
+                <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    disabled={paying === order.orderNumber || busy}
+                    onClick={() => void payNow(order.orderNumber)}
+                    className="h-11 rounded-[0.5rem] bg-primary text-sm font-semibold text-primary-foreground disabled:opacity-60"
+                  >
+                    {paying === order.orderNumber ? "Opening payment…" : "Pay now"}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={busy}
+                    onClick={() => setCancelFor(order.orderNumber)}
+                    className="h-11 rounded-[0.5rem] border text-sm font-semibold"
+                  >
+                    Cancel this order
+                  </button>
+                </div>
+              ) : null}
+              {order.status === "CANCELLED" ? <p className="mt-3 text-sm font-semibold text-muted-foreground">This order is cancelled.</p> : null}
+              {cancelFor === order.orderNumber ? (
+                <div className="mt-3 rounded-[0.5rem] border border-amber-200 bg-amber-50 p-3 text-sm">
+                  <p className="font-semibold text-amber-900">Cancel {order.orderNumber}? This keeps the order on file and removes it from payment.</p>
+                  <div className="mt-3 flex gap-2">
+                    <button type="button" disabled={busy} onClick={() => void cancelOrder(order.orderNumber)} className="h-10 rounded-[0.5rem] bg-[#523A27] px-4 text-sm font-semibold text-white">
+                      Yes, cancel
+                    </button>
+                    <button type="button" onClick={() => setCancelFor("")} className="h-10 rounded-[0.5rem] border px-4 text-sm font-semibold">
+                      Keep order
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+              {helpFor === order.orderNumber ? (
+                <div className="mt-3 grid gap-2">
+                  <p className="text-sm font-semibold">Help us understand. Was there any trouble?</p>
+                  {helpReasons.map((reason) => (
+                    <button
+                      key={reason.id}
+                      type="button"
+                      onClick={() => setHelpReason(reason.id)}
+                      className={`rounded-[0.5rem] border px-3 py-2.5 text-left text-sm font-semibold ${
+                        helpReason === reason.id ? "border-primary bg-background" : ""
+                      }`}
+                    >
+                      {reason.label}
+                    </button>
+                  ))}
+                  {helpReason === "other" ? (
+                    <textarea
+                      value={helpDetail}
+                      onChange={(event) => setHelpDetail(event.target.value)}
+                      rows={3}
+                      placeholder="Tell us what happened"
+                      className="w-full rounded-[0.5rem] border bg-background px-3 py-2 text-base"
+                    />
+                  ) : null}
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      disabled={busy}
+                      onClick={() => {
+                        setHelpFor("");
+                        void postJson("/api/checkout/feedback", { orderNumber: order.orderNumber, email: customer.email, reason: "closed" });
+                      }}
+                      className="h-11 rounded-[0.5rem] border text-sm font-semibold"
+                    >
+                      Close
+                    </button>
+                    <button type="button" disabled={busy} onClick={() => void sendHelp(order.orderNumber)} className="h-11 rounded-[0.5rem] bg-primary text-sm font-semibold text-primary-foreground">
+                      Send
+                    </button>
+                  </div>
+                </div>
+              ) : null}
             </article>
           ))}
         </div>
       </section>
 
-      <section className="rounded-[0.5rem] border bg-surface p-5">
+      <section className={`${tab === "profile" ? "" : "hidden "}rounded-[0.5rem] border bg-surface p-5`}>
         <h2 className="font-serif text-2xl font-semibold">Profile</h2>
         <form
           className="mt-4 grid gap-3 sm:grid-cols-2"
@@ -235,7 +427,7 @@ export function AccountHome({
         </form>
       </section>
 
-      <section className="rounded-[0.5rem] border bg-surface p-5">
+      <section className={`${tab === "password" ? "" : "hidden "}rounded-[0.5rem] border bg-surface p-5`}>
         <h2 className="font-serif text-2xl font-semibold">Password</h2>
         <form
           className="mt-4 grid gap-3"
@@ -257,7 +449,7 @@ export function AccountHome({
         </form>
       </section>
 
-      <section className="rounded-[0.5rem] border bg-surface p-5">
+      <section className={`${tab === "profile" ? "" : "hidden "}rounded-[0.5rem] border bg-surface p-5`}>
         <div className="flex items-center justify-between gap-3">
           <h2 className="font-serif text-2xl font-semibold">Shipping addresses</h2>
           <button type="button" className="text-sm font-semibold text-primary" onClick={() => setDraft(emptyAddress)}>
@@ -339,7 +531,7 @@ export function AccountHome({
         ) : null}
       </section>
 
-      <section className="rounded-[0.5rem] border bg-surface p-5">
+      <section className={`${tab === "service" ? "" : "hidden "}rounded-[0.5rem] border bg-surface p-5`}>
         <h2 className="font-serif text-2xl font-semibold">Customer service</h2>
         <form
           className="mt-4 grid gap-3"
@@ -411,8 +603,92 @@ function Field(props: InputHTMLAttributes<HTMLInputElement> & { label: string; n
   );
 }
 
+const accountTabs = [
+  { id: "orders", label: "Orders" },
+  { id: "profile", label: "Profile" },
+  { id: "password", label: "Password" },
+  { id: "service", label: "Customer service" }
+] as const;
+
+type AccountTab = (typeof accountTabs)[number]["id"];
+
+const helpReasons = [
+  { id: "payment-method", label: "I need a different payment method" },
+  { id: "price", label: "Prices are expensive" },
+  { id: "gateway", label: "Payment gateway error" },
+  { id: "other", label: "Other" }
+];
+
 function tabClass(active: boolean) {
   return `h-11 rounded-[0.5rem] border text-sm font-semibold ${active ? "bg-primary text-primary-foreground" : "bg-surface"}`;
+}
+
+type AccountPayHere = {
+  sandbox: boolean;
+  action: string;
+  fields: Record<string, string>;
+};
+
+type AccountPayHereSdk = {
+  startPayment: (payment: Record<string, string | boolean>) => void;
+  onCompleted: ((orderId: string) => void) | null;
+  onDismissed: (() => void) | null;
+  onError: ((error: string) => void) | null;
+};
+
+async function openAccountPayHere(
+  payload: AccountPayHere,
+  handlers: {
+    onCompleted: (orderId: string) => void;
+    onDismissed: () => void;
+    onError: (message: string) => void;
+  }
+) {
+  try {
+    const payhere = await loadAccountPayHere();
+    payhere.onCompleted = handlers.onCompleted;
+    payhere.onDismissed = handlers.onDismissed;
+    payhere.onError = handlers.onError;
+    payhere.startPayment({ sandbox: payload.sandbox, ...payload.fields });
+  } catch {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = payload.action;
+    Object.entries(payload.fields).forEach(([name, value]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+  }
+}
+
+function loadAccountPayHere() {
+  const sdk = () => (window as Window & { payhere?: AccountPayHereSdk }).payhere;
+  if (sdk()) return Promise.resolve(sdk() as AccountPayHereSdk);
+  return new Promise<AccountPayHereSdk>((resolve, reject) => {
+    const existing = document.querySelector<HTMLScriptElement>("script[data-payhere-sdk]");
+    const ready = () => (sdk() ? resolve(sdk() as AccountPayHereSdk) : reject(new Error("PayHere failed to load")));
+    if (existing) {
+      if (sdk()) {
+        ready();
+        return;
+      }
+      existing.addEventListener("load", ready);
+      existing.addEventListener("error", () => reject(new Error("PayHere failed to load")));
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://www.payhere.lk/lib/payhere.js";
+    script.async = true;
+    script.dataset.payhereSdk = "true";
+    script.onload = ready;
+    script.onerror = () => reject(new Error("PayHere failed to load"));
+    document.body.appendChild(script);
+  });
 }
 
 async function postJson(path: string, body: unknown) {

@@ -114,22 +114,17 @@ export async function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-accent-foreground/10">
-        <div className="container-content grid gap-4 py-6 text-sm text-accent-foreground/80">
-          <div>
-            <p className="font-semibold text-accent-foreground">Powered by Clossyan Technologies (Pvt) Ltd</p>
-            <p className="mt-2 text-xs uppercase tracking-[0.16em] text-accent-foreground/70">Payment support</p>
-            <PaymentMarks className="mt-2" />
+        <div className="container-content flex flex-col items-center gap-4 py-5 text-sm text-accent-foreground/65 lg:flex-row lg:justify-between">
+          <span className="shrink-0 text-center lg:text-left">Copyright 2026 Sicon Art. {t("rights")}</span>
+          <div className="flex max-w-xl flex-col items-center gap-2 text-center">
+            <PaymentMarks className="justify-center" />
+            <p className="text-xs leading-5 text-accent-foreground/80">
+              Powered by Clossyan Technologies (Pvt) Ltd
+              <span className="mx-1.5">·</span>
+              Securely pay with Clossyan Technologies (Pvt) Ltd
+            </p>
           </div>
-          <div>
-            <p className="font-semibold text-accent-foreground">Securely pay with Clossyan Technologies (Pvt) Ltd</p>
-            <PaymentMarks className="mt-2" />
-          </div>
-        </div>
-      </div>
-      <div className="border-t border-accent-foreground/10">
-        <div className="container-content flex flex-col gap-3 py-5 text-sm text-accent-foreground/65 sm:flex-row sm:items-center sm:justify-between">
-          <span>Copyright 2026 Sicon Art. {t("rights")}</span>
-          <span>{t("made")}</span>
+          <span className="shrink-0 text-center lg:text-right">{t("made")}</span>
         </div>
       </div>
     </footer>

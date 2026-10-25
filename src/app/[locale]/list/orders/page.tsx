@@ -32,6 +32,9 @@ export default async function ListOrdersPage({ params }: { params: Promise<{ loc
         countryCode: getCountryByName(order.shippingAddress?.country || "")?.code || "",
         recoverySentAt: order.recoverySentAt?.toISOString() ?? null,
         recoveryCode: order.recoveryCode,
+        guestCheckout: order.guestCheckout,
+        trackingNumber: order.trackingNumber,
+        trackingSentAt: order.trackingSentAt?.toISOString() ?? null
       }))}
     />
   );

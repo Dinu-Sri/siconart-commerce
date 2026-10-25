@@ -7,13 +7,7 @@ import { products, formatPrice } from "@/data/products";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { Button } from "@/components/ui/button";
-
-const CART_KEY = "siconart-cart";
-
-type CartLine = {
-  sku: string;
-  quantity: number;
-};
+import { pullAccountCart, pushAccountCart, readBrowserCart, writeBrowserCart, type CartLine } from "@/lib/browser-cart";
 
 type PricedCart = {
   items: Array<{
@@ -34,6 +28,7 @@ export function CartView({ locale }: { locale: Locale }) {
   const [discountCode, setDiscountCode] = useState("");
   const [pricedCart, setPricedCart] = useState<PricedCart | null>(null);
   const [error, setError] = useState("");
+  const [ready, setReady] = useState(false);
 
   const productRows = useMemo(
     () =>
@@ -45,13 +40,26 @@ export function CartView({ locale }: { locale: Locale }) {
   );
 
   useEffect(() => {
-    setLines(readCart());
+    let cancel = false;
+    void (async () => {
+      const accountLines = await pullAccountCart();
+      const browser = readBrowserCart();
+      const next = accountLines && accountLines.length > 0 ? accountLines : browser;
+      if (cancel) return;
+      setLines(next);
+      if (accountLines) writeBrowserCart(next);
+      setReady(true);
+    })();
+    return () => {
+      cancel = true;
+    };
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem(CART_KEY, JSON.stringify(lines));
-    window.dispatchEvent(new Event("siconart-cart-updated"));
-  }, [lines]);
+    if (!ready) return;
+    writeBrowserCart(lines);
+    void pushAccountCart(lines);
+  }, [lines, ready]);
 
   useEffect(() => {
     if (lines.length === 0) {
@@ -188,16 +196,6 @@ export function CartView({ locale }: { locale: Locale }) {
         ? current.filter((line) => line.sku !== sku)
         : current.map((line) => (line.sku === sku ? { ...line, quantity: Math.min(99, quantity) } : line))
     );
-  }
-}
-
-function readCart(): CartLine[] {
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem(CART_KEY) || "[]");
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter((line) => typeof line.sku === "string" && Number.isFinite(line.quantity));
-  } catch {
-    return [];
   }
 }
 

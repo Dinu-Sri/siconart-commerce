@@ -91,14 +91,19 @@ model PriceOverride {
 }
 
 model Customer {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  phone     String?
-  orders    Order[]
-  carts     Cart[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String             @id @default(cuid())
+  email               String             @unique
+  name                String?
+  phone               String?
+  passwordHash        String?
+  resetTokenHash      String?
+  resetTokenExpiresAt DateTime?
+  cartLines           Json?
+  orders              Order[]
+  carts               Cart[]
+  addresses           CustomerAddress[]
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
 }
 
 model Cart {
@@ -145,6 +150,9 @@ model Order {
   notes           String?
   recoveryCode    String?
   recoverySentAt  DateTime?
+  guestCheckout   Boolean       @default(false)
+  trackingNumber  String?
+  trackingSentAt  DateTime?
   customer        Customer?     @relation(fields: [customerId], references: [id])
   items           OrderItem[]
   shippingAddress Address?      @relation("ShippingAddress")
@@ -182,6 +190,35 @@ model Address {
   phone           String?
   shippingOrder   Order?  @relation("ShippingAddress", fields: [orderShippingId], references: [id], onDelete: Cascade)
   billingOrder    Order?  @relation("BillingAddress", fields: [orderBillingId], references: [id], onDelete: Cascade)
+}
+
+model CustomerAddress {
+  id          String   @id @default(cuid())
+  customerId  String
+  name        String
+  line1       String
+  line2       String?
+  city        String
+  region      String?
+  postalCode  String?
+  country     String
+  countryCode String?
+  phone       String?
+  isDefault   Boolean  @default(false)
+  customer    Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([customerId])
+}
+
+model CheckoutFeedback {
+  id          String   @id @default(cuid())
+  orderNumber String?
+  email       String?
+  reason      String
+  detail      String?
+  createdAt   DateTime @default(now())
 }
 
 model ContactMessage {

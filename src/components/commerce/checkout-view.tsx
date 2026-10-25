@@ -18,13 +18,27 @@ import {
 import { Button } from "@/components/ui/button";
 import { HoneypotFields } from "@/components/forms/honeypot-fields";
 import { FORM_STARTED_FIELD, HONEYPOT_FIELD, isBotSubmission } from "@/lib/form-guard";
+import { pullAccountCart, pushAccountCart, readBrowserCart, writeBrowserCart, type CartLine } from "@/lib/browser-cart";
 
-const CART_KEY = "siconart-cart";
-
-type CartLine = {
-  sku: string;
-  quantity: number;
+export type CheckoutPrefill = {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  countryCode?: string;
+  phoneNational?: string;
+  line1?: string;
+  line2?: string;
+  city?: string;
+  region?: string;
+  postalCode?: string;
 };
+
+const FEEDBACK_REASONS = [
+  { id: "payment-method", label: "I need a different payment method" },
+  { id: "price", label: "Prices are expensive" },
+  { id: "gateway", label: "Payment gateway error" },
+  { id: "other", label: "Other" }
+] as const;
 
 type PayHereResponse = {
   orderNumber: string;
@@ -55,17 +69,31 @@ declare global {
   }
 }
 
-export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Locale; catalog?: Product[] }) {
+export function CheckoutView({
+  locale,
+  catalog = catalogProducts,
+  prefill
+}: {
+  locale: Locale;
+  catalog?: Product[];
+  prefill?: CheckoutPrefill;
+}) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [discountCode, setDiscountCode] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(prefill?.email || "");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [pricedCart, setPricedCart] = useState<PricedCart | null>(null);
-  const [countryCode, setCountryCode] = useState("");
-  const [phoneNational, setPhoneNational] = useState("");
+  const [countryCode, setCountryCode] = useState(prefill?.countryCode || "");
+  const [phoneNational, setPhoneNational] = useState(prefill?.phoneNational || "");
   const [shippingHelpOpen, setShippingHelpOpen] = useState(false);
   const [cancelled, setCancelled] = useState(false);
+  const [pendingOrderNumber, setPendingOrderNumber] = useState("");
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [feedbackReason, setFeedbackReason] = useState("");
+  const [feedbackDetail, setFeedbackDetail] = useState("");
+  const [feedbackNote, setFeedbackNote] = useState("");
+  const [feedbackBusy, setFeedbackBusy] = useState(false);
 
   const country = getCountry(countryCode);
   const shippingQuote = countryCode ? getShippingQuote(countryCode) : null;
@@ -76,39 +104,49 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
   const shippingCents = automaticShippingAvailable ? shippingQuote.cents : 0;
 
   useEffect(() => {
-    setLines(readCart());
     const params = new URLSearchParams(window.location.search);
     const codeFromUrl = params.get("code")?.trim();
     const orderFromUrl = params.get("order")?.trim();
     if (codeFromUrl) setDiscountCode(codeFromUrl.toUpperCase());
     if (params.get("cancelled") === "1") {
       setCancelled(true);
+      setFeedbackNote("");
+      setFeedbackOpen(true);
+      if (orderFromUrl) setPendingOrderNumber(orderFromUrl);
       params.delete("cancelled");
       const next = `${window.location.pathname}${params.toString() ? `?${params}` : ""}`;
       window.history.replaceState({}, "", next);
     }
-    if (!codeFromUrl || !orderFromUrl) return;
+    let cancel = false;
     const controller = new AbortController();
-    fetch(
-      `/api/checkout/resume?order=${encodeURIComponent(orderFromUrl)}&code=${encodeURIComponent(codeFromUrl.toUpperCase())}`,
-      { signal: controller.signal }
-    )
-      .then(async (response) => {
-        if (!response.ok) return null;
-        return (await response.json()) as { email?: string; lines?: CartLine[] };
-      })
-      .then((payload) => {
-        if (!payload) return;
-        if (payload.email) setEmail(payload.email);
-        if (payload.lines?.length && readCart().length === 0) {
-          writeCart(payload.lines);
-          setLines(payload.lines);
+    void (async () => {
+      const browser = readBrowserCart();
+      const accountLines = await pullAccountCart();
+      let next = accountLines && accountLines.length > 0 ? accountLines : browser;
+      if (next.length === 0 && codeFromUrl && orderFromUrl) {
+        try {
+          const response = await fetch(
+            `/api/checkout/resume?order=${encodeURIComponent(orderFromUrl)}&code=${encodeURIComponent(codeFromUrl.toUpperCase())}`,
+            { signal: controller.signal }
+          );
+          if (response.ok) {
+            const payload = (await response.json()) as { email?: string; lines?: CartLine[] };
+            if (payload.email) setEmail((current) => current || payload.email || "");
+            if (payload.lines?.length) next = payload.lines;
+          }
+        } catch (requestError) {
+          if (requestError instanceof Error && requestError.name === "AbortError") return;
         }
-      })
-      .catch((requestError) => {
-        if (requestError.name !== "AbortError") return;
-      });
-    return () => controller.abort();
+      }
+      if (cancel) return;
+      setLines(next);
+      writeBrowserCart(next);
+      if (accountLines) void pushAccountCart(next);
+    })();
+    return () => {
+      cancel = true;
+      controller.abort();
+    };
   }, []);
 
   const subtotalCents = useMemo(() => estimateSubtotal(lines, catalog), [catalog, lines]);
@@ -210,12 +248,17 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
         if (payload.code === "SHIPPING_UNAVAILABLE" || payload.code === "SHIPPING_WEIGHT_REVIEW") setShippingHelpOpen(true);
         throw new Error(payload.error || "Unable to start checkout");
       }
+      setPendingOrderNumber(payload.orderNumber);
       await openPayHerePopup(payload, {
         onCompleted: (orderId) => {
+          writeBrowserCart([]);
+          void pushAccountCart([]);
           window.location.assign(localeHref(locale, `/checkout/thank-you?order=${encodeURIComponent(orderId)}`));
         },
         onDismissed: () => {
           setCancelled(true);
+          setFeedbackNote("");
+          setFeedbackOpen(true);
           setLoading(false);
         },
         onError: (message) => {
@@ -229,6 +272,39 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
     }
   }
 
+  async function submitFeedback() {
+    if (!feedbackReason) {
+      setFeedbackNote("Choose the option that fits.");
+      return;
+    }
+    if (feedbackReason === "other" && feedbackDetail.trim().length < 3) {
+      setFeedbackNote("Tell us a little more.");
+      return;
+    }
+    setFeedbackBusy(true);
+    setFeedbackNote("");
+    try {
+      const response = await fetch("/api/checkout/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderNumber: pendingOrderNumber,
+          email,
+          reason: feedbackReason,
+          detail: feedbackDetail
+        })
+      });
+      const payload = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(payload.error || "Could not save that");
+      setFeedbackOpen(false);
+      setFeedbackNote("Thank you. That helps us.");
+    } catch (feedbackError) {
+      setFeedbackNote(feedbackError instanceof Error ? feedbackError.message : "Could not save that");
+    } finally {
+      setFeedbackBusy(false);
+    }
+  }
+
   if (lines.length === 0) {
     return (
       <div className="max-w-2xl">
@@ -237,6 +313,20 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
         <Button asChild className="mt-8">
           <Link href={localeHref(locale, "/shop")}>Continue shopping</Link>
         </Button>
+        {feedbackOpen ? (
+          <CheckoutFeedbackDialog
+            reason={feedbackReason}
+            detail={feedbackDetail}
+            busy={feedbackBusy}
+            note={feedbackNote}
+            onReason={setFeedbackReason}
+            onDetail={setFeedbackDetail}
+            onClose={() => {
+              if (!feedbackBusy) setFeedbackOpen(false);
+            }}
+            onSubmit={() => void submitFeedback()}
+          />
+        ) : null}
       </div>
     );
   }
@@ -256,10 +346,13 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
             Payment was cancelled. Your cart is still here if you would like to try again.
           </p>
         )}
+        {feedbackNote && (
+          <p className="rounded-[0.5rem] border border-[#ead9c3] bg-[#fef9ef] p-3 text-sm font-semibold text-[#523A27]">{feedbackNote}</p>
+        )}
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <Input name="firstName" label="First name" required autoComplete="given-name" />
-          <Input name="lastName" label="Last name" required autoComplete="family-name" />
+          <Input name="firstName" label="First name" required autoComplete="given-name" defaultValue={prefill?.firstName || ""} />
+          <Input name="lastName" label="Last name" required autoComplete="family-name" defaultValue={prefill?.lastName || ""} />
         </div>
         <Input
           name="email"
@@ -307,13 +400,13 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
             />
           </div>
         </label>
-        <Input name="line1" label="Address line 1" required autoComplete="address-line1" />
-        <Input name="line2" label="Address line 2" autoComplete="address-line2" />
+        <Input name="line1" label="Address line 1" required autoComplete="address-line1" defaultValue={prefill?.line1 || ""} />
+        <Input name="line2" label="Address line 2" autoComplete="address-line2" defaultValue={prefill?.line2 || ""} />
         <div className="grid gap-4 sm:grid-cols-2">
-          <Input name="city" label="City" required autoComplete="address-level2" />
-          <Input name="region" label="State / region" autoComplete="address-level1" />
+          <Input name="city" label="City" required autoComplete="address-level2" defaultValue={prefill?.city || ""} />
+          <Input name="region" label="State / region" autoComplete="address-level1" defaultValue={prefill?.region || ""} />
         </div>
-        <Input name="postalCode" label="Postal code" autoComplete="postal-code" />
+        <Input name="postalCode" label="Postal code" autoComplete="postal-code" defaultValue={prefill?.postalCode || ""} />
 
         {error && <p className="rounded-[0.5rem] border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-700">{error}</p>}
       </form>
@@ -404,6 +497,20 @@ export function CheckoutView({ locale, catalog = catalogProducts }: { locale: Lo
           onClose={() => setShippingHelpOpen(false)}
         />
       )}
+      {feedbackOpen && (
+        <CheckoutFeedbackDialog
+          reason={feedbackReason}
+          detail={feedbackDetail}
+          busy={feedbackBusy}
+          note={feedbackNote}
+          onReason={setFeedbackReason}
+          onDetail={setFeedbackDetail}
+          onClose={() => {
+            if (!feedbackBusy) setFeedbackOpen(false);
+          }}
+          onSubmit={() => void submitFeedback()}
+        />
+      )}
     </div>
   );
 }
@@ -463,6 +570,83 @@ function ShippingHelpDialog({
   );
 }
 
+function CheckoutFeedbackDialog({
+  reason,
+  detail,
+  busy,
+  note,
+  onReason,
+  onDetail,
+  onClose,
+  onSubmit
+}: {
+  reason: string;
+  detail: string;
+  busy: boolean;
+  note: string;
+  onReason: (value: string) => void;
+  onDetail: (value: string) => void;
+  onClose: () => void;
+  onSubmit: () => void;
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-[70] flex items-end justify-center bg-black/45 p-3 sm:items-center"
+      role="dialog"
+      aria-modal="true"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <form
+        className="w-full max-w-md rounded-[1rem] bg-white p-4 text-[#523A27] shadow-2xl sm:p-5"
+        onSubmit={(event) => {
+          event.preventDefault();
+          onSubmit();
+        }}
+      >
+        <h2 className="font-serif text-xl font-semibold">Help us understand</h2>
+        <p className="mt-1 text-sm text-[#8a6d56]">Was there any trouble with payment?</p>
+        <div className="mt-4 grid gap-2">
+          {FEEDBACK_REASONS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => onReason(item.id)}
+              className={`rounded-[0.5rem] border px-3 py-3 text-left text-sm font-semibold ${
+                reason === item.id ? "border-[#a67146] bg-[#f7efe3]" : "border-[#ead9c3] bg-white"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+        {reason === "other" ? (
+          <label className="mt-3 block text-sm font-semibold">
+            Tell us what happened
+            <textarea
+              required
+              value={detail}
+              onChange={(event) => onDetail(event.target.value)}
+              rows={3}
+              className="mt-2 w-full rounded-[0.5rem] border border-[#ead9c3] px-3 py-2 text-base"
+            />
+          </label>
+        ) : null}
+        {note ? <p className="mt-3 text-sm font-semibold text-[#6d4b32]">{note}</p> : null}
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <button type="button" disabled={busy} onClick={onClose} className="rounded-[0.5rem] border border-[#ead9c3] px-4 py-3 text-sm font-semibold">
+            Close
+          </button>
+          <button type="submit" disabled={busy} className="rounded-[0.5rem] bg-[#a67146] px-4 py-3 text-sm font-semibold text-white disabled:opacity-60">
+            {busy ? "Saving…" : "Send"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 function Input(props: React.InputHTMLAttributes<HTMLInputElement> & { label: string; name: string }) {
   const { label, ...inputProps } = props;
   return (
@@ -471,20 +655,6 @@ function Input(props: React.InputHTMLAttributes<HTMLInputElement> & { label: str
       <input {...inputProps} className="mt-2 h-11 w-full rounded-[0.5rem] border bg-background px-3" />
     </label>
   );
-}
-
-function readCart(): CartLine[] {
-  try {
-    const parsed = JSON.parse(window.localStorage.getItem(CART_KEY) || "[]");
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter((line) => typeof line.sku === "string" && Number.isFinite(line.quantity));
-  } catch {
-    return [];
-  }
-}
-
-function writeCart(next: CartLine[]) {
-  window.localStorage.setItem(CART_KEY, JSON.stringify(next));
 }
 
 function estimateSubtotal(lines: CartLine[], catalog: Product[]) {

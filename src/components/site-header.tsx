@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, User, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -72,6 +72,14 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-1">
           <ThemeToggle />
+          <Link
+            href={localeHref(locale, "/account")}
+            aria-label={t("account")}
+            className="inline-flex h-10 items-center gap-1 rounded-full px-2 text-sm font-semibold text-foreground transition-colors hover:bg-surface-subtle"
+          >
+            <User className="h-5 w-5" />
+            <span className="hidden sm:inline">{t("account")}</span>
+          </Link>
           <CartIconLink locale={locale} label={t("cart")} />
           <button
             type="button"

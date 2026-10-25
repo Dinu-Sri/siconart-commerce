@@ -24,6 +24,18 @@ export type ListOrderRow = {
   countryCode: string;
   recoverySentAt: string | null;
   recoveryCode: string | null;
+  guestCheckout: boolean;
+  trackingNumber: string | null;
+  trackingSentAt: string | null;
+};
+
+type TrackingMail = {
+  orderNumber: string;
+  to: string;
+  firstName: string;
+  trackingNumber: string;
+  subject: string;
+  html: string;
 };
 
 export function ListOrdersView({
@@ -41,17 +53,21 @@ export function ListOrdersView({
   const [testStatus, setTestStatus] = useState("");
   const [testOpen, setTestOpen] = useState(false);
   const [testEmail, setTestEmail] = useState("");
+  const [hideUnpaid, setHideUnpaid] = useState(true);
+  const [trackingInputs, setTrackingInputs] = useState<Record<string, string>>({});
+  const [trackingMail, setTrackingMail] = useState<TrackingMail | null>(null);
 
   const visible = useMemo(() => {
+    const source = hideUnpaid ? orders.filter((order) => order.paymentStatus !== "UNPAID") : orders;
     const needle = query.trim().toLowerCase();
-    if (!needle) return orders;
-    return orders.filter((order) =>
-      [order.orderNumber, order.email, order.customerName, order.countryName, order.status, order.paymentStatus]
+    if (!needle) return source;
+    return source.filter((order) =>
+      [order.orderNumber, order.email, order.customerName, order.countryName, order.status, order.paymentStatus, order.trackingNumber || ""]
         .join(" ")
         .toLowerCase()
         .includes(needle)
     );
-  }, [orders, query]);
+  }, [hideUnpaid, orders, query]);
 
   async function openReminder(orderNumber: string) {
     setBusy(true);
@@ -128,6 +144,61 @@ export function ListOrdersView({
     }
   }
 
+  function trackingValue(order: ListOrderRow) {
+    return trackingInputs[order.orderNumber] ?? order.trackingNumber ?? "";
+  }
+
+  async function openTracking(order: ListOrderRow) {
+    const trackingNumber = trackingValue(order).trim();
+    setBusy(true);
+    setError("");
+    try {
+      const response = await fetch(`/api/list/orders/${encodeURIComponent(order.orderNumber)}/tracking`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "preview", trackingNumber })
+      });
+      const payload = (await response.json()) as { ok?: boolean; error?: string; draft?: Omit<TrackingMail, "orderNumber"> };
+      if (!response.ok || !payload.draft) throw new Error(payload.error || "Unable to prepare the tracking email");
+      setTrackingMail({ ...payload.draft, orderNumber: order.orderNumber });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to prepare the tracking email");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function sendTracking() {
+    if (!trackingMail) return;
+    setBusy(true);
+    setError("");
+    try {
+      const response = await fetch(`/api/list/orders/${encodeURIComponent(trackingMail.orderNumber)}/tracking`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "send", trackingNumber: trackingMail.trackingNumber })
+      });
+      const payload = (await response.json()) as { ok?: boolean; error?: string };
+      if (!response.ok) throw new Error(payload.error || "Unable to send the tracking email");
+      const sentAt = new Date().toISOString();
+      setOrders((current) =>
+        current.map((order) =>
+          order.orderNumber === trackingMail.orderNumber
+            ? { ...order, trackingNumber: trackingMail.trackingNumber, trackingSentAt: sentAt }
+            : order
+        )
+      );
+      setTrackingInputs((current) => ({ ...current, [trackingMail.orderNumber]: trackingMail.trackingNumber }));
+      setTrackingMail(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to send the tracking email");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   return (
     <section className="mx-auto w-full max-w-6xl px-3 py-3 sm:px-5 sm:py-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -151,16 +222,27 @@ export function ListOrdersView({
           >
             Test reminder email
           </button>
-          <label className="block w-full sm:max-w-xs">
-            <span className="sr-only">Search orders</span>
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search name, email, or order number"
-              className="w-full rounded-[0.5rem] border border-[#ead9c3] bg-white px-3 py-3 text-base outline-none focus:border-[#a67146] sm:py-2 sm:text-sm"
-            />
-          </label>
+          <div className="flex w-full flex-col gap-2 sm:max-w-xs">
+            <label className="block w-full">
+              <span className="sr-only">Search orders</span>
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search name, email, or order number"
+                className="w-full rounded-[0.5rem] border border-[#ead9c3] bg-white px-3 py-3 text-base outline-none focus:border-[#a67146] sm:py-2 sm:text-sm"
+              />
+            </label>
+            <label className="flex items-center gap-2 text-sm font-semibold text-[#6d4b32]">
+              <input
+                type="checkbox"
+                checked={hideUnpaid}
+                onChange={(event) => setHideUnpaid(event.target.checked)}
+                className="h-4 w-4 accent-[#a67146]"
+              />
+              Hide unpaid orders
+            </label>
+          </div>
         </div>
       </div>
       {testStatus ? (
@@ -180,7 +262,7 @@ export function ListOrdersView({
         </p>
       ) : visible.length === 0 ? (
         <p className="mt-8 rounded-[0.5rem] border border-[#ead9c3] bg-white px-5 py-10 text-center text-sm font-semibold text-[#8a6d56]">
-          No orders match that search.
+          {hideUnpaid && !query.trim() ? "Paid orders will show here. Unpaid orders are hidden." : "No orders match that search."}
         </p>
       ) : (
         <div className="mt-4 grid gap-3">
@@ -199,6 +281,9 @@ export function ListOrdersView({
                         {order.itemCount} item{order.itemCount === 1 ? "" : "s"}
                       </span>
                       <span className="rounded-full bg-[#f7efe3] px-2.5 py-1 text-[#6d4b32]">{formatListStatus(order.status)}</span>
+                      {order.guestCheckout ? (
+                        <span className="rounded-full bg-[#f7efe3] px-2.5 py-1 text-[#6d4b32]">Guest</span>
+                      ) : null}
                     </div>
                   </Link>
                   <div className="flex w-full flex-col gap-2 border-t border-[#f0e3d3] pt-3 sm:w-auto sm:min-w-[10rem] sm:items-end sm:border-0 sm:pt-0 sm:text-right">
@@ -230,7 +315,37 @@ export function ListOrdersView({
                           <p className="mt-1 break-all text-center text-[11px] font-semibold text-[#8a6d56]">{order.recoveryCode}</p>
                         ) : null}
                       </div>
-                    ) : null}
+                    ) : (
+                      <div className="w-full sm:min-w-[14rem]">
+                        <label className="block text-left text-xs font-semibold text-[#8a6d56]">
+                          Tracking code
+                          <input
+                            value={trackingValue(order)}
+                            onChange={(event) =>
+                              setTrackingInputs((current) => ({
+                                ...current,
+                                [order.orderNumber]: event.target.value.toUpperCase()
+                              }))
+                            }
+                            placeholder="YT..."
+                            className="mt-1 w-full rounded-[0.5rem] border border-[#ead9c3] bg-white px-3 py-2.5 text-base outline-none focus:border-[#a67146]"
+                          />
+                        </label>
+                        <button
+                          type="button"
+                          disabled={busy || trackingValue(order).trim().length < 6}
+                          onClick={() => void openTracking(order)}
+                          className="mt-2 inline-flex w-full items-center justify-center rounded-[0.5rem] bg-[#a67146] px-3 py-2.5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Send tracking
+                        </button>
+                        {order.trackingSentAt ? (
+                          <p className="mt-1 text-center text-[11px] font-semibold text-[#8a6d56]">
+                            Sent {formatListDate(order.trackingSentAt)}
+                          </p>
+                        ) : null}
+                      </div>
+                    )}
                   </div>
                 </div>
               </article>
@@ -335,6 +450,53 @@ export function ListOrdersView({
                 type="button"
                 disabled={busy}
                 onClick={() => void sendReminder()}
+                className="rounded-[0.5rem] bg-[#a67146] px-4 py-3 text-sm font-semibold text-white disabled:opacity-60"
+              >
+                {busy ? "Sending…" : "Send email"}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {trackingMail ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/45 p-3 sm:items-center"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget && !busy) setTrackingMail(null);
+          }}
+        >
+          <div className="flex max-h-[92dvh] w-full max-w-3xl flex-col overflow-hidden rounded-[1rem] bg-white shadow-2xl">
+            <div className="border-b border-[#ead9c3] px-4 py-3 sm:px-5">
+              <h2 className="font-serif text-xl font-semibold">Parcel tracking email</h2>
+              <p className="mt-1 text-sm text-[#8a6d56]">
+                {trackingMail.firstName} · {trackingMail.trackingNumber}
+              </p>
+            </div>
+            <div className="grid gap-3 overflow-y-auto px-4 py-4 sm:px-5">
+              <p className="text-sm">
+                <span className="font-semibold text-[#8a6d56]">To</span> {trackingMail.to}
+              </p>
+              <p className="text-sm">
+                <span className="font-semibold text-[#8a6d56]">Subject</span> {trackingMail.subject}
+              </p>
+              <iframe title="Tracking email preview" srcDoc={trackingMail.html} className="min-h-[420px] w-full rounded-[0.5rem] border border-[#ead9c3] bg-[#fef9ef]" />
+            </div>
+            <div className="grid grid-cols-2 gap-2 border-t border-[#ead9c3] px-4 py-3 sm:px-5">
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => setTrackingMail(null)}
+                className="rounded-[0.5rem] border border-[#ead9c3] px-4 py-3 text-sm font-semibold text-[#6d4b32]"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => void sendTracking()}
                 className="rounded-[0.5rem] bg-[#a67146] px-4 py-3 text-sm font-semibold text-white disabled:opacity-60"
               >
                 {busy ? "Sending…" : "Send email"}

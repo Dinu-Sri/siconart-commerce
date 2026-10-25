@@ -9,6 +9,7 @@ import { getCountry } from "@/data/countries";
 import { getShippingQuote, needsShippingWeightReview } from "@/data/shipping";
 import { FORM_STARTED_FIELD, HONEYPOT_FIELD, isBotSubmission } from "@/lib/form-guard";
 import { siteOrigin } from "@/lib/site-origin";
+import { attachCheckoutCustomer } from "@/lib/customer-account";
 
 const checkoutSchema = z.object({
   discountCode: z.string().trim().optional(),
@@ -81,6 +82,13 @@ export async function POST(request: Request) {
     });
 
     const shipping = { ...parsed.data.shipping, country: country.name };
+    const account = await attachCheckoutCustomer({
+      email: parsed.data.email,
+      name: shipping.name,
+      phone: shipping.phone,
+      countryCode: parsed.data.countryCode,
+      shipping
+    });
     const itemKey = priced.items
       .map((item) => `${item.sku}:${item.quantity}`)
       .sort()
@@ -108,6 +116,8 @@ export async function POST(request: Request) {
           where: { id: recentUnpaid.id },
           data: {
             email: parsed.data.email,
+            customerId: account.customerId,
+            guestCheckout: account.guestCheckout,
             subtotalCents: priced.subtotalCents,
             discountCode: discount?.code,
             discountCents,
@@ -125,6 +135,8 @@ export async function POST(request: Request) {
           data: {
             orderNumber,
             email: parsed.data.email,
+            customerId: account.customerId,
+            guestCheckout: account.guestCheckout,
             subtotalCents: priced.subtotalCents,
             discountCode: discount?.code,
             discountCents,
@@ -229,7 +241,7 @@ function createPayHerePayload({
     fields: {
       merchant_id: merchantId,
       return_url: `${publicUrl}/checkout/thank-you?order=${encodeURIComponent(orderNumber)}`,
-      cancel_url: `${publicUrl}/checkout?cancelled=1`,
+      cancel_url: `${publicUrl}/checkout?cancelled=1&order=${encodeURIComponent(orderNumber)}`,
       notify_url: `${notifyUrl}/api/payhere/notify`,
       order_id: orderNumber,
       items,

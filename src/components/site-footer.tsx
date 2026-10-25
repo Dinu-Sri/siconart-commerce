@@ -5,6 +5,7 @@ import { localeHref } from "@/lib/nav";
 import type { Locale } from "@/i18n/routing";
 import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY, SUPPORT_WHATSAPP_LINK } from "@/lib/support";
 import { SICONART_LEGAL_ADDRESS_ZH, SICONART_LEGAL_LOCALITY_EN, SICONART_LEGAL_NAME_ZH } from "@/lib/siconart-company";
+import { PaymentMarks } from "@/components/payment-marks";
 
 export async function SiteFooter() {
   const locale = (await getLocale()) as Locale;
@@ -29,6 +30,7 @@ export async function SiteFooter() {
     { label: "Collaborate", href: "/collaborate" }
   ];
   const helpLinks = [
+    { label: "Log in", href: "/account" },
     { label: "About Us", href: "/about" },
     { label: t("faq"), href: "/faq" },
     { label: t("shipping"), href: "/shipping-policy" },
@@ -42,7 +44,7 @@ export async function SiteFooter() {
 
   return (
     <footer className="border-t bg-accent text-accent-foreground">
-      <div className="container-content grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_0.8fr_0.8fr_0.9fr]">
+      <div className="container-content grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-[1.3fr_0.9fr_1fr_1fr]">
         <div>
           <Logo variant="footer" />
           <p className="mt-5 max-w-sm text-sm leading-7 text-accent-foreground/75">
@@ -50,9 +52,9 @@ export async function SiteFooter() {
             compact travel brushes, new brush designs and larger brushes for expressive plein-air painting.
           </p>
           <p className="mt-4 max-w-sm text-sm leading-7 text-accent-foreground/75">
-            Worldwide shipping enquiries welcome—from Thailand, Indonesia, Vietnam, India, Hong Kong and the United
-            States to destinations across Europe. Check destination availability and rates at checkout, or contact us
-            for a shipping quote.
+            Worldwide shipping enquiries welcome—from Thailand, Indonesia, Vietnam, India, Malaysia, Singapore, Hong
+            Kong, Switzerland and the United States to destinations across Europe. Check destination availability and
+            rates at checkout, or contact us for a shipping quote.
           </p>
           <p className="mt-4 max-w-sm text-sm leading-7 text-accent-foreground/75">
             {SICONART_LEGAL_NAME_ZH}
@@ -79,9 +81,7 @@ export async function SiteFooter() {
               </Link>
             ))}
           </div>
-        </div>
-        <div>
-          <h2 className="text-sm font-bold uppercase tracking-[0.18em]">Community</h2>
+          <h2 className="mt-8 text-sm font-bold uppercase tracking-[0.18em]">Community</h2>
           <div className="mt-4 grid gap-3 text-sm text-accent-foreground/75">
             {communityLinks.map((link) => (
               <Link key={link.href} href={localeHref(locale, link.href)} className="hover:text-accent-foreground">
@@ -110,6 +110,19 @@ export async function SiteFooter() {
             <a href={SUPPORT_WHATSAPP_LINK} target="_blank" rel="noreferrer" className="hover:text-accent-foreground">
               WhatsApp {SUPPORT_WHATSAPP_DISPLAY}
             </a>
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-accent-foreground/10">
+        <div className="container-content grid gap-4 py-6 text-sm text-accent-foreground/80">
+          <div>
+            <p className="font-semibold text-accent-foreground">Powered by Clossyan Technologies (Pvt) Ltd</p>
+            <p className="mt-2 text-xs uppercase tracking-[0.16em] text-accent-foreground/70">Payment support</p>
+            <PaymentMarks className="mt-2" />
+          </div>
+          <div>
+            <p className="font-semibold text-accent-foreground">Securely pay with Clossyan Technologies (Pvt) Ltd</p>
+            <PaymentMarks className="mt-2" />
           </div>
         </div>
       </div>

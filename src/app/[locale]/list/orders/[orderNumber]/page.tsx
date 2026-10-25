@@ -8,6 +8,7 @@ import { CountryFlag } from "@/components/storefront/country-flag";
 import { getCountryByName } from "@/data/countries";
 import { formatListDate, formatListMoney, formatListStatus, paymentBadgeClass } from "@/lib/list-order-format";
 import { getListOrder } from "@/lib/list-orders";
+import { yuntrackUrl } from "@/lib/yuntrack-shared";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -62,8 +63,20 @@ export default async function ListOrderDetailPage({
         <DetailCard title="Status">
           <Row label="Fulfilment" value={formatListStatus(order.status)} />
           <Row label="Payment" value={formatListStatus(order.paymentStatus)} />
+          <Row label="Checkout" value={order.guestCheckout ? "Guest order" : "Account order"} />
           <Row label="Provider" value={order.paymentProvider || "Not recorded"} />
           <Row label="Reference" value={order.paymentRef || "Not recorded"} />
+          {order.trackingNumber ? (
+            <div className="flex justify-between gap-4 text-sm">
+              <span className="text-[#8a6d56]">Tracking</span>
+              <a href={yuntrackUrl(order.trackingNumber)} target="_blank" rel="noreferrer" className="text-right font-semibold text-[#a67146]">
+                {order.trackingNumber}
+              </a>
+            </div>
+          ) : (
+            <Row label="Tracking" value="Not sent" />
+          )}
+          {order.trackingSentAt ? <Row label="Tracking email" value={formatListDate(order.trackingSentAt)} /> : null}
         </DetailCard>
         <DetailCard title="Customer">
           <Row label="Name" value={customerName} />

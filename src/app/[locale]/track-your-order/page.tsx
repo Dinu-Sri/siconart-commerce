@@ -1,35 +1,28 @@
-import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
-import { SUPPORT_EMAIL } from "@/lib/support";
+import { ParcelTracking } from "@/components/storefront/parcel-tracking";
 import { pageMeta } from "@/lib/seo/page-meta";
 
-export const metadata: Metadata = pageMeta({
-  title: "Track Your Order",
-  description: "How to find Sicon Art tracking details, and how to email hello@siconart.com if you need help.",
+export const metadata = pageMeta({
+  title: "Parcel tracking",
+  description: "Track a Sicon Art parcel with your YunExpress tracking number.",
   path: "/track-your-order"
 });
 
-export default async function TrackYourOrderPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function TrackYourOrderPage({
+  params,
+  searchParams
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ code?: string }>;
+}) {
   const { locale } = await params;
+  const { code = "" } = await searchParams;
   setRequestLocale(locale as Locale);
 
   return (
     <section className="container-content section-pad">
-      <article className="max-w-3xl">
-        <p className="eyebrow">Order Help</p>
-        <h1 className="mt-3 font-serif text-5xl font-semibold">Track Your Order</h1>
-        <div className="mt-8 grid gap-5 leading-8 text-muted-foreground">
-          <p>
-            Tracking availability depends on the shipping method chosen. If your shipment includes tracking, tracking
-            details will be shared once available.
-          </p>
-          <p>
-            If you cannot find your tracking information, email {SUPPORT_EMAIL} with your order number. We will
-            check our tracking system and update you promptly.
-          </p>
-        </div>
-      </article>
+      <ParcelTracking initialCode={code} />
     </section>
   );
 }

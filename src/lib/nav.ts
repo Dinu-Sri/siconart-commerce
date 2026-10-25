@@ -6,7 +6,7 @@ export const navItems = [
   { key: "events", href: "/events" },
   { key: "agent", href: "/become-an-agent" },
   { key: "about", href: "/about" },
-  { key: "contact", href: "/contact" }
+  { key: "tracking", href: "/track-your-order" }
 ] as const;
 
 export function localeHref(locale: Locale, href: string) {

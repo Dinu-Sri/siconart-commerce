@@ -5,26 +5,22 @@ import { ShoppingBag } from "lucide-react";
 import { useEffect, useState } from "react";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
-
-const CART_KEY = "siconart-cart";
+import { pullAccountCart, readBrowserCart, writeBrowserCart } from "@/lib/browser-cart";
 
 export function CartIconLink({ locale, label }: { locale: Locale; label: string }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     function updateCount() {
-      try {
-        const lines = JSON.parse(window.localStorage.getItem(CART_KEY) || "[]");
-        if (!Array.isArray(lines)) return setCount(0);
-        setCount(
-          lines.reduce((sum, line) => sum + (Number.isFinite(line.quantity) ? Number(line.quantity) : 0), 0)
-        );
-      } catch {
-        setCount(0);
-      }
+      const lines = readBrowserCart();
+      setCount(lines.reduce((sum, line) => sum + line.quantity, 0));
     }
 
     updateCount();
+    void pullAccountCart().then((accountLines) => {
+      if (accountLines && accountLines.length > 0) writeBrowserCart(accountLines);
+      updateCount();
+    });
     window.addEventListener("storage", updateCount);
     window.addEventListener("siconart-cart-updated", updateCount);
     return () => {

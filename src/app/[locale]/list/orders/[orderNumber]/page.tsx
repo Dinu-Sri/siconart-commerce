@@ -9,6 +9,7 @@ import { getCountryByName } from "@/data/countries";
 import { formatListDate, formatListMoney, formatListStatus, paymentBadgeClass } from "@/lib/list-order-format";
 import { getCheckoutNotes, getListOrder } from "@/lib/list-orders";
 import { yuntrackUrl } from "@/lib/yuntrack-shared";
+import { MarkDeliveredButton } from "@/components/storefront/mark-delivered-button";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -80,6 +81,14 @@ export default async function ListOrderDetailPage({
             <Row label="Tracking" value="Not sent" />
           )}
           {order.trackingSentAt ? <Row label="Tracking email" value={formatListDate(order.trackingSentAt)} /> : null}
+          {order.deliveredAt ? <Row label="Delivered" value={formatListDate(order.deliveredAt)} /> : null}
+          {order.paymentStatus === "PAID" ? (
+            <MarkDeliveredButton
+              orderNumber={order.orderNumber}
+              email={order.email}
+              deliveredAt={order.deliveredAt?.toISOString() ?? null}
+            />
+          ) : null}
         </DetailCard>
         <DetailCard title="Customer">
           <Row label="Name" value={customerName} />

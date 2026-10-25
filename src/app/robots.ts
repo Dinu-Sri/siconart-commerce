@@ -21,7 +21,11 @@ export default function robots(): MetadataRoute.Robots {
           "/cart",
           "/checkout",
           "/home-v2",
-          "/feeds/"
+          "/feeds/",
+          "/feedback",
+          "/feedback/",
+          "/en/feedback",
+          "/en/feedback/"
         ]
       }
     ],

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ClipboardList, Package, Stamp } from "lucide-react";
+import { ClipboardList, MessagesSquare, Package, Stamp } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 
@@ -17,12 +17,15 @@ export function ListShell({
   const priceHref = localeHref(locale, "/list");
   const ordersHref = localeHref(locale, "/list/orders");
   const agentsHref = localeHref(locale, "/list/agents");
+  const feedbacksHref = localeHref(locale, "/list/feedbacks");
   const onOrders = pathname.includes("/list/orders");
   const onAgents = pathname.includes("/list/agents");
+  const onFeedbacks = pathname.includes("/list/feedbacks");
 
   const links = [
-    { href: priceHref, label: "Price list", icon: ClipboardList, active: !onOrders && !onAgents },
+    { href: priceHref, label: "Price list", icon: ClipboardList, active: !onOrders && !onAgents && !onFeedbacks },
     { href: ordersHref, label: "Orders", icon: Package, active: onOrders },
+    { href: feedbacksHref, label: "Feedbacks", icon: MessagesSquare, active: onFeedbacks },
     { href: agentsHref, label: "Agents", icon: Stamp, active: onAgents }
   ];
 
@@ -51,13 +54,13 @@ export function ListShell({
       </aside>
 
       <div className="xl:pl-56">
-        <nav className="sticky top-0 z-20 flex gap-2 border-b border-[#ead9c3] bg-[#fef9ef] px-3 py-2 xl:hidden">
+        <nav className="sticky top-0 z-20 flex gap-2 overflow-x-auto border-b border-[#ead9c3] bg-[#fef9ef] px-3 py-2 xl:hidden">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               data-list-nav={link.label}
-              className={`flex min-w-0 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border px-2 py-2 text-xs font-semibold sm:gap-2 sm:px-3 sm:text-sm ${
+              className={`inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full border px-3 py-2 text-xs font-semibold sm:text-sm ${
                 link.active ? "border-[#a67146] bg-[#a67146] text-white" : "border-[#ead9c3] bg-white text-[#6d4b32]"
               }`}
             >

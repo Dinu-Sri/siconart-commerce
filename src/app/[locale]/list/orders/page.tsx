@@ -36,6 +36,7 @@ export default async function ListOrdersPage({ params }: { params: Promise<{ loc
         guestCheckout: order.guestCheckout,
         trackingNumber: order.trackingNumber,
         trackingSentAt: order.trackingSentAt?.toISOString() ?? null,
+        deliveredAt: order.deliveredAt?.toISOString() ?? null,
         checkoutNote: checkoutNotes.get(order.orderNumber) || null
       }))}
     />

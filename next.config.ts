@@ -38,6 +38,11 @@ const nextConfig: NextConfig = {
       { source: "/home-v2/:path*", headers: noIndexHeader },
       { source: "/en/home-v2", headers: noIndexHeader },
       { source: "/en/home-v2/:path*", headers: noIndexHeader },
+      { source: "/feedback", headers: noIndexHeader },
+      { source: "/feedback/:path*", headers: noIndexHeader },
+      { source: "/en/feedback", headers: noIndexHeader },
+      { source: "/en/feedback/:path*", headers: noIndexHeader },
+      { source: "/api/feedback/:path*", headers: noIndexHeader },
       { source: "/en/cart/:path*", headers: noIndexHeader }
     ];
   }

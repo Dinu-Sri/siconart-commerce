@@ -18,6 +18,8 @@ import { breadcrumbJsonLd } from "@/lib/seo/breadcrumb";
 import { Breadcrumbs } from "@/components/storefront/breadcrumbs";
 import { absoluteUrl } from "@/lib/site-origin";
 import { SUPPORT_WHATSAPP_LINK } from "@/lib/support";
+import { getApprovedProductFeedback } from "@/lib/order-feedback";
+import { ProductFeedback } from "@/components/storefront/product-feedback";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -81,6 +83,7 @@ export default async function ProductPage({
     .slice(0, 3)
     .map(withProductImages);
   const selectedVariant = typeof query.variant === "string" ? query.variant : undefined;
+  const feedback = await getApprovedProductFeedback(product.slug);
 
   return (
     <article className="container-content section-pad">
@@ -160,6 +163,8 @@ export default async function ProductPage({
           ))}
         </dl>
       </section>
+
+      <ProductFeedback items={feedback} />
 
       {related.length > 0 && (
         <section className="mt-16">

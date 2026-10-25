@@ -29,6 +29,12 @@ enum PaymentStatus {
   REFUNDED
 }
 
+enum OrderFeedbackStatus {
+  PENDING
+  APPROVED
+  SUSPENDED
+}
+
 model Product {
   id          String        @id @default(cuid())
   sku         String        @unique
@@ -47,9 +53,10 @@ model Product {
   level       String
   featured    Boolean       @default(false)
   specs       Json
-  variants    ProductVariant[]
-  orderItems  OrderItem[]
-  cartItems   CartItem[]
+  variants         ProductVariant[]
+  orderItems       OrderItem[]
+  cartItems        CartItem[]
+  feedbackProducts OrderFeedbackProduct[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
@@ -153,7 +160,10 @@ model Order {
   guestCheckout   Boolean       @default(false)
   trackingNumber  String?
   trackingSentAt  DateTime?
-  customer        Customer?     @relation(fields: [customerId], references: [id])
+  deliveredAt     DateTime?
+  customer        Customer?            @relation(fields: [customerId], references: [id])
+  feedbackInvite  OrderFeedbackInvite?
+  feedbacks       OrderFeedback[]
   items           OrderItem[]
   shippingAddress Address?      @relation("ShippingAddress")
   billingAddress  Address?      @relation("BillingAddress")
@@ -219,6 +229,51 @@ model CheckoutFeedback {
   reason      String
   detail      String?
   createdAt   DateTime @default(now())
+}
+
+model OrderFeedbackInvite {
+  id        String   @id @default(cuid())
+  orderId   String   @unique
+  token     String   @unique
+  createdAt DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model OrderFeedback {
+  id           String              @id @default(cuid())
+  orderId      String              @unique
+  customerName String
+  email        String
+  body         String
+  status       OrderFeedbackStatus @default(PENDING)
+  createdAt    DateTime            @default(now())
+  decidedAt    DateTime?
+  order        Order               @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  images       OrderFeedbackImage[]
+  products     OrderFeedbackProduct[]
+
+  @@index([status])
+}
+
+model OrderFeedbackImage {
+  id          String        @id @default(cuid())
+  feedbackId  String
+  contentType String
+  bytes       Bytes
+  createdAt   DateTime      @default(now())
+  feedback    OrderFeedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
+
+  @@index([feedbackId])
+}
+
+model OrderFeedbackProduct {
+  feedbackId String
+  productId  String
+  feedback   OrderFeedback @relation(fields: [feedbackId], references: [id], onDelete: Cascade)
+  product    Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([feedbackId, productId])
+  @@index([productId])
 }
 
 model ContactMessage {

@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { Locale } from "@/i18n/routing";
 import { localeHref } from "@/lib/nav";
 import { CountryFlag } from "@/components/storefront/country-flag";
+import { MarkDeliveredButton } from "@/components/storefront/mark-delivered-button";
 import { formatListDate, formatListMoney, formatListStatus, paymentBadgeClass } from "@/lib/list-order-format";
 import { reminderButtonState, type ReminderDraft } from "@/lib/unpaid-recovery-state";
 
@@ -27,6 +28,7 @@ export type ListOrderRow = {
   guestCheckout: boolean;
   trackingNumber: string | null;
   trackingSentAt: string | null;
+  deliveredAt: string | null;
   checkoutNote: string | null;
 };
 
@@ -350,6 +352,20 @@ export function ListOrdersView({
                             Sent {formatListDate(order.trackingSentAt)}
                           </p>
                         ) : null}
+                        <MarkDeliveredButton
+                          orderNumber={order.orderNumber}
+                          email={order.email}
+                          deliveredAt={order.deliveredAt}
+                          onDelivered={(draft) => {
+                            setOrders((current) =>
+                              current.map((item) =>
+                                item.orderNumber === order.orderNumber
+                                  ? { ...item, deliveredAt: draft.deliveredAt, status: draft.status }
+                                  : item
+                              )
+                            );
+                          }}
+                        />
                       </div>
                     )}
                   </div>
